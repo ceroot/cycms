@@ -1,0 +1,131 @@
+@charset "UTF-8";
+/**
+ * 
+ * @authors SpringYang (ceroot@163.com)
+ * @date    2016-04-18 14:50:54
+ * @version $Id$
+ */
+
+.skin-default{
+
+}
+
+/*main-header*/
+.skin-default .main-header {
+	background-color: #043c5f;
+}
+
+.skin-default .main-header .logo {
+    color: #FFF;
+}
+
+.skin-default .main-header .navbar > ul > li > a{
+	color: #FFF;
+}
+
+.skin-default .main-header .navbar > ul > li > a:hover{
+	background: #023554;
+}
+
+.skin-default .main-header .navbar > ul > li.open > a,
+.skin-default .main-header .navbar > ul > li.open > a:hover{
+	color: #104669;
+	background: #FFF;
+}
+
+.skin-default .main-header .navbar > ul > li.dropdown > ul.dropdown-menu{
+	margin-top: 0;
+	border-radius: 0;
+	border:0;
+	background: ;
+	color: #104669;
+	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+	-moz-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+	-o-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+
+
+
+
+
+/*sidebar*/
+
+.skin-default .main-sidebar {
+    background: #021c2c;/*#222d32*/
+}
+
+.skin-default .sidebar ul{
+	
+}
+
+.skin-default .sidebar ul > li > dl >dt > a {
+	color: #aaa;
+}
+
+
+.skin-default .sidebar ul > li > dl >dt > a:hover,
+.skin-default .sidebar ul > li > dl >dt > a.current,
+.skin-default .sidebar ul > li.active > dl > dt > a{
+	background: #072a3f;
+	color: #FFF;
+	border-left-color: #07913a;
+}
+
+.skin-default .sidebar ul > li.active dl > dt > a{
+	border-left-color: #07913a;
+	background: #072a3f;
+	color: #FFF;
+}
+
+.skin-default .sidebar ul > li > dl > dd{
+	background: #042235;
+}
+
+.skin-default .sidebar ul > li > dl > dd a{
+	color: #aaa;
+}
+
+.skin-default .sidebar ul > li > dl > dd > a:hover{
+	background: #072a3f;
+}
+
+.skin-default .sidebar ul > li > dl > dd > a.active{
+	color: #FFF;
+}
+
+/*product sidebar*/
+.skin-default .product-sidebar {
+    background: #E9E9E9;/*#f0f6f6*/
+}
+
+.skin-default .product-sidebar dl > dt{
+    background: #dedede;
+}
+
+.skin-default .product-sidebar dl > dd > a{
+    color: #2c3b41;
+}
+
+.skin-default .product-sidebar dl > dd > a:hover{
+    color: #344951;
+    background: #ccc;
+}
+
+
+/*sidebar-tooltip*/
+.skin-default .sidebar-tooltip{
+
+}
+
+.skin-default .sidebar-tooltip dl > dt > a{
+    color: #FFF;
+}
+
+.skin-default .sidebar-tooltip dl > dd > a{
+    color: #aaa;
+}
+
+.skin-default .sidebar-tooltip dl > dd > a:hover{
+    color: #FFF;
+}
