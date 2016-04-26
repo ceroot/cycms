@@ -11,8 +11,8 @@ class Index extends Controller
 	 * @return [type] [description]
 	 */
 	public function _initialize(){
-		echo 'init<br/>';
-		return '测试';
+		// echo 'init<br/>';
+		// return '测试';
 
 	}
 
