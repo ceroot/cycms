@@ -30,6 +30,7 @@ class Index extends Controller
 
 	// 登录首页
 	public function index(){
+		// dump(md5('ceroot1'));
 
 	    if(IS_POST){
 
@@ -92,7 +93,7 @@ class Index extends Controller
 
         $config = array(
             'codeSet'=>'0123456789',
-            'length'=>1,
+            'length'=>4,
             'fontSize'=>14,
             'fontttf'=>'5.ttf'
         );
