@@ -80,9 +80,9 @@ class Index extends Controller
 
 	    }else{
 
-		    $view  = new \think\View(\think\Config::get());
-		    return $view->fetch();
-		    // return $this->fetch();
+		    // $view  = new \think\View(\think\Config::get());
+		    // return $view->fetch();
+		    return $this->fetch();
 	    }
 	}
 

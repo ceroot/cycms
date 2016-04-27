@@ -20,16 +20,6 @@ return [
     'response_exit'  => true,
 
     // 模板输出替换  //$view->config('parse_str',['__PUBLIC__'=>'/public/'])->fetch();
-    // view_replace_str
-    'view_parse_str'  => [
-        '__PUBLIC__'  => '/static',
-        '__STATIC__'  => '/static',
-        '__IMAGES__'  => '/images',
-        '__CSS__'     => '/css',
-        '__JS__'      => '/js',
-        '__ROOT__'    => '/',
-    ],
-    
     'view_replace_str'=>[
         '__PUBLIC__'  => '/static',
         '__STATIC__'  => '/static',
@@ -38,14 +28,6 @@ return [
         '__JS__'      => '/js',
         '__ROOT__'    => '/',
     ],
-    // 'parse_str'=>[
-    //     '__PUBLIC__'=>'/static',
-    //     '__STATIC__'=>'/static',
-    //     '__IMAGES__'=>'/images',
-    //     '__CSS__'   =>'/css',
-    //     '__JS__'    =>'/js',
-    //     '__ROOT__'  => '/',
-    // ],
     
     // 手动注册命名空间
     'root_namespace'  => [

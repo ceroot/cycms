@@ -9,14 +9,14 @@ class Base extends Extend
     public function _initialize(){
         
         // 定义UID
-    	define('UID',session('userid'));
+        define('UID',session('userid'));
         // dump(UID);
 
 
-    	if(!UID)
-		{
-			$this->redirect('admin/index/index');
-		}
+        if(!UID)
+        {
+            $this->redirect('admin/index/index');
+        }
 
         $manager  = model('Manager')->get(UID);
         // dump($manager);
@@ -36,6 +36,8 @@ class Base extends Extend
         // 读取不需要进行权限验证的和不需要实例化模型的控制器缓存
         $auth_model = cache('auth_model');
         
+
+
         if(ACTION_NAME)
         {
             $authName   = CONTROLLER_NAME.'/'.ACTION_NAME;
@@ -99,7 +101,7 @@ class Base extends Extend
         
         $this->assign('menu',$menu);
 
-        
+
 
         // 管理员信息输出
         // $this->assign('manager',$manager);
@@ -111,7 +113,7 @@ class Base extends Extend
         // $data['email'] = 'thinkphp@qq.com';
         // $data['sitename'] = 'YC';
         // $this->assign('data',$data);
-	}
+    }
 
 
 
@@ -124,6 +126,6 @@ class Base extends Extend
     }
 
 
-	
+    
 }
 
