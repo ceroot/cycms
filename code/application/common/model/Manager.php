@@ -10,19 +10,37 @@
 
 namespace app\common\model;
 use think\Model;
+use think\Db;
 
 class Manager extends Model
 {
-	public $error;
+	// 主键
+	protected $pk = 'uid';
+	// 错误信息
+    protected $error;
 
-	public function getone(){
-        $data = $this->find(UID);
-        return $data;
+	public function _initialize(){
+        // return $this->error  = 265;
+        // return false;
+	}
+	public function __construct(){
+		
 	}
 
-	static public function cc(){
-		return 123999;
-		$this->error;
+	public function yctest($id){
+		return $id;;
+		if($id!=1){
+			$this->error  = 'fdsafa在';
+			return false;
+		}
+		$data  = array('id'=>1,'name'=>'yang');
+		return $data;
+	}
+
+	public function cc(){
+		// return 123999;
+		$this->error  = '5555';
+		return false;
 	}
 
 	/**
@@ -32,15 +50,9 @@ class Manager extends Model
     public function validate_login()
 	{
 		/******接收数据******/
-		$username = I('post.username'); //用户名
-		$password = I('post.password'); //密码
-    	$code     = I('post.verify');   //验证码
-
-    	// return $username;
-
-    	$this->error  = 456;
-    	return false;
-
+		$username = 'ceroot@163.com';//input('post.username'); //用户名
+		$password = 1;//input('post.password'); //密码
+    	$code     = input('post.verify');   //验证码
 
 		/******普通验证******/
       
@@ -80,16 +92,14 @@ class Manager extends Model
 		}
 		
 		/******数据库验证******/
-		// $user   = $this->where(array('username'=>$username))->find();
-		$user = Manager::get(function($query){
-		    $query->where('username','ceroot@163.co');
-		});
+		$user  = Db::name('manager')->where('username',$username)->find();
+
+		// return $user['username'];
 
 		// 用户不存在
-		return $user;
 		if(!$user)
 		{
-			return $this->error = '用户不存在';
+			$this->error = '用户不存在';
 			// $_SESSION['error_num']++;
 			session('error_num',$error_num+1);
 			return false;
@@ -109,7 +119,7 @@ class Manager extends Model
 			return false;
 		}
 
-		$auto = I('post.auto');
+		$auto = input('post.auto');
 		if($auto)
 		{
 			setcookie(session_name(),session_id(),time()+60*60*24*14,'/');
@@ -120,6 +130,33 @@ class Manager extends Model
 		}
 
 		return $user;
+	}
+
+	public function login_test(){
+		$username  = input('post.username');
+		$password  = input('post.password');
+		// return $username;
+
+		$user  = Db::name('manager')->where('username',$username)->find();
+
+
+		if(!$user){
+            $this->error = '用户名不存在';
+            return false;
+		}
+
+		if($user['password'] != md5($username.$password)){
+			$this->error  = '密码错误';
+			return false;
+		}
+
+		if($user['status']){
+			$this->error  = '用户锁定中，请联系管理员';
+			return false;
+		}
+
+		return $user;
+
 	}
 
 
@@ -154,3 +191,4 @@ class Manager extends Model
 
 
 }
+

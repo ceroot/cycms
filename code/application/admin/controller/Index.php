@@ -13,6 +13,7 @@ class Index extends Controller
 	public function _initialize(){
 		// echo 'init<br/>';
 		// return '测试';
+		$this->model  = model('manager');
 
 	}
 
@@ -27,7 +28,7 @@ class Index extends Controller
     }
 
 	public function yctest(){
-		$ddd  = $this->model->validate_login();
+		$ddd  = $this->model->cc();
 		dump($this->model->getError());
 		dump($ddd);
 	}
@@ -36,16 +37,18 @@ class Index extends Controller
 	public function index(){
 
 	    if(IS_POST){
-            
+
             if($user  = $this->model->login_test()){
                 // $redata  = $user;
                 // 设置session
 				$this->model->set_session($user);
-                $redata  = array('status'=>1,'info'=>'','url'=>url('Console/index'),'error_num'=>0);
+                $redata  = array('status'=>1,'info'=>'登录成功','url'=>url('Console/index'),'error_num'=>0);
             }else{
                 $error_num  = session('error_num');
                 $redata  = array('status'=>0,'info'=>$this->model->getError(),'show_code'=>0,'error_num'=>$error_num);
             }
+
+
 
             return json_encode($redata);
             die;

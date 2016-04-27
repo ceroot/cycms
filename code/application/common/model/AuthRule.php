@@ -14,8 +14,11 @@ use third\Data;
 
 class AuthRule extends Model {
 	protected $cache;
-	public function _initialize()
-	{	
+
+	public function __construct(){
+		if(!cache('authrule')){
+			$this->update_cache();
+		}
 		$this->cache = cache('authrule');	// 从缓存里取得规则数据
 	}
 	
@@ -50,7 +53,6 @@ class AuthRule extends Model {
 	 */
 	public function update_cache()
 	{
-		// $data  = $this->order(array('sort'=>'asc','id'=>'asc'))->select();
 		$data  = Db::name('authRule')->order(['sort'=>'asc','id'=>'asc'])->select();
 		
 		$temp = array();
@@ -71,10 +73,10 @@ class AuthRule extends Model {
 	 */
 	public function update_cache_auth_model()
 	{
-		if(!cache('authrule')){
-			$this->update_cache();
-		}
-		$this->cache = cache('authrule');
+		// if(!cache('authrule')){
+		// 	$this->update_cache();
+		// }
+		// $this->cache = cache('authrule');
 		foreach($this->cache as $val)
 		{
 			$auth			= $val['auth'];				// 需要进行权限验证标记
@@ -200,8 +202,7 @@ class AuthRule extends Model {
 	{
 		// 判断是不是超级管理员
 		if(in_array(UID,config('auth_superadmin'))){
-			// $data	= $this->cache;
-			$data = cache('authrule');
+			$data	= $this->cache;
 		}
 		else
 		{
