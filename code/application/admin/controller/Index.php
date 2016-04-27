@@ -17,16 +17,6 @@ class Index extends Controller
 
 	}
 
-	public function hello()
-    {
-        return 'hello';
-    }
-
-    public function data()
-    {
-        return 'data';
-    }
-
 	public function yctest(){
 		$ddd  = $this->model->cc();
 		dump($this->model->getError());
@@ -40,47 +30,25 @@ class Index extends Controller
 
             if($user  = $this->model->login_test()){
                 // $redata  = $user;
+                // 设置登录错误记录的session为0
+                session('error_num',0);
                 // 设置session
 				$this->model->set_session($user);
-                $redata  = array('status'=>1,'info'=>'登录成功','url'=>url('Console/index'),'error_num'=>0);
-            }else{
-                $error_num  = session('error_num');
-                $redata  = array('status'=>0,'info'=>$this->model->getError(),'show_code'=>0,'error_num'=>$error_num);
-            }
-
-
-
-            return json_encode($redata);
-            die;
-	    	if(!$user = $this->model->login_test())
-			{
-				$error_num  = session('error_num');
-				if($error_num>=3)
-				{
-					$redata  = array('status'=>0,'info'=>$this->model->getError(),'show_code'=>1,'error_num'=>$error_num);
-				}
-				else
-				{
-					$redata  = array('status'=>0,'info'=>$this->model->getError(),'show_code'=>0,'error_num'=>$error_num);
-				}
-			}
-			else
-			{
-				session('error_num',0);
-				// 更新登录信息
-				// $this->model->update_login($user);
-				// 设置session
-				// $this->model->set_session($user);
-				// 记录日志
+				// 登录日志记录
 				// $uid  = session('userid');
 				// action_log('manager_login', 'manager', $uid, $uid);
 
-				$redata  = array('status'=>1,'info'=>'','url'=>url('Main/index'),'error_num'=>0);
-				// $redata  = $user;
-				
-			}
-            return json_encode($redata);
+                $redata  = array('status'=>1,'info'=>'登录成功','url'=>url('Console/index'),'error_num'=>0);
+            }else{
+                $error_num  = session('error_num');
+                if($error_num>=3){
+	                $redata  = array('status'=>0,'info'=>$this->model->getError(),'show_code'=>1,'error_num'=>$error_num);
+	            }else{
+	            	$redata  = array('status'=>0,'info'=>$this->model->getError(),'show_code'=>0,'error_num'=>$error_num);
+	            }
+            }
 
+            return json_encode($redata);
 	    }else{
 
 		    // $view  = new \think\View(\think\Config::get());
