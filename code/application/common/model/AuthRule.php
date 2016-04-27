@@ -223,6 +223,7 @@ class AuthRule extends Model {
 
 		// 可显示处理和其它处理
 		$navdata	= array();
+		// dump($data);
 		foreach($data as $value)
 		{
 			// 激活当前处理
@@ -233,11 +234,12 @@ class AuthRule extends Model {
 			// dump($controller.'/'.$action);
 
 			// 取得当前方法id
-			if(strtolower($value['name']) == $controller.'/'.$action){
+			if(strtolower($value['name']) == strtolower($controller.'/'.$action)){
 				$current_action_id   = $value['id'];
 				$current_action_mid  = $value['mid'];
+				// dump(1);
 			}
-
+// dump($current_action_id);
 			$isnavshow	= $value['isnavshow'];	// 显示标记
 			$status		= $value['status'];	// 正常使用标记
 			
@@ -288,6 +290,7 @@ class AuthRule extends Model {
 				foreach ($activedata as $value) {
 					if($current_action_mid==$value['id']){
 						$producttitle  = $value['title'];
+						break;
 					}
 				}
 
@@ -295,8 +298,14 @@ class AuthRule extends Model {
 				$second['data']   = getCateByPid($activedata,$current_action_mid);
 			}else{
 				foreach ($activedata as $value) {
+					// dump($current_action_id);
+					// dump($value['id']);
+					// echo 'id:'.$current_action_id;
+					// echo '<br/>vid:'.$value['id'].'<br/>';
 					if($current_action_id==$value['id']){
 						$producttitle  = $value['title'];
+						// dump(1);
+						break;
 					}
 				}
 				$second['title']  = $producttitle;
