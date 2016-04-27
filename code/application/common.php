@@ -1,4 +1,5 @@
 <?php
+use think\Db;
 use third\Auth;
 use third\Verify;
 use third\Yctest;
@@ -137,8 +138,6 @@ function get_client_ip($type = 0,$adv=false) {
     return $ip[$type];
 }
 
-
-
 /**
  * 时间戳格式化
  * @param int $time
@@ -160,7 +159,7 @@ function get_nickname($uid = 0){
 	    return session('username');
     }
 	$uid  = session('uid');
-	return M('Manager')->getFieldByUid($uid,'nickname');
+    return Db::name('manager')->getFieldByUid($uid,'nickname');
 }
 
 /**
@@ -173,7 +172,7 @@ function get_realname($uid = 0){
 	    return '';
     }
 	$uid  = session('uid');
-	return M('Manager')->getFieldByUid($uid,'realname');
+    return Db::name('manager')->getFieldByUid($uid,'realname');
 }
 
 /**
@@ -193,7 +192,7 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
     }
 
     //查询行为,判断是否执行
-    $action_info = M('ManagerAction')->getByName($action);
+    $action_info = Db::name('managerAction')->getByName($action);
     if($action_info['status'] != 1){
         return '该行为被禁用或删除';
     }
@@ -233,7 +232,7 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
         //未定义日志规则，记录操作url
         $data['remark']     =   '操作url：'.$_SERVER['REQUEST_URI'];
     }
-    
-    M('ManagerActionLog')->add($data);
+
+    Db::name('managerActionLog')->insert($data);
 
 }

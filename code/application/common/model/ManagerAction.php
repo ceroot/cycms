@@ -8,7 +8,6 @@
  * @site    http://www.benweng.com
  */
 namespace app\common\model;
-
 use think\Model;
 
 class ManagerAction extends Model {

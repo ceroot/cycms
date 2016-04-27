@@ -1,6 +1,9 @@
 <?php
 namespace app\admin\controller;
 use think\Controller;
+use think\Db;
+use app\common\model\ManagerAction;
+
 
 class Index extends Controller
 {
@@ -18,9 +21,11 @@ class Index extends Controller
 	}
 
 	public function yctest(){
-		$ddd  = $this->model->cc();
-		dump($this->model->getError());
-		dump($ddd);
+		// $db  = new ManagerAction;
+		// $action_info = $db::getByName('manager_login');
+		$dd  = Db::name('manager')->getFieldByUid(1,'realname');
+
+		dump($dd);
 	}
 
 	// 登录首页
@@ -35,8 +40,8 @@ class Index extends Controller
                 // 设置session
 				$this->model->set_session($user);
 				// 登录日志记录
-				// $uid  = session('userid');
-				// action_log('manager_login', 'manager', $uid, $uid);
+				$uid  = session('userid');
+				action_log('manager_login', 'manager', $uid, $uid);
 
                 $redata  = array('status'=>1,'info'=>'登录成功','url'=>url('Console/index'),'error_num'=>0);
             }else{
