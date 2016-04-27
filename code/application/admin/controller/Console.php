@@ -22,17 +22,29 @@ class Console extends Base {
 	}
 
 	public function index2(){
-	    // return 'main';
-
 	    return $this->fetch();
 	}
 
 	public function index3(){
 		return $this->fetch();
 	}
-
 	public function index4(){
-		return view('admin@index/index');
+	    return $this->fetch();
+	}
+
+	public function index5(){
+		return $this->fetch();
+	}
+	public function index6(){
+	    return $this->fetch();
+	}
+
+	public function index7(){
+		return $this->fetch();
+	}
+
+	public function index8(){
+		// return view('admin@index/index');
 	}
 }
 

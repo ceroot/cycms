@@ -61,6 +61,25 @@ function getParents($cate,$id){
 }
 
 /**
+ * 传递一个父级ID返回所有子级分类
+ * @param array     $cate   传入数组
+ * @param string    $pid    传入id
+ * @return array    $arr    返还数组
+ */
+function getChiIds($cate,$pid,$str=0){
+    $arr=array();
+    static $strarr = array();
+    foreach ($cate as $v){
+        if($v['mid']==$pid){
+            $arr[]= $v;
+            $strarr[] = $v['id'];
+            $arr=array_merge($arr,getChiIds($cate,$v['id']));
+        }
+    }
+    return $str == 1 ? $strarr : $arr;
+}
+
+/**
  * 传递一个子级返回父级id 例如:首页>>服装>>女装>>裙子
  * @param array     $cate   传入数组
  * @param string    $pid    传入id

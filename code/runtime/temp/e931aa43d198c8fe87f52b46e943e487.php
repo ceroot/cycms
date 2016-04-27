@@ -1,9 +1,10 @@
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:68:"D:\www\cycms\public/../code/application/admin\view\order\index2.html";i:1461569555;s:66:"D:\www\cycms\public/../code/application/admin\view\mould\base.html";i:1461745898;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>{block name="title"}标题{/block} -- 后台管理</title>
+<title>后台首页 -- 后台管理</title>
 <!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <!-- Bootstrap 3.3.5 -->
@@ -75,7 +76,7 @@
           <ul class="dropdown-menu animated flipInY">
             <li>fdsafd</li>
             <li>fdsafd</li>
-            <li><a href="{:url('index/loginout')}" title="退出">退出</a></li>
+            <li><a href="<?php echo url('index/loginout'); ?>" title="退出">退出</a></li>
           </ul>
         </li>
       </ul>
@@ -85,49 +86,49 @@
   <aside class="main-sidebar">
     <section class="sidebar"> 
       <ul>
-        {volist name="menu.menu" id="menu"}
-          <li {if condition="$menu.active"}class="active"{/if}>
+        <?php if(is_array($menu['menu'])): $i = 0; $__LIST__ = $menu['menu'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$menu): $mod = ($i % 2 );++$i;?>
+          <li <?php if($menu['active']): ?>class="active"<?php endif; ?>>
             <dl>
               <dt>
-                <a href="{$menu.name}" title="{$menu.title}">
-                  <i class="fa {empty name="menu.icon"}fa-circle-o{else /}{$menu.icon}{/empty}"></i> <span>{$menu.title}</span>
-                  {notempty name="menu.items"}<em class="fa fa-angle-left pull-right"></em>{/notempty}
+                <a href="<?php echo $menu['name']; ?>" title="<?php echo $menu['title']; ?>">
+                  <i class="fa <?php if(empty($menu['icon'])): ?>fa-circle-o<?php else: ?><?php echo $menu['icon']; endif; ?>"></i> <span><?php echo $menu['title']; ?></span>
+                  <?php if(!empty($menu['items'])): ?><em class="fa fa-angle-left pull-right"></em><?php endif; ?>
                 </a>
               </dt>
-              {notempty name="menu.items"}
-                <dd {if condition="$menu.active"}style="display: block;"{/if}>
-                  {volist name="menu.items" id="items"}
-                    <a {if condition="$items.active"}class="active"{/if} href="{$items.name}" title="{$items.title}"><i class="fa fa-circle-o"></i> {$items.title}</a>
-                  {/volist}
+              <?php if(!empty($menu['items'])): ?>
+                <dd <?php if($menu['active']): ?>style="display: block;"<?php endif; ?>>
+                  <?php if(is_array($menu['items'])): $i = 0; $__LIST__ = $menu['items'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$items): $mod = ($i % 2 );++$i;?>
+                    <a <?php if($items['active']): ?>class="active"<?php endif; ?> href="<?php echo $items['name']; ?>" title="<?php echo $items['title']; ?>"><i class="fa fa-circle-o"></i> <?php echo $items['title']; ?></a>
+                  <?php endforeach; endif; else: echo "" ;endif; ?>
                 </dd>
-              {/notempty}
+              <?php endif; ?>
             </dl>
           </li>
-        {/volist}
+        <?php endforeach; endif; else: echo "" ;endif; ?>
         <!-- <li>
           <dl>
-            <dt><a href="{:url('index')}" title="index3"><i class="fa fa-home"></i> <span>首页</span></a></dt>
+            <dt><a href="<?php echo url('index'); ?>" title="index3"><i class="fa fa-home"></i> <span>首页</span></a></dt>
           </dl>
         </li>
         <li>
           <dl>
-            <dt><a href="{:url('index2')}" title="index3"><i class="fa fa-desktop"></i> <span>index2</span></a></dt>
+            <dt><a href="<?php echo url('index2'); ?>" title="index3"><i class="fa fa-desktop"></i> <span>index2</span></a></dt>
           </dl>
         </li>
         <li>
           <dl>
-            <dt><a href="{:url('index3')}" title="index3"><i class="fa fa-credit-card"></i> <span>index3</span></a></dt>
+            <dt><a href="<?php echo url('index3'); ?>" title="index3"><i class="fa fa-credit-card"></i> <span>index3</span></a></dt>
           </dl>
         </li>
         <li class="active">
           <dl>
             <dt><a href="" title=""><i class="fa fa-product-hunt"></i> <span>产品</span><em class="fa fa-angle-left pull-right"></em></a></dt>
             <dd class="animated fadeIn" style="display: block;">
-              <a class="active" href="{:url('index3')}" title="产品"><i class="fa fa-circle-o text-yellow"></i> 产品</a>
-              <a href="{:url('index3')}" title="产品1"><i class="fa fa-circle-o text-yellow"></i> 产品1</a>
-              <a href="{:url('index3')}" title="产品2"><i class="fa fa-circle-o text-yellow"></i> 产品2</a>
-              <a href="{:url('index3')}" title="产品3"><i class="fa fa-circle-o text-yellow"></i> 产品3</a>
-              <a href="{:url('index3')}" title="产品4"><i class="fa fa-circle-o text-yellow"></i> 产品4</a>
+              <a class="active" href="<?php echo url('index3'); ?>" title="产品"><i class="fa fa-circle-o text-yellow"></i> 产品</a>
+              <a href="<?php echo url('index3'); ?>" title="产品1"><i class="fa fa-circle-o text-yellow"></i> 产品1</a>
+              <a href="<?php echo url('index3'); ?>" title="产品2"><i class="fa fa-circle-o text-yellow"></i> 产品2</a>
+              <a href="<?php echo url('index3'); ?>" title="产品3"><i class="fa fa-circle-o text-yellow"></i> 产品3</a>
+              <a href="<?php echo url('index3'); ?>" title="产品4"><i class="fa fa-circle-o text-yellow"></i> 产品4</a>
             </dd>
           </dl>
         </li>
@@ -135,11 +136,11 @@
           <dl>
             <dt><a href="" title=""><i class="fa fa-cubes"></i> <span>产品产品</span><em class="fa fa-angle-left pull-right"></em></a></dt>
             <dd class="animated fadeIn">
-              <a href="{:url('index3')}" title="产品"><i class="fa fa-circle-o text-yellow"></i> 产品产品</a>
-              <a href="{:url('index3')}" title="产品1"><i class="fa fa-circle-o text-yellow"></i> 产品产品1</a>
-              <a href="{:url('index3')}" title="产品2"><i class="fa fa-circle-o text-yellow"></i> 产品产品2</a>
-              <a href="{:url('index3')}" title="产品3"><i class="fa fa-circle-o text-yellow"></i> 产品产品3</a>
-              <a href="{:url('index3')}" title="产品4"><i class="fa fa-circle-o text-yellow"></i> 产品产品4</a>
+              <a href="<?php echo url('index3'); ?>" title="产品"><i class="fa fa-circle-o text-yellow"></i> 产品产品</a>
+              <a href="<?php echo url('index3'); ?>" title="产品1"><i class="fa fa-circle-o text-yellow"></i> 产品产品1</a>
+              <a href="<?php echo url('index3'); ?>" title="产品2"><i class="fa fa-circle-o text-yellow"></i> 产品产品2</a>
+              <a href="<?php echo url('index3'); ?>" title="产品3"><i class="fa fa-circle-o text-yellow"></i> 产品产品3</a>
+              <a href="<?php echo url('index3'); ?>" title="产品4"><i class="fa fa-circle-o text-yellow"></i> 产品产品4</a>
             </dd>
           </dl>
         </li>
@@ -147,11 +148,11 @@
           <dl>
             <dt><a href="" title=""><i class="fa fa-graduation-cap"></i> <span>产品</span><em class="fa fa-angle-left pull-right"></em></a></dt>
             <dd class="animated fadeIn">
-              <a href="{:url('index3')}" title="产品"><i class="fa fa-circle-o text-yellow"></i> 产品</a>
-              <a href="{:url('index3')}" title="产品1"><i class="fa fa-circle-o text-yellow"></i> 产品1</a>
-              <a href="{:url('index3')}" title="产品2"><i class="fa fa-circle-o text-yellow"></i> 产品2</a>
-              <a href="{:url('index3')}" title="产品3"><i class="fa fa-circle-o text-yellow"></i> 产品3</a>
-              <a href="{:url('index3')}" title="产品4"><i class="fa fa-circle-o text-yellow"></i> 产品4</a>
+              <a href="<?php echo url('index3'); ?>" title="产品"><i class="fa fa-circle-o text-yellow"></i> 产品</a>
+              <a href="<?php echo url('index3'); ?>" title="产品1"><i class="fa fa-circle-o text-yellow"></i> 产品1</a>
+              <a href="<?php echo url('index3'); ?>" title="产品2"><i class="fa fa-circle-o text-yellow"></i> 产品2</a>
+              <a href="<?php echo url('index3'); ?>" title="产品3"><i class="fa fa-circle-o text-yellow"></i> 产品3</a>
+              <a href="<?php echo url('index3'); ?>" title="产品4"><i class="fa fa-circle-o text-yellow"></i> 产品4</a>
             </dd>
           </dl>
         </li>
@@ -159,11 +160,11 @@
           <dl>
             <dt><a href="" title=""><i class="fa fa-globe"></i> <span>产品</span><em class="fa fa-angle-left pull-right"></em></a></dt>
             <dd>
-              <a href="{:url('index3')}" title="产品"><i class="fa fa-circle-o text-yellow"></i> 产品</a>
-              <a href="{:url('index3')}" title="产品1"><i class="fa fa-circle-o text-yellow"></i> 产品1</a>
-              <a href="{:url('index3')}" title="产品2"><i class="fa fa-circle-o text-yellow"></i> 产品2</a>
-              <a href="{:url('index3')}" title="产品3"><i class="fa fa-circle-o text-yellow"></i> 产品3</a>
-              <a href="{:url('index3')}" title="产品4"><i class="fa fa-circle-o text-yellow"></i> 产品4</a>
+              <a href="<?php echo url('index3'); ?>" title="产品"><i class="fa fa-circle-o text-yellow"></i> 产品</a>
+              <a href="<?php echo url('index3'); ?>" title="产品1"><i class="fa fa-circle-o text-yellow"></i> 产品1</a>
+              <a href="<?php echo url('index3'); ?>" title="产品2"><i class="fa fa-circle-o text-yellow"></i> 产品2</a>
+              <a href="<?php echo url('index3'); ?>" title="产品3"><i class="fa fa-circle-o text-yellow"></i> 产品3</a>
+              <a href="<?php echo url('index3'); ?>" title="产品4"><i class="fa fa-circle-o text-yellow"></i> 产品4</a>
             </dd>
           </dl>
         </li>
@@ -171,11 +172,11 @@
           <dl>
             <dt><a href="" title=""><i class="fa fa-industry"></i> <span>产品</span><em class="fa fa-angle-left pull-right"></em></a></dt>
             <dd class="animated fadeIn">
-              <a href="{:url('index3')}" title="产品"><i class="fa fa-circle-o text-yellow"></i> 产品</a>
-              <a href="{:url('index3')}" title="产品1"><i class="fa fa-circle-o text-yellow"></i> 产品1</a>
-              <a href="{:url('index3')}" title="产品2"><i class="fa fa-circle-o text-yellow"></i> 产品2</a>
-              <a href="{:url('index3')}" title="产品3"><i class="fa fa-circle-o text-yellow"></i> 产品3</a>
-              <a href="{:url('index3')}" title="产品4"><i class="fa fa-circle-o text-yellow"></i> 产品4</a>
+              <a href="<?php echo url('index3'); ?>" title="产品"><i class="fa fa-circle-o text-yellow"></i> 产品</a>
+              <a href="<?php echo url('index3'); ?>" title="产品1"><i class="fa fa-circle-o text-yellow"></i> 产品1</a>
+              <a href="<?php echo url('index3'); ?>" title="产品2"><i class="fa fa-circle-o text-yellow"></i> 产品2</a>
+              <a href="<?php echo url('index3'); ?>" title="产品3"><i class="fa fa-circle-o text-yellow"></i> 产品3</a>
+              <a href="<?php echo url('index3'); ?>" title="产品4"><i class="fa fa-circle-o text-yellow"></i> 产品4</a>
             </dd>
           </dl>
         </li>
@@ -183,11 +184,11 @@
           <dl>
             <dt><a href="" title=""><i class="fa fa-life-bouy"></i> <span>产品end</span><em class="fa fa-angle-left pull-right"></em></a></dt>
             <dd class="animated fadeIn">
-              <a href="{:url('index3')}" title="产品"><i class="fa fa-circle-o text-yellow"></i> 产品</a>
-              <a href="{:url('index3')}" title="产品1"><i class="fa fa-circle-o text-yellow"></i> 产品1</a>
-              <a href="{:url('index3')}" title="产品2"><i class="fa fa-circle-o text-yellow"></i> 产品2</a>
-              <a href="{:url('index3')}" title="产品3"><i class="fa fa-circle-o text-yellow"></i> 产品3</a>
-              <a href="{:url('index3')}" title="产品4"><i class="fa fa-circle-o text-yellow"></i> 产品4end</a>
+              <a href="<?php echo url('index3'); ?>" title="产品"><i class="fa fa-circle-o text-yellow"></i> 产品</a>
+              <a href="<?php echo url('index3'); ?>" title="产品1"><i class="fa fa-circle-o text-yellow"></i> 产品1</a>
+              <a href="<?php echo url('index3'); ?>" title="产品2"><i class="fa fa-circle-o text-yellow"></i> 产品2</a>
+              <a href="<?php echo url('index3'); ?>" title="产品3"><i class="fa fa-circle-o text-yellow"></i> 产品3</a>
+              <a href="<?php echo url('index3'); ?>" title="产品4"><i class="fa fa-circle-o text-yellow"></i> 产品4end</a>
             </dd>
           </dl>
         </li> -->
@@ -198,17 +199,17 @@
     reserved.</div>
   </aside>
   <!-- Content Wrapper. Contains page content -->
-  <div class="main-wrapper {empty name="second.data"}product-sidebar-fold{/empty}"> 
+  <div class="main-wrapper <?php if(empty($second['data'])): ?>product-sidebar-fold<?php endif; ?>"> 
     <!-- Product Sidebar -->
-      {notempty name="second.data"}
+      <?php if(!empty($second['data'])): ?>
         <div class="product-sidebar">
           <section class="product-sidebar-wrapper">
             <dl>
-              <dt>{$second.title}</dt>
+              <dt><?php echo $second['title']; ?></dt>
               <dd>
-                {volist name="second.data" id="second"}
-                  <a {if condition="$second.active"}class="active"{/if} href="{$second.name}" title="{$second.title}">{$second.title}</a>
-                {/volist}
+                <?php if(is_array($second['data'])): $i = 0; $__LIST__ = $second['data'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$second): $mod = ($i % 2 );++$i;?>
+                  <a <?php if($second['active']): ?>class="active"<?php endif; ?> href="<?php echo $second['name']; ?>" title="<?php echo $second['title']; ?>"><?php echo $second['title']; ?></a>
+                <?php endforeach; endif; else: echo "" ;endif; ?>
                 <!-- <a href="" title="second-sidebar1">secondsecondsecondsecond-sidebar1</a>
                 <a href="" title="second-sidebar1">second-sidebar1</a>
                 <a href="" title="second-sidebar1">second-sidebar1</a>
@@ -223,7 +224,7 @@
             <a class="second-sidebar-sold-right" href="javascript:void(0)" title="展开"><i class="fa fa-angle-double-right"></i></a>
           </div>
         </div>
-      {/notempty}
+      <?php endif; ?>
     <!-- /.product-sidebar --> 
     <!-- Content Header (Page header) -->
     <div class="content-wrapper">
@@ -239,7 +240,9 @@
           </ol>
         </section>
         <!-- Main content -->
-        <section class="content" style="padding-left: 16px"> {block name="content"}内容区{/block} </section>
+        <section class="content" style="padding-left: 16px"> 
+  index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>index2<br/>
+ </section>
       </div>
     </div>
     <!-- /.content --> 

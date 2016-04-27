@@ -10,8 +10,6 @@ class Base extends Extend
         
         // 定义UID
         define('UID',session('userid'));
-        // dump(UID);
-
 
         if(!UID)
         {
@@ -20,14 +18,12 @@ class Base extends Extend
 
         $manager  = model('Manager')->get(UID);
         // dump($manager);
-        // $user = User::get(1);
+
         // 锁定判断
         if($manager->status==1){
             $this->redirect('admin/index/index');
         }
         
-        // model('AuthRule')->update_cache();
-        // dump(cache('authrule'));
         // 生成不需要进行权限验证的和不需要实例化模型的控制器缓存
         if(!cache('auth_model')){
             model('AuthRule')->update_cache_auth_model();
@@ -35,7 +31,6 @@ class Base extends Extend
 
         // 读取不需要进行权限验证的和不需要实例化模型的控制器缓存
         $auth_model = cache('auth_model');
-
 
         if(ACTION_NAME)
         {
@@ -79,52 +74,30 @@ class Base extends Extend
         }
 
         define('CONTROLLER_ACTION',strtolower(CONTROLLER_NAME.'/'.ACTION_NAME));
+
         // 实例化模型
         $controllerName = CONTROLLER_NAME;
         
-        // dump($auth_model['not_d_controller']);
         if(!in_array($controllerName,$auth_model['not_d_controller']))
         {
-            // $this->model = D($controllerName);
             $this->model  = model($controllerName);
-            // echo 1;
         }
-        // echo 2;
-        
-        // die;
 
         // 菜单输出
         $menu  = model('AuthRule')->admin_menu();
-        // dump($menu);
+        // dump($menu['second']);
         // die;
-        
+
         $this->assign('menu',$menu);
+
+        $this->assign('second',$menu['second']);
 
 
 
         // 管理员信息输出
-        // $this->assign('manager',$manager);
-// die;
+        $this->assign('manager',$manager);
 
-
-
-        // $data['name']  = 'ThinkPHP';
-        // $data['email'] = 'thinkphp@qq.com';
-        // $data['sitename'] = 'YC';
-        // $this->assign('data',$data);
     }
 
-
-
-    
-    public function yctest(){
-
-        $dd  = S('auth_model');
-        // dump($dd);
-        //dump($ip);
-    }
-
-
-    
 }
 

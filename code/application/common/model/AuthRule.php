@@ -233,7 +233,8 @@ class AuthRule extends Model {
 
 			// 取得当前方法id
 			if($value['name'] == $controller.'/'.$action){
-				$current_action_id  = $value['id'];
+				$current_action_id   = $value['id'];
+				$current_action_mid  = $value['mid'];
 			}
 
 			$isnavshow	= $value['isnavshow'];	// 显示标记
@@ -281,27 +282,31 @@ class AuthRule extends Model {
 	        }
 
 	        // 子菜单
-			if(count($activeidarr)>1){
+	        $second  = NULL;
+			if(count($activeidarr)>2){
 				foreach ($activedata as $value) {
-					if($current_action_id==$value['id']){
-						$productid  = $value['mid'];
-						break;
-					}
-				}
-
-				foreach ($activedata as $value) {
-					if($productid==$value['id']){
+					if($current_action_mid==$value['id']){
 						$producttitle  = $value['title'];
 					}
 				}
 
-				$product['data']   = getCateByPid($activedata,$productid);
-				$product['title']  = $producttitle;
+				$second['title']  = $producttitle;
+				$second['data']   = getCateByPid($activedata,$current_action_mid);
+			}else{
+				foreach ($activedata as $value) {
+					if($current_action_id==$value['id']){
+						$producttitle  = $value['title'];
+					}
+				}
+				$second['title']  = $producttitle;
+				$second['data']   = getChiIds($navdata,$current_action_id);
 			}
+
+			$treeArray['second']   = $second;
         }
 		
 		$treeArray['menu']	   = getCateTreeArr($activedata,0);	// 生成树形结构
-		$treeArray['product']  = $product;
+		
 		// dump($treeArray);
 		
 		// 加上key标记
