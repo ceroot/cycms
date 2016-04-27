@@ -35,7 +35,6 @@ class Base extends Extend
 
         // 读取不需要进行权限验证的和不需要实例化模型的控制器缓存
         $auth_model = cache('auth_model');
-        
 
 
         if(ACTION_NAME)

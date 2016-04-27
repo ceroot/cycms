@@ -33,7 +33,7 @@ class Index extends Controller
 
 	    if(IS_POST){
 
-            if($user  = $this->model->login_test()){
+            if($user  = $this->model->validate_login()){
                 // $redata  = $user;
                 // 设置登录错误记录的session为0
                 session('error_num',0);

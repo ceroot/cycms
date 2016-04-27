@@ -95,7 +95,7 @@
                 </a>
               </dt>
               {notempty name="menu.items"}
-                <dd class="animated fadeIn" {if condition="$menu.active"}style="display: block;"{/if}>
+                <dd {if condition="$menu.active"}style="display: block;"{/if}>
                   {volist name="menu.items" id="items"}
                     <a {if condition="$items.active"}class="active"{/if} href="{$items.name}" title="{$items.title}"><i class="fa fa-circle-o"></i> {$items.title}</a>
                   {/volist}

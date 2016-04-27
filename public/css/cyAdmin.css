@@ -266,6 +266,9 @@ a:visited {
 	font-size: 12px;
 	margin: 0;
 }
+.sidebar ul > li.active > dl > dd{
+	/*display: block;不用这个是因为滑动效果受影响，必须直接在页面block*/
+}
 .sidebar ul > li > dl > dd > a{
 	display: block;
 	line-height: 36px;
