@@ -1,10 +1,25 @@
 <?php
 use third\Auth;
+use third\Verify;
 use third\Yctest;
 
 function yctest(){
 	// $dd  = new \third\Yctest();
 	return Yctest::sayHello();
+}
+
+/**
+ * 验证码验证
+ * @param  string    $$code    传入的验证码
+ * @return booln
+ */
+function verifyCheck($code){
+    $verify = new \third\Verify();
+    if($verify->check($code)){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 /**

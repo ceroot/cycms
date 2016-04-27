@@ -135,18 +135,60 @@ class Manager extends Model
 	public function login_test(){
 		$username  = input('post.username');
 		$password  = input('post.password');
-		// return $username;
+		$code      = input('post.verify');
+
+
+		
+
+		// 用户名不为空
+		if(!$username||$username=='请输入用户名')
+		{
+			$this->error = '请输入用户名';
+			return false;
+		}
+	  
+		// 密码不为空
+		if(!$password)
+		{
+			$this->error = '请输入密码';
+			return false;
+		}
+
+		$error_num	= session('error_num');
+		if(!isset($error_num))
+		{
+			session('error_num',0);
+		}
+
+		// 验证码验不为空
+		if($error_num>3 && !$code)
+		{
+			$this->error = '请输入验证码';
+			return false;
+		}
+
+
+		// 验证码是否相等
+		if($error_num>3 && !verifyCheck($code))
+		{
+			$this->error = '验证码输入错误';
+			return false;
+		}
+
+		// $this->error  = $code;
+		// return false;
 
 		$user  = Db::name('manager')->where('username',$username)->find();
 
-
 		if(!$user){
             $this->error = '用户名不存在';
+            session('error_num',$error_num+1);
             return false;
 		}
 
 		if($user['password'] != md5($username.$password)){
 			$this->error  = '密码错误';
+			session('error_num',$error_num+1);
 			return false;
 		}
 
@@ -155,8 +197,14 @@ class Manager extends Model
 			return false;
 		}
 
-		return $user;
+		// $auto  = input('post.auto');
+		// if($auto){
+		// 	setcookie(session_name(),session_id(),time()+60*60*24*14,'/');
+		// }else{
+		// 	setcookie(session_name(),session_id(),0,'/');
+		// }
 
+		return $user;
 	}
 
 
