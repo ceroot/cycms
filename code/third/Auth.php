@@ -82,7 +82,6 @@ class Auth{
 
     public function __construct() {
         $prefix = config('DB_PREFIX');
-        // $prefix  = 'cy_';
         $this->_config['AUTH_GROUP'] = $prefix.$this->_config['AUTH_GROUP'];
         $this->_config['AUTH_RULE'] = $prefix.$this->_config['AUTH_RULE'];
         $this->_config['AUTH_USER'] = $prefix.$this->_config['AUTH_USER'];
@@ -194,11 +193,10 @@ class Auth{
             'status'=>1,
         );
 
-        //读取用户组所有权限规则
-        // $rules = M()->table($this->_config['AUTH_RULE'])->where($map)->field('condition,name')->select();
+        // 读取用户组所有权限规则
         $rules = Db::name($this->_config['AUTH_RULE'])->where($map)->field('condition,name')->select();
 
-        //循环规则，判断结果。
+        // 循环规则，判断结果。
         $authList = array();   //
         foreach ($rules as $rule) {
             if (!empty($rule['condition'])) { //根据condition进行验证
