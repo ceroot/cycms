@@ -230,9 +230,10 @@ class AuthRule extends Model {
 
 			$controller       = CONTROLLER_NAME;
 			$action           = ACTION_NAME;
+			// dump($controller.'/'.$action);
 
 			// 取得当前方法id
-			if($value['name'] == $controller.'/'.$action){
+			if(strtolower($value['name']) == $controller.'/'.$action){
 				$current_action_id   = $value['id'];
 				$current_action_mid  = $value['mid'];
 			}

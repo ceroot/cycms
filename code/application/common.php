@@ -1,8 +1,6 @@
 <?php
 use think\Db;
-use third\Auth;
 use third\Verify;
-use third\Yctest;
 
 function yctest(){
 	// $dd  = new \third\Yctest();
@@ -104,7 +102,7 @@ function getCateByPid($cate,$pid=0){
  */
 function authCheck($authName,$uid)
 {
-	$auth = new \third\Auth();
+	$auth = new \auth\Auth();
 	if($auth->check(strtolower($authName),$uid))
 	{
 		return true;
