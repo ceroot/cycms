@@ -14,8 +14,6 @@ use think\Db;
 
 class Manager extends Model
 {
-	// 主键
-	protected $pk = 'uid';
 	// 错误信息
     protected $error;
 

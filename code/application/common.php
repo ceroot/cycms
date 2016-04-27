@@ -154,11 +154,11 @@ function time_format($time = NULL,$format='Y-m-d H:i'){
  * @param int $uid
  * @author SpringYang <ceroot@163.com>
  */
-function get_nickname($uid = 0){
+function get_nickname($uid = NULL){
 	if(!($uid && is_numeric($uid))){ //获取当前登录用户名
 	    return session('username');
     }
-	$uid  = session('uid');
+	// $uid  = session('userid');
     return Db::name('manager')->getFieldByUid($uid,'nickname');
 }
 
@@ -167,11 +167,11 @@ function get_nickname($uid = 0){
  * @param int $uid
  * @author SpringYang <ceroot@163.com>
  */
-function get_realname($uid = 0){
+function get_realname($uid = NULL){
 	if(!($uid && is_numeric($uid))){ //获取当前登录用户名
 	    return '';
     }
-	$uid  = session('uid');
+	// $uid  = session('userid');
     return Db::name('manager')->getFieldByUid($uid,'realname');
 }
 
@@ -186,19 +186,21 @@ function get_realname($uid = 0){
  */
 function action_log($action = null, $model = null, $record_id = null, $user_id = null){
 
-    //参数检查
+    // 参数检查
     if(empty($action) || empty($model) || empty($record_id)){
         return '参数不能为空';
     }
 
-    //查询行为,判断是否执行
+    // 查询行为,判断是否执行
     $action_info = Db::name('managerAction')->getByName($action);
     if($action_info['status'] != 1){
         return '该行为被禁用或删除';
     }
 
+    // 取得日志规则
+    $action_log  = $action_info['log'];
 
-    //插入行为日志
+    // 插入行为日志
     $data['action_id']      =   $action_info['id'];
     $data['user_id']        =   $user_id;
     $data['action_ip']      =   ip2int();
@@ -206,9 +208,9 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
     $data['record_id']      =   $record_id;
     $data['create_time']    =   NOW_TIME;
 
-    //解析日志规则,生成日志备注
-    if(!empty($action_info['log'])){
-        if(preg_match_all('/\[(\S+?)\]/', $action_info['log'], $match)){
+    // 解析日志规则,生成日志备注
+    if(!empty($action_log)){
+        if(preg_match_all('/\[(\S+?)\]/', $action_log, $match)){
             $log['user']    =   $user_id;
             $log['record']  =   $record_id;
             $log['model']   =   $model;
@@ -224,15 +226,14 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
                 }
             }
 
-            $data['remark'] =   str_replace($match[0], $replace, $action_info['log']);
+            $data['remark'] =   str_replace($match[0], $replace, $action_log);
         }else{
-            $data['remark'] =   $action_info['log'];
+            $data['remark'] =   $action_log;
         }
     }else{
-        //未定义日志规则，记录操作url
+        // 未定义日志规则，记录操作url
         $data['remark']     =   '操作url：'.$_SERVER['REQUEST_URI'];
     }
 
     Db::name('managerActionLog')->insert($data);
-
 }
