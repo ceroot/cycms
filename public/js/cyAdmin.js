@@ -71,17 +71,19 @@ function _init(){
 
             // 本地存储数据判断[html5/cookie]
             if(storage){
+                // 侧边栏状态
                 if(storage.getItem('sidebarFold')){
                     _body.addClass('sidebar-fold');
                 }else{
                     _body.removeClass('sidebar-fold');
                 }
 
-                if(storage.getItem('productSidebarFold')){
-                    _body.addClass('product-sidebar-fold');
-                }else{
-                    _body.removeClass('product-sidebar-fold');
-                }
+                // 二级边栏状态
+                // if(storage.getItem('productSidebarFold')){
+                //     _body.addClass('product-sidebar-fold');
+                // }else{
+                //     _body.removeClass('product-sidebar-fold');
+                // }
             }else{
                 if($.cookie(sidebarFold)){
                     mainWrapper.addClass('sidebar-fold');
@@ -89,11 +91,11 @@ function _init(){
                     mainWrapper.removeClass('sidebar-fold');
                 }
 
-                if($.cookie(productSidebarFold)){
-                    mainWrapper.addClass('product-sidebar-fold');
-                }else{
-                    mainWrapper.removeClass('product-sidebar-fold');
-                }
+                // if($.cookie(productSidebarFold)){
+                //     mainWrapper.addClass('product-sidebar-fold');
+                // }else{
+                //     mainWrapper.removeClass('product-sidebar-fold');
+                // }
             }
 
         	
@@ -317,7 +319,7 @@ function _init(){
                 }
             }else{
                 $('body').addClass('sidebar-fold');
-                
+
                 // 本地存储数据判断[html5/cookie]
                 if(storage){
                     storage.setItem('sidebarFold',1);

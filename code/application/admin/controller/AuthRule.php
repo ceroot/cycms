@@ -1,9 +1,19 @@
 <?php
+/**
+ * 
+ * 
+ * @authors SpringYang
+ * @email   ceroot@163.com
+ * @QQ      525566309
+ * @date    2016-04-27 11:10:25
+ * @site    http://www.benweng.com
+ */
 namespace app\admin\controller;
 use app\admin\controller\Base;
+use think\Db;
 
 
-class authRule extends Base
+class AuthRule extends Base
 {
 	public $model;
 
@@ -13,22 +23,11 @@ class authRule extends Base
 	 */
 	public function _initialize(){
         parent::_initialize();
-		$this->model  = model('authRule');
+
+		$data  = $this->model->get_all();
+        $this->assign('data',$data);
 
 	}
-
-	// 规则管理首页
-	public function index(){
-
-	    return $this->fetch();
-	}
-
-
-    // 规则列表
-    public function list(){
-
-    	return $this->fetch();
-    }
 
     
 }

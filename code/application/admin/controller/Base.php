@@ -1,6 +1,7 @@
 <?php
 namespace app\admin\controller;
 use app\common\controller\Extend;
+use think\Db;
 
 class Base extends Extend
 {
@@ -80,6 +81,9 @@ class Base extends Extend
 
         // 实例化模型
         $controllerName = CONTROLLER_NAME;
+
+        // dump($auth_model['not_d_controller']);
+        // die;
         
         if(!in_array($controllerName,$auth_model['not_d_controller']))
         {
@@ -100,6 +104,27 @@ class Base extends Extend
         // 管理员信息输出
         $this->assign('manager',$manager);
 
+    }
+
+    public function index(){
+        return $this->fetch();
+    }
+
+    public function list(){
+        $data  = $this->_data();
+        
+        $this->assign('data',$data);
+        return $this->fetch();
+    }
+
+    public function add(){
+        return $this->fetch();
+    }
+
+    public function _data(){
+        $data  = Db::name(CONTROLLER_NAME)->select();
+
+        return $data;
     }
 
 }

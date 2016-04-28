@@ -1,15 +1,17 @@
 <?php
-namespace app\admin\controller;
-use app\admin\controller\Base;
-// use think\Controller;
 /**
  * 
  * 
  * @authors SpringYang
  * @email   ceroot@163.com
+ * @QQ      525566309
  * @date    2016-04-21 14:02:52
  * @site    http://www.benweng.com
  */
+namespace app\admin\controller;
+use app\admin\controller\Base;
+// use think\Controller;
+
 
 class Console extends Base {
     

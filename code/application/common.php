@@ -209,7 +209,7 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
     }
 
     // 查询行为,判断是否执行
-    $action_info = Db::name('managerAction')->getByName($action);
+    $action_info = Db::name('action')->getByName($action);
     if($action_info['status'] != 1){
         return '该行为被禁用或删除';
     }
@@ -252,5 +252,5 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
         $data['remark']     =   '操作url：'.$_SERVER['REQUEST_URI'];
     }
 
-    Db::name('managerActionLog')->insert($data);
+    Db::name('ActionLog')->insert($data);
 }

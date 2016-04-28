@@ -1,4 +1,13 @@
 <?php
+/**
+ * 
+ * 
+ * @authors SpringYang
+ * @email   ceroot@163.com
+ * @QQ      525566309
+ * @date    2016-04-21 17:35:12
+ * @site    http://www.benweng.com
+ */
 namespace app\admin\controller;
 use think\Controller;
 use think\Db;

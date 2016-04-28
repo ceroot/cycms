@@ -6,6 +6,10 @@
  * @version $Id$
  */
 
+body.skin-default{
+	font-size: 14px;
+}
+
 .skin-default{
 
 }
