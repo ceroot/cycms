@@ -21,7 +21,8 @@ $.Cy.options = {
   
 };
 
-var doc  = document;
+var doc      = document;
+var storage  = window.localStorage;  // html5 本地存储对象
 
 $(function(){
     'use strict';
@@ -64,6 +65,36 @@ function _init(){
         	});
         },
         main:function(){
+            
+            var _body        = $('body');
+            var mainWrapper  = $('.main-wrapper');
+
+            // 本地存储数据判断[html5/cookie]
+            if(storage){
+                if(storage.getItem('sidebarFold')){
+                    _body.addClass('sidebar-fold');
+                }else{
+                    _body.removeClass('sidebar-fold');
+                }
+
+                if(storage.getItem('productSidebarFold')){
+                    _body.addClass('product-sidebar-fold');
+                }else{
+                    _body.removeClass('product-sidebar-fold');
+                }
+            }else{
+                if($.cookie(sidebarFold)){
+                    mainWrapper.addClass('sidebar-fold');
+                }else{
+                    mainWrapper.removeClass('sidebar-fold');
+                }
+
+                if($.cookie(productSidebarFold)){
+                    mainWrapper.addClass('product-sidebar-fold');
+                }else{
+                    mainWrapper.removeClass('product-sidebar-fold');
+                }
+            }
 
         	
         },
@@ -155,8 +186,22 @@ function _init(){
                 var productSidebarControl  = $('.product-sidebar-control i');
                 if(mainWrapper.hasClass('product-sidebar-fold')){
                     mainWrapper.removeClass('product-sidebar-fold');
+
+                    // 本地存储数据判断[html5/cookie]
+                    if(storage){
+                        storage.removeItem('productSidebarFold');
+                    }else{
+                        $.cookie(productSidebarFold, null, { path: '/' });  //删除cookie
+                    }
                 }else{
                     mainWrapper.addClass('product-sidebar-fold');
+
+                    // 本地存储数据判断[html5/cookie]
+                    if(storage){
+                        storage.setItem('productSidebarFold',1);
+                    }else{
+                        $.cookie(productSidebarFold,1, { path: '/', expires: 15 });
+                    }
                 };
 
             });
@@ -263,8 +308,22 @@ function _init(){
             // 侧边栏折叠
             if($('body').hasClass('sidebar-fold')){
                 $('body').removeClass('sidebar-fold');
+
+                // 本地存储数据判断[html5/cookie]
+                if(storage){
+                    storage.removeItem('sidebarFold');
+                }else{
+                    $.cookie(sidebarFold, null, { path: '/' });  //删除cookie
+                }
             }else{
                 $('body').addClass('sidebar-fold');
+                
+                // 本地存储数据判断[html5/cookie]
+                if(storage){
+                    storage.setItem('sidebarFold',1);
+                }else{
+                    $.cookie(sidebarFold,1, { path: '/', expires: 15 });
+                }
             };
         }
         
