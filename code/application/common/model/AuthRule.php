@@ -264,7 +264,7 @@ class AuthRule extends Model {
 		}
 
 		// 处理当前高亮标记
-        if($current_action_id){
+        if(isset($current_action_id)){
         	// 子级返回父级数组
 	        $active       = getParents($navdata,$current_action_id);
 
@@ -313,6 +313,9 @@ class AuthRule extends Model {
 			}
 
 			$treeArray['second']   = $second;
+        }else{
+        	dump('不存在');
+        	return false;
         }
 		
 		$treeArray['menu']	   = getCateTreeArr($activedata,0);	// 生成树形结构

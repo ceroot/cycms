@@ -40,6 +40,9 @@ class Base extends Extend
         {
             $authName   = CONTROLLER_NAME;
         }
+        // dump($auth_model['not_auth']);
+        // dump(UID);
+        // die;
         
         // 验证权限
         // 满足条件

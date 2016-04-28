@@ -1,26 +1,26 @@
 {
-    "name": "topthink/think",
-    "description": "the new thinkphp framework",
+    "name": "cycms",
+    "description": "simple cms",
     "type": "project",
     "keywords": [
-        "framework",
-        "thinkphp",
-        "ORM"
+        "benweng",
+        "cms",
+        "springyang"
     ],
-    "homepage": "http://thinkphp.cn/",
+    "homepage": "http://benweng.com/",
     "license": "Apache-2.0",
     "authors": [
         {
-            "name": "liu21st",
-            "email": "liu21st@gmail.com"
+            "name": "ceroot",
+            "email": "ceroot@163.com"
         }
     ],
     "require": {
         "php": ">=5.4.0",
-        "topthink/framework": "*"
+        "cycms": "*"
     },
     "extra": {
-        "think-path": "thinkphp"
+        "cms-path": "code"
     },
     "minimum-stability": "dev"
 }
