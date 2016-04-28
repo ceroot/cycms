@@ -151,11 +151,10 @@ class Auth{
         if (isset($groups[$uid]))
             return $groups[$uid];
 
-        $group_id  = Db::name($this->_config['AUTH_GROUP_ACCESS'])->getFieldByUid($uid,'group_id');
-        $title     = Db::name($this->_config['AUTH_GROUP'])->getFieldById($group_id,'title');
-        $rules     = Db::name($this->_config['AUTH_GROUP'])->getFieldById($group_id,'rules');
-
-        $groups[]  = array('uid'=>$uid,'group_id'=>$group_id,'title'=>$title,'rules'=>$rules);
+        $groups  = Db::name($this->_config['AUTH_GROUP_ACCESS'] . ' a')
+                    ->where("a.uid='$uid' and g.status='1'")
+                    ->join($this->_config['AUTH_GROUP'] ." g"," a.group_id=g.id")
+                    ->field('uid,group_id,title,rules')->select();
         $groups[$uid]  = $groups?:array();
         return $groups[$uid];
     }
