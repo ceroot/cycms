@@ -112,13 +112,25 @@ class Base extends Extend
 
     public function list(){
         $data  = $this->_data();
-        
+
         $this->assign('data',$data);
         return $this->fetch();
     }
 
     public function add(){
-        return $this->fetch();
+        if(IS_AJAX){
+
+        }else{
+            return $this->fetch();
+        }
+    }
+
+    public function edit(){
+        if(IS_AJAX){
+
+        }else{
+            return $this->fetch();
+        }
     }
 
     public function _data(){

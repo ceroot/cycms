@@ -29,5 +29,9 @@ class AuthRule extends Base
 
 	}
 
+	public function list(){
+		return $this->fetch();
+	}
+
     
 }
