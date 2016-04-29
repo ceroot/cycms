@@ -21,8 +21,8 @@ return [
 
     // 模板输出替换  //$view->config('parse_str',['__PUBLIC__'=>'/public/'])->fetch();
     'view_replace_str'=>[
-        '__PUBLIC__'  => '/static',
-        '__STATIC__'  => '/static',
+        '__PUBLIC__'  => '/statics',
+        '__STATIC__'  => '/statics',
         '__IMAGES__'  => '/images',
         '__CSS__'     => '/css',
         '__JS__'      => '/js',

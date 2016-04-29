@@ -677,7 +677,7 @@ Wind.ready(function() {
 */
 (function(win) {
 	//var root = win.ROOT+"/Data/Public/org/" || location.origin + '/statics/js/', //在wind.js加载之前定义ROOT
-	var root = "/tt/Data/Public/org/" || location.origin + '/statics/js/', //在wind.js加载之前定义ROOT
+	var root = "/statics/" || location.origin + '/statics/js/', //在wind.js加载之前定义ROOT
 		ver = '',
 		//定义常用JS组件别名，使用别名加载
 		alias = {
@@ -690,13 +690,13 @@ Wind.ready(function() {
 			zTree           : 'zTree/zTree',
 
             //jquery util plugs
-            ajaxForm          : 'ajaxForm',
+            ajaxForm          : 'jquery.form/3.51.0/jquery.form',
             cookie            : 'cookie',
 			treeview          : 'treeview',
             treeTable         : 'treeTable/treeTable',
             draggable         : 'draggable',
             validate          : 'validate',
-            artDialog         : 'artDialog/artDialog',
+            artDialog         : 'artDialog/6.0.5/js/dialog',
             iframeTools       : 'artDialog/iframeTools',
             xd                : 'xd',//Iframe跨域通信
 
