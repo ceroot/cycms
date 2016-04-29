@@ -11,31 +11,31 @@
 // $Id$
 
 return [
-    'url_route_on' => true,
-    'log'          => [
+    'url_route_on'     => true,
+    'log'              => [
         'type' => 'trace', // 支持 socket trace file
     ],
 
     // 显示调试信息
-    'response_exit'  => true,
+    'response_exit'    => true,
 
     // 模板输出替换  //$view->config('parse_str',['__PUBLIC__'=>'/public/'])->fetch();
-    'view_replace_str'=>[
-        '__PUBLIC__'  => '/statics',
-        '__STATIC__'  => '/statics',
-        '__IMAGES__'  => '/images',
-        '__CSS__'     => '/css',
-        '__JS__'      => '/js',
-        '__ROOT__'    => '/',
+    'view_replace_str' => [
+        '__PUBLIC__' => '/statics',
+        '__STATIC__' => '/statics',
+        '__IMAGES__' => '/images',
+        '__CSS__'    => '/css',
+        '__JS__'     => '/js',
+        '__ROOT__'   => '/',
     ],
-    
+
     // 手动注册命名空间
-    'root_namespace'  => [
+    'root_namespace'   => [
         //'third'  => '../third/',
-        'third'  => CODE_PATH.'third/',
+        'third' => CODE_PATH . 'third/',
     ],
-    
+
     // 去掉U方法里的index.php
-    'base_url'  => '',
-    
+    'base_url'         => '',
+
 ];

@@ -691,6 +691,7 @@ Wind.ready(function() {
 
             //jquery util plugs
             ajaxForm          : 'jquery.form/3.51.0/jquery.form',
+            layer             : 'layer/2.2/layer',
             cookie            : 'cookie',
 			treeview          : 'treeview',
             treeTable         : 'treeTable/treeTable',

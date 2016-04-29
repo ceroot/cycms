@@ -46,6 +46,100 @@ $(function(){
     }
 
 
+
+    //所有加了dialog类名的a链接，自动弹出它的href
+    if ($('a.J_dialog').length) {
+        Wind.use('artDialog', 'iframeTools', function () {
+            $('.J_dialog').on('click', function (e) {
+                e.preventDefault();
+                var $_this = this,
+                    _this = $($_this);
+                art.dialog.open($(this).prop('href'), {
+                    close: function () {
+                        $_this.focus(); //关闭时让触发弹窗的元素获取焦点
+                        return true;
+                    },
+                    title: _this.prop('title')
+                });
+            }).attr('role', 'button');
+
+        });
+    }
+
+    //所有的删除操作，删除数据后刷新页面
+    if ($('a.J_ajax_del').length) {
+        Wind.use('layer', function () {
+            $('.J_ajax_del').on('click', function (e) {
+                e.preventDefault();
+                var $_this = this,
+                    $this  = $($_this),
+                    href   = $this.prop('href'),
+                    msg    = $this.data('msg');
+                console.log(href);
+                layer.confirm('确定要删除吗？', {
+                  btn: ['删除','关闭'], //按钮
+                  shadeClose:true,
+                }, function(){
+                  layer.load();
+                  $.getJSON(href).done(function(data){
+                    if(data){
+                        layer.closeAll('loading');
+                        layer.msg(
+                            '删除成功，页面正在进行跳转……',
+                            {
+                                icon: 1,
+                                time:1000,
+                            },
+                            function(){
+                                reloadPage(window);
+                            });
+                    }else{
+                        layer.msg('删除失败！',{icon:2});
+                    }
+                    
+                  });
+                }, function(index){
+                  layer.close(index);
+                });
+
+
+
+                // art.dialog('简单愉悦的接口，强大的表现力，优雅的内部实现', function(){alert('yes');});
+
+                // var $_this = this,
+                //     $this = $($_this),
+                //     href = $this.prop('href'),
+                //     msg = $this.data('msg');
+                // art.dialog({
+                //     title: false,
+                //     icon: 'question',
+                //     content: '确定要删除吗？',
+                //     follow: $_this,
+                //     close: function () {
+                //         $_this.focus();; //关闭时让触发弹窗的元素获取焦点
+                //         return true;
+                //     },
+                //     ok: function () {
+                //         $.getJSON(href).done(function (data) {
+                //             if (data.state === 'success') {
+                //                 if (data.url) {
+                //                     location.href = data.url;
+                //                 } else {
+                //                     reloadPage(window);
+                //                 }
+                //             } else if (data.state === 'fail') {
+                //                 art.dialog.alert(data.info);
+                //             }
+                //         });
+                //     },
+                //     cancelVal: '关闭',
+                //     cancel: true
+                // });
+            });
+
+        });
+    }
+
     //所有的ajax form提交,由于大多业务逻辑都是一样的，故统一处理
     var ajaxForm_list = $('form.J_ajaxForm');
     if (ajaxForm_list.length) {
@@ -453,3 +547,8 @@ function _init(){
 }
 
 
+//重新刷新页面，使用location.reload()有可能导致重新提交
+function reloadPage(win) {
+    var location = win.location;
+    location.href = location.pathname + location.search;
+}

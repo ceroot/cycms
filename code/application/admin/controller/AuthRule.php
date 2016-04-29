@@ -1,7 +1,7 @@
 <?php
 /**
- * 
- * 
+ *
+ *
  * @authors SpringYang
  * @email   ceroot@163.com
  * @QQ      525566309
@@ -9,29 +9,28 @@
  * @site    http://www.benweng.com
  */
 namespace app\admin\controller;
-use app\admin\controller\Base;
-use think\Db;
 
+use app\admin\controller\Base;
 
 class AuthRule extends Base
 {
-	public $model;
+    public $model;
 
-	/**
-	 * [_initialize 初始化]
-	 * @return [type] [description]
-	 */
-	public function _initialize(){
+    /**
+     * [_initialize 初始化]
+     * @return [type] [description]
+     */
+    public function _initialize()
+    {
         parent::_initialize();
 
-		$data  = $this->model->get_all();
-        $this->assign('data',$data);
+        $data = $this->model->getAll();
+        $this->assign('data', $data);
 
-	}
+    }
 
-	public function list(){
-		return $this->fetch();
-	}
+    function list() {
+        return $this->fetch();
+    }
 
-    
 }

@@ -1,5 +1,21 @@
 <?php
+// +----------------------------------------------------------------------+
+// | CYCMS                                                                |
+// +----------------------------------------------------------------------+
+// | Copyright (c) 2016 http://beneng.com All rights reserved.            |
+// +----------------------------------------------------------------------+
+// | Authors: SpringYang [ceroot@163.com]                                 |
+// +----------------------------------------------------------------------+
+/**
+ * @filename  Base.php[控制台基础控制器]
+ * @authors   SpringYang
+ * @email     ceroot@163.com
+ * @QQ        525566309
+ * @date      2016-04-27 11:10:25
+ * @site      http://www.benweng.com
+ */
 namespace app\admin\controller;
+
 use app\common\controller\Extend;
 use think\Db;
 
@@ -7,62 +23,57 @@ class Base extends Extend
 {
     protected $model;
 
-    public function _initialize(){
-        
-        // 定义UID
-        define('UID',session('userid'));
+    public function _initialize()
+    {
 
-        if(!UID)
-        {
+        // 定义UID
+        define('UID', session('userid'));
+
+        if (!UID) {
             $this->redirect('admin/index/index');
         }
 
-        $manager  = model('Manager')->get(UID);
+        $manager = model('manager')->get(UID);
         // dump($manager);
 
         // 锁定判断
-        if($manager->status==1){
+        if ($manager->status == 1) {
             $this->redirect('admin/index/index');
         }
-        
+
         // 生成不需要进行权限验证的和不需要实例化模型的控制器缓存
-        if(!cache('auth_model')){
-            model('AuthRule')->update_cache_auth_model();
+        if (!cache('auth_model')) {
+            model('AuthRule')->updateCacheAuthModel();
         }
 
         // 读取不需要进行权限验证的和不需要实例化模型的控制器缓存
-        $auth_model = cache('auth_model');
+        $authModel = cache('auth_model');
 
-        if(ACTION_NAME)
-        {
-            $authName   = CONTROLLER_NAME.'/'.ACTION_NAME;
+        if (ACTION_NAME) {
+            $authName = CONTROLLER_NAME . '/' . ACTION_NAME;
+        } else {
+            $authName = CONTROLLER_NAME;
         }
-        else
-        {
-            $authName   = CONTROLLER_NAME;
-        }
-        // dump($auth_model['not_auth']);
+        // dump($authModel['not_auth']);
         // dump(UID);
         // die;
-        
+
         // 验证权限
         // 满足条件
         // 1 不是超级管理员
         // 2 是必须验证的
-        if(!in_array(UID, config('auth_superadmin')) && !in_array($authName,$auth_model['not_auth'])){
+        if (!in_array(UID, config('auth_superadmin')) && !in_array($authName, $authModel['not_auth'])) {
 
             // 处理会员和管理员规则
             $controller = CONTROLLER_NAME;
-            if($controller=='User' && I('role')==1)
-            {
+            if ($controller == 'User' && I('role') == 1) {
                 $controller = 'manager';
             }
-                
+
             // 权限验证
-            $authName   = $controller . '/' . ACTION_NAME;
+            $authName = $controller . '/' . ACTION_NAME;
             // 执行验证
-            if(!authCheck($authName,UID))
-            {
+            if (!authCheck($authName, UID)) {
                 // 提示
                 // $this->assign('message','您没有相关权限');
                 // $this->display('./Data/Public/notice/auth.html');
@@ -77,67 +88,96 @@ class Base extends Extend
 
         }
 
-        define('CONTROLLER_ACTION',strtolower(CONTROLLER_NAME.'/'.ACTION_NAME));
+        define('CONTROLLER_ACTION', strtolower(CONTROLLER_NAME . '/' . ACTION_NAME));
 
         // 实例化模型
         $controllerName = CONTROLLER_NAME;
 
-        // dump($auth_model['not_d_controller']);
+        // dump($authModel['not_d_controller']);
         // die;
-        
-        if(!in_array($controllerName,$auth_model['not_d_controller']))
-        {
-            $this->model  = model($controllerName);
+
+        if (!in_array($controllerName, $authModel['not_d_controller'])) {
+            $this->model = model($controllerName);
         }
 
         // 菜单输出
-        $menu  = model('AuthRule')->admin_menu();
+        $menu = model('AuthRule')->adminMenu();
         // dump($menu['second']);
         // die;
 
-        $this->assign('menu',$menu);
+        $this->assign('menu', $menu);
 
-        $this->assign('second',$menu['second']);
-
-
+        $this->assign('second', $menu['second']);
 
         // 管理员信息输出
-        $this->assign('manager',$manager);
+        $this->assign('manager', $manager);
 
     }
 
-    public function index(){
+    public function index()
+    {
         return $this->fetch();
     }
 
-    public function list(){
-        $data  = $this->_data();
+    function list() {
+        $data = $this->_data();
 
-        $this->assign('data',$data);
+        $this->assign('data', $data);
         return $this->fetch();
     }
 
-    public function add(){
-        if(IS_AJAX){
+    public function add()
+    {
+        if (IS_AJAX) {
+            $data = input('post.');
 
-        }else{
+            if ($this->model->save($data)) {
+                $re = 1;
+            } else {
+                $re = $this->model->getError();
+            }
+            if (CONTROLLER_NAME == 'auth_rule') {
+                // 更新缓存
+                $this->model->update_cache();
+            }
+
+            return json_decode($re);
+
+        } else {
             return $this->fetch();
         }
     }
 
-    public function edit(){
-        if(IS_AJAX){
+    public function addhan()
+    {
+        $data = input('post.');
+        // $this->model->data($data);
+        $this->model->save($data);
+    }
 
-        }else{
+    public function edit()
+    {
+        if (IS_AJAX) {
+
+        } else {
             return $this->fetch();
         }
     }
 
-    public function _data(){
-        $data  = Db::name(CONTROLLER_NAME)->select();
+    public function del()
+    {
+        if (IS_AJAX) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public function _data()
+    {
+        $data = Db::name(CONTROLLER_NAME)->select();
 
         return $data;
     }
 
 }
-
