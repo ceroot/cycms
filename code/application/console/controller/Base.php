@@ -14,7 +14,7 @@
  * @date      2016-04-27 11:10:25
  * @site      http://www.benweng.com
  */
-namespace app\admin\controller;
+namespace app\console\controller;
 
 use app\common\controller\Extend;
 use think\Db;
@@ -30,7 +30,7 @@ class Base extends Extend
         define('UID', session('userid'));
 
         if (!UID) {
-            $this->redirect('admin/index/index');
+            $this->redirect('console/login/index');
         }
 
         $manager = model('manager')->get(UID);
@@ -38,16 +38,16 @@ class Base extends Extend
 
         // 锁定判断
         if ($manager->status == 1) {
-            $this->redirect('admin/index/index');
+            $this->redirect('console/login/index');
         }
 
         // 生成不需要进行权限验证的和不需要实例化模型的控制器缓存
-        if (!cache('auth_model')) {
-            model('AuthRule')->updateCacheAuthModel();
+        if (!cache('authModel')) {
+            model('authRule')->updateCacheAuthModel();
         }
 
         // 读取不需要进行权限验证的和不需要实例化模型的控制器缓存
-        $authModel = cache('auth_model');
+        $authModel = cache('authModel');
 
         if (ACTION_NAME) {
             $authName = CONTROLLER_NAME . '/' . ACTION_NAME;
@@ -130,18 +130,24 @@ class Base extends Extend
     {
         if (IS_AJAX) {
             $data = input('post.');
+            // $result = $this->validate($data, CONTROLLER_NAME);
+            // if (true !== $result) {
+            //     $redata['status'] = 'fail';
+            //     $redata['info']   = $result;
+            //     return json_encode($redata);
+            // }
 
-            if ($this->model->save($data)) {
-                $re = 1;
+            $status = Db::name(CONTROLLER_NAME)->insert($data);
+
+            if ($status) {
+                $redata['status'] = 'success';
+                $redata['info']   = '成功';
             } else {
-                $re = $this->model->getError();
-            }
-            if (CONTROLLER_NAME == 'auth_rule') {
-                // 更新缓存
-                $this->model->update_cache();
+                $redata['status'] = 'fail';
+                $redata['info']   = '失败';
             }
 
-            return json_decode($re);
+            return json_encode($redata);
 
         } else {
             return $this->fetch();
@@ -166,11 +172,19 @@ class Base extends Extend
 
     public function del()
     {
-        if (IS_AJAX) {
-            return 1;
+        $pk = $this->model->getPk();
+        $id = input('get.' . $pk);
+        Db::name(CONTROLLER_NAME)->delete($id);
+        die;
+        $status = $this->model->destroy($id);
+        if ($status) {
+            $redata['status'] = 'success';
+            $redata['info']   = '成功';
         } else {
-            return 0;
+            $redata['status'] = 'fail';
+            $redata['info']   = '失败';
         }
+        return json_encode($redata);
     }
 
     public function _data()

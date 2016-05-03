@@ -39,7 +39,7 @@
 			<td>{if condition='$value["isnavshow"] eq 1'}显示{else /}隐藏{/if}</td>
 			<td align='center' >
 				<a href="{:url('AuthRule/edit',array('id'=>$value['id']))}">修改</a> | 
-				<a class="J_ajax_del" href="{:url('authRule/del')}">删除</a>  
+				<a class="J_ajax_del" href="{:url('authRule/del',array('id'=>$value['id']))}">删除</a>  
 			</td>
 		</tr>
 		{/volist}

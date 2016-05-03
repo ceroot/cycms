@@ -19,7 +19,8 @@ class AuthRule extends Model
 
     public function __construct()
     {
-        $this->model = Db::name(CONTROLLER_NAME);
+
+        $this->model = Db::name('authRule');
         if (!cache('authrule')) {
             $this->updateCache();
         }
@@ -60,7 +61,6 @@ class AuthRule extends Model
     public function updateCache()
     {
         $data = $this->model->order(['sort' => 'asc', 'id' => 'asc'])->select();
-
         $temp = array();
         if ($data) {
             foreach ($data as $v) {
@@ -98,7 +98,7 @@ class AuthRule extends Model
             }
         }
         //return $data;//
-        cache('auth_model', $data);
+        cache('authModel', $data);
     }
 
     /**
@@ -239,7 +239,6 @@ class AuthRule extends Model
             if (strtolower($value['name']) == strtolower($controller . '/' . $action)) {
                 $current_action_id  = $value['id'];
                 $current_action_mid = $value['mid'];
-                // dump(1);
             }
 // dump($current_action_id);
             $isnavshow = $value['isnavshow']; // 显示标记
@@ -315,7 +314,8 @@ class AuthRule extends Model
 
             $treeArray['second'] = $second;
         } else {
-            dump('不存在');
+            // dump('规则表里不存在此名称，请先进行规则添加');
+            $this->getError('规则表里不存在此名称，请先进行规则添加');
             return false;
         }
 

@@ -82,7 +82,8 @@ $(function(){
                 }, function(){
                   layer.load();
                   $.getJSON(href).done(function(data){
-                    if(data){
+                    console.log(data);
+                    if(data.status=='success'){
                         layer.closeAll('loading');
                         layer.msg(
                             '删除成功，页面正在进行跳转……',
@@ -94,7 +95,8 @@ $(function(){
                                 reloadPage(window);
                             });
                     }else{
-                        layer.msg('删除失败！',{icon:2});
+                        layer.msg(data.info,{icon:2});
+                        layer.closeAll('loading');
                     }
                     
                   });
@@ -102,39 +104,6 @@ $(function(){
                   layer.close(index);
                 });
 
-
-
-                // art.dialog('简单愉悦的接口，强大的表现力，优雅的内部实现', function(){alert('yes');});
-
-                // var $_this = this,
-                //     $this = $($_this),
-                //     href = $this.prop('href'),
-                //     msg = $this.data('msg');
-                // art.dialog({
-                //     title: false,
-                //     icon: 'question',
-                //     content: '确定要删除吗？',
-                //     follow: $_this,
-                //     close: function () {
-                //         $_this.focus();; //关闭时让触发弹窗的元素获取焦点
-                //         return true;
-                //     },
-                //     ok: function () {
-                //         $.getJSON(href).done(function (data) {
-                //             if (data.state === 'success') {
-                //                 if (data.url) {
-                //                     location.href = data.url;
-                //                 } else {
-                //                     reloadPage(window);
-                //                 }
-                //             } else if (data.state === 'fail') {
-                //                 art.dialog.alert(data.info);
-                //             }
-                //         });
-                //     },
-                //     cancelVal: '关闭',
-                //     cancel: true
-                // });
             });
 
         });
@@ -143,7 +112,7 @@ $(function(){
     //所有的ajax form提交,由于大多业务逻辑都是一样的，故统一处理
     var ajaxForm_list = $('form.J_ajaxForm');
     if (ajaxForm_list.length) {
-        Wind.use('ajaxForm', 'artDialog', function () {
+        Wind.use('ajaxForm', 'layer', function () {
 
             $('button.J_ajax_submit_btn').on('click', function (e) {
                 e.preventDefault();
@@ -188,38 +157,21 @@ $(function(){
 
                         //按钮文案、状态修改
                         btn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                        layer.load();
                     },
                     success: function (data, statusText, xhr, $form) {
                         var text = btn.text();
-console.log(data);
+                        console.log(data);
                         //按钮文案、状态修改
                         btn.removeClass('disabled').text(text.replace('中...', '')).parent().find('span').remove();
 
-                        if (data.state === 'success') {
-                                resultTip({error:0,msg:data.info});
-                                
-                                $('<span class="tips_success">' + data.info + '</span>').appendTo(btn.parent()).fadeIn('slow').delay(1000).fadeOut(function () {
-                                if (data.url) {
-                                    //返回带跳转地址
-                                    if(window.parent.art){
-                                        //iframe弹出页
-                                        window.parent.location.href = data.url;
-                                    }else{
-                                        window.location.href = data.url;
-                                    }
-                                } else {
-                                    if(window.parent.art){
-                                        reloadPage(window.parent);
-                                    }else{
-                                        //刷新当前页
-                                        reloadPage(window);
-                                    }
-                                }
-                            });
-                        } else if (data.state === 'fail') {
-                             resultTip({error:1,msg:data.info});
-                            $('<span class="tips_error">' + data.info + '</span>').appendTo(btn.parent()).fadeIn('fast');
-                            btn.removeProp('disabled').removeClass('disabled');
+                        if (data.status === 'success') {
+                            layer.closeAll('loading');
+                            layer.msg(data.info);
+                            btn.prop('disabled',false);
+                        } else {
+                            btn.prop('disabled',false);
+                            layer.msg(data.info);
                         }
                     }
                 });
