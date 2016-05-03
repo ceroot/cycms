@@ -17,7 +17,6 @@
 namespace app\console\controller;
 
 use think\Controller;
-use think\Db;
 
 class Login extends Controller
 {
@@ -37,11 +36,9 @@ class Login extends Controller
 
     public function yctest()
     {
-        // $db  = new ManagerAction;
-        // $action_info = $db::getByName('manager_login');
-        $dd = Db::name('manager')->getFieldByUid(1, 'realname');
-
-        dump($dd);
+        $data['name'] = 'test55555';
+        $mdd          = model('authRule');
+        $status       = $mdd->save(['name' => 'thinkphp']);
     }
 
     // 登录首页

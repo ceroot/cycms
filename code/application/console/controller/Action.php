@@ -7,29 +7,34 @@
 // | Authors: SpringYang [ceroot@163.com]                                 |
 // +----------------------------------------------------------------------+
 /**
- * @filename  AuthRule.php[规则表验证器]
+ * @filename  Action.php[用户行为控制器]
  * @authors   SpringYang
  * @email     ceroot@163.com
  * @QQ        525566309
- * @date      2016-05-03 14:50:33
+ * @date      2016-04-28 11:11:47
  * @site      http://www.benweng.com
  */
-namespace app\console\validate;
+namespace app\console\controller;
 
-use think\Validate;
+use app\console\controller\Base;
+use think\Db;
 
-class AuthRule extends Validate
+class Action extends Base
 {
-    protected $rule = [
-        'name'  => 'require|unique:authRule',
-        'title' => 'require|unique:authRule',
-    ];
+    /**
+     * [_initialize 初始化]
+     * @return [type] [description]
+     */
+    public function _initialize()
+    {
+        parent::_initialize();
 
-    protected $message = [
-        'name.require'  => '用户名必须',
-        'name.unique'   => '规则标识已存在',
-        'title.require' => '规则名称必须',
-        'title.unique'  => '规则名称已存在',
-    ];
+    }
 
+    public function log()
+    {
+        $list = Db::name('actionLog')->select();
+        $this->assign('list', $list);
+        return $this->fetch();
+    }
 }

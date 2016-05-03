@@ -27,22 +27,9 @@ class AuthRule extends Model
         $this->cache = cache('authrule'); // 从缓存里取得规则数据
     }
 
-    // 自动验证
-    protected $_validate = array(
-        array('name', 'require', '请输入规则标识', 1),
-        array('name', 'check_name', '规则标识已经存在', 1, 'callback'),
-        array('title', 'require', '请输入规则名称', 1),
-        array('title', 'check_title', '规则名称已经存在', 1, 'callback'),
-    );
-
     // 自动完成
-    public $_auto = array(
-        array('level', '_level', 3, 'callback'),
-        // 添加时间
-        array('add_time', 'time', 1, 'function'),
-        // 修改时间
-        array('update_time', 'time', 2, 'function'),
-    );
+    protected $autoTimeField = ['add_time'];
+    protected $insert        = ['add_time'];
 
     public function getAll($isArray = 0)
     {

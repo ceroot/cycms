@@ -116,9 +116,7 @@ $(function(){
 
             $('button.J_ajax_submit_btn').on('click', function (e) {
                 e.preventDefault();
-                /*var btn = $(this).find('button.J_ajax_submit_btn'),
-                    form = $(this);*/
-                var btn = $(this),
+                var btn  = $(this),
                     form = btn.parents('form.J_ajaxForm');
 
                 //批量操作 判断选项
@@ -171,6 +169,7 @@ $(function(){
                             btn.prop('disabled',false);
                         } else {
                             btn.prop('disabled',false);
+                            layer.closeAll('loading');
                             layer.msg(data.info);
                         }
                     }

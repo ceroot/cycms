@@ -21,6 +21,7 @@ use think\Db;
 
 class Base extends Extend
 {
+
     protected $model;
 
     public function _initialize()
@@ -120,7 +121,7 @@ class Base extends Extend
     }
 
     function list() {
-        $data = $this->_data();
+        $data = $this->_list();
 
         $this->assign('data', $data);
         return $this->fetch();
@@ -136,6 +137,14 @@ class Base extends Extend
             //     $redata['info']   = $result;
             //     return json_encode($redata);
             // }
+            //
+            $result = $this->validate($data, CONTROLLER_NAME);
+            if (true !== $result) {
+                // 验证失败 输出错误信息
+                $redata['status'] = 'fail';
+                $redata['info']   = $result;
+                return json_encode($redata);
+            }
 
             $status = Db::name(CONTROLLER_NAME)->insert($data);
 
@@ -187,8 +196,9 @@ class Base extends Extend
         return json_encode($redata);
     }
 
-    public function _data()
+    public function _list()
     {
+        // $pk   = $this->model->getPk();
         $data = Db::name(CONTROLLER_NAME)->select();
 
         return $data;
