@@ -10,8 +10,6 @@
 // +----------------------------------------------------------------------
 namespace auth;
 
-use think\Db;
-
 /**
  * 权限认证类
  * 功能特性：
@@ -74,21 +72,21 @@ class Auth
 
     //默认配置
     protected $_config = array(
-        'AUTH_ON'           => true, // 认证开关
-        'AUTH_TYPE'         => 1, // 认证方式，1为实时认证；2为登录认证。
-        'AUTH_GROUP'        => 'auth_group', // 用户组数据表名
-        'AUTH_GROUP_ACCESS' => 'auth_group_access', // 用户-用户组关系表
-        'AUTH_RULE'         => 'auth_rule', // 权限规则表
-        'AUTH_USER'         => 'member', // 用户信息表
+        'auth_on'           => true, // 认证开关
+        'auth_type'         => 1, // 认证方式，1为实时认证；2为登录认证。
+        'auth_group'        => 'auth_group', // 用户组数据表名
+        'auth_group_access' => 'auth_group_access', // 用户-用户组关系表
+        'auth_rule'         => 'auth_rule', // 权限规则表
+        'auth_user'         => 'member', // 用户信息表
     );
 
     public function __construct()
     {
         $prefix                             = config('DB_PREFIX');
-        $this->_config['AUTH_GROUP']        = $prefix . $this->_config['AUTH_GROUP'];
-        $this->_config['AUTH_RULE']         = $prefix . $this->_config['AUTH_RULE'];
-        $this->_config['AUTH_USER']         = $prefix . $this->_config['AUTH_USER'];
-        $this->_config['AUTH_GROUP_ACCESS'] = $prefix . $this->_config['AUTH_GROUP_ACCESS'];
+        $this->_config['auth_group']        = $prefix . $this->_config['auth_group'];
+        $this->_config['auth_rule']         = $prefix . $this->_config['auth_rule'];
+        $this->_config['auth_user']         = $prefix . $this->_config['auth_user'];
+        $this->_config['auth_group_access'] = $prefix . $this->_config['auth_group_access'];
         if (config('AUTH_CONFIG')) {
             //可设置配置项 AUTH_CONFIG, 此配置项为数组。
             $this->_config = array_merge($this->_config, config('AUTH_CONFIG'));
@@ -105,7 +103,7 @@ class Auth
      */
     public function check($name, $uid, $type = 1, $mode = 'url', $relation = 'or')
     {
-        if (!$this->_config['AUTH_ON']) {
+        if (!$this->_config['auth_on']) {
             return true;
         }
 
@@ -160,9 +158,9 @@ class Auth
             return $groups[$uid];
         }
 
-        $groups = Db::name($this->_config['AUTH_GROUP_ACCESS'] . ' a')
+        $groups = db($this->_config['auth_group_access'] . ' a')
             ->where("a.uid='$uid' and g.status='1'")
-            ->join($this->_config['AUTH_GROUP'] . " g", " a.group_id=g.id")
+            ->join($this->_config['auth_group'] . " g", " a.group_id=g.id")
             ->field('uid,group_id,title,rules')->select();
         $groups[$uid] = $groups ?: array();
         return $groups[$uid];
@@ -180,8 +178,8 @@ class Auth
         if (isset($_authList[$uid . $t])) {
             return $_authList[$uid . $t];
         }
-        if ($this->_config['AUTH_TYPE'] == 2 && isset($_SESSION['_AUTH_LIST_' . $uid . $t])) {
-            return $_SESSION['_AUTH_LIST_' . $uid . $t];
+        if ($this->_config['auth_type'] == 2 && isset($_SESSION['_auth_list_' . $uid . $t])) {
+            return $_SESSION['_auth_list_' . $uid . $t];
         }
 
         //读取用户所属用户组
@@ -203,7 +201,7 @@ class Auth
         );
 
         // 读取用户组所有权限规则
-        $rules = Db::name($this->_config['AUTH_RULE'])->where($map)->field('condition,name')->select();
+        $rules = db($this->_config['auth_rule'])->where($map)->field('condition,name')->select();
 
         // 循环规则，判断结果。
         $authList = array(); //
@@ -224,9 +222,9 @@ class Auth
             }
         }
         $_authList[$uid . $t] = $authList;
-        if ($this->_config['AUTH_TYPE'] == 2) {
+        if ($this->_config['auth_type'] == 2) {
             //规则列表结果保存到session
-            $_SESSION['_AUTH_LIST_' . $uid . $t] = $authList;
+            $_SESSION['_auth_list_' . $uid . $t] = $authList;
         }
         return array_unique($authList);
     }
@@ -238,7 +236,7 @@ class Auth
     {
         static $userinfo = array();
         if (!isset($userinfo[$uid])) {
-            $userinfo[$uid] = Db::name($this->_config['AUTH_USER'])->find($uid);
+            $userinfo[$uid] = db($this->_config['auth_user'])->find($uid);
         }
         return $userinfo[$uid];
     }
