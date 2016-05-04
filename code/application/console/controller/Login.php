@@ -36,9 +36,18 @@ class Login extends Controller
 
     public function yctest()
     {
-        $data['name'] = 'test55555';
-        $mdd          = model('authRule');
-        $status       = $mdd->save(['name' => 'thinkphp']);
+        // $this->model->updateLogin(1);
+        // Manager::where('uid', 1)->update(['times' => '120']);
+        // die;
+        // $manager        = Manager::get(1);
+        // $manager->times = 120;
+        // $manager->save();
+
+        // die;
+        $manager        = new Manager;
+        $manager->id    = 1;
+        $manager->times = 120;
+        $manager->save();
     }
 
     // 登录首页
@@ -48,12 +57,14 @@ class Login extends Controller
 
         if (IS_POST) {
 
-            if ($user = $this->model->validate_login()) {
+            if ($user = $this->model->validateLogin()) {
                 // $redata  = $user;
                 // 设置登录错误记录的session为0
                 session('error_num', 0);
                 // 设置session
-                $this->model->set_session($user);
+                $this->model->setSession($user);
+                $this->model->updateLogin($user);
+
                 // 登录日志记录
                 $uid = session('userid');
                 action_log('manager_login', 'manager', $uid, $uid);

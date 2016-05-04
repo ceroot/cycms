@@ -17,7 +17,6 @@
 namespace app\console\controller;
 
 use app\common\controller\Extend;
-use think\Db;
 
 class Base extends Extend
 {
@@ -29,6 +28,16 @@ class Base extends Extend
 
         // 定义UID
         define('UID', session('userid'));
+
+        // $db = db('manager');
+        // dump($db);
+        // $data = $db->select();
+        // dump($data);
+        // $db = \think\Db::name('manager');
+        // dump($db);
+        // $data = $db->select();
+        // dump($data);
+        // die;
 
         if (!UID) {
             $this->redirect('console/login/index');
@@ -55,9 +64,6 @@ class Base extends Extend
         } else {
             $authName = CONTROLLER_NAME;
         }
-        // dump($authModel['not_auth']);
-        // dump(UID);
-        // die;
 
         // 验证权限
         // 满足条件
@@ -91,11 +97,8 @@ class Base extends Extend
 
         define('CONTROLLER_ACTION', strtolower(CONTROLLER_NAME . '/' . ACTION_NAME));
 
-        // 实例化模型
+        // 取得控制器名称
         $controllerName = CONTROLLER_NAME;
-
-        // dump($authModel['not_d_controller']);
-        // die;
 
         if (!in_array($controllerName, $authModel['not_d_controller'])) {
             $this->model = model($controllerName);
@@ -103,8 +106,6 @@ class Base extends Extend
 
         // 菜单输出
         $menu = model('AuthRule')->adminMenu();
-        // dump($menu['second']);
-        // die;
 
         $this->assign('menu', $menu);
 
@@ -122,22 +123,24 @@ class Base extends Extend
 
     function list() {
         $data = $this->_list();
-
+        // dump($data);
+        // die;
         $this->assign('data', $data);
         return $this->fetch();
+    }
+
+    public function _list()
+    {
+        $pk   = $this->model->getPk();
+        $data = db(CONTROLLER_NAME)->order($pk, 'desc')->select();
+        return $data;
     }
 
     public function add()
     {
         if (IS_AJAX) {
             $data = input('post.');
-            // $result = $this->validate($data, CONTROLLER_NAME);
-            // if (true !== $result) {
-            //     $redata['status'] = 'fail';
-            //     $redata['info']   = $result;
-            //     return json_encode($redata);
-            // }
-            //
+
             $result = $this->validate($data, CONTROLLER_NAME);
             if (true !== $result) {
                 // 验证失败 输出错误信息
@@ -146,7 +149,10 @@ class Base extends Extend
                 return json_encode($redata);
             }
 
-            $status = Db::name(CONTROLLER_NAME)->insert($data);
+            // $status = \think\Db::name(CONTROLLER_NAME)->insert($data);
+
+            $ddd    = new AuthRule;
+            $status = $ddd->save($data);
 
             if ($status) {
                 $redata['status'] = 'success';
@@ -166,7 +172,6 @@ class Base extends Extend
     public function addhan()
     {
         $data = input('post.');
-        // $this->model->data($data);
         $this->model->save($data);
     }
 
@@ -181,11 +186,17 @@ class Base extends Extend
 
     public function del()
     {
+
         $pk = $this->model->getPk();
+        dump($pk);
+
         $id = input('get.' . $pk);
-        Db::name(CONTROLLER_NAME)->delete($id);
+        dump($id);
+        // die;
+        // $status = db(CONTROLLER_NAME)->delete($id);
+
+        model('authRule')->updateCache();
         die;
-        $status = $this->model->destroy($id);
         if ($status) {
             $redata['status'] = 'success';
             $redata['info']   = '成功';
@@ -196,12 +207,12 @@ class Base extends Extend
         return json_encode($redata);
     }
 
-    public function _list()
+    public function upcache()
     {
-        // $pk   = $this->model->getPk();
-        $data = Db::name(CONTROLLER_NAME)->select();
+        $pk = model(CONTROLLER_NAME)->getPk();
+        dump($pk);
 
-        return $data;
+        model(CONTROLLER_NAME)->updateCache();
     }
 
 }

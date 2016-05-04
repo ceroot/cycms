@@ -17,6 +17,7 @@
 namespace app\console\controller;
 
 use app\console\controller\Base;
+use app\console\model\Manager;
 use think\Db;
 
 class Manager extends Base
@@ -37,5 +38,29 @@ class Manager extends Base
 
         $this->assign('list', $list);
         return $this->fetch();
+    }
+
+    public function yctest()
+    {
+        // $this->model->updateLogin(1);
+        // die;
+        // // Manager::where('uid', 1)->update(['times' => '121']);
+        // // die;
+
+        // $manager        = new Manager;
+        // $manager        = model('manager');
+        // $manager->uid   = 1;
+        // $manager->times = 122;
+        // $manager->save();
+
+        $manager = Manager::get(1);
+        $manager = model('manager')->get(1);
+        dump($manager);
+        die;
+        $manager->times = '129';
+        $manager->save();
+
+        // $manager = new Manager;
+        // $manager->save(['times' => '128'], ['uid' => 1]);
     }
 }

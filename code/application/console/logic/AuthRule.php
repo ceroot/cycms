@@ -7,7 +7,7 @@
  * @date    2016-03-31 14:49:22
  * @site    http://www.benweng.com
  */
-namespace app\common\model;
+namespace app\console\logic;
 
 use think\Db;
 use think\Model;
@@ -64,10 +64,6 @@ class AuthRule extends Model
      */
     public function updateCacheAuthModel()
     {
-        // if(!cache('authrule')){
-        //     $this->update_cache();
-        // }
-        // $this->cache = cache('authrule');
         foreach ($this->cache as $val) {
             $auth          = $val['auth']; // 需要进行权限验证标记
             $controller    = $val['controller']; // 是控制器标记
