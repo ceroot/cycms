@@ -194,6 +194,7 @@ function get_realname($uid = null)
     // $uid  = session('userid');
     return db('manager')->getFieldByUid($uid, 'realname');
 }
+
 /**
  * 记录行为日志，并执行该行为的规则
  * @param string $action 行为标识
@@ -248,4 +249,58 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
         $data['remark'] = '操作url：' . $_SERVER['REQUEST_URI'];
     }
     db('ActionLog')->insert($data);
+}
+
+/**
+ * 取得行为id并返回
+ * @param string $action 行为标识
+ * @return $id | boolean
+ * @author
+ */
+function getRecordId($action)
+{
+    // $data = db('action')->where('name'=>$action)->find();
+    $id = db('action')->getFieldByName($action, 'id');
+    if ($id) {
+        return $id;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * 将驼峰式命名转换为下划线命名
+ * @param string $str 字符串
+ * @return string
+ * @author
+ */
+function toUnderline($str)
+{
+    $temp_array = array();
+    for ($i = 0; $i < strlen($str); $i++) {
+        $ascii_code = ord($str[$i]);
+        if ($ascii_code >= 65 && $ascii_code <= 90) {
+            if ($i == 0) {
+                $temp_array[] = chr($ascii_code + 32);
+            } else {
+                $temp_array[] = '_' . chr($ascii_code + 32);
+            }
+        } else {
+            $temp_array[] = $str[$i];
+        }
+    }
+    return implode('', $temp_array);
+}
+
+/**
+ * 将下划线命名转换为驼峰式命名
+ * @param string $str 字符串
+ * @return string
+ * @author
+ */
+function toCamel($str)
+{
+    $str = ucwords(str_replace('_', ' ', $str));
+    $str = str_replace(' ', '', lcfirst($str));
+    return $str;
 }
