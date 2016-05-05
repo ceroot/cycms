@@ -36,14 +36,14 @@ class AuthRule extends Base
     }
 
     function list() {
-        return view();
+        return $this->fetch();
     }
 
     public function del()
     {
         $id     = input('get.id');
         $status = $this->model->del($id);
-        dump($status);
+        // dump($status);
         if ($status) {
             dump('成功');
         } else {

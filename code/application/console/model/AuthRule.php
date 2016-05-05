@@ -24,7 +24,7 @@ class AuthRule extends Model
     protected $cache;
 
     // 自动完成
-    // protected $auto          = [];
+    protected $auto          = [];
     protected $autoTimeField = ['create_time', 'update_time'];
     protected $insert        = ['create_time'];
     protected $update        = ['update_time'];
@@ -172,8 +172,8 @@ class AuthRule extends Model
         foreach ($data as $value) {
             // 激活当前处理
             $value['active'] = 0;
-            $controller      = CONTROLLER_NAME;
-            $action          = ACTION_NAME;
+            $controller      = toCamel(CONTROLLER_NAME);
+            $action          = toCamel(ACTION_NAME);
             // dump($controller.'/'.$action);
             // 取得当前方法id
             if (strtolower($value['name']) == strtolower($controller . '/' . $action)) {

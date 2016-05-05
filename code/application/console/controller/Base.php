@@ -126,20 +126,15 @@ class Base extends Extend
 
     public function basetest()
     {
-        $dd = model('authRule');
 
-        $data['name']  = 'b31';
-        $data['title'] = 'm31';
+        $name = 'AppPromoZhongQiu2014ActiveStatusSelector';
+        dump($name);
 
-        $dd->data($data);
-        $status = $dd->save($data);
+        $dd = toUnderline($name);
+        dump($dd);
 
-        if ($status) {
-            $dd->updateCache();
-        }
-
-        $dd->updateCache();
-        dump(1);
+        $ddd = toCamel($dd);
+        dump($ddd);
     }
 
     public function index()
@@ -177,15 +172,23 @@ class Base extends Extend
 
             $this->model->data($data);
             $status = $this->model->save($data);
-
+            // return json_encode($data);
             if ($status) {
-                $redata['status'] = 'success';
-                $redata['info']   = '成功';
+                $model     = CONTROLLER_NAME;
+                $action    = ACTION_NAME . '_' . $model;
+                $record_id = getRecordId($action);
+
+                if ($record_id) {
+                    action_log($action, $model, $record_id, UID);
+                }
 
                 if (CONTROLLER_NAME == 'auth_rule') {
                     $this->model->updateCache(); // 这一次有乱码
                     // $this->model->updateCache(); // 这里要执行两次
                 }
+
+                $redata['status'] = 'success';
+                $redata['info']   = '成功';
 
             } else {
                 $redata['status'] = 'fail';
@@ -212,13 +215,21 @@ class Base extends Extend
             $data   = input('post.');
             $status = $this->model->save($data, [$pk => $data[$pk]]);
             if ($status) {
-                $redata['status'] = 'success';
-                $redata['info']   = '成功';
+
+                $model     = CONTROLLER_NAME;
+                $action    = ACTION_NAME . '_' . $model;
+                $record_id = getRecordId($action);
+
+                if ($record_id) {
+                    action_log($action, $model, $record_id, UID);
+                }
 
                 if (CONTROLLER_NAME == 'auth_rule') {
-                    $this->model->updateCache(); // 这一次有乱码
-                    // $this->model->updateCache(); // 这里要执行两次
+                    $this->model->updateCache(); // 更新缓存
                 }
+
+                $redata['status'] = 'success';
+                $redata['info']   = '成功';
 
             } else {
                 $redata['status'] = 'fail';
