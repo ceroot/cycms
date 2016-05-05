@@ -8,15 +8,10 @@
  * @site      http://www.benweng.com
  */
 namespace app\common\model;
+
 use think\Model;
 
-class Action extends Model {
-    
-    function __construct(){
-        
-    }
-	
-	public function index(){
-		
-	}
+class Action extends Model
+{
+
 }

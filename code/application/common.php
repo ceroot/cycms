@@ -1,5 +1,4 @@
 <?php
-use think\Db;
 use third\Verify;
 function yctest()
 {
@@ -179,7 +178,7 @@ function get_nickname($uid = null)
         return session('username');
     }
     // $uid  = session('userid');
-    return Db::name('manager')->getFieldByUid($uid, 'nickname');
+    return db('manager')->getFieldByUid($uid, 'nickname');
 }
 /**
  * 取得管理员真实姓名
@@ -193,7 +192,7 @@ function get_realname($uid = null)
         return '';
     }
     // $uid  = session('userid');
-    return Db::name('manager')->getFieldByUid($uid, 'realname');
+    return db('manager')->getFieldByUid($uid, 'realname');
 }
 /**
  * 记录行为日志，并执行该行为的规则
@@ -211,7 +210,7 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
         return '参数不能为空';
     }
     // 查询行为,判断是否执行
-    $action_info = Db::name('action')->getByName($action);
+    $action_info = db('action')->getByName($action);
     if ($action_info['status'] != 1) {
         return '该行为被禁用或删除';
     }
@@ -248,5 +247,5 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
         // 未定义日志规则，记录操作url
         $data['remark'] = '操作url：' . $_SERVER['REQUEST_URI'];
     }
-    Db::name('ActionLog')->insert($data);
+    db('ActionLog')->insert($data);
 }

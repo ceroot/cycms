@@ -1,7 +1,7 @@
 {extend name="mould:base" /}
 {block name="title"}后台首页{/block}
 {block name="content"}
-<form action="{:url('authRule/add')}" method="post" class="J_ajaxForm" >
+<form action="{:url('authRule/add')}" method="post" class="J_ajaxForms" >
     <div class="table_full">
       <table width="100%"  class="table_form">
         <tr>
@@ -88,5 +88,22 @@
         <button class="btn btn_submit mr10 J_ajax_submit_btn" type="submit">添加</button>
       </div>
     </div>
-  </form>
+</form>
+<script type="text/javascript">
+var userValidate = {
+    rules: {
+        'name':'required',
+        'title':{
+            required:true
+        }
+    }, 
+    messages: {
+        'name':'请填写规则标识',
+        'title':{
+            required:'请填写规则名称'
+        }
+    }
+};
+
+</script>
 {/block}

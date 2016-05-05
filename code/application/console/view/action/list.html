@@ -1,7 +1,44 @@
 {extend name="mould:base" /}
 {block name="title"}后台首页{/block}
 {block name="content"}
-  {volist name="data" id="list"}
-    {$list.title}<br/>
-  {/volist}
+    <table class="table table-condensed table-hover">
+        <colgroup>
+	        <col width="60">
+	        <col width="55">
+	        <col width="160">
+	        <col width="180">
+	        <col>
+	        <col width="90">
+	        <col width="90">
+	        <col width="140">
+        </colgroup>
+        <thead>
+          <tr>
+          	<td>id</td>
+            <td>行为唯一标识</td>
+            <td>行为说明</td>
+            <td>行为描述</td>
+            <td>行为规则</td>
+            <td>状态</td>
+            <td>显示</td>
+            <td align='center'>管理操作</td>
+          </tr>
+        </thead>
+		{volist name='data' id='value'}
+	        <tr>
+	        	<td>{$value.id}</td>
+				<td>{$value.name}</td>
+				<td>{$value.title}</td>
+				<td>{$value.remark}</td>
+				<td>{$value.log}</td>
+				<td>{if condition='$value["status"] eq 1'}启用{else /}禁用{/if}</td>
+				<td>{$value.type}</td>
+				<td align='center' >
+					<a href="{:url('manager/edit',array('id'=>$value['uid']))}">修改</a> | 
+					<a class="J_ajax_del" href="{:url('manager/edit',array('id'=>$value['uid']))}">禁用</a> | 
+					<a class="J_ajax_del" href="{:url('manager/del',array('id'=>$value['uid']))}">删除</a>  
+				</td>
+			</tr>
+		{/volist}
+	</table>
 {/block}

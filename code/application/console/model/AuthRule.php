@@ -16,20 +16,21 @@
  */
 namespace app\console\model;
 
-use think\Db;
 use think\Model;
 use third\Data;
 
 class AuthRule extends Model
 {
     protected $cache;
+
     // 自动完成
-    protected $autoTimeField = ['create_time'];
+    // protected $auto          = [];
+    protected $autoTimeField = ['create_time', 'update_time'];
     protected $insert        = ['create_time'];
+    protected $update        = ['update_time'];
 
     public function __construct()
     {
-        $this->model = Db::name('authRule');
         if (!cache('authrule')) {
             $this->updateCache();
         }

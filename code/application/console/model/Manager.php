@@ -144,12 +144,8 @@ class Manager extends Model
     public function updateLogin($user)
     {
         // 更新登录信息
-        // $this->uid   = 1;
-        // $this->times = 122;
-        // $this->save();
-        $data['times']    = $user['times'] + 1;
-        $data['nickname'] = 'NICKNAME';
-        $manager          = model('manager');
+        $data['times'] = $user['times'] + 1;
+        $manager       = model('manager');
         $manager->save($data, ['uid' => $user['uid']]);
     }
 

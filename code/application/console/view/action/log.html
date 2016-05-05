@@ -1,7 +1,36 @@
 {extend name="mould:base" /}
 {block name="title"}后台首页{/block}
 {block name="content"}
-  {volist name="list" id="list"}
-    {$list.remark}<br/>
-  {/volist}
+    <table class="table table-condensed table-hover">
+        <colgroup>
+	        <col width="60">
+	        <col>
+	        <col width="90">
+	        <col width="160">
+	        <col width="90">
+	        <col width="100">
+        </colgroup>
+        <thead>
+          <tr>
+          	<td>id</td>
+            <td>日志备注</td>
+            <td>状态</td>
+            <td>时间</td>
+            <td>IP</td>
+            <td align='center'>管理操作</td>
+          </tr>
+        </thead>
+		{volist name='list' id='value'}
+	        <tr>
+	        	<td>{$value.id}</td>
+				<td>{$value.remark}</td>
+				<td>{if condition='$value["status"] eq 1'}正常{else /}禁用{/if}</td>
+				<td>{$value.create_time|time_format}</td>
+				<td>{$value.action_ip|long2ip}</td>
+				<td align='center' >
+					
+				</td>
+			</tr>
+		{/volist}
+	</table>
 {/block}

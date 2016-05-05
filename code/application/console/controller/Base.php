@@ -103,6 +103,8 @@ class Base extends Extend
         if (!in_array($controllerName, $authModel['not_d_controller'])) {
             $this->model = model($controllerName);
         }
+        // dump(1);
+        // die;
 
         // 菜单输出
         $menu = model('AuthRule')->adminMenu();
@@ -124,10 +126,20 @@ class Base extends Extend
 
     public function basetest()
     {
-        $pk = $this->model->getPk();
-        dump($pk);
-        $data = db('action')->order($pk, 'desc')->select();
-        dump($data);
+        $dd = model('authRule');
+
+        $data['name']  = 'b31';
+        $data['title'] = 'm31';
+
+        $dd->data($data);
+        $status = $dd->save($data);
+
+        if ($status) {
+            $dd->updateCache();
+        }
+
+        $dd->updateCache();
+        dump(1);
     }
 
     public function index()
@@ -163,20 +175,18 @@ class Base extends Extend
                 return json_encode($redata);
             }
 
-            // $status = \think\Db::name(CONTROLLER_NAME)->insert($data);
+            $this->model->data($data);
+            $status = $this->model->save($data);
 
-            $ddd = new CONTROLLER_NAME;
-            $ddd->data($data);
-            $status = $ddd->save();
-            //
-            // $status = db(CONTROLLER_NAME)->insert($data);
-            // return 1;
-            if (CONTROLLER_NAME == 'auth_rule') {
-                model('authRule')->updateCache();
-            }
             if ($status) {
                 $redata['status'] = 'success';
                 $redata['info']   = '成功';
+
+                if (CONTROLLER_NAME == 'auth_rule') {
+                    $this->model->updateCache(); // 这一次有乱码
+                    // $this->model->updateCache(); // 这里要执行两次
+                }
+
             } else {
                 $redata['status'] = 'fail';
                 $redata['info']   = '失败';
@@ -197,9 +207,30 @@ class Base extends Extend
 
     public function edit()
     {
+        $pk = $this->model->getPk();
         if (IS_AJAX) {
+            $data   = input('post.');
+            $status = $this->model->save($data, [$pk => $data[$pk]]);
+            if ($status) {
+                $redata['status'] = 'success';
+                $redata['info']   = '成功';
 
+                if (CONTROLLER_NAME == 'auth_rule') {
+                    $this->model->updateCache(); // 这一次有乱码
+                    // $this->model->updateCache(); // 这里要执行两次
+                }
+
+            } else {
+                $redata['status'] = 'fail';
+                $redata['info']   = '失败';
+            }
+
+            return json_encode($redata);
         } else {
+
+            $id   = input('get.' . $pk);
+            $data = db(CONTROLLER_NAME)->find($id);
+            $this->assign('one', $data);
             return $this->fetch();
         }
     }

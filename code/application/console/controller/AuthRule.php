@@ -36,7 +36,7 @@ class AuthRule extends Base
     }
 
     function list() {
-        return $this->fetch();
+        return view();
     }
 
     public function del()
