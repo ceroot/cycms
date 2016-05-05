@@ -43,11 +43,11 @@ class Base extends Extend
             $this->redirect('console/login/index');
         }
 
-        $manager = model('manager')->get(UID);
+        $manager = db('manager')->find(UID);
         // dump($manager);
 
         // 锁定判断
-        if ($manager->status == 1) {
+        if ($manager['status'] == 1) {
             $this->redirect('console/login/index');
         }
 
@@ -188,15 +188,13 @@ class Base extends Extend
     {
 
         $pk = $this->model->getPk();
-        dump($pk);
+        // dump($pk);
 
         $id = input('get.' . $pk);
-        dump($id);
+        // dump($id);
         // die;
-        // $status = db(CONTROLLER_NAME)->delete($id);
+        $status = db(CONTROLLER_NAME)->delete($id);
 
-        model('authRule')->updateCache();
-        die;
         if ($status) {
             $redata['status'] = 'success';
             $redata['info']   = '成功';

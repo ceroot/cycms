@@ -23,21 +23,17 @@ use third\Data;
 class AuthRule extends Model
 {
     protected $cache;
-
     // 自动完成
     protected $autoTimeField = ['create_time'];
     protected $insert        = ['create_time'];
-
     public function __construct()
     {
-
         $this->model = Db::name('authRule');
         if (!cache('authrule')) {
             $this->updateCache();
         }
         $this->cache = cache('authrule'); // 从缓存里取得规则数据
     }
-
     public function getAll($isArray = 0)
     {
         if ($isArray) {
@@ -45,16 +41,14 @@ class AuthRule extends Model
         } else {
             return Data::tree($this->cache, 'title', 'id', 'mid');
         }
-
     }
-
     /**
      * [update_cache 更新缓存]
      * @return [type] [description]
      */
     public function updateCache()
     {
-        $data = $this->model->order(['sort' => 'asc', 'id' => 'asc'])->select();
+        $data = db('authRule')->order(['sort' => 'asc', 'id' => 'asc'])->select();
         $temp = array();
         if ($data) {
             foreach ($data as $v) {
@@ -64,7 +58,6 @@ class AuthRule extends Model
         // return $temp;
         cache('authrule', $temp);
     }
-
     /**
      * [update_cache_auth_model 更新不需要权限验证的控制器、方法和不需要实例化模型缓存]
      * @return [type]       [description]
@@ -75,7 +68,6 @@ class AuthRule extends Model
             $auth          = $val['auth']; // 需要进行权限验证标记
             $controller    = $val['controller']; // 是控制器标记
             $instantiation = $val['instantiation']; // 需要实例化模型标记
-
             // 取得不需要进行权限验证
             if ($auth) {
                 $data['not_auth'][] = $val['name'];
@@ -87,54 +79,8 @@ class AuthRule extends Model
                 $data['not_d_controller'][] = $name;
             }
         }
-        //return $data;//
+        // return $data;
         cache('authModel', $data);
-    }
-
-    /**
-     * [check_name 验证规则标识是否存在]
-     * @param  [type] $con [description]
-     * @return [type]      [description]
-     */
-    protected function checkName($con)
-    {
-        $id = I('post.id');
-        if ($id) {
-            $where['id'] = array('neq', $id);
-        }
-
-        $condition = I('post.condition');
-
-        $condition          = I('post.condition');
-        $where['condition'] = $condition;
-        $where['name']      = $con;
-        $data               = $this->where($where)->find();
-        if ($data) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * [check_title 验证规则名称是否存在]
-     * @param  [type] $con [description]
-     * @return [type]      [description]
-     */
-    protected function checkTitle($con)
-    {
-        $id = I('post.id');
-        if ($id) {
-            $where['id'] = array('neq', $id);
-        }
-
-        $where['title'] = $con;
-        $data           = $this->where($where)->find();
-        if ($data) {
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -151,29 +97,35 @@ class AuthRule extends Model
             return $data['level'] + 1;
         }
     }
-
     /**
-     * [get_one 查找一条记录]
+     * [getOne 查找一条记录]
      * @return [type] [description]
      */
     public function getOne($id)
     {
         return isset($this->cache[$id]) ? $this->cache[$id] : null;
     }
-
     /**
      * [del 删除规则]
      * @return [type] [description]
      */
     public function del($id)
     {
-        if ($this->where(array('pid' => $id))->count()) {
+        $count = db('authRule')->where('mid', $id)->count();
+
+        if ($count) {
             $this->error = '请先删除子规则';
             return false;
         }
-        $this->delete($id);
-        $this->updateCache();
-        return true;
+        $status = db('authRule')->delete($id);
+        if ($status) {
+            $this->updateCache();
+            return true;
+        } else {
+            $this->error = '根据条件没有数据可进行删除';
+            return false;
+        }
+
     }
     /**
      * [update_sort 更新排序]
@@ -183,14 +135,12 @@ class AuthRule extends Model
      */
     public function updateSort($ids, $sort)
     {
-
         foreach ($ids as $k => $v) {
             $this->save(array('sort' => $sort[$k], 'id' => $v));
         }
         $this->updateCache();
         return true;
     }
-
     /**
      * [admin_menu 生成后台菜单并缓存]
      * @return [type] [description]
@@ -205,26 +155,24 @@ class AuthRule extends Model
             // 满足条件
             // 1 权限管理所拥有的
             // 2 不需要进行权限验证的
-            $auth_model = cache('auth_model'); // 从缓存取得不需要进行权限验证的数据
-            $data       = array();
+            $auth_model = cache('authModel'); // 从缓存取得不需要进行权限验证的数据
+            // dump($auth_model);
+            $data = array();
             foreach ($this->cache as $value) {
                 if (authCheck($value['name'], UID) || in_array($value['name'], $auth_model['not_auth'])) {
                     $data[] = $value;
                 }
             }
         }
-
         // 可显示处理和其它处理
         $navdata = array();
         // dump($data);
         foreach ($data as $value) {
             // 激活当前处理
             $value['active'] = 0;
-
-            $controller = CONTROLLER_NAME;
-            $action     = ACTION_NAME;
+            $controller      = CONTROLLER_NAME;
+            $action          = ACTION_NAME;
             // dump($controller.'/'.$action);
-
             // 取得当前方法id
             if (strtolower($value['name']) == strtolower($controller . '/' . $action)) {
                 $current_action_id  = $value['id'];
@@ -233,7 +181,6 @@ class AuthRule extends Model
 // dump($current_action_id);
             $isnavshow = $value['isnavshow']; // 显示标记
             $status    = $value['status']; // 正常使用标记
-
             if ($isnavshow && $status) {
                 switch ($value['name']) {
                     case 'Manager/indexddd': // 管理员管理
@@ -252,28 +199,23 @@ class AuthRule extends Model
                 $navdata[]     = $value;
             }
         }
-
         // 处理当前高亮标记
         if (isset($current_action_id)) {
             // 子级返回父级数组
             $active = getParents($navdata, $current_action_id);
-
             // 只取id组成数组
             $activeidarr = array();
             foreach ($active as $value) {
                 $activeidarr[] = $value['id'];
             }
-
             // 高亮标识
             $activedata = array();
             foreach ($navdata as $value) {
                 if (in_array($value['id'], $activeidarr)) {
                     $value['active'] = 1;
                 }
-
                 $activedata[] = $value;
             }
-
             // 子菜单
             $second = null;
             if (count($activeidarr) > 2) {
@@ -283,7 +225,6 @@ class AuthRule extends Model
                         break;
                     }
                 }
-
                 $second['title'] = $producttitle;
                 $second['data']  = getCateByPid($activedata, $current_action_mid);
             } else {
@@ -301,18 +242,14 @@ class AuthRule extends Model
                 $second['title'] = $producttitle;
                 $second['data']  = getChiIds($navdata, $current_action_id);
             }
-
             $treeArray['second'] = $second;
         } else {
             // dump('规则表里不存在此名称，请先进行规则添加');
             $this->getError('规则表里不存在此名称，请先进行规则添加');
             return false;
         }
-
         $treeArray['menu'] = getCateTreeArr($activedata, 0); // 生成树形结构
-
         // dump($treeArray);
-
         // 加上key标记
         // $menu        = array();
         // foreach ($treeArray as $value)
@@ -323,19 +260,15 @@ class AuthRule extends Model
         //         $menu[$key]    = $value;
         //     }
         // }
-
         // 转换json
         // $menu    = json_encode($menu);
-
         return $treeArray;
     }
-
     // protected $beforeActionList = [
     //     'first',
     //     'second'=>  ['except'=>'hello'],
     //     'three' =>  ['only'=>'hello,data'],
     // ];
-
     // /**
     //  * [_after_insert 添加后置方法]
     //  * @param  [type] $data    [description]
@@ -347,7 +280,6 @@ class AuthRule extends Model
     //     // 更新缓存
     //     $this->update_cache();
     // }
-
     // /**
     //  * [_after_update 更新后置方法]
     //  * @param  [type] $data    [description]
@@ -359,5 +291,4 @@ class AuthRule extends Model
     //     // 更新缓存
     //     $this->update_cache();
     // }
-
 }

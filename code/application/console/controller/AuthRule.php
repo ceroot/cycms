@@ -39,4 +39,16 @@ class AuthRule extends Base
         return $this->fetch();
     }
 
+    public function del()
+    {
+        $id     = input('get.id');
+        $status = $this->model->del($id);
+        dump($status);
+        if ($status) {
+            dump('成功');
+        } else {
+            dump($this->model->getError());
+        }
+    }
+
 }
