@@ -687,16 +687,17 @@ Wind.ready(function() {
             tabs               : 'tabs/tabs',
             swfobject          : 'swfobject',
             imgready           : 'imgready',
-			zTree           : 'zTree/zTree',
+			zTree              : 'zTree/zTree',
 
             //jquery util plugs
             ajaxForm          : 'jquery.form/3.51.0/jquery.form',
             layer             : 'layer/2.2/layer',
+            validate          : 'validate.js/1.15.0/jquery.validate',
+            localization      : 'validate.js/1.15.0/localization/messages_zh',
             cookie            : 'cookie',
 			treeview          : 'treeview',
             treeTable         : 'treeTable/treeTable',
             draggable         : 'draggable',
-            validate          : 'validate',
             artDialog         : 'artDialog/6.0.5/js/dialog',
             iframeTools       : 'artDialog/iframeTools',
             xd                : 'xd',//Iframe跨域通信
