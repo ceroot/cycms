@@ -26,6 +26,7 @@ class AuthRule extends Model
     // 自动完成
     protected $autoTimeField = ['create_time'];
     protected $insert        = ['create_time'];
+
     public function __construct()
     {
         $this->model = Db::name('authRule');
@@ -202,10 +203,12 @@ class AuthRule extends Model
         // 处理当前高亮标记
         if (isset($current_action_id)) {
             // 子级返回父级数组
-            $active = getParents($navdata, $current_action_id);
+            $bread = getParents($navdata, $current_action_id);
+            // dump($bread);
+            // die;
             // 只取id组成数组
             $activeidarr = array();
-            foreach ($active as $value) {
+            foreach ($bread as $value) {
                 $activeidarr[] = $value['id'];
             }
             // 高亮标识
@@ -242,7 +245,9 @@ class AuthRule extends Model
                 $second['title'] = $producttitle;
                 $second['data']  = getChiIds($navdata, $current_action_id);
             }
-            $treeArray['second'] = $second;
+            $treeArray['second']    = $second;
+            $treeArray['bread']     = $bread; // 面包萱
+            $treeArray['showtitle'] = end($bread)['title']; // 当前标题
         } else {
             // dump('规则表里不存在此名称，请先进行规则添加');
             $this->getError('规则表里不存在此名称，请先进行规则添加');

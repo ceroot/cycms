@@ -106,14 +106,28 @@ class Base extends Extend
 
         // 菜单输出
         $menu = model('AuthRule')->adminMenu();
+        // dump($menu['showtitle']);
 
+        // die;
         $this->assign('menu', $menu);
 
         $this->assign('second', $menu['second']);
 
+        $this->assign('title', $menu['showtitle']);
+
+        $this->assign('bread', $menu['bread']);
+
         // 管理员信息输出
         $this->assign('manager', $manager);
 
+    }
+
+    public function basetest()
+    {
+        $pk = $this->model->getPk();
+        dump($pk);
+        $data = db('action')->order($pk, 'desc')->select();
+        dump($data);
     }
 
     public function index()
@@ -151,9 +165,15 @@ class Base extends Extend
 
             // $status = \think\Db::name(CONTROLLER_NAME)->insert($data);
 
-            $ddd    = new AuthRule;
-            $status = $ddd->save($data);
-
+            $ddd = new CONTROLLER_NAME;
+            $ddd->data($data);
+            $status = $ddd->save();
+            //
+            // $status = db(CONTROLLER_NAME)->insert($data);
+            // return 1;
+            if (CONTROLLER_NAME == 'auth_rule') {
+                model('authRule')->updateCache();
+            }
             if ($status) {
                 $redata['status'] = 'success';
                 $redata['info']   = '成功';
