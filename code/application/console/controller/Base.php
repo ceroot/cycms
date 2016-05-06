@@ -174,7 +174,7 @@ class Base extends Extend
             $status = $this->model->save($data);
             // return json_encode($data);
             if ($status) {
-                $model     = CONTROLLER_NAME;
+                $model     = strtolower(toCamel(CONTROLLER_NAME));
                 $action    = ACTION_NAME . '_' . $model;
                 $record_id = getRecordId($action);
 
@@ -183,8 +183,8 @@ class Base extends Extend
                 }
 
                 if (CONTROLLER_NAME == 'auth_rule') {
-                    $this->model->updateCache(); // 这一次有乱码
-                    // $this->model->updateCache(); // 这里要执行两次
+                    $this->model->updateCache(); // 更新缓存
+                    $this->model->updateCacheAuthModel(); // 更新缓存
                 }
 
                 $redata['status'] = 'success';
@@ -216,7 +216,7 @@ class Base extends Extend
             $status = $this->model->save($data, [$pk => $data[$pk]]);
             if ($status) {
 
-                $model     = CONTROLLER_NAME;
+                $model     = strtolower(toCamel(CONTROLLER_NAME));
                 $action    = ACTION_NAME . '_' . $model;
                 $record_id = getRecordId($action);
 
@@ -226,6 +226,7 @@ class Base extends Extend
 
                 if (CONTROLLER_NAME == 'auth_rule') {
                     $this->model->updateCache(); // 更新缓存
+                    $this->model->updateCacheAuthModel(); // 更新缓存
                 }
 
                 $redata['status'] = 'success';

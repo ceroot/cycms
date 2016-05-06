@@ -122,6 +122,7 @@ class AuthRule extends Model
         $status = db('authRule')->delete($id);
         if ($status) {
             $this->updateCache();
+            $this->updateCacheAuthModel();
             return true;
         } else {
             $this->error = '根据条件没有数据可进行删除';
