@@ -29,6 +29,12 @@ class AuthRule extends Model
     protected $insert        = ['create_time'];
     protected $update        = ['update_time'];
 
+    public function getStatusTextAttr($value, $data)
+    {
+        $status = [0 => '禁用', 1 => '正常'];
+        return $status[$data['status']];
+    }
+
     public function __construct()
     {
         if (!cache('authrule')) {
@@ -44,6 +50,17 @@ class AuthRule extends Model
             return Data::tree($this->cache, 'title', 'id', 'mid');
         }
     }
+    public function test()
+    {
+        // $data = db('authRule')->order(['sort' => 'asc', 'id' => 'asc'])->select();
+        $m = model('authRule');
+
+        $data = $m::scope(function ($query) {
+            $query->order(['sort' => 'asc', 'id' => 'asc']);
+        })->all();
+
+        return $data->toArray();
+    }
     /**
      * [update_cache 更新缓存]
      * @return [type] [description]
@@ -51,6 +68,7 @@ class AuthRule extends Model
     public function updateCache()
     {
         $data = db('authRule')->order(['sort' => 'asc', 'id' => 'asc'])->select();
+
         $temp = array();
         if ($data) {
             foreach ($data as $v) {
@@ -113,8 +131,8 @@ class AuthRule extends Model
      */
     public function del($id)
     {
-        $count = db('authRule')->where('mid', $id)->count();
 
+        $count = db('authRule')->where('mid', $id)->count();
         if ($count) {
             $this->error = '请先删除子规则';
             return false;
@@ -175,8 +193,7 @@ class AuthRule extends Model
             $value['active'] = 0;
             $controller      = toCamel(CONTROLLER_NAME);
             $action          = toCamel(ACTION_NAME);
-            // dump('d：' . $controller . '/' . $action);
-            // dump('s：' . $value['name']);
+
             // 取得当前方法id
             if (strtolower($value['name']) == strtolower($controller . '/' . $action)) {
                 $current_action_id  = $value['id'];
@@ -204,7 +221,7 @@ class AuthRule extends Model
                 $navdata[]     = $value;
             }
         }
-        // dump($navdata);
+
         // 处理当前高亮标记
         if (isset($current_action_id)) {
             // 子级返回父级数组

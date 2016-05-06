@@ -127,14 +127,8 @@ class Base extends Extend
     public function basetest()
     {
 
-        $name = 'AppPromoZhongQiu2014ActiveStatusSelector';
-        dump($name);
-
-        $dd = toUnderline($name);
-        dump($dd);
-
-        $ddd = toCamel($dd);
-        dump($ddd);
+        $status = $this->model->test();
+        dump($status);
     }
 
     public function index()
@@ -152,8 +146,12 @@ class Base extends Extend
 
     public function _list()
     {
-        $pk   = $this->model->getPk();
-        $data = db(CONTROLLER_NAME)->order($pk, 'desc')->select();
+        $pk = $this->model->getPk();
+
+        $data = $this->model::scope(function ($query) use ($pk) {
+            $query->order($pk, 'desc');
+        })->all();
+
         return $data;
     }
 
