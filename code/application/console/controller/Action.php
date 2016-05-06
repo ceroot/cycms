@@ -33,7 +33,7 @@ class Action extends Base
 
     public function log()
     {
-        $list = Db::name('actionLog')->select();
+        $list = Db::name('actionLog')->order('id', 'desc')->select();
         $this->assign('list', $list);
         return $this->fetch();
     }

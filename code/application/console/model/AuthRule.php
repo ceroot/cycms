@@ -175,11 +175,13 @@ class AuthRule extends Model
             $value['active'] = 0;
             $controller      = toCamel(CONTROLLER_NAME);
             $action          = toCamel(ACTION_NAME);
-            // dump($controller.'/'.$action);
+            // dump('d：' . $controller . '/' . $action);
+            // dump('s：' . $value['name']);
             // 取得当前方法id
             if (strtolower($value['name']) == strtolower($controller . '/' . $action)) {
                 $current_action_id  = $value['id'];
                 $current_action_mid = $value['mid'];
+                // dump('d：' . $controller . '/' . $action);
             }
 // dump($current_action_id);
             $isnavshow = $value['isnavshow']; // 显示标记
@@ -202,6 +204,7 @@ class AuthRule extends Model
                 $navdata[]     = $value;
             }
         }
+        // dump($navdata);
         // 处理当前高亮标记
         if (isset($current_action_id)) {
             // 子级返回父级数组

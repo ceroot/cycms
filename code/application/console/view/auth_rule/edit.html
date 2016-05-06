@@ -17,7 +17,7 @@
           <td class="y-bg">
             <select name="mid">
               <option value="0">顶级</option>
-                {volist name='data' id='rule'} <option value="{$rule.id}" >{$rule._name}
+                {volist name='data' id='rule'} <option value="{$rule.id}" {if condition="$one.mid eq $rule.id"}selected="selected"{/if}>{$rule._name}
                   </option>
                 {/volist}
               </select>
@@ -26,51 +26,51 @@
         <tr>
           <th>状态：</th>
           <td class="y-bg"><label>
-              <input type="radio" name="status" value="1" checked="checked">
+              <input type="radio" name="status" value="1" {eq name='one.status' value='1'} checked="checked"{/eq}>
               启用 </label>
             &nbsp;
             <label>
-              <input type="radio" name="status" value="0">
+              <input type="radio" name="status" value="0" {eq name='one.status' value='0'} checked="checked"{/eq}>
               禁用 </label></td>
         </tr>
         <tr>
           <th>是否显示菜单：</th>
           <td class="y-bg"><label>
-              <input type="radio" name="isnavshow" value="1" >
+              <input type="radio" name="isnavshow" value="1"  {eq name='one.isnavshow' value='1'} checked="checked"{/eq}>
               显示 </label>
             &nbsp;
             <label>
-              <input type="radio" name="isnavshow" value="0" checked="checked">
+              <input type="radio" name="isnavshow" value="0"  {eq name='one.isnavshow' value='0'} checked="checked"{/eq}>
               隐藏 </label></td>
         </tr>
         <tr>
           <th>是否是控制器：</th>
           <td class="y-bg"><label>
-              <input type="radio" name="controller" value="1">
+              <input type="radio" name="controller" value="1" {eq name='one.controller' value='1'} checked="checked"{/eq}>
               是 </label>
             &nbsp;
             <label>
-              <input type="radio" name="controller" value="0" checked="checked">
+              <input type="radio" name="controller" value="0"  {eq name='one.controller' value='0'} checked="checked"{/eq}>
               不是 </label></td>
         </tr>
         <tr>
           <th>是否需要实例化：</th>
           <td class="y-bg"><label>
-              <input type="radio" name="instantiation" value="1" checked="checked">
+              <input type="radio" name="instantiation" value="1" {eq name='one.instantiation' value='1'} checked="checked"{/eq}>
               需要 </label>
             &nbsp;
             <label>
-              <input type="radio" name="instantiation" value="0">
+              <input type="radio" name="instantiation" value="0" {eq name='one.instantiation' value='0'} checked="checked"{/eq}>
               不需要 </label></td>
         </tr>
         <tr>
           <th>是否需要进行权限验证：</th>
           <td class="y-bg"><label>
-              <input type="radio" name="auth" value="0" checked="checked">
+              <input type="radio" name="auth" value="0" {eq name='one.auth' value='0'} checked="checked"{/eq}>
               需要 </label>
             &nbsp;
             <label>
-              <input type="radio" name="auth" value="1">
+              <input type="radio" name="auth" value="1" {eq name='one.auth' value='1'} checked="checked"{/eq}>
               不需要 </label></td>
         </tr>
         <tr>
@@ -86,7 +86,7 @@
     <div class="">
       <div class="btn_wrap_pd">
         <input type="hidden" name="id" value="{$one.id}">
-        <button class="btn btn_submit mr10 J_ajax_submit_btn" type="submit">添加</button>
+        <button class="btn btn_submit mr10 J_ajax_submit_btn" type="submit">保存</button>
       </div>
     </div>
   </form>
