@@ -104,11 +104,9 @@ class Base extends Extend
         if (!in_array($controllerName, $authModel['not_d_controller'])) {
             $this->model = model($controllerName);
         }
-        // dump(1);
-        // die;
 
         // 菜单输出
-        $menu = model('AuthRule')->adminMenu();
+        $menu = model('AuthRule')->consoleMenu();
         // dump($menu['showtitle']);
 
         // die;
@@ -215,7 +213,8 @@ class Base extends Extend
     {
         $pk = $this->model->getPk();
         if (IS_AJAX) {
-            $data   = input('post.');
+            $data = input('post.');
+            // return $data;
             $status = $this->model->save($data, [$pk => $data[$pk]]);
             if ($status) {
 
@@ -243,10 +242,14 @@ class Base extends Extend
             // return json_encode($redata);
         } else {
 
-            $id   = input('get.' . $pk);
-            $data = db(CONTROLLER_NAME)->find($id);
-            $this->assign('one', $data);
-            return $this->fetch();
+            $id = input('get.' . $pk);
+            if (!$id) {
+                return '参数错误';
+            } else {
+                $data = db(CONTROLLER_NAME)->find($id);
+                $this->assign('one', $data);
+                return $this->fetch();
+            }
         }
     }
 
