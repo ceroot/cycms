@@ -41,6 +41,7 @@ class Base extends Extend
 
         if (!UID) {
             $this->redirect('console/login/index');
+            exit;
         }
 
         $manager = db('manager')->find(UID);
@@ -192,8 +193,8 @@ class Base extends Extend
                 $redata['status'] = 'fail';
                 $redata['info']   = '失败';
             }
-
-            return json_encode($redata);
+            return $redata;
+            // return json_encode($redata);
 
         } else {
             return $this->fetch();
@@ -234,8 +235,8 @@ class Base extends Extend
                 $redata['status'] = 'fail';
                 $redata['info']   = '失败';
             }
-
-            return json_encode($redata);
+            return $redata;
+            // return json_encode($redata);
         } else {
 
             $id   = input('get.' . $pk);
@@ -263,7 +264,8 @@ class Base extends Extend
             $redata['status'] = 'fail';
             $redata['info']   = '失败';
         }
-        return json_encode($redata);
+        return $redata;
+        // return json_encode($redata);
     }
 
     public function upcache()

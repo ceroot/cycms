@@ -79,7 +79,7 @@ class Login extends Controller
                 }
             }
 
-            return json_encode($redata);
+            return $redata;
         } else {
 
             // $view  = new \think\View(\think\Config::get());
