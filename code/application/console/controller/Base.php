@@ -150,8 +150,11 @@ class Base extends Extend
         $pk = $this->model->getPk();
 
         $data = $this->model::scope(function ($query) use ($pk) {
-            $query->order($pk, 'desc');
+            $query->order($pk, 'desc')->limit(10);
         })->all();
+        // $this->model->toArray();
+        // dump($data);
+        // die;
 
         return $data;
     }
@@ -166,7 +169,8 @@ class Base extends Extend
                 // 验证失败 输出错误信息
                 $redata['status'] = 'fail';
                 $redata['info']   = $result;
-                return json_encode($redata);
+                return $redata;
+                // return json_encode($redata);
             }
 
             $this->model->data($data);

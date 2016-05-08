@@ -1,60 +1,48 @@
 <?php
+// +----------------------------------------------------------------------+
+// | CYCMS                                                                |
+// +----------------------------------------------------------------------+
+// | Copyright (c) 2016 http://beneng.com All rights reserved.            |
+// +----------------------------------------------------------------------+
+// | Authors: SpringYang [ceroot@163.com]                                 |
+// +----------------------------------------------------------------------+
 /**
- *
- * 管理员表模型
- * @authors SpringYang
- * @email   ceroot@163.com
- * @date    2016-03-29 17:41:58
- * @site    http://www.benweng.com
+ * @filename  Manager.php[管理员表模型]
+ * @authors   SpringYang
+ * @email     ceroot@163.com
+ * @QQ        525566309
+ * @date      2016-03-29 17:41:58
+ * @site      http://www.benweng.com
  */
 
 namespace app\console\model;
 
-use think\Db;
 use think\Model;
 
 class Manager extends Model
 {
-    // 错误信息
-    protected $error;
-
-    protected $db;
-
     protected $pk = 'uid';
 
     // 自动完成
-    protected $auto          = ['nickname'];
+    protected $auto          = [];
     protected $autoTimeField = ['create_time', 'login_time', 'update_time'];
     protected $insert        = ['create_time', 'create_ip'];
     protected $update        = ['login_time', 'login_ip'];
 
-    // public function setNicknameAttr($value)
-    // {
-    //     return strtolower($value);
-    // }
-    //
     public function setLoginIpAttr($value)
     {
         return ip2int();
     }
 
-    // public function setNicknameAttr($value, $data)
-    // {
-    //     // $this->data['nickname'] = strtolower($value);
-    //     //
-    //     $this->data['nickname'] = $value;
-    //     $this->data['login_ip'] = ip2int();
-    //     return $value;
-    // }
+    public function setCreateIpAttr($value)
+    {
+        return ip2int();
+    }
 
-    public function __construct()
-    {
-        $this->db = Db::name('manager');
-    }
-    public function test()
-    {
-        return '78';
-    }
+    // public function __construct()
+    // {
+    //     // $ddd = 0;
+    // }
 
     /**
      * [validate_login 验证登录]
@@ -96,7 +84,7 @@ class Manager extends Model
             return false;
         }
 
-        $user = $this->db->where('username', $username)->find();
+        $user = db('manager')->where('username', $username)->find();
         return $user;
         if (!$user) {
             $this->error = '用户名不存在';

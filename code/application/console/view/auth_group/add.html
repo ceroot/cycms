@@ -1,0 +1,109 @@
+{extend name="mould:base" /}
+{block name="title"}后台首页{/block}
+{block name="content"}
+<form action="{:url('authRule/add')}" method="post" class="J_ajaxForms" >
+    <div class="table_full">
+      <table width="100%"  class="table_form">
+        <tr>
+          <th width="140">规则标识：</th>
+          <td class="y-bg"><input type="text" class="input" name="name" id="name" size="30" value="" /></td>
+        </tr>
+        <tr>
+          <th>规则名称：</th>
+          <td class="y-bg"><input type="text" class="input" name="title" id="title" size="30" value="" /></td>
+        </tr>
+        <tr>
+          <th>父级规则：</th>
+          <td class="y-bg">
+            <select name="mid">
+              <option value="0">顶级</option>
+                {volist name='data' id='rule'} <option value="{$rule.id}" >{$rule._name}
+                  </option>
+                {/volist}
+              </select>
+          </td>
+        </tr>
+        <tr>
+          <th>状态：</th>
+          <td class="y-bg"><label>
+              <input type="radio" name="status" value="1" checked="checked">
+              启用 </label>
+            &nbsp;
+            <label>
+              <input type="radio" name="status" value="0">
+              禁用 </label></td>
+        </tr>
+        <tr>
+          <th>是否显示菜单：</th>
+          <td class="y-bg"><label>
+              <input type="radio" name="isnavshow" value="1" >
+              显示 </label>
+            &nbsp;
+            <label>
+              <input type="radio" name="isnavshow" value="0" checked="checked">
+              隐藏 </label></td>
+        </tr>
+        <tr>
+          <th>是否是控制器：</th>
+          <td class="y-bg"><label>
+              <input type="radio" name="controller" value="1">
+              是 </label>
+            &nbsp;
+            <label>
+              <input type="radio" name="controller" value="0" checked="checked">
+              不是 </label></td>
+        </tr>
+        <tr>
+          <th>是否需要实例化：</th>
+          <td class="y-bg"><label>
+              <input type="radio" name="instantiation" value="1" checked="checked">
+              需要 </label>
+            &nbsp;
+            <label>
+              <input type="radio" name="instantiation" value="0">
+              不需要 </label></td>
+        </tr>
+        <tr>
+          <th>是否需要进行权限验证：</th>
+          <td class="y-bg"><label>
+              <input type="radio" name="auth" value="0" checked="checked">
+              需要 </label>
+            &nbsp;
+            <label>
+              <input type="radio" name="auth" value="1">
+              不需要 </label></td>
+        </tr>
+        <tr>
+          <th class="hd-w100"> 排序： </th>
+          <td class="y-bg"><input type="text" name="sort" class="input" value="100"></td>
+        </tr>
+        <tr>
+          <th class="hd-w100"> 条件： </th>
+          <td class="y-bg"><textarea name="condition" style="width:60%;height:80px"></textarea></td>
+        </tr>
+      </table>
+    </div>
+    <div class="">
+      <div class="btn_wrap_pd">
+        <button class="btn btn_submit mr10 J_ajax_submit_btn" type="submit">添加</button>
+      </div>
+    </div>
+</form>
+<script type="text/javascript">
+var userValidate = {
+    rules: {
+        'name':'required',
+        'title':{
+            required:true
+        }
+    }, 
+    messages: {
+        'name':'请填写规则标识',
+        'title':{
+            required:'请填写规则名称'
+        }
+    }
+};
+
+</script>
+{/block}

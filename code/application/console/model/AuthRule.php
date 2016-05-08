@@ -21,7 +21,6 @@ use third\Data;
 
 class AuthRule extends Model
 {
-    protected $cache;
 
     // 自动完成
     protected $auto          = [];
