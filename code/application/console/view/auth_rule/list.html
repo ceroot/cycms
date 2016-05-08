@@ -1,5 +1,5 @@
 {extend name="mould:base" /}
-{block name="title"}后台首页{/block}
+{block name="title"}{/block}
 {block name="content"}
     <table class="table table-condensed table-hover">
         <colgroup>
@@ -7,7 +7,6 @@
 	        <col width="55">
 	        <col width="220">
 	        <col>
-	        <col width="200">
 	        <col width="90">
 	        <col width="90">
 	        <col width="100">
@@ -18,7 +17,6 @@
             <td align='center'>排序</td>
             <td>规则标识</td>
             <td>规则名称</td>
-            <td>条件</td>
             <td>状态</td>
             <td>显示</td>
             <td align='center'>管理操作</td>
@@ -34,7 +32,6 @@
 			</td>
 			<td >{$value.name}</td>
 			<td >{$value._name}</td>
-			<td >{$value.condition}</td>
 			<td></td>
 			<td>{if condition='$value["isnavshow"] eq 1'}显示{else /}隐藏{/if}</td>
 			<td align='center' >

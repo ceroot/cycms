@@ -197,10 +197,9 @@ class AuthRule extends Model
             if (strtolower($value['name']) == strtolower($controller . '/' . $action)) {
                 $current_action_id  = $value['id'];
                 $current_action_mid = $value['mid'];
-                // dump('d：' . $controller . '/' . $action);
             }
-// dump($current_action_id);
-            // $isnavshow = $value['isnavshow']; // 显示标记
+
+            // $isnavshow = $value['isnavshow']; // 显示标记，这里不需要了，让前端进行控制
             $status = $value['status']; // 正常使用标记
             if ($status) {
                 switch ($value['name']) {

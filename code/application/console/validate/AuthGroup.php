@@ -7,33 +7,26 @@
 // | Authors: SpringYang [ceroot@163.com]                                 |
 // +----------------------------------------------------------------------+
 /**
- * @filename  AuthGroup.php[角色控制器]
+ * @filename  AuthGroup.php[角色表验证器]
  * @authors   SpringYang
  * @email     ceroot@163.com
  * @QQ        525566309
- * @date      2016-05-08 16:08:59
+ * @date      2016-05-08 21:15:10
  * @site      http://www.benweng.com
  */
-namespace app\console\controller;
+namespace app\console\validate;
 
-use app\console\controller\Base;
+use think\Validate;
 
-class AuthGroup extends Base
+class AuthGroup extends Validate
 {
+    protected $rule = [
+        'title' => 'require|unique:authGroup',
+    ];
 
-    /**
-     * [_initialize 初始化]
-     * @return [type] [description]
-     */
-    public function _initialize()
-    {
-        parent::_initialize();
-
-    }
-
-    public function rule()
-    {
-        return view();
-    }
+    protected $message = [
+        'title.require' => '角色名称必须',
+        'title.unique'  => '角色名称已存在',
+    ];
 
 }

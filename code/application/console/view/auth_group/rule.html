@@ -18,19 +18,7 @@
             <td align='center'>管理操作</td>
           </tr>
         </thead>
-		{volist name='data' id='value'}
-        <tr>
-        	<td>{$value.id}</td>
-			<td >{$value.title}</td>
-			<td ></td>
-			<td>{$value.status_text}</td>
-			<td align='center' >
-				<a href="{:url('AuthGroup/edit',array('id'=>$value['id']))}">权限分配</a> | 
-				<a href="{:url('AuthGroup/edit',array('id'=>$value['id']))}">修改</a> | 
-				<a class="J_ajax_del" href="{:url('AuthGroup/del',array('id'=>$value['id']))}">删除</a>  
-			</td>
-		</tr>
-		{/volist}
+		
 	</table>
     <div class="btn_wrap">
       <div class="btn_wrap_pd">

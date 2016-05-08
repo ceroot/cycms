@@ -34,9 +34,9 @@
 				<td>{$value.status_text}</td>
 				<td>{$value.type}</td>
 				<td align='center' >
-					<a href="{:url('manager/edit',array('id'=>$value['id']))}">修改</a> | 
-					<a class="J_ajax_del" href="{:url('manager/edit',array('id'=>$value['id']))}">禁用</a> | 
-					<a class="J_ajax_del" href="{:url('manager/del',array('id'=>$value['id']))}">删除</a>  
+					<a href="{:url('action/edit',array('id'=>$value['id']))}">修改</a> | 
+					<a class="J_ajax_del" href="{:url('action/edit',array('id'=>$value['id']))}">禁用</a> | 
+					<a class="J_ajax_del" href="{:url('action/del',array('id'=>$value['id']))}">删除</a>  
 				</td>
 			</tr>
 		{/volist}

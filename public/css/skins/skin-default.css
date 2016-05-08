@@ -7,7 +7,7 @@
  */
 
 body.skin-default{
-	font-size: 14px;
+	font-size: 12px;
 }
 
 .skin-default{
@@ -63,10 +63,10 @@ body.skin-default{
 	
 }
 
-.skin-default .sidebar ul > li > dl >dt > a {
+.skin-default .sidebar ul > li > dl > dt > a {
 	color: #aaa;
+	font-size: 14px;
 }
-
 
 .skin-default .sidebar ul > li > dl >dt > a:hover,
 .skin-default .sidebar ul > li > dl >dt > a.current,
@@ -97,6 +97,8 @@ body.skin-default{
 .skin-default .sidebar ul > li > dl > dd > a.active{
 	color: #FFF;
 }
+
+
 
 /*product sidebar*/
 .skin-default .product-sidebar {
