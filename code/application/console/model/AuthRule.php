@@ -165,7 +165,7 @@ class AuthRule extends Model
      * [admin_menu 生成后台菜单并缓存]
      * @return [type] [description]
      */
-    public function adminMenu()
+    public function consoleMenu()
     {
         // 判断是不是超级管理员
         if (in_array(UID, config('auth_superadmin'))) {
@@ -175,11 +175,11 @@ class AuthRule extends Model
             // 满足条件
             // 1 权限管理所拥有的
             // 2 不需要进行权限验证的
-            $auth_model = cache('authModel'); // 从缓存取得不需要进行权限验证的数据
-            // dump($auth_model);
+            $authModel = cache('authModel'); // 从缓存取得不需要进行权限验证的数据
+            // dump($authModel);
             $data = array();
             foreach ($this->cache as $value) {
-                if (authCheck($value['name'], UID) || in_array($value['name'], $auth_model['not_auth'])) {
+                if (authCheck($value['name'], UID) || in_array($value['name'], $authModel['not_auth'])) {
                     $data[] = $value;
                 }
             }
@@ -200,9 +200,9 @@ class AuthRule extends Model
                 // dump('d：' . $controller . '/' . $action);
             }
 // dump($current_action_id);
-            $isnavshow = $value['isnavshow']; // 显示标记
-            $status    = $value['status']; // 正常使用标记
-            if ($isnavshow && $status) {
+            // $isnavshow = $value['isnavshow']; // 显示标记
+            $status = $value['status']; // 正常使用标记
+            if ($status) {
                 switch ($value['name']) {
                     case 'Manager/indexddd': // 管理员管理
                         $name = url($name, array('role' => 1));

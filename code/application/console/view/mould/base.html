@@ -99,28 +99,30 @@
       <section class="sidebar">
         <ul>
           {volist name="menu.menu" id="menu"}
-          <li {if condition="$menu.active"}class="active"{/if}>
-            <dl>
-              <dt>
-                <a href="{$menu.name}" title="{$menu.title}">
-                  <i class="fa {empty name="menu.icon"}fa-circle-o{else /}{$menu.icon}{/empty}"></i>
-                  <span>{$menu.title}</span>
-                  {notempty name="menu.items"} <em class="fa fa-angle-left pull-right"></em>
+            {if condition="$menu.isnavshow"}
+              <li {if condition="$menu.active"}class="active"{/if}>
+                <dl>
+                  <dt>
+                    <a href="{$menu.name}" title="{$menu.title}">
+                      <i class="fa {empty name="menu.icon"}fa-circle-o{else /}{$menu.icon}{/empty}"></i>
+                      <span>{$menu.title}</span>
+                      {notempty name="menu.items"} <em class="fa fa-angle-left pull-right"></em>
+                      {/notempty}
+                    </a>
+                  </dt>
+                  {notempty name="menu.items"}
+                  <dd {if condition="$menu.active"}style="display: block;"{/if}>
+                    {volist name="menu.items" id="items"}
+                    <a {if condition="$items.active"}class="active"{/if} href="{$items.name}" title="{$items.title}">
+                      <i class="fa fa-circle-o"></i>
+                      {$items.title}
+                    </a>
+                    {/volist}
+                  </dd>
                   {/notempty}
-                </a>
-              </dt>
-              {notempty name="menu.items"}
-              <dd {if condition="$menu.active"}style="display: block;"{/if}>
-                {volist name="menu.items" id="items"}
-                <a {if condition="$items.active"}class="active"{/if} href="{$items.name}" title="{$items.title}">
-                  <i class="fa fa-circle-o"></i>
-                  {$items.title}
-                </a>
-                {/volist}
-              </dd>
-              {/notempty}
-            </dl>
-          </li>
+                </dl>
+              </li>
+            {/if}
           {/volist}
           <!-- <li>
           <dl>
@@ -371,7 +373,9 @@
           <dt>{$second.title}</dt>
           <dd>
             {volist name="second.data" id="second"}
-            <a {if condition="$second.active"}class="active"{/if} href="{$second.name}" title="{$second.title}">{$second.title}</a>
+              {if condition="$second.isnavshow"}
+                <a {if condition="$second.active"}class="active"{/if} href="{$second.name}" title="{$second.title}">{$second.title}</a>
+              {/if}
             {/volist}
             <!-- <a href="" title="second-sidebar1">secondsecondsecondsecond-sidebar1</a>
           <a href="" title="second-sidebar1">second-sidebar1</a>
