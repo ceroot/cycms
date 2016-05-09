@@ -29,16 +29,6 @@ class Base extends Extend
         // 定义UID
         define('UID', session('userid'));
 
-        // $db = db('manager');
-        // dump($db);
-        // $data = $db->select();
-        // dump($data);
-        // $db = \think\Db::name('manager');
-        // dump($db);
-        // $data = $db->select();
-        // dump($data);
-        // die;
-
         if (!UID) {
             $this->redirect('console/login/index');
             exit;
@@ -107,9 +97,7 @@ class Base extends Extend
 
         // 菜单输出
         $menu = model('AuthRule')->consoleMenu();
-        // dump($menu['showtitle']);
 
-        // die;
         $this->assign('menu', $menu);
 
         $this->assign('second', $menu['second']);
@@ -125,7 +113,6 @@ class Base extends Extend
 
     public function basetest()
     {
-
         $status = $this->model->test();
         dump($status);
     }
@@ -137,17 +124,15 @@ class Base extends Extend
 
     function list() {
         $data = $this->_list();
-        // dump($data);
-        // die;
         $this->assign('data', $data);
         return $this->fetch();
     }
 
     public function _list()
     {
-        $scope['pk'] = $this->model->getPk(); // 取得主键字段名
-        $pageLimit   = input('get.limit');
-        $pageLimit   = isset($pageLimit) ? $pageLimit : 10;
+
+        $pageLimit = input('get.limit');
+        $pageLimit = isset($pageLimit) ? $pageLimit : 10;
 
         $count = db(CONTROLLER_NAME)->count(); // 查询满足要求的总记录数
         $page  = new \page\Page($count, $pageLimit); // 实例化分页类 传入总记录数和每页显示的记录数
@@ -156,6 +141,7 @@ class Base extends Extend
         $show = $page->show(); // 分页显示输出
         $this->assign('page', $show); // 赋值分页输出
 
+        $scope['pk']    = $this->model->getPk(); // 取得主键字段名
         $scope['limit'] = $page->listRows; //每页显示数
 
         $data = $this->model::scope(function ($query) use ($scope) {
@@ -181,14 +167,14 @@ class Base extends Extend
 
             $this->model->data($data);
             $status = $this->model->save($data);
-            // return json_encode($data);
+
             if ($status) {
                 $model     = strtolower(toCamel(CONTROLLER_NAME));
                 $action    = ACTION_NAME . '_' . $model;
                 $record_id = getRecordId($action);
 
                 if ($record_id) {
-                    action_log($action, $model, $record_id, UID);
+                    action_log($action, $model, $status, UID);
                 }
 
                 if (CONTROLLER_NAME == 'auth_rule') {
@@ -205,8 +191,6 @@ class Base extends Extend
                 $redata['info']   = '失败';
             }
             return $redata;
-            // return json_encode($redata);
-
         } else {
             return $this->fetch();
         }
@@ -234,7 +218,7 @@ class Base extends Extend
                 $record_id = getRecordId($action);
 
                 if ($record_id) {
-                    action_log($action, $model, $record_id, UID);
+                    action_log($action, $model, $data[$pk], UID);
                 }
 
                 if (CONTROLLER_NAME == 'auth_rule') {
@@ -251,9 +235,7 @@ class Base extends Extend
                 $redata['info']   = '失败';
             }
             return $redata;
-            // return json_encode($redata);
         } else {
-
             $id = input('get.' . $pk);
             if (!$id) {
                 return '参数错误';

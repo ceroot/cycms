@@ -22,4 +22,10 @@ use think\Model;
 class ActionLog extends Model
 {
 
+    public function getStatusTextAttr($value, $data)
+    {
+        $status = [0 => '禁用', 1 => '正常'];
+        return $status[$data['status']];
+    }
+
 }
