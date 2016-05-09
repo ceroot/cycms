@@ -211,7 +211,13 @@ $(function () {
             if(data.status==1){
                 layer.msg(data.info);
                 layer.close(loading);
-                window.location.href = data.url;
+                if(getQueryString('backurl')){
+                    var jumpurl  = getQueryString('backurl');
+                }else{
+                    var jumpurl  = data.url;
+                }
+                console.log(jumpurl);
+                window.location.href = jumpurl;
             }else{
                 layer.msg(data.info,function(){});
                 layer.close(loading);
@@ -265,6 +271,16 @@ var verifyUrl       = '{:url("verify")}';
 function changeCode(){
     $('.captcha').attr('src',verifyUrl + '?t='+genTimestamp());
 }
+
+// 取得 url 参数
+function getQueryString(name)
+{
+    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if(r!=null)return  unescape(r[2]); return null;
+}
+
+
 </script>
 </body>
 </html>

@@ -397,3 +397,12 @@ function toCamel($str)
     $str = str_replace(' ', '', lcfirst($str));
     return $str;
 }
+
+function loginouturl()
+{
+    $backurl  = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    $backurl  = str_replace('/', '%2F', $backurl);
+    $backurl  = str_replace(':', '%3A', $backurl);
+    $loginout = url('Login/loginout') . '?backurl=' . $backurl;
+    return $loginout;
+}

@@ -70,7 +70,12 @@ class Login extends Controller
         session('username', null);
         session('nickname', null);
 
-        return $this->success('注销成功', '/console/index/index');
+        $backurl = input('get.backurl');
+        $backurl = str_replace('/', '%2F', $backurl);
+        $backurl = str_replace(':', '%3A', $backurl);
+        $login   = url('index') . '?backurl=' . $backurl;
+
+        return $this->success('注销成功', $login);
     }
 
     // 显示验证码
