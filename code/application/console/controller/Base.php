@@ -145,14 +145,23 @@ class Base extends Extend
 
     public function _list()
     {
-        $pk = $this->model->getPk();
+        $scope['pk'] = $this->model->getPk(); // 取得主键字段名
+        $pageLimit   = input('get.limit');
+        $pageLimit   = isset($pageLimit) ? $pageLimit : 10;
 
-        $data = $this->model::scope(function ($query) use ($pk) {
-            $query->order($pk, 'desc')->limit(10);
+        $count = db(CONTROLLER_NAME)->count(); // 查询满足要求的总记录数
+        $page  = new \page\Page($count, $pageLimit); // 实例化分页类 传入总记录数和每页显示的记录数
+        $page->setConfig('prev', '上一页');
+        $page->setConfig('next', '下一页');
+        $show = $page->show(); // 分页显示输出
+        $this->assign('page', $show); // 赋值分页输出
+
+        $scope['limit'] = $page->listRows; //每页显示数
+
+        $data = $this->model::scope(function ($query) use ($scope) {
+            $page = input('get.p');
+            $query->order($scope['pk'], 'desc')->page($page, $scope['limit']);
         })->all();
-        // $this->model->toArray();
-        // dump($data);
-        // die;
 
         return $data;
     }
@@ -168,7 +177,6 @@ class Base extends Extend
                 $redata['status'] = 'fail';
                 $redata['info']   = $result;
                 return $redata;
-                // return json_encode($redata);
             }
 
             $this->model->data($data);
@@ -189,7 +197,8 @@ class Base extends Extend
                 }
 
                 $redata['status'] = 'success';
-                $redata['info']   = '成功';
+                $redata['info']   = '添加成功';
+                $redata['url']    = url('list');
 
             } else {
                 $redata['status'] = 'fail';
@@ -203,17 +212,19 @@ class Base extends Extend
         }
     }
 
-    public function addhan()
-    {
-        $data = input('post.');
-        $this->model->save($data);
-    }
-
     public function edit()
     {
         $pk = $this->model->getPk();
         if (IS_AJAX) {
             $data = input('post.');
+
+            $result = $this->validate($data, CONTROLLER_NAME);
+            if (true !== $result) {
+                // 验证失败 输出错误信息
+                $redata['status'] = 'fail';
+                $redata['info']   = $result;
+                return $redata;
+            }
             // return $data;
             $status = $this->model->save($data, [$pk => $data[$pk]]);
             if ($status) {
@@ -232,7 +243,8 @@ class Base extends Extend
                 }
 
                 $redata['status'] = 'success';
-                $redata['info']   = '成功';
+                $redata['info']   = '修改成功';
+                $redata['url']    = url('list');
 
             } else {
                 $redata['status'] = 'fail';

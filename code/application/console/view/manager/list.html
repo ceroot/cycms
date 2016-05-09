@@ -4,40 +4,46 @@
     <table class="table table-condensed table-hover">
         <colgroup>
 	        <col width="60">
-	        <col width="55">
-	        <col width="220">
+	        <col width="120">
+	        <col width="120">
 	        <col>
 	        <col width="200">
-	        <col width="90">
+	        <col width="140">
+	        <col width="140">
 	        <col width="90">
 	        <col width="100">
         </colgroup>
         <thead>
           <tr>
           	<td>id</td>
-            <td align='center'>排序</td>
-            <td>规则标识</td>
-            <td>规则名称</td>
-            <td>条件</td>
+            <td>用户名</td>
+            <td>昵称</td>
+            <td>真实姓名</td>
+            <td>邮箱</td>
+            <td>登录时间</td>
+            <td>注册时间</td>
             <td>状态</td>
-            <td>显示</td>
             <td align='center'>管理操作</td>
           </tr>
         </thead>
 		{volist name='data' id='value'}
 	        <tr>
 	        	<td>{$value.uid}</td>
-				<td align='center'></td>
 				<td>{$value.username}</td>
 				<td>{$value.nickname}</td>
+				<td>{$value.realname}</td>
 				<td>{$value.email}</td>
-				<td>{if condition='$value["status"] eq 0'}启用{else /}禁用{/if}</td>
-				<td>{if condition='$value["role"] eq 1'}显示{else /}隐藏{/if}</td>
+				<td>{$value.login_time_show}</td>
+				<td>{$value.create_time_show}</td>
+				<td>{$value.status_text}</td>
 				<td align='center' >
-					<a href="{:url('manager/edit',array('id'=>$value['uid']))}">修改</a> | 
-					<a class="J_ajax_del" href="{:url('manager/del',array('id'=>$value['uid']))}">删除</a>  
+					<a href="{:url('manager/edit',array('uid'=>$value['uid']))}">修改</a> | 
+					<a class="J_ajax_del" href="{:url('manager/del',array('uid'=>$value['uid']))}">删除</a>  
 				</td>
 			</tr>
 		{/volist}
 	</table>
+	<div class="pager">
+	    {$page}
+	</div>
 {/block}

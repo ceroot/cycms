@@ -7,18 +7,18 @@
 // | Authors: SpringYang [ceroot@163.com]                                 |
 // +----------------------------------------------------------------------+
 /**
- * @filename  Manager.php[管理员控制器]
- * @authors SpringYang
- * @email   ceroot@163.com
- * @QQ      525566309
- * @date    2016-04-28 11:11:47
- * @site    http://www.benweng.com
+ * @filename  ActionLog.php[行为日志控制器]
+ * @authors   SpringYang
+ * @email     ceroot@163.com
+ * @QQ        525566309
+ * @date      2016-05-09 14:50:59
+ * @site      http://www.benweng.com
  */
 namespace app\console\controller;
 
 use app\console\controller\Base;
 
-class Manager extends Base
+class ActionLog extends Base
 {
     /**
      * [_initialize 初始化]
@@ -29,5 +29,4 @@ class Manager extends Base
         parent::_initialize();
 
     }
-
 }

@@ -222,7 +222,11 @@ $(function(){
                             //按钮文案、状态修改
                             btn.prop('disabled',false).removeClass('disabled').text(text.replace('中...', '')).parent().find('span').remove();
                             if(data.status === 'success'){
-                                layer.msg(data.info);
+                                layer.msg(data.info,function(){
+                                   if(data.url){
+                                        window.location.href = data.url;
+                                    } 
+                                });
                             }else{
                                 layer.msg(data.info);
                             }
@@ -559,4 +563,17 @@ function _init(){
 function reloadPage(win) {
     var location = win.location;
     location.href = location.pathname + location.search;
+}
+
+/* getWindexSize Fun */
+function getWindowSize() {
+    var client = {x:0,y:0};
+    if(typeof document.compatMode != 'undefined' && document.compatMode == 'CSS1Compat') {
+        client.x = document.documentElement.clientWidth;
+        client.y = document.documentElement.clientHeight;
+    } else if(typeof document.body != 'undefined' && (document.body.scrollLeft || document.body.scrollTop)) {
+        client.x = document.body.clientWidth;
+        client.y = document.body.clientHeight;
+    }
+    return client;
 }

@@ -39,6 +39,22 @@ class Manager extends Model
         return ip2int();
     }
 
+    public function getStatusTextAttr($value, $data)
+    {
+        $status = [1 => '禁用', 0 => '正常'];
+        return $status[$data['status']];
+    }
+
+    public function getCreateTimeShowAttr($value, $data)
+    {
+        return time_format($data['create_time']);
+    }
+
+    public function getLoginTimeShowAttr($value, $data)
+    {
+        return time_format($data['login_time']);
+    }
+
     // public function __construct()
     // {
     //     // $ddd = 0;

@@ -20,7 +20,7 @@
             <td align='center'>管理操作</td>
           </tr>
         </thead>
-		{volist name='list' id='value'}
+		{volist name='data' id='value'}
 	        <tr>
 	        	<td>{$value.id}</td>
 				<td>{$value.remark}</td>
@@ -33,4 +33,7 @@
 			</tr>
 		{/volist}
 	</table>
+	<div class="pager">
+	    {$page}
+	</div>
 {/block}
