@@ -34,7 +34,6 @@ class Base extends Extend
         }
 
         $manager = db('manager')->find(UID);
-        // dump($manager);
 
         // 锁定判断
         if ($manager['status'] == 1) {
@@ -96,24 +95,18 @@ class Base extends Extend
 
         // 菜单输出
         $menu = model('AuthRule')->consoleMenu();
-
-        $this->assign('menu', $menu);
-
-        $this->assign('second', $menu['second']);
-
-        $this->assign('title', $menu['showtitle']);
-
-        $this->assign('bread', $menu['bread']);
-
-        // 管理员信息输出
-        $this->assign('manager', $manager);
+        $this->assign('menu', $menu); // 一级菜单输出
+        $this->assign('second', $menu['second']); // 二级菜单输出
+        $this->assign('title', $menu['showtitle']); // 标题输出
+        $this->assign('bread', $menu['bread']); // 面包输出
+        $this->assign('manager', $manager); // 管理员信息输出
 
     }
 
     public function basetest()
     {
-        $status = $this->model->test();
-        dump($status);
+        $status = $this->model->updateCache();
+        // dump($status);
     }
 
     public function index()
@@ -154,8 +147,7 @@ class Base extends Extend
     public function add()
     {
         if (IS_AJAX) {
-            $data = input('post.');
-
+            $data   = input('post.');
             $result = $this->validate($data, CONTROLLER_NAME);
             if (true !== $result) {
                 // 验证失败 输出错误信息
@@ -168,12 +160,12 @@ class Base extends Extend
             $status = $this->model->save($data);
 
             if ($status) {
-                $model     = strtolower(toCamel(CONTROLLER_NAME));
-                $action    = ACTION_NAME . '_' . $model;
-                $record_id = getRecordId($action);
+                $controller = strtolower(toCamel(CONTROLLER_NAME));
+                $action     = ACTION_NAME . '_' . $controller;
+                $record_id  = getRecordId($action);
 
                 if ($record_id) {
-                    action_log($action, $model, $status, UID);
+                    action_log($action, $controller, $status, UID);
                 }
 
                 if (CONTROLLER_NAME == 'auth_rule') {
@@ -208,16 +200,16 @@ class Base extends Extend
                 $redata['info']   = $result;
                 return $redata;
             }
-            // return $data;
+
             $status = $this->model->save($data, [$pk => $data[$pk]]);
             if ($status) {
 
-                $model     = strtolower(toCamel(CONTROLLER_NAME));
-                $action    = ACTION_NAME . '_' . $model;
-                $record_id = getRecordId($action);
+                $controller = strtolower(toCamel(CONTROLLER_NAME));
+                $action     = ACTION_NAME . '_' . $controller;
+                $record_id  = getRecordId($action);
 
                 if ($record_id) {
-                    action_log($action, $model, $data[$pk], UID);
+                    action_log($action, $controller, $data[$pk], UID);
                 }
 
                 if (CONTROLLER_NAME == 'auth_rule') {
@@ -248,32 +240,27 @@ class Base extends Extend
 
     public function del()
     {
-
-        $pk = $this->model->getPk();
-        // dump($pk);
-
-        $id = input('get.' . $pk);
-        // dump($id);
-        // die;
+        $pk     = $this->model->getPk();
+        $id     = input('get.' . $pk);
         $status = db(CONTROLLER_NAME)->delete($id);
 
         if ($status) {
+            $controller = strtolower(toCamel(CONTROLLER_NAME));
+            $action     = ACTION_NAME . '_' . $controller;
+            $record_id  = getRecordId($action);
+
+            if ($record_id) {
+                action_log($action, $controller, 0, UID);
+            }
+
             $redata['status'] = 'success';
             $redata['info']   = '成功';
+
         } else {
             $redata['status'] = 'fail';
             $redata['info']   = '失败';
         }
         return $redata;
-        // return json_encode($redata);
-    }
-
-    public function upcache()
-    {
-        $pk = model(CONTROLLER_NAME)->getPk();
-        dump($pk);
-
-        model(CONTROLLER_NAME)->updateCache();
     }
 
 }

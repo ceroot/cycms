@@ -217,13 +217,7 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
     }
     // 取得日志规则
     $action_log = $action_info['log'];
-    // 插入行为日志
-    $data['action_id']   = $action_info['id'];
-    $data['user_id']     = $user_id;
-    $data['action_ip']   = ip2int();
-    $data['model']       = $model;
-    $data['record_id']   = $record_id;
-    $data['create_time'] = NOW_TIME;
+
     // 解析日志规则,生成日志备注
     if (!empty($action_log)) {
         if (preg_match_all('/\[(\S+?)\]/', $action_log, $match)) {
@@ -248,6 +242,15 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
         // 未定义日志规则，记录操作url
         $data['remark'] = '操作url：' . $_SERVER['REQUEST_URI'];
     }
+
+    // 插入行为日志
+    $data['action_id']   = $action_info['id'];
+    $data['user_id']     = $user_id;
+    $data['action_ip']   = ip2int();
+    $data['model']       = $model;
+    $data['record_id']   = $record_id;
+    $data['create_time'] = NOW_TIME;
+
     db('ActionLog')->insert($data);
 }
 

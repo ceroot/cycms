@@ -15,7 +15,7 @@
         <tr>
           <th>父级规则：</th>
           <td class="y-bg">
-            <select name="mid">
+            <select name="mid" multiple="multiple">
               <option value="0">顶级</option>
                 {volist name='data' id='rule'} <option value="{$rule.id}" >{$rule._name}
                   </option>

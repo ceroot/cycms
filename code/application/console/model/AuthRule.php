@@ -67,15 +67,7 @@ class AuthRule extends Model
     public function updateCache()
     {
         $data = db('authRule')->order(['sort' => 'asc', 'id' => 'asc'])->select();
-
-        $temp = array();
-        if ($data) {
-            foreach ($data as $v) {
-                $temp[$v['id']] = $v;
-            }
-        }
-        // return $temp;
-        cache('authrule', $temp);
+        cache('authrule', $data);
     }
     /**
      * [update_cache_auth_model 更新不需要权限验证的控制器、方法和不需要实例化模型缓存]
@@ -203,8 +195,9 @@ class AuthRule extends Model
             $status = $value['status']; // 正常使用标记
             if ($status) {
                 switch ($value['name']) {
-                    case 'Manager/indexddd': // 管理员管理
-                        $name = url($name, array('role' => 1));
+                    case 'manager/log': // 管理员管理
+                        // $name = url($name, array('role' => 1));
+                        $name = url('actionLog/list', array('role' => 1));
                         break;
                     case 'UserComment/index': // 评论管理
                         $name = url($name, array('verifystate' => 1));
