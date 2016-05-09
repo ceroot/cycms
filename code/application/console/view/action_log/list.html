@@ -30,9 +30,7 @@
 				<td>{if condition='$value["status"] eq 1'}正常{else /}禁用{/if}</td>
 				<td>{$value.create_time|time_format}</td>
 				<td>{$value.action_ip|long2ip}</td>
-				<td align='center' >
-					
-				</td>
+				<td align='center' ></td>
 			</tr>
 		{/volist}
 	</table>

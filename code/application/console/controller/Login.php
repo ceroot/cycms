@@ -28,37 +28,16 @@ class Login extends Controller
      */
     public function _initialize()
     {
-        // echo 'init<br/>';
-        // return '测试';
         $this->model = model('manager');
 
-    }
-
-    public function yctest()
-    {
-        // $this->model->updateLogin(1);
-        // Manager::where('uid', 1)->update(['times' => '120']);
-        // die;
-        // $manager        = Manager::get(1);
-        // $manager->times = 120;
-        // $manager->save();
-
-        // die;
-        $manager        = new Manager;
-        $manager->id    = 1;
-        $manager->times = 120;
-        $manager->save();
     }
 
     // 登录首页
     public function index()
     {
-        // dump(md5('ceroot1'));
-
         if (IS_POST) {
 
             if ($user = $this->model->validateLogin()) {
-                // $redata  = $user;
                 // 设置登录错误记录的session为0
                 session('error_num', 0);
                 // 设置session
@@ -66,8 +45,7 @@ class Login extends Controller
                 $this->model->updateLogin($user);
 
                 // 登录日志记录
-                $uid = session('userid');
-                action_log('manager_login', 'manager', $uid, $uid);
+                action_log('manager_login', 'manager', $user['uid'], $user['uid']);
 
                 $redata = array('status' => 1, 'info' => '登录成功', 'url' => url('Index/index'), 'error_num' => 0);
             } else {
@@ -81,9 +59,6 @@ class Login extends Controller
 
             return $redata;
         } else {
-
-            // $view  = new \think\View(\think\Config::get());
-            // return $view->fetch();
             return $this->fetch();
         }
     }
@@ -91,7 +66,6 @@ class Login extends Controller
     // 退出方法
     public function loginout()
     {
-
         session('userid', null);
         session('username', null);
         session('nickname', null);
@@ -113,11 +87,6 @@ class Login extends Controller
     // 验证码方法
     public function verify()
     {
-        // $dd  = new \third\Yctest();
-        // $data = $dd->sayHello();
-        // dump($data);
-        // die;
-
         $config = array(
             'codeSet'  => '0123456789',
             'length'   => 4,
