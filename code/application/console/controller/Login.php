@@ -66,9 +66,13 @@ class Login extends Controller
     // 退出方法
     public function loginout()
     {
+        $mid = session('userid');
+
         session('userid', null);
         session('username', null);
         session('nickname', null);
+
+        action_log('loginout', 'manager', $mid, $mid);
 
         $backurl = input('get.backurl');
         $backurl = str_replace('/', '%2F', $backurl);

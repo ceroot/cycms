@@ -401,6 +401,10 @@ function toCamel($str)
     return $str;
 }
 
+/**
+ * 退出 url
+ * @return     string  (url地址)
+ */
 function loginouturl()
 {
     $backurl  = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
