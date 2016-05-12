@@ -135,3 +135,7 @@ body.skin-default{
 .skin-default .sidebar-tooltip dl > dd > a:hover{
     color: #FFF;
 }
+
+.pager-wrapper{ position: fixed; bottom: 0 }
+.pager-wrapper .pager{margin: 0; padding: 0}
+.pager-wrapper .pager ul.pagination{ padding: 0; margin: 0 }
