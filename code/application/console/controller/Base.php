@@ -25,6 +25,7 @@ class Base extends Extend
 
     public function _initialize()
     {
+
         // 定义UID
         define('UID', session('userid'));
 
