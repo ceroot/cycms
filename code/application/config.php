@@ -35,7 +35,12 @@ return [
         'third' => CODE_PATH . 'third/',
     ],
 
-    // 去掉U方法里的index.php
+    // 去掉url方法里的index.php
     'base_url'         => '',
+
+    // //默认错误跳转对应的模板文件
+    // 'dispatch_error_tmpl'   => APP_PATH . 'tpl/error',
+    // //默认成功跳转对应的模板文件
+    // 'dispatch_success_tmpl' => APP_PATH . 'tpl/success',
 
 ];

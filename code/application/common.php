@@ -407,9 +407,19 @@ function toCamel($str)
  */
 function loginouturl()
 {
-    $backurl  = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-    $backurl  = str_replace('/', '%2F', $backurl);
-    $backurl  = str_replace(':', '%3A', $backurl);
-    $loginout = url('Login/loginout') . '?backurl=' . $backurl;
+    $loginout = url('Login/loginout') . '?backurl=' . getbackurl();
     return $loginout;
+}
+
+/**
+ *getcurrenturl  取得当前url并转换成asc
+ * 退出 url
+ * @return     string  (url地址)
+ */
+function getbackurl()
+{
+    $backurl = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    $backurl = str_replace('/', '%2F', $backurl);
+    $backurl = str_replace(':', '%3A', $backurl);
+    return $backurl;
 }

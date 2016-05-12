@@ -29,7 +29,9 @@ class Base extends Extend
         define('UID', session('userid'));
 
         if (!UID) {
-            $this->redirect('console/login/index');
+            $redirecturl = url('console/login/index') . '?backurl=' . getbackurl();
+            // $this->redirect('console/login/index');
+            $this->error('请登录', $redirecturl);
             exit;
         }
 
@@ -37,7 +39,10 @@ class Base extends Extend
 
         // 锁定判断
         if ($manager['status'] == 1) {
-            $this->redirect('console/login/index');
+            $redirecturl = url('console/login/index') . '?backurl=' . getbackurl();
+            // $this->redirect('console/login/index');
+            $this->error('账号被锁定，请联系管理员', $redirecturl);
+            exit;
         }
 
         // 生成不需要进行权限验证的和不需要实例化模型的控制器缓存
@@ -73,11 +78,7 @@ class Base extends Extend
                 // 提示
                 // $this->assign('message','您没有相关权限');
                 // $this->display('./Data/Public/notice/auth.html');
-                // return $this->error('您没有相关权限');
-                // return $this->error('您没有相关权限');
-                //return $this->error('您没有相关权限');
-                echo '您没有相关权限';
-                // $this->error('您没有相关权限');
+                $this->error('您没有相关权限');
                 // return false;
                 exit;
             }
