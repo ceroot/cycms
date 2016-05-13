@@ -59,16 +59,16 @@ class Cache extends Base
                     break;
                 case 'Table':
                     model("authRule")->updateCache();
-                    is_file(RUNTIME_PATH . 'common~runtime.php') &&
-                    unlink(RUNTIME_PATH . 'common~runtime.php');
-                    // 删除目录
-                    Dir::del(RUNTIME_PATH . 'cache');
+                    // is_file(RUNTIME_PATH . 'common~runtime.php') &&
+                    // unlink(RUNTIME_PATH . 'common~runtime.php');
+                    // // 删除目录
+                    // Dir::del(RUNTIME_PATH . 'cache');
                     Dir::del(RUNTIME_PATH . 'temp');
                     Dir::del(RUNTIME_PATH . 'data');
                     Dir::del(RUNTIME_PATH . 'logs');
 
                     $msg            = '数据表缓存更新成功...';
-                    $data['status'] = 1;
+                    $data['status'] = 0;
                     $data['url']    = url('cache/update');
                     cache('action', $action);
                 default:
