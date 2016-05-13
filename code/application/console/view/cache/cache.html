@@ -1,7 +1,7 @@
 {extend name="mould:base" /}
 {block name="title"}{/block}
 {block name="content"}
-<form action="{:url('cachedo')}" method="post" >
+<form action="{:url('cache')}" method="post" >
     <div class="table_full">
 		<div class="h_a">更新缓存</div>
 		<table width='100%'  class="table_form">
@@ -39,7 +39,7 @@
 				</td>
 			</tr>
 		</table>
-	
+	    <div class="showstatus"></div>
     </div>
 
 	<div class="">
@@ -49,4 +49,37 @@
 		</div>
 	</div>
 </form>
+<script type="text/javascript">
+
+$(function(){
+	$('.btn_submit').on('click',function(e){
+		e.preventDefault();
+		var _self  = $(this);
+		var _form  = _self.closest('form');
+		var _url   = _form.prop('action');
+		var _data  = _form.serialize();
+		$.ajax({
+			type:'post',
+			url:_url,
+			data:_data,
+			dataType:'json',
+			success:function(data){
+				console.log(data);
+				if(data.data.status==1){
+					if(data.code==1){
+						_self.click();
+						var _html  = '<p>'+data.msg+'</p>';
+						$('.showstatus').append(_html);
+					}
+				}else{
+					var _html  = '<p>'+data.msg+'</p>';
+					$('.showstatus').append(_html);
+				}
+			}
+		});
+		// alert(_url);
+		//return false;
+	});
+});
+</script>
 {/block}

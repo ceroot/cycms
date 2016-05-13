@@ -28,13 +28,56 @@ class Cache extends Base
     }
     public function cache()
     {
-        $action = input('post.');
-        cache('action', $action['action']);
-        return $this->success('准备更新...', url('cache/update'));
+        // $action = input('post.');
+        // cache('action', $action['action']);
+        // return $this->success('准备更新...', url('cache/update'));
 
-        die;
+        // die;
         if (IS_POST) {
-            $action = input('post.action');
+            // return 1;
+            if (!cache('action')) {
+                $action = input('post.');
+                $action = $action['action'];
+                cache('action', $action);
+            } else {
+                $action = cache('action');
+            }
+
+            $current = array_shift($action);
+            cache('action', $action);
+            switch ($current) {
+                case 'Config':
+                    $msg            = '网站配置更新成功...';
+                    $data['status'] = 1;
+                    $data['url']    = url('cache/update');
+                    break;
+                case 'Category':
+                    $msg            = '栏目缓存更新成功...';
+                    $data['status'] = 1;
+                    $data['url']    = url('cache/update');
+                    //D('Category')->update_cache();
+                    break;
+                case 'Table':
+                    model("authRule")->updateCache();
+                    is_file(RUNTIME_PATH . 'common~runtime.php') &&
+                    unlink(RUNTIME_PATH . 'common~runtime.php');
+                    // 删除目录
+                    Dir::del(RUNTIME_PATH . 'cache');
+                    Dir::del(RUNTIME_PATH . 'temp');
+                    Dir::del(RUNTIME_PATH . 'data');
+                    Dir::del(RUNTIME_PATH . 'logs');
+
+                    $msg            = '数据表缓存更新成功...';
+                    $data['status'] = 1;
+                    $data['url']    = url('cache/update');
+                    cache('action', $action);
+                default:
+                    # code...
+                    break;
+            }
+            //cache('action', null);
+            return $this->success($msg, '', $data);
+            return 0;
             cache('action', $action);
             return $this->success('准备更新...', url('cache/update'));
         } else {
