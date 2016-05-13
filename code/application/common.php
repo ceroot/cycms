@@ -407,7 +407,8 @@ function toCamel($str)
  */
 function loginouturl()
 {
-    $loginout = url('Login/loginout') . '?backurl=' . getbackurl();
+    // $loginout = url('Login/loginout') . '?backurl=' . getbackurl();
+    $loginout = url('console/login/index?time=' . getnum()) . '?backurl=' . getbackurl();
     return $loginout;
 }
 
@@ -422,4 +423,10 @@ function getbackurl()
     $backurl = str_replace('/', '%2F', $backurl);
     $backurl = str_replace(':', '%3A', $backurl);
     return $backurl;
+}
+
+function getnum()
+{
+    $time = substr(implode(null, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 10);
+    return $time;
 }
