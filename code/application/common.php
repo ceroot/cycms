@@ -408,7 +408,7 @@ function toCamel($str)
 function loginouturl()
 {
     // $loginout = url('Login/loginout') . '?backurl=' . getbackurl();
-    $loginout = url('console/login/index?time=' . getnum()) . '?backurl=' . getbackurl();
+    $loginout = url('console/login/index?time=' . date('YmdHis') . getrandom(128)) . '?backurl=' . getbackurl();
     return $loginout;
 }
 
@@ -425,8 +425,74 @@ function getbackurl()
     return $backurl;
 }
 
-function getnum()
+// function getnum($length = 32)
+// {
+//     $time = substr(implode(null, array_map('ord', str_split(md5(uniqid()), 1))), 0, $length);
+
+//     return $time;
+// }
+
+/**
+ * 随机数函数
+ * @param   [string]    $length     [长度]
+ * @param   [int]       $numeric    [类型 0为数字，1为全部，2为大写，3为小写，4为数字加小写，5为uniqid()]
+ * @return  [string]    $hash       [返回数字]
+ */
+function getrandom($length = 6, $numeric = 0)
 {
-    $time = substr(implode(null, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 10);
-    return $time;
+    PHP_VERSION < '4.2.0' && mt_srand((double) microtime() * 1000000);
+    if ($length > 10 && $numeric == 0) {
+        $numeric = 5;
+    }
+
+    $hash = '';
+    switch ($numeric) {
+        case 0:
+            $hash = sprintf('%0' . $length . 'd', mt_rand(0, pow(10, $length) - 1));
+            break;
+        case 1:
+            $chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789abcdefghjkmnpqrstuvwxyz';
+            $max   = strlen($chars) - 1;
+            for ($i = 0; $i < $length; $i++) {
+                $hash .= $chars[mt_rand(0, $max)];
+            }
+            break;
+        case 2:
+            $chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+            $max   = strlen($chars) - 1;
+            for ($i = 0; $i < $length; $i++) {
+                $hash .= $chars[mt_rand(0, $max)];
+            }
+            break;
+        case 3:
+            $chars = 'abcdefghjkmnpqrstuvwxyz';
+            $max   = strlen($chars) - 1;
+            for ($i = 0; $i < $length; $i++) {
+                $hash .= $chars[mt_rand(0, $max)];
+            }
+            break;
+        case 4:
+            $chars = '23456789abcdefghjkmnpqrstuvwxyz';
+            $max   = strlen($chars) - 1;
+            for ($i = 0; $i < $length; $i++) {
+                $hash .= $chars[mt_rand(0, $max)];
+            }
+        case 5:
+            $uniqid = implode(null, array_map('ord', str_split(md5(uniqid()), 1)));
+            $max    = strlen($uniqid) - 1;
+            for ($i = 0; $i < $length; $i++) {
+                $temp = $uniqid[mt_rand(0, $max)];
+                // 去掉第一个为 0 的情况
+                if ($i == 0 && $temp == 0) {
+                    $temp = sprintf('%0' . 1 . 'd', mt_rand(0, pow(10, 1) - 1));
+                }
+                $hash .= $temp;
+            }
+            break;
+        default:
+            $hash = sprintf('%0' . $length . 'd', mt_rand(0, pow(10, $length) - 1));
+            // 代码
+    }
+
+    return $hash;
 }
