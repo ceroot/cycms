@@ -11,12 +11,20 @@
 // $Id$
 
 return [
-    '__pattern__' => [
+    '__pattern__'      => [
         'name' => '\w+',
+        'id'   => '\d+',
     ],
-    '[hello]'     => [
-        ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
-        ':name' => ['index/hello', ['method' => 'post']],
-    ],
+    // '[hello]'     => [
+    //     ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
+    //     ':name' => ['index/hello', ['method' => 'post']],
+    // ],
+    // 'new/:id'  => 'News/read',
+    // 'blog/:id' => ['Blog/update', ['method' => 'post|put'], ['id' => '\d+']],
+    // 'hello/:name'   => 'index/hello',
+    'hello/[:name]'    => 'index/hello',
+    'news/[:id]'       => 'news/read',
+    'con/[:time]'      => ['console/index/index', ['method' => 'get'], ['time' => '\d+']],
+    'conlogin/[:time]' => ['console/login/index', ['time' => '\d+']],
 
 ];
