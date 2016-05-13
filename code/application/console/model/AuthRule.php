@@ -195,6 +195,11 @@ class AuthRule extends Model
             $status = $value['status']; // 正常使用标记
             if ($status) {
                 switch ($value['name']) {
+                    case 'index/index':
+                        $time = date('YmdHis') . getrandom(128);
+                        $name = url('console/index/index?time=' . $time);
+                        # code...
+                        break;
                     case 'manager/log': // 管理员管理
                         // $name = url($name, array('role' => 1));
                         $name = url('actionLog/list', array('role' => 1));
