@@ -21,34 +21,34 @@ use think\Model;
 class Action extends Model
 {
 
-    protected $autoTimeField = ['create_time', 'update_time'];
-    protected $insert        = ['create_time', 'create_ip', 'create_uid'];
-    protected $update        = ['update_time', 'update_ip', 'update_uid'];
+    // protected $autoTimeField = ['create_time', 'update_time'];
+    // protected $insert        = ['create_time', 'create_ip', 'create_uid'];
+    // protected $update        = ['update_time', 'update_ip', 'update_uid'];
 
-    public function setCreateIpAttr($value)
-    {
-        return ip2int();
-    }
+    // public function setCreateIpAttr($value)
+    // {
+    //     return ip2int();
+    // }
 
-    public function setUpdateIpAttr($value)
-    {
-        return ip2int();
-    }
+    // public function setUpdateIpAttr($value)
+    // {
+    //     return ip2int();
+    // }
 
-    public function setCreateUidAttr($value)
-    {
-        return UID;
-    }
+    // public function setCreateUidAttr($value)
+    // {
+    //     return UID;
+    // }
 
-    public function setUpdateUidAttr($value)
-    {
-        return UID;
-    }
+    // public function setUpdateUidAttr($value)
+    // {
+    //     return UID;
+    // }
 
-    public function getStatusTextAttr($value, $data)
-    {
-        $status = [0 => '禁用', 1 => '正常'];
-        return $status[$data['status']];
-    }
+    // public function getStatusTextAttr($value, $data)
+    // {
+    //     $status = [0 => '禁用', 1 => '正常'];
+    //     return $status[$data['status']];
+    // }
 
 }

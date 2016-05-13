@@ -35,6 +35,24 @@ class Login extends Controller
     // 登录首页
     public function index()
     {
+        // $uniqid = uniqid();
+        // $star   = 7;
+        // dump($uniqid);
+        // dump(substr($uniqid, $star, 13));
+        // dump(str_split(substr($uniqid, $star, 13), 1));
+        // dump(array_map('ord', str_split(substr($uniqid, $star, 13), 1)));
+        // dump(implode(null, array_map('ord', str_split(substr($uniqid, $star, 13), 1))));
+
+        // dump(substr(implode(null, array_map('ord', str_split(substr($uniqid, $star, 13), 1))), 0, 8));
+        // dump(substr(implode(null, array_map('ord', str_split(substr($uniqid, $star, 13), 1))), 0, 8));
+        // dump('-----------');
+        // dump(implode(null, array_map('ord', str_split(substr($uniqid, $star, 13), 1))));
+        // dump(str_split($uniqid));
+        // dump(array_map('ord', str_split($uniqid, 1)));
+        // dump(implode(null, array_map('ord', str_split($uniqid, 1))));
+        // dump('-----------');
+
+        // dump($no);
         if (IS_POST) {
 
             if ($user = $this->model->validateLogin()) {
@@ -46,8 +64,9 @@ class Login extends Controller
 
                 // 登录日志记录
                 action_log('manager_login', 'manager', $user['uid'], $user['uid']);
-
-                $redata = array('status' => 1, 'info' => '登录成功', 'url' => url('Index/index'), 'error_num' => 0);
+                // url('blog/read?name=thinkphp');
+                $time   = date('YmdHis') . getnum();
+                $redata = array('status' => 1, 'info' => '登录成功', 'url' => url('console/index/index?time=' . $time), 'error_num' => 0);
             } else {
                 $error_num = session('error_num');
                 if ($error_num >= 3) {
@@ -77,7 +96,8 @@ class Login extends Controller
         $backurl = input('get.backurl');
         $backurl = str_replace('/', '%2F', $backurl);
         $backurl = str_replace(':', '%3A', $backurl);
-        $login   = url('index') . '?backurl=' . $backurl;
+        // $login   = url('index') . '?backurl=' . $backurl;
+        $login = url('console/login/index?time=' . time()) . '?backurl=' . $backurl;
 
         return $this->success('注销成功', $login);
     }
