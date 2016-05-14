@@ -43,4 +43,10 @@ return [
     //默认成功跳转对应的模板文件
     'dispatch_success_tmpl' => APP_PATH . 'notice/success.html',
 
+    'captcha'               => [
+        'imageH'   => 34,
+        'fontSize' => 14, // 验证码字体大小(px)
+        'length'   => 3, // 验证码位数
+    ],
+
 ];
