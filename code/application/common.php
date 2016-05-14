@@ -5,6 +5,7 @@ function yctest()
     // $dd  = new \third\Yctest();
     return Yctest::sayHello();
 }
+
 /**
  * 验证码验证
  * @param  string    $$code    传入的验证码
@@ -178,8 +179,9 @@ function get_nickname($uid = null)
         return session('username');
     }
     // $uid  = session('userid');
-    return db('manager')->getFieldByUid($uid, 'nickname');
+    return db('manager')->getFieldById($uid, 'nickname');
 }
+
 /**
  * 取得管理员真实姓名
  * @param int $uid
@@ -192,7 +194,19 @@ function get_realname($uid = null)
         return '';
     }
     // $uid  = session('userid');
-    return db('manager')->getFieldByUid($uid, 'realname');
+    return db('manager')->getFieldById($uid, 'realname');
+}
+
+/**
+ * 获得禁用和启用文字
+ * @param string $model_id
+ * @author SpringYang <ceroot@163.com>
+ */
+function disable_enable($model_id)
+{
+    $arr    = explode('|', $model_id);
+    $status = db($arr[0])->getFieldById($arr[1], 'status');
+    return ($status == 1) ? '启用' : '禁用';
 }
 
 /**
@@ -221,11 +235,12 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
     // 解析日志规则,生成日志备注
     if (!empty($action_log)) {
         if (preg_match_all('/\[(\S+?)\]/', $action_log, $match)) {
-            $log['user']   = $user_id;
-            $log['record'] = $record_id;
-            $log['model']  = $model;
-            $log['time']   = NOW_TIME;
-            $log['data']   = array('user' => $user_id, 'model' => $model, 'record' => $record_id, 'time' => NOW_TIME);
+            $log['user']     = $user_id;
+            $log['record']   = $record_id;
+            $log['model']    = $model;
+            $log['model_id'] = $model . '|' . $record_id;
+            $log['time']     = NOW_TIME;
+            $log['data']     = array('user' => $user_id, 'model' => $model, 'record' => $record_id, 'time' => NOW_TIME);
             foreach ($match[1] as $value) {
                 $param = explode('|', $value);
                 if (isset($param[1])) {
@@ -345,23 +360,6 @@ function execute_action($rules = false, $action_id = null, $user_id = null)
         }
     }
     return $return;
-}
-
-/**
- * 取得行为id并返回
- * @param string $action 行为标识
- * @return $id | boolean
- * @author
- */
-function getRecordId($action)
-{
-    // $data = db('action')->where('name'=>$action)->find();
-    $id = db('action')->getFieldByName($action, 'id');
-    if ($id) {
-        return $id;
-    } else {
-        return false;
-    }
 }
 
 /**
