@@ -14,7 +14,7 @@
 								<td>
 									<label>
 										<input type="checkbox" name="action[]" value="Config" checked='checked'/>
-										更新网站配置
+										网站配置
 									</label>
 								</td>
 							</tr>
@@ -52,33 +52,37 @@
 <script type="text/javascript">
 
 $(function(){
-	$('.btn_submit').on('click',function(e){
+	$('button.btn_submit').on('click',function(e){
+		// alert(1);
 		e.preventDefault();
 		var _self  = $(this);
 		var _form  = _self.closest('form');
 		var _url   = _form.prop('action');
 		var _data  = _form.serialize();
+		var showstatus  = $('.showstatus');
+
 		$.ajax({
 			type:'post',
 			url:_url,
 			data:_data,
 			dataType:'json',
+			befor:function(){
+
+			},
 			success:function(data){
 				console.log(data);
-				if(data.data.status==1){
-					if(data.code==1){
-						_self.click();
-						var _html  = '<p>'+data.msg+'</p>';
-						$('.showstatus').append(_html);
-					}
+				if(data.code==1){
+					_self.click();
+					var _html  = '<p>'+data.msg+'</p>';
+					showstatus.append(_html);
 				}else{
 					var _html  = '<p>'+data.msg+'</p>';
-					$('.showstatus').append(_html);
+					showstatus.append(_html);
 				}
 			}
 		});
 		// alert(_url);
-		//return false;
+		return false;
 	});
 });
 </script>

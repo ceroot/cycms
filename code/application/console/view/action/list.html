@@ -20,7 +20,7 @@
             <td>行为描述</td>
             <td>行为规则</td>
             <td>状态</td>
-            <td>显示</td>
+            <td>类型</td>
             <td align='center'>管理操作</td>
           </tr>
         </thead>
@@ -32,11 +32,11 @@
 				<td>{$value.remark}</td>
 				<td>{$value.log}</td>
 				<td>{$value.status_text}</td>
-				<td>{$value.type}</td>
+				<td>{$value.type_text}</td>
 				<td align='center' >
-					<a href="{:url('action/edit',array('id'=>$value['id']))}">修改</a> | 
-					<a class="J_ajax_del" href="{:url('action/edit',array('id'=>$value['id']))}">禁用</a> | 
-					<a class="J_ajax_del" href="{:url('action/del',array('id'=>$value['id']))}">删除</a>  
+					<a href="{:url('action/edit',array('id'=>$value['id']))}" title="修改">修改</a> | 
+					<a class="J_ajax_del" href="{:url('action/disable',array('id'=>$value['id']))}" title="{$value.status_handle_text}">{$value.status_handle_text}</a> | 
+					<a class="J_ajax_del" href="{:url('action/del',array('id'=>$value['id']))}" title="删除">删除</a>  
 				</td>
 			</tr>
 		{/volist}

@@ -11,7 +11,7 @@
 	        <col width="140">
 	        <col width="140">
 	        <col width="90">
-	        <col width="100">
+	        <col width="140">
         </colgroup>
         <thead>
           <tr>
@@ -28,7 +28,7 @@
         </thead>
 		{volist name='data' id='value'}
 	        <tr>
-	        	<td>{$value.uid}</td>
+	        	<td>{$value.id}</td>
 				<td>{$value.username}</td>
 				<td>{$value.nickname}</td>
 				<td>{$value.realname}</td>
@@ -37,8 +37,9 @@
 				<td>{$value.create_time_show}</td>
 				<td>{$value.status_text}</td>
 				<td align='center' >
-					<a href="{:url('manager/edit',array('uid'=>$value['uid']))}">修改</a> | 
-					<a class="J_ajax_del" href="{:url('manager/del',array('uid'=>$value['uid']))}">删除</a>  
+					<a href="{:url('manager/disable',array('id'=>$value['id']))}" class="J_ajax_del" title="{eq name="value.status" value="0"}启用{else /}禁用{/eq}">{eq name="value.status" value="0"}启用{else /}禁用{/eq}</a> | 
+					<a href="{:url('manager/edit',array('id'=>$value['id']))}" title="修改">修改</a> | 
+					<a href="{:url('manager/del',array('id'=>$value['id']))}" class="J_ajax_del" title="删除">删除</a>  
 				</td>
 			</tr>
 		{/volist}

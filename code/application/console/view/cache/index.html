@@ -1,52 +1,5 @@
 {extend name="mould:base" /}
 {block name="title"}{/block}
 {block name="content"}
-<form action="{:url('cache')}" method="post" >
-    <div class="table_full">
-		<div class="h_a">更新缓存</div>
-		<table width='100%'  class="table_form">
-			<tr>
-				<th width="200" style='vertical-align:middle'>选择更新</th>
-				<td>
-					<table>
-						<tbody>
-							<tr>
-								<td>
-									<label>
-										<input type="checkbox" name="action[]" value="Config" checked='checked'/>
-										更新网站配置
-									</label>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label>
-										<input type="checkbox" name="action[]" value="Category" checked='checked'/>
-										栏目缓存
-									</label>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label>
-										<input type="checkbox" name="action[]" value="Table" checked='checked'/>
-										数据表缓存
-									</label>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</td>
-			</tr>
-		</table>
-	
-    </div>
-
-	<div class="">
-		<div class="btn_wrap_pd">
-			<button class="btn btn_submit mr10 " type="submit">更新缓存</button>
-
-		</div>
-	</div>
-</form>
+cache
 {/block}
