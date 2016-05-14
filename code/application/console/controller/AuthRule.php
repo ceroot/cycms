@@ -62,4 +62,32 @@ class AuthRule extends Base
         return json_encode($redata);
     }
 
+    public function adduser()
+    {
+        $data['name']  = 'cer111';
+        $data['title'] = '111111111';
+
+        //$model = model(CONTROLLER_NAME);
+        $user        = model(CONTROLLER_NAME);
+        $user->name  = 'm54';
+        $user->title = 't54';
+        $user->fdsf  = 'test';
+        $status      = $user->save();
+        if ($status) {
+            dump($status);
+        } else {
+            dump('失败');
+        };
+
+        // $user->data($data);
+        // $status = $user->sava();
+
+        // if ($status) {
+        //     dump($status);
+        // } else {
+        //     dump($user->getError());
+        // }
+
+    }
+
 }

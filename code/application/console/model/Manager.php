@@ -21,27 +21,45 @@ use think\Model;
 
 class Manager extends Model
 {
-    protected $pk = 'uid';
 
     // 自动完成
     protected $auto          = [];
     protected $autoTimeField = ['create_time', 'login_time', 'update_time'];
-    protected $insert        = ['create_time', 'create_ip'];
-    protected $update        = ['login_time', 'login_ip'];
+    protected $insert        = ['create_uid', 'create_time', 'create_ip'];
+    protected $update        = ['update_uid', 'login_time', 'login_ip'];
+
+    // public function setPasswordAttr($value, $data)
+    // {
+    //     return md5(input('username') . input('password'));
+    // }
 
     public function setLoginIpAttr($value)
     {
         return ip2int();
     }
 
-    public function setCreateIpAttr($value)
+    public function setCreateUidAttr($value, $data)
+    {
+        if (input('password')) {
+            $this->data['password'] = md5(input('username') . input('password'));
+        }
+
+        return UID;
+    }
+
+    public function setCreateIpAttr()
     {
         return ip2int();
     }
 
+    public function setUpdateUidAttr()
+    {
+        return session('userid');
+    }
+
     public function getStatusTextAttr($value, $data)
     {
-        $status = [1 => '禁用', 0 => '正常'];
+        $status = [0 => '禁用', 1 => '正常'];
         return $status[$data['status']];
     }
 
@@ -95,13 +113,18 @@ class Manager extends Model
         }
 
         // 验证码是否相等
-        if ($error_num > 3 && !verifyCheck($code)) {
+        // if ($error_num > 3 && !verifyCheck($code)) {
+        //     $this->error = '验证码输入错误';
+        //     return false;
+        // }
+        // $error_num = 4;
+        if ($error_num > 3 && !captcha_check($code)) {
             $this->error = '验证码输入错误';
             return false;
         }
 
         $user = db('manager')->where('username', $username)->find();
-        return $user;
+        // return $user;
         if (!$user) {
             $this->error = '用户名不存在';
             session('error_num', $error_num + 1);
@@ -114,7 +137,7 @@ class Manager extends Model
             return false;
         }
 
-        if ($user['status']) {
+        if (!$user['status']) {
             $this->error = '用户锁定中，请联系管理员';
             return false;
         }
@@ -135,7 +158,7 @@ class Manager extends Model
      */
     public function setSession($user)
     {
-        session('userid', $user['uid']);
+        session('userid', $user['id']);
         session('username', $user['username']);
         session('nickname', $user['nickname']);
     }
@@ -150,7 +173,7 @@ class Manager extends Model
         // 更新登录信息
         $data['times'] = $user['times'] + 1;
         $manager       = model('manager');
-        $manager->save($data, ['uid' => $user['uid']]);
+        $manager->save($data, ['id' => $user['id']]);
     }
 
 }

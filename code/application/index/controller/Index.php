@@ -8,9 +8,11 @@ class Index
         return 'index';
     }
 
-    public function hello($name = 'World')
+    public function hello()
     {
-        return 'Hello,' . $name . '！';
+        $qin = new \think\auth\Qin();
+        $qin = $qin->hello();
+        dump(qin());
     }
 
     public function zs()

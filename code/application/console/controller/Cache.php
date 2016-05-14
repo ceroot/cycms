@@ -34,52 +34,53 @@ class Cache extends Base
 
         // die;
         if (IS_POST) {
-            // return 1;
             if (!cache('action')) {
                 $action = input('post.');
                 $action = $action['action'];
                 cache('action', $action);
+
             } else {
                 $action = cache('action');
             }
 
+            cache('actionlength', count($action));
             $current = array_shift($action);
             cache('action', $action);
-            switch ($current) {
-                case 'Config':
-                    $msg            = '网站配置更新成功...';
-                    $data['status'] = 1;
-                    $data['url']    = url('cache/update');
-                    break;
-                case 'Category':
-                    $msg            = '栏目缓存更新成功...';
-                    $data['status'] = 1;
-                    $data['url']    = url('cache/update');
-                    //D('Category')->update_cache();
-                    break;
-                case 'Table':
-                    model("authRule")->updateCache();
-                    // is_file(RUNTIME_PATH . 'common~runtime.php') &&
-                    // unlink(RUNTIME_PATH . 'common~runtime.php');
-                    // // 删除目录
-                    // Dir::del(RUNTIME_PATH . 'cache');
-                    Dir::del(RUNTIME_PATH . 'temp');
-                    Dir::del(RUNTIME_PATH . 'data');
-                    Dir::del(RUNTIME_PATH . 'logs');
 
-                    $msg            = '数据表缓存更新成功...';
-                    $data['status'] = 0;
-                    $data['url']    = url('cache/update');
-                    cache('action', $action);
-                default:
-                    # code...
-                    break;
+            if (cache('actionlength') > 1) {
+                switch ($current) {
+                    case 'Config':
+                        $msg = '网站配置更新成功...';
+                        break;
+                    case 'Category':
+                        $msg = '栏目缓存更新成功...';
+                        //D('Category')->update_cache();
+                        break;
+                    case 'Table':
+                        model("authRule")->updateCache();
+                        // is_file(RUNTIME_PATH . 'common~runtime.php') &&
+                        // unlink(RUNTIME_PATH . 'common~runtime.php');
+                        // // 删除目录
+                        // Dir::del(RUNTIME_PATH . 'cache');
+                        Dir::del(RUNTIME_PATH . 'temp');
+                        Dir::del(RUNTIME_PATH . 'data');
+                        Dir::del(RUNTIME_PATH . 'logs');
+
+                        $msg = '数据表缓存更新成功...';
+                    default:
+                        # code...
+                        break;
+                }
+                return $this->success($msg);
+            } else {
+                $msg = '缓存更新成功...';
+                cache('action', null);
+                cache('actionlength', null);
+                // 日志记录
+                action_log('cache', '1', UID, UID);
+                return $this->error($msg);
             }
-            //cache('action', null);
-            return $this->success($msg, '', $data);
-            return 0;
-            cache('action', $action);
-            return $this->success('准备更新...', url('cache/update'));
+
         } else {
             return $this->fetch();
         }
