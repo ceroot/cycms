@@ -1,0 +1,40 @@
+[
+    {
+        "name": "topthink/think-captcha",
+        "version": "v1.0.3",
+        "version_normalized": "1.0.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/top-think/think-captcha.git",
+            "reference": "e1a0260861cc60617bac85649d8dc0c01e5e4330"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/top-think/think-captcha/zipball/e1a0260861cc60617bac85649d8dc0c01e5e4330",
+            "reference": "e1a0260861cc60617bac85649d8dc0c01e5e4330",
+            "shasum": ""
+        },
+        "time": "2016-05-12 10:02:08",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "think\\captcha\\": "src/"
+            },
+            "files": [
+                "src/helper.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "yunwuxin",
+                "email": "448901948@qq.com"
+            }
+        ],
+        "description": "captcha package for thinkphp5"
+    }
+]
