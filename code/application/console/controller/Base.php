@@ -39,7 +39,7 @@ class Base extends Extend
         $manager = db('manager')->find(UID);
 
         // 锁定判断
-        if ($manager['status'] == 1) {
+        if ($manager['status'] == 0) {
             $redirecturl = url('console/login/index') . '?backurl=' . getbackurl();
             // $this->redirect('console/login/index');
             $this->error('账号被锁定，请联系管理员', $redirecturl);
@@ -107,8 +107,14 @@ class Base extends Extend
 
     public function basetest()
     {
-        $status = $this->model->updateCache();
-        // dump($status);
+        // $pk = model('qin')->getPk();
+        // dump($pk);
+        $action     = 'add_manage';
+        $controller = 1;
+        $status     = 1;
+        $stu        = action_log($action, $controller, $status, UID);
+
+        dump($stu);
     }
 
     public function index()
@@ -149,7 +155,8 @@ class Base extends Extend
     public function add()
     {
         if (IS_AJAX) {
-            $data   = input('post.');
+            $data = input('post.');
+            // return $data;
             $result = $this->validate($data, CONTROLLER_NAME);
             if (true !== $result) {
                 // 验证失败 输出错误信息
@@ -159,16 +166,14 @@ class Base extends Extend
             }
 
             $this->model->data($data);
+
             $status = $this->model->save($data);
 
             if ($status) {
                 $controller = strtolower(toCamel(CONTROLLER_NAME));
                 $action     = ACTION_NAME . '_' . $controller;
-                $record_id  = getRecordId($action);
 
-                if ($record_id) {
-                    action_log($action, $controller, $status, UID);
-                }
+                action_log($action, $controller, $status, UID);
 
                 if (CONTROLLER_NAME == 'auth_rule') {
                     $this->model->updateCache(); // 更新缓存
@@ -208,11 +213,8 @@ class Base extends Extend
 
                 $controller = strtolower(toCamel(CONTROLLER_NAME));
                 $action     = ACTION_NAME . '_' . $controller;
-                $record_id  = getRecordId($action);
 
-                if ($record_id) {
-                    action_log($action, $controller, $data[$pk], UID);
-                }
+                action_log($action, $controller, $data[$pk], UID);
 
                 if (CONTROLLER_NAME == 'auth_rule') {
                     $this->model->updateCache(); // 更新缓存
@@ -233,8 +235,11 @@ class Base extends Extend
             if (!$id) {
                 return '参数错误';
             } else {
-                $data = db(CONTROLLER_NAME)->find($id);
-                $this->assign('one', $data);
+                $one = db(CONTROLLER_NAME)->find($id);
+                $one = db(CONTROLLER_NAME)->find($id);
+                // dump($one);
+                // die;
+                $this->assign('one', $one);
                 return $this->fetch();
             }
         }
@@ -249,11 +254,37 @@ class Base extends Extend
         if ($status) {
             $controller = strtolower(toCamel(CONTROLLER_NAME));
             $action     = ACTION_NAME . '_' . $controller;
-            $record_id  = getRecordId($action);
 
-            if ($record_id) {
-                action_log($action, $controller, 0, UID);
-            }
+            // 记录日志
+            action_log($action, $controller, 1, UID);
+
+            $redata['status'] = 'success';
+            $redata['info']   = '成功';
+
+        } else {
+            $redata['status'] = 'fail';
+            $redata['info']   = '失败';
+        }
+        return $redata;
+    }
+
+    // 更改 status 字段
+    public function disable()
+    {
+        $pk     = $this->model->getPk();
+        $id     = input('get.' . $pk);
+        $status = db(CONTROLLER_NAME)->getFieldById($id, 'status');
+
+        $data['status'] = ($status == 1) ? 0 : 1;
+
+        $status = $this->model->save($data, [$pk => $id]);
+
+        if ($status) {
+            $controller = strtolower(toCamel(CONTROLLER_NAME));
+            $action     = ACTION_NAME . '_' . $controller;
+
+            // 记录日志
+            action_log($action, $controller, $id, UID);
 
             $redata['status'] = 'success';
             $redata['info']   = '成功';
