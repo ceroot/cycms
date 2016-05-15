@@ -27,6 +27,9 @@ class Manager extends Base
     public function _initialize()
     {
         parent::_initialize();
+        if (ACTION_NAME == 'edit') {
+            $data['password'] = md5(input('unsername') . input('password'));
+        }
 
     }
 
