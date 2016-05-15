@@ -53,6 +53,7 @@ class Base extends Extend
 
         // 读取不需要进行权限验证的和不需要实例化模型的控制器缓存
         $authModel = cache('authModel');
+        // dump($authModel['not_auth']);die;
 
         if (ACTION_NAME) {
             $authName = CONTROLLER_NAME . '/' . ACTION_NAME;
@@ -107,10 +108,10 @@ class Base extends Extend
 
     public function basetest()
     {
-        // $pk = model('qin')->getPk();
-        // dump($pk);
-        ///
-        dump(session('after'));
+        $authModel = cache('authModel');
+        dump($authModel['not_auth']);
+
+        dump(cache('authrule'));
 
         die;
         $action     = 'disable_authrule';
@@ -217,6 +218,7 @@ class Base extends Extend
         $pk = $this->model->getPk();
         if (IS_AJAX) {
             $data = input('post.');
+
             if (CONTROLLER_NAME == 'auth_group') {
                 $rulesdata = input('post.rules/a');
                 if ($rulesdata) {
@@ -237,6 +239,7 @@ class Base extends Extend
             }
 
             $status = $this->model->save($data, [$pk => $data[$pk]]);
+            // return $data;
             if ($status) {
                 // 记录日志
                 $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));

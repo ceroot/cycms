@@ -68,6 +68,7 @@ class AuthRule extends Model
     {
         $data = db('authRule')->order(['sort' => 'asc', 'id' => 'asc'])->select();
         cache('authrule', $data);
+
     }
     /**
      * [update_cache_auth_model 更新不需要权限验证的控制器、方法和不需要实例化模型缓存]
@@ -75,13 +76,15 @@ class AuthRule extends Model
      */
     public function updateCacheAuthModel()
     {
-        foreach ($this->cache as $val) {
+        // 这里使用cache('authrule')来取得数据，之因为不使用 $this->cache 是有原因的，切记，以免更新缓存不成功
+        foreach (cache('authrule') as $val) {
             $auth          = $val['auth']; // 需要进行权限验证标记
+            $status        = $val['status'];
             $controller    = $val['controller']; // 是控制器标记
             $instantiation = $val['instantiation']; // 需要实例化模型标记
             // 取得不需要进行权限验证
-            if (!$auth) {
-                $data['not_auth'][] = $val['name'];
+            if (!$auth && $status) {
+                $data['not_auth'][] = strtolower($val['name']);
             }
             // 取得不需要实例化模型的控制器名称
             if ($controller && !$instantiation) {
@@ -171,7 +174,7 @@ class AuthRule extends Model
             // dump($authModel);
             $data = array();
             foreach ($this->cache as $value) {
-                if (authCheck($value['name'], UID) || in_array($value['name'], $authModel['not_auth'])) {
+                if (authCheck($value['name'], UID) || in_array(strtolower($value['name']), $authModel['not_auth'])) {
                     $data[] = $value;
                 }
             }
