@@ -39,6 +39,7 @@ class Login extends Controller
     // 登录首页
     public function index()
     {
+        // dump(md5('ceroot1'));
         if (IS_POST) {
 
             if ($user = $this->model->validateLogin()) {
