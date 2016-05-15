@@ -32,7 +32,6 @@ class AuthRule extends Base
 
         $data = $this->model->getAll();
         $this->assign('data', $data);
-
     }
 
     function list() {
@@ -41,53 +40,68 @@ class AuthRule extends Base
 
     public function del()
     {
-
         $id = input('get.id');
 
         $status = $this->model->del($id);
-        // return $status;
-        // // dump($status);
-        // if ($status) {
-        //     dump('成功');
-        // } else {
-        //     dump($this->model->getError());
-        // }
+
         if ($status) {
+            // 记录日志
+            $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
+            action_log($action, CONTROLLER_NAME, $id, UID);
+
+            if (CONTROLLER_NAME == 'auth_rule') {
+                $this->model->updateCache(); // 更新缓存
+                $this->model->updateCacheAuthModel(); // 更新缓存
+            }
+
             $redata['status'] = 'success';
             $redata['info']   = '成功';
         } else {
             $redata['status'] = 'fail';
             $redata['info']   = $this->model->getError();
         }
-        return json_encode($redata);
+        return $redata;
     }
 
-    public function adduser()
+    // 更新菜单显示
+    public function updateshow()
     {
-        $data['name']  = 'cer111';
-        $data['title'] = '111111111';
+        return $this->updatefield('isnavshow');
+    }
 
-        //$model = model(CONTROLLER_NAME);
-        $user        = model(CONTROLLER_NAME);
-        $user->name  = 'm54';
-        $user->title = 't54';
-        $user->fdsf  = 'test';
-        $status      = $user->save();
+    // 更新菜单显示
+    public function updateauth()
+    {
+        return $this->updatefield('auth');
+    }
+
+    // 更新字段
+    protected function updatefield($field)
+    {
+        $pk     = $this->model->getPk();
+        $id     = input('get.' . $pk);
+        $status = db(CONTROLLER_NAME)->getFieldById($id, $field);
+
+        $data[$field] = ($status == 1) ? 0 : 1;
+
+        $status = $this->model->save($data, [$pk => $id]);
+
         if ($status) {
-            dump($status);
+            // 记录日志
+            $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
+            action_log($action, CONTROLLER_NAME, $id, UID);
+
+            $this->model->updateCache(); // 更新缓存
+            $this->model->updateCacheAuthModel(); // 更新缓存
+
+            $redata['status'] = 'success';
+            $redata['info']   = '成功';
         } else {
-            dump('失败');
-        };
+            $redata['status'] = 'fail';
+            $redata['info']   = '失败';
+        }
 
-        // $user->data($data);
-        // $status = $user->sava();
-
-        // if ($status) {
-        //     dump($status);
-        // } else {
-        //     dump($user->getError());
-        // }
-
+        return $redata;
     }
 
 }
