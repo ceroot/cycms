@@ -1,95 +1,86 @@
 {extend name="mould:base" /}
 {block name="title"}{/block}
 {block name="content"}
-<form action="{:url('authRule/edit')}" method="post" class="J_ajaxForms" >
-    <div class="table_full">
-      <table width="100%"  class="table_form">
-        <tr>
-          <th width="140">规则标识：</th>
-          <td class="y-bg"><input type="text" class="input" name="name" id="name" size="30" value="{$one.name}" /></td>
-        </tr>
-        <tr>
-          <th>规则名称：</th>
-          <td class="y-bg"><input type="text" class="input" name="title" id="title" size="30" value="{$one.title}" /></td>
-        </tr>
-        <tr>
-          <th>父级规则：</th>
-          <td class="y-bg">
-            <select name="mid">
-              <option value="0">顶级</option>
-                {volist name='data' id='rule'} <option value="{$rule.id}" {if condition="$one.mid eq $rule.id"}selected="selected"{/if}>{$rule._name}
-                  </option>
-                {/volist}
-              </select>
-          </td>
-        </tr>
-        <tr>
-          <th>状态：</th>
-          <td class="y-bg"><label>
-              <input type="radio" name="status" value="1" {eq name='one.status' value='1'} checked="checked"{/eq}>
-              启用 </label>
-            &nbsp;
-            <label>
-              <input type="radio" name="status" value="0" {eq name='one.status' value='0'} checked="checked"{/eq}>
-              禁用 </label></td>
-        </tr>
-        <tr>
-          <th>是否显示菜单：</th>
-          <td class="y-bg"><label>
-              <input type="radio" name="isnavshow" value="1"  {eq name='one.isnavshow' value='1'} checked="checked"{/eq}>
-              显示 </label>
-            &nbsp;
-            <label>
-              <input type="radio" name="isnavshow" value="0"  {eq name='one.isnavshow' value='0'} checked="checked"{/eq}>
-              隐藏 </label></td>
-        </tr>
-        <tr>
-          <th>是否是控制器：</th>
-          <td class="y-bg"><label>
-              <input type="radio" name="controller" value="1" {eq name='one.controller' value='1'} checked="checked"{/eq}>
-              是 </label>
-            &nbsp;
-            <label>
-              <input type="radio" name="controller" value="0"  {eq name='one.controller' value='0'} checked="checked"{/eq}>
-              不是 </label></td>
-        </tr>
-        <tr>
-          <th>是否需要实例化：</th>
-          <td class="y-bg"><label>
-              <input type="radio" name="instantiation" value="1" {eq name='one.instantiation' value='1'} checked="checked"{/eq}>
-              需要 </label>
-            &nbsp;
-            <label>
-              <input type="radio" name="instantiation" value="0" {eq name='one.instantiation' value='0'} checked="checked"{/eq}>
-              不需要 </label></td>
-        </tr>
-        <tr>
-          <th>是否需要进行权限验证：</th>
-          <td class="y-bg"><label>
-              <input type="radio" name="auth" value="0" {eq name='one.auth' value='0'} checked="checked"{/eq}>
-              需要 </label>
-            &nbsp;
-            <label>
-              <input type="radio" name="auth" value="1" {eq name='one.auth' value='1'} checked="checked"{/eq}>
-              不需要 </label></td>
-        </tr>
-        <tr>
-          <th class="hd-w100"> 排序： </th>
-          <td class="y-bg"><input type="text" name="sort" class="input" value="{$one.sort}"></td>
-        </tr>
-        <tr>
-          <th class="hd-w100"> 条件： </th>
-          <td class="y-bg"><textarea name="condition" style="width:60%;height:80px">{$one.condition}</textarea></td>
-        </tr>
-      </table>
-    </div>
+<style type="text/css">
+form.cy-form .form-inline span{width: 140px; text-align: right; display: inline-block;}
+</style>
+<form action="{:url('edit')}" method="post" class="J_ajaxForms cy-form" >
+	<div class="form-group form-inline">
+		<span for="name">规则标识：</span>
+		<input class="form-control" type="text" name="name" id="name" value="{$one.name}" placeholder="规则标识" />
+	</div>
+	<div class="form-group form-inline">
+		<span for="title">规则名称：</span>
+		<input class="form-control" type="text" name="title" id="title" value="{$one.title}" placeholder="规则名称" />
+	</div>
+	<div class="form-group form-inline">
+		<span for="title">父级规则：</span>
+		<select name="mid" class="form-control">
+        	<option value="0">顶级</option>
+	            {volist name='data' id='rule'}
+	            	<option value="{$rule.id}" {eq name="rule.id" value="$one.mid"} selected="selected"{/eq}>{$rule._name}</option>
+	            {/volist}
+        	</select>
+	</div>
+	<div class="form-group form-inline">
+		<span for="status">状态：</span>
+        <label class="radio-inline">
+            <input type="radio" name="status" id="" value="1" {eq name='one.status' value='1'} checked="checked"{/eq}> 正常
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="status" id="" value="0" {eq name='one.status' value='0'} checked="checked"{/eq}> 禁用
+        </label>
+	</div>
+	<div class="form-group form-inline">
+		<span for="isnavshow">是否显示菜单：</span>
+        <label class="radio-inline">
+            <input type="radio" name="isnavshow" id="" value="1" {eq name='one.isnavshow' value='1'} checked="checked"{/eq}> 显示
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="isnavshow" id="" value="0" {eq name='one.isnavshow' value='0'} checked="checked"{/eq}> 隐藏
+        </label>
+	</div>
+	<div class="form-group form-inline">
+		<span for="controller">是否是控制器：</span>
+        <label class="radio-inline">
+            <input type="radio" name="controller" id="" value="1" {eq name='one.controller' value='1'} checked="checked"{/eq}> 是
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="controller" id="" value="0" {eq name='one.controller' value='0'} checked="checked"{/eq}> 否
+        </label>
+	</div>
+	<div class="form-group form-inline">
+		<span for="instantiation">是否需要实例化：</span>
+        <label class="radio-inline">
+            <input type="radio" name="instantiation" id="" value="1" {eq name='one.instantiation' value='1'} checked="checked"{/eq}> 是
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="instantiation" id="" value="0" {eq name='one.instantiation' value='0'} checked="checked"{/eq}> 否
+        </label>
+	</div>
+	<div class="form-group form-inline">
+		<span for="auth">是否需要进行权限验证：</span>
+        <label class="radio-inline">
+            <input type="radio" name="auth" id="" value="1" {eq name='one.auth' value='1'} checked="checked"{/eq}> 是
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="auth" id="" value="0" {eq name='one.auth' value='0'} checked="checked"{/eq}> 否
+        </label>
+	</div>
+	<div class="form-group form-inline">
+		<span for="sort">排序：</span>
+		<input class="form-control" type="text" name="sort" id="sort" value="{$one.sort}" placeholder="排序" />
+	</div>
+	<div class="form-group form-inline">
+        <span for="rule">条件：</span>
+        <textarea class="form-control" name="condition" id="condition">{$one.condition}</textarea>
+   </div>
     <div class="">
-      <div class="btn_wrap_pd">
-        <input type="hidden" name="id" value="{$one.id}">
-        <button class="btn btn_submit mr10 J_ajax_submit_btn" type="submit">保存</button>
-      </div>
+    	<input type="hidden" name="id" value="{$one.id}">
+        <button class="btn btn-default">保存</button>
     </div>
-  </form>
+</form>
+
 <script type="text/javascript">
 var userValidate = {
     rules: {
