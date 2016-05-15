@@ -108,6 +108,48 @@ $(function(){
 
         });
     }
+    
+    // a 标签 ajax 提交，成功之后刷新页面
+    var a_ajax  = 'cy-ajax';
+    if ($('body').find('a.'+a_ajax).length) {
+        Wind.use('layer', function () {
+        	$('body').on('click','a.'+a_ajax, function (e) {
+                e.preventDefault();
+                var $_this  = this,
+                    $_self  = $($_this),
+                    $_href  = $_self.prop('href'),
+                    $_msg   = $_self.data('msg');
+                console.log($_href);
+                layer.confirm('确定要操作吗？', {
+                	icon: 7,
+                    btn: ['提交','关闭'], //按钮
+                    shadeClose:true,
+                }, function(){
+                    layer.load();
+                    $.getJSON($_href).done(function(data){
+	                    console.log(data);
+	                    if(data.status=='success'){
+	                        layer.closeAll('loading');
+	                        layer.msg(
+	                            '操作成功，页面正在进行跳转……',
+	                            {
+	                                icon: 1,
+	                                time:1000,
+	                            },
+	                            function(){
+	                                reloadPage(window);
+	                            });
+	                    }else{
+	                        layer.msg(data.info,{icon:2});
+	                        layer.closeAll('loading');
+	                    }
+                  	});
+                }, function(index){
+                 	layer.close(index);
+                });
+            });
+        });
+    }
 
     //所有的ajax form提交,由于大多业务逻辑都是一样的，故统一处理
     var ajaxForm_list = $('form.J_ajaxForm');

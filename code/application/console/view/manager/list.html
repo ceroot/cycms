@@ -35,10 +35,10 @@
 				<td>{$value.email}</td>
 				<td>{$value.login_time_show}</td>
 				<td>{$value.create_time_show}</td>
-				<td><a href="{:url('manager/disable',array('id'=>$value['id']))}" class="J_ajax_del" title="快捷设置状态">{$value.status_text}</a></td>
+				<td><a href="{:url('manager/disable',array('id'=>$value['id']))}" class="cy-ajax" title="快捷设置状态">{$value.status_text}</a></td>
 				<td align='center' >
 					<a href="{:url('manager/edit',array('id'=>$value['id']))}" title="修改">修改</a> | 
-					<a href="{:url('manager/del',array('id'=>$value['id']))}" class="J_ajax_del" title="删除">删除</a>  
+					<a href="{:url('manager/del',array('id'=>$value['id']))}" class="cy-ajax" title="删除">删除</a>  
 				</td>
 			</tr>
 		{/volist}
