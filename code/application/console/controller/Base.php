@@ -218,9 +218,14 @@ class Base extends Extend
         if (IS_AJAX) {
             $data = input('post.');
             if (CONTROLLER_NAME == 'auth_group') {
-                $rulesdata     = input('post.rules/a');
-                $data['rules'] = implode(',', $rulesdata);
-                $data['id']    = input('post.id');
+                $rulesdata = input('post.rules/a');
+                if ($rulesdata) {
+                    $data['rules'] = implode(',', $rulesdata);
+                } else {
+                    $data['rules'] = '';
+                }
+                $data['id'] = input('post.id');
+
             }
             // return $data;
             $result = $this->validate($data, CONTROLLER_NAME);
