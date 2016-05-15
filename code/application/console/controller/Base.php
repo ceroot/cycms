@@ -109,10 +109,12 @@ class Base extends Extend
     {
         // $pk = model('qin')->getPk();
         // dump($pk);
-        $action     = 'add_manage';
-        $controller = 1;
-        $status     = 1;
-        $stu        = action_log($action, $controller, $status, UID);
+        ///
+        $action     = 'disable_authrule';
+        $controller = 'authRule';
+        $status     = 205;
+        $uid        = 1;
+        $stu        = action_log($action, $controller, $status, $uid);
 
         dump($stu);
     }
@@ -170,10 +172,9 @@ class Base extends Extend
             $status = $this->model->save($data);
 
             if ($status) {
-                $controller = strtolower(toCamel(CONTROLLER_NAME));
-                $action     = ACTION_NAME . '_' . $controller;
-
-                action_log($action, $controller, $status, UID);
+                // 记录日志
+                $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
+                action_log($action, CONTROLLER_NAME, $status, UID);
 
                 if (CONTROLLER_NAME == 'auth_rule') {
                     $this->model->updateCache(); // 更新缓存
@@ -210,11 +211,9 @@ class Base extends Extend
 
             $status = $this->model->save($data, [$pk => $data[$pk]]);
             if ($status) {
-
-                $controller = strtolower(toCamel(CONTROLLER_NAME));
-                $action     = ACTION_NAME . '_' . $controller;
-
-                action_log($action, $controller, $data[$pk], UID);
+                // 记录日志
+                $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
+                action_log($action, CONTROLLER_NAME, $data[$pk], UID);
 
                 if (CONTROLLER_NAME == 'auth_rule') {
                     $this->model->updateCache(); // 更新缓存
@@ -236,9 +235,6 @@ class Base extends Extend
                 return '参数错误';
             } else {
                 $one = db(CONTROLLER_NAME)->find($id);
-                $one = db(CONTROLLER_NAME)->find($id);
-                // dump($one);
-                // die;
                 $this->assign('one', $one);
                 return $this->fetch();
             }
@@ -252,11 +248,14 @@ class Base extends Extend
         $status = db(CONTROLLER_NAME)->delete($id);
 
         if ($status) {
-            $controller = strtolower(toCamel(CONTROLLER_NAME));
-            $action     = ACTION_NAME . '_' . $controller;
-
             // 记录日志
-            action_log($action, $controller, 1, UID);
+            $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
+            action_log($action, CONTROLLER_NAME, $id, UID);
+
+            if (CONTROLLER_NAME == 'auth_rule') {
+                $this->model->updateCache(); // 更新缓存
+                $this->model->updateCacheAuthModel(); // 更新缓存
+            }
 
             $redata['status'] = 'success';
             $redata['info']   = '成功';
@@ -280,11 +279,14 @@ class Base extends Extend
         $status = $this->model->save($data, [$pk => $id]);
 
         if ($status) {
-            $controller = strtolower(toCamel(CONTROLLER_NAME));
-            $action     = ACTION_NAME . '_' . $controller;
-
             // 记录日志
-            action_log($action, $controller, $id, UID);
+            $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
+            action_log($action, CONTROLLER_NAME, $id, UID);
+
+            if (CONTROLLER_NAME == 'auth_rule') {
+                $this->model->updateCache(); // 更新缓存
+                $this->model->updateCacheAuthModel(); // 更新缓存
+            }
 
             $redata['status'] = 'success';
             $redata['info']   = '成功';
