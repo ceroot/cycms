@@ -80,7 +80,7 @@ class AuthRule extends Model
             $controller    = $val['controller']; // 是控制器标记
             $instantiation = $val['instantiation']; // 需要实例化模型标记
             // 取得不需要进行权限验证
-            if ($auth) {
+            if (!$auth) {
                 $data['not_auth'][] = $val['name'];
             }
             // 取得不需要实例化模型的控制器名称
