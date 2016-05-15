@@ -6,19 +6,19 @@
 	        <col width="60">
 	        <col width="120">
 	        <col width="120">
+	        <col width="120">
 	        <col>
-	        <col width="200">
 	        <col width="140">
 	        <col width="140">
+	        <col width="48">
 	        <col width="90">
-	        <col width="140">
         </colgroup>
         <thead>
           <tr>
           	<td>id</td>
             <td>用户名</td>
             <td>昵称</td>
-            <td>真实姓名</td>
+            <td>姓名</td>
             <td>邮箱</td>
             <td>登录时间</td>
             <td>注册时间</td>
@@ -35,9 +35,8 @@
 				<td>{$value.email}</td>
 				<td>{$value.login_time_show}</td>
 				<td>{$value.create_time_show}</td>
-				<td>{$value.status_text}</td>
+				<td><a href="{:url('manager/disable',array('id'=>$value['id']))}" class="J_ajax_del" title="快捷设置状态">{$value.status_text}</a></td>
 				<td align='center' >
-					<a href="{:url('manager/disable',array('id'=>$value['id']))}" class="J_ajax_del" title="{eq name="value.status" value="0"}启用{else /}禁用{/eq}">{eq name="value.status" value="0"}启用{else /}禁用{/eq}</a> | 
 					<a href="{:url('manager/edit',array('id'=>$value['id']))}" title="修改">修改</a> | 
 					<a href="{:url('manager/del',array('id'=>$value['id']))}" class="J_ajax_del" title="删除">删除</a>  
 				</td>

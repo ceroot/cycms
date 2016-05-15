@@ -110,6 +110,9 @@ class Base extends Extend
         // $pk = model('qin')->getPk();
         // dump($pk);
         ///
+        dump(session('after'));
+
+        die;
         $action     = 'disable_authrule';
         $controller = 'authRule';
         $status     = 205;
@@ -147,8 +150,22 @@ class Base extends Extend
         $scope['limit'] = $page->listRows; //每页显示数
 
         $data = $this->model::scope(function ($query) use ($scope) {
-            $page = input('get.p');
-            $query->order($scope['pk'], 'desc')->page($page, $scope['limit']);
+            $page  = input('get.p');
+            $order = [
+                $scope['pk'] => 'desc',
+            ];
+            switch (CONTROLLER_NAME) {
+                case 'auth_group':
+                    $order = [
+                        $scope['pk'] => 'asc',
+                    ];
+                    break;
+
+                default:
+                    # code...
+                    break;
+            }
+            $query->order($order)->page($page, $scope['limit']);
         })->all();
 
         return $data;
@@ -200,7 +217,12 @@ class Base extends Extend
         $pk = $this->model->getPk();
         if (IS_AJAX) {
             $data = input('post.');
-
+            if (CONTROLLER_NAME == 'auth_group') {
+                $rulesdata     = input('post.rules/a');
+                $data['rules'] = implode(',', $rulesdata);
+                $data['id']    = input('post.id');
+            }
+            // return $data;
             $result = $this->validate($data, CONTROLLER_NAME);
             if (true !== $result) {
                 // 验证失败 输出错误信息

@@ -2,6 +2,14 @@
 {block name="title"}{/block}
 {block name="content"}
 <form action="{:url('edit')}" method="post" class="J_ajaxForms cy-form" role="form">
+    <!-- <div class="form-group form-inline">
+        <span for="rules">角色：</span>
+        <select name="group" class="form-control">
+            {volist name='groupdata' id='rule'}
+              <option value="{$rule.id}" >{$rule.title}</option>
+            {/volist}
+        </select>
+    </div> -->
     <div class="form-group form-inline">
         <span for="username">用户名：</span>
         <input type="text" class="form-control input-sm" name="username" id="username" value="{$one.username}" placeholder="用户名">

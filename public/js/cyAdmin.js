@@ -112,7 +112,7 @@ $(function(){
     //所有的ajax form提交,由于大多业务逻辑都是一样的，故统一处理
     var ajaxForm_list = $('form.J_ajaxForm');
     if (ajaxForm_list.length) {
-        Wind.use('validate','ajaxForm', 'layer', function () {
+        Wind.use('ajaxForm', 'layer', function () {
 
             $('button.J_ajax_submit_btn').on('click', function (e) {
                 e.preventDefault();

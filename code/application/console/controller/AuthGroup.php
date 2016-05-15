@@ -33,6 +33,14 @@ class AuthGroup extends Base
 
     public function rule()
     {
+        $rules = model('authRule')->getAll(1);
+        // dump($rules);
+        // die;
+        $this->assign('rules', $rules);
+
+        $field = db('authGroup')->find(input('get.id'));
+
+        $this->assign('field', $field);
         return view();
     }
 

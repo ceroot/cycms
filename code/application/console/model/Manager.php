@@ -26,7 +26,7 @@ class Manager extends Model
     protected $auto          = [];
     protected $autoTimeField = ['create_time', 'login_time', 'update_time'];
     protected $insert        = ['create_uid', 'create_time', 'create_ip'];
-    protected $update        = ['update_uid', 'login_time', 'login_ip'];
+    protected $update        = ['update_uid', 'update_time', 'update_ip'];
 
     // public function setPasswordAttr($value, $data)
     // {
@@ -65,12 +65,22 @@ class Manager extends Model
 
     public function getCreateTimeShowAttr($value, $data)
     {
-        return time_format($data['create_time']);
+        if ($data['create_time'] == 0) {
+            $revalue = '注册时间不详';
+        } else {
+            $revalue = time_format($data['create_time']);
+        }
+        return $revalue;
     }
 
     public function getLoginTimeShowAttr($value, $data)
     {
-        return time_format($data['login_time']);
+        if ($data['login_time'] == 0) {
+            $revalue = '还没有进行登录';
+        } else {
+            $revalue = time_format($data['login_time']);
+        }
+        return $revalue;
     }
 
     // public function __construct()
@@ -171,8 +181,10 @@ class Manager extends Model
     public function updateLogin($user)
     {
         // 更新登录信息
-        $data['times'] = $user['times'] + 1;
-        $manager       = model('manager');
+        $data['times']      = $user['times'] + 1;
+        $data['login_time'] = time();
+        $data['login_ip']   = ip2int();
+        $manager            = model('manager');
         $manager->save($data, ['id' => $user['id']]);
     }
 

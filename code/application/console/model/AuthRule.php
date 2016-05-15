@@ -44,9 +44,9 @@ class AuthRule extends Model
     public function getAll($isArray = 0)
     {
         if ($isArray) {
-            return Data::channelLevel($this->cache, 0, '', 'id', 'mid');
+            return Data::channelLevel($this->cache, 0, '', 'id', 'pid');
         } else {
-            return Data::tree($this->cache, 'title', 'id', 'mid');
+            return Data::tree($this->cache, 'title', 'id', 'pid');
         }
     }
     public function test()
@@ -123,7 +123,7 @@ class AuthRule extends Model
     public function del($id)
     {
 
-        $count = db('authRule')->where('mid', $id)->count();
+        $count = db('authRule')->where('pid', $id)->count();
         if ($count) {
             $this->error = '请先删除子规则';
             return false;
@@ -188,7 +188,7 @@ class AuthRule extends Model
             // 取得当前方法id
             if (strtolower($value['name']) == strtolower($controller . '/' . $action)) {
                 $current_action_id  = $value['id'];
-                $current_action_mid = $value['mid'];
+                $current_action_pid = $value['pid'];
             }
 
             // $isnavshow = $value['isnavshow']; // 显示标记，这里不需要了，让前端进行控制
@@ -241,13 +241,13 @@ class AuthRule extends Model
             $second = null;
             if (count($activeidarr) > 2) {
                 foreach ($activedata as $value) {
-                    if ($current_action_mid == $value['id']) {
+                    if ($current_action_pid == $value['id']) {
                         $producttitle = $value['title'];
                         break;
                     }
                 }
                 $second['title'] = $producttitle;
-                $second['data']  = getCateByPid($activedata, $current_action_mid);
+                $second['data']  = getCateByPid($activedata, $current_action_pid);
             } else {
                 foreach ($activedata as $value) {
                     // dump($current_action_id);
@@ -277,7 +277,7 @@ class AuthRule extends Model
         // $menu        = array();
         // foreach ($treeArray as $value)
         // {
-        //     if($value['mid']==0)
+        //     if($value['pid']==0)
         //     {
         //         $key        = 'admin'.$value['id'];
         //         $menu[$key]    = $value;

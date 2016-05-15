@@ -31,6 +31,63 @@ class Manager extends Base
             $data['password'] = md5(input('unsername') . input('password'));
         }
 
+        $groupdata = db('authGroup')->select();
+        $this->assign('groupdata', $groupdata);
+        // dump($groupdata);
+
+    }
+
+    protected $beforeActionList = [
+        // 'first',
+        // 'second' => ['except' => 'hello'],
+        'three'        => ['only' => 'hello,data'],
+        '_before_add'  => ['only' => 'add'],
+        '_before_edit' => ['only' => 'edit'],
+    ];
+
+    protected $afterActionList = [
+        '_atfer_add'  => ['only' => 'add'],
+        '_atfer_edit' => ['only' => 'edit'],
+    ];
+
+    protected function _before_edit()
+    {
+        session('after', 'aftertest');
+    }
+
+    protected function _after_edit()
+    {
+        session('after', 'aftertest');
+    }
+
+    protected function first()
+    {
+        echo 'first<br/>';
+    }
+
+    protected function second()
+    {
+        echo 'second<br/>';
+    }
+
+    protected function three()
+    {
+        echo 'three<br/>';
+    }
+
+    protected function _before_add()
+    {
+
+    }
+
+    public function hello()
+    {
+        return 'hello';
+    }
+
+    public function data()
+    {
+        return 'data';
     }
 
 }

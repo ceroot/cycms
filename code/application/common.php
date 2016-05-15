@@ -30,7 +30,7 @@ function getCateTreeArr($cate, $pid)
 {
     $arr = array();
     foreach ($cate as $k => $v) {
-        if ($v['mid'] == $pid) {
+        if ($v['pid'] == $pid) {
             $child = getCateTreeArr($cate, $v['id']);
             if ($child) {
                 $v['items'] = $child;
@@ -52,7 +52,7 @@ function getParents($cate, $id)
     foreach ($cate as $v) {
         if ($v['id'] == $id) {
             $arr[] = $v;
-            $arr   = array_merge(getParents($cate, $v['mid']), $arr);
+            $arr   = array_merge(getParents($cate, $v['pid']), $arr);
         }
     }
     return $arr;
@@ -68,7 +68,7 @@ function getChiIds($cate, $pid, $str = 0)
     $arr           = array();
     static $strarr = array();
     foreach ($cate as $v) {
-        if ($v['mid'] == $pid) {
+        if ($v['pid'] == $pid) {
             $arr[]    = $v;
             $strarr[] = $v['id'];
             $arr      = array_merge($arr, getChiIds($cate, $v['id']));
@@ -86,7 +86,7 @@ function getCateByPid($cate, $pid = 0)
 {
     $arr = array();
     foreach ($cate as $v) {
-        if ($v['mid'] == $pid) {
+        if ($v['pid'] == $pid) {
             // $arr[] = array('id'=>$v['id'],'name'=>$v['name']);
             $arr[] = $v;
         }

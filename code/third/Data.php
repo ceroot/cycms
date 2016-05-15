@@ -16,6 +16,7 @@
  * @author      后盾向军 <houdunwangxj@gmail.com>
  */
 namespace third;
+
 final class Data
 {
     /**
@@ -28,7 +29,7 @@ final class Data
      * @param int $level 不需要传参数（执行时调用）
      * @return array
      */
-    static public function channelLevel($data, $pid = 0, $html = "&nbsp;", $fieldPri = 'cid', $fieldPid = 'pid', $level = 1)
+    public static function channelLevel($data, $pid = 0, $html = "&nbsp;", $fieldPri = 'cid', $fieldPid = 'pid', $level = 1)
     {
         if (empty($data)) {
             return array();
@@ -36,10 +37,10 @@ final class Data
         $arr = array();
         foreach ($data as $v) {
             if ($v[$fieldPid] == $pid) {
-                $arr[$v[$fieldPri]] = $v;
+                $arr[$v[$fieldPri]]           = $v;
                 $arr[$v[$fieldPri]]['_level'] = $level;
-                $arr[$v[$fieldPri]]['_html'] = str_repeat($html, $level - 1);
-                $arr[$v[$fieldPri]]["_data"] = self::channelLevel($data, $v[$fieldPri], $html, $fieldPri, $fieldPid, $level + 1);
+                $arr[$v[$fieldPri]]['_html']  = str_repeat($html, $level - 1);
+                $arr[$v[$fieldPri]]["_data"]  = self::channelLevel($data, $v[$fieldPri], $html, $fieldPri, $fieldPid, $level + 1);
             }
         }
         return $arr;
@@ -55,42 +56,48 @@ final class Data
      * @param int $level 等级
      * @return array
      */
-    static public function channelList($data, $pid = 0, $html = "&nbsp;", $fieldPri = 'cid', $fieldPid = 'pid', $level = 1)
+    public static function channelList($data, $pid = 0, $html = "&nbsp;", $fieldPri = 'cid', $fieldPid = 'pid', $level = 1)
     {
         $data = self::_channelList($data, $pid, $html, $fieldPri, $fieldPid, $level);
-        if (empty($data))
+        if (empty($data)) {
             return $data;
+        }
+
         foreach ($data as $n => $m) {
-            if ($m['_level'] == 1)
+            if ($m['_level'] == 1) {
                 continue;
+            }
+
             $data[$n]['_first'] = false;
-            $data[$n]['_end'] = false;
+            $data[$n]['_end']   = false;
             if (!isset($data[$n - 1]) || $data[$n - 1]['_level'] != $m['_level']) {
-                $data[$n]['_first'] = true; 
+                $data[$n]['_first'] = true;
             }
             if (isset($data[$n + 1]) && $data[$n]['_level'] > $data[$n + 1]['_level']) {
                 $data[$n]['_end'] = true;
             }
         }
         //更新key为栏目主键
-     /*   $category=array();
+        /*   $category=array();
         foreach($data as $d){
-            $category[$d[$fieldPri]]=$d;
+        $category[$d[$fieldPri]]=$d;
         }*/
         return $data;
     }
 
     //只供channelList方法使用
-    static private function _channelList($data, $pid = 0, $html = "&nbsp;", $fieldPri = 'cid', $fieldPid = 'pid', $level = 1)
+    private static function _channelList($data, $pid = 0, $html = "&nbsp;", $fieldPri = 'cid', $fieldPid = 'pid', $level = 1)
     {
-        if (empty($data))
+        if (empty($data)) {
             return array();
+        }
+
         $arr = array();
         foreach ($data as $v) {
             $id = $v[$fieldPri];
             if ($v[$fieldPid] == $pid) {
                 $v['_level'] = $level;
-                $v['_html'] = str_repeat($html, $level - 1);
+                $v['_html']  = str_repeat($html, $level - 1);
                 array_push($arr, $v);
                 $tmp = self::_channelList($data, $id, $html, $fieldPri, $fieldPid, $level + 1);
                 $arr = array_merge($arr, $tmp);
@@ -107,10 +114,12 @@ final class Data
      * @param string $fieldPid 父id
      * @return array
      */
-    static public function tree($data, $title, $fieldPri = 'cid', $fieldPid = 'pid')
+    public static function tree($data, $title, $fieldPri = 'cid', $fieldPid = 'pid')
     {
-        if (!is_array($data) || empty($data))
+        if (!is_array($data) || empty($data)) {
             return array();
+        }
+
         $arr = Data::channelList($data, 0, '', $fieldPri, $fieldPid);
         foreach ($arr as $k => $v) {
             $str = "";
@@ -146,7 +155,7 @@ final class Data
      * @param string $fieldPid 父ID键名
      * @return array
      */
-    static public function parentChannel($data, $sid, $fieldPri = 'cid', $fieldPid = 'pid')
+    public static function parentChannel($data, $sid, $fieldPri = 'cid', $fieldPid = 'pid')
     {
         if (empty($data)) {
             return $data;
@@ -155,7 +164,7 @@ final class Data
             foreach ($data as $v) {
                 if ($v[$fieldPri] == $sid) {
                     $arr[] = $v;
-                    $_n = self::parentChannel($data, $v[$fieldPid], $fieldPri, $fieldPid);
+                    $_n    = self::parentChannel($data, $v[$fieldPid], $fieldPri, $fieldPid);
                     if (!empty($_n)) {
                         $arr = array_merge($arr, $_n);
                     }
@@ -174,13 +183,15 @@ final class Data
      * @param string $fieldPid 父id字段
      * @return bool
      */
-    static function isChild($data, $sid, $pid, $fieldPri = 'cid', $fieldPid = 'pid')
+    public static function isChild($data, $sid, $pid, $fieldPri = 'cid', $fieldPid = 'pid')
     {
         $_data = self::channelList($data, $pid, '', $fieldPri, $fieldPid);
         foreach ($_data as $c) {
             //目标栏目为源栏目的子栏目
-            if ($c[$fieldPri] == $sid)
+            if ($c[$fieldPri] == $sid) {
                 return true;
+            }
+
         }
         return false;
     }
@@ -192,10 +203,13 @@ final class Data
      * @param string $fieldPid 父id表字段名
      * @return bool
      */
-    static function hasChild($data, $cid, $fieldPid = 'pid')
+    public static function hasChild($data, $cid, $fieldPid = 'pid')
     {
         foreach ($data as $d) {
-            if ($d[$fieldPid] == $cid) return true;
+            if ($d[$fieldPid] == $cid) {
+                return true;
+            }
+
         }
         return false;
     }
@@ -206,7 +220,7 @@ final class Data
      * @param array $tmp
      * @return array
      */
-    static function descarte($arr, $tmp = array())
+    public static function descarte($arr, $tmp = array())
     {
         static $n_arr = array();
         foreach (array_shift($arr) as $v) {
