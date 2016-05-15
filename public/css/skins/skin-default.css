@@ -143,9 +143,13 @@ body.skin-default{
 
 /*表单*/
 form.cy-form{}
-form.cy-form .form-inline span{width: 80px; text-align: right; display: inline-block;}
+form.cy-form .form-inline span{width: 80px; display: inline-block; text-align: right; }
 form.cy-form .form-inline label{}
 form.cy-form .form-inline input[type="text"],
 form.cy-form .form-inline input[type="password"]
-    { line-height: 1.2rem; font-size: 12px;}
-form.cy-form .form-inline textarea{width:60%;height:80px}
+    { line-height: 1.2rem;}
+form.cy-form .form-inline textarea{width:60%;}
+form.cy-form input,
+form.cy-form textarea,
+form.cy-form select{ font-size: 12px;}
+
