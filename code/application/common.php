@@ -162,7 +162,7 @@ function get_client_ip($type = 0, $adv = false)
  * @return string 完整的时间显示
  * @author SpringYang <ceroot@163.com>
  */
-function time_format($time = null, $format = 'Y-m-d H:i')
+function time_format($time = null, $format = 'Y-m-d H:i:s')
 {
     $time = $time === null ? NOW_TIME : intval($time);
     return date($format, $time);
@@ -220,6 +220,7 @@ function disable_enable($model_id)
  */
 function action_log($action = null, $model = null, $record_id = null, $user_id = null)
 {
+
     // 参数检查
     if (empty($action) || empty($model) || empty($record_id)) {
         return '参数不能为空';
@@ -241,7 +242,9 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
             $log['model_id'] = $model . '|' . $record_id;
             $log['time']     = NOW_TIME;
             $log['data']     = array('user' => $user_id, 'model' => $model, 'record' => $record_id, 'time' => NOW_TIME);
-            foreach ($match[1] as $value) {
+
+            foreach ($match[1] as $key => $value) {
+                //dump($value);
                 $param = explode('|', $value);
                 if (isset($param[1])) {
                     $replace[] = call_user_func($param[1], $log[$param[0]]);
@@ -249,6 +252,7 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
                     $replace[] = $log[$param[0]];
                 }
             }
+
             $data['remark'] = str_replace($match[0], $replace, $action_log);
         } else {
             $data['remark'] = $action_log;
