@@ -108,11 +108,8 @@ class Base extends Extend
 
     public function basetest()
     {
-        $authModel = cache('authModel');
-        dump($authModel['not_auth']);
-
-        dump(cache('authrule'));
-
+        $user = db('manager')->where('username', 'ceroot@163.com')->find();
+        dump($user);
         die;
         $action     = 'disable_authrule';
         $controller = 'authRule';
