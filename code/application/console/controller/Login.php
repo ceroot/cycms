@@ -41,7 +41,6 @@ class Login extends Controller
     {
         // dump(md5('ceroot1'));
         if (IS_POST) {
-
             if ($user = $this->model->validateLogin()) {
                 // 设置登录错误记录的session为0
                 session('error_num', 0);
@@ -63,7 +62,7 @@ class Login extends Controller
                 }
             }
 
-            return $redata;
+            return json_encode($redata);
         } else {
             return $this->fetch();
         }
