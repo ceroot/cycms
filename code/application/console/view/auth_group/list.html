@@ -25,9 +25,13 @@
 				<td>{$value.rules}</td>
 				<td><a href="{:url('disable',array('id'=>$value['id']))}" class="J_ajax_del" title="快捷设置状态">{$value.status_text}</a></td>
 				<td align='center'>
-					<a href="{:url('rule',array('id'=>$value['id']))}">权限分配</a> | 
-					<a href="{:url('edit',array('id'=>$value['id']))}">修改</a> | 
-					<a class="J_ajax_del" href="{:url('del',array('id'=>$value['id']))}">删除</a>  
+					{neq name="value.id" value="1"}
+						<a href="{:url('rule',array('id'=>$value['id']))}">权限分配</a> | 
+					{/neq}
+					<a href="{:url('edit',array('id'=>$value['id']))}">修改</a>
+					{neq name="value.id" value="1"} | 
+						<a class="J_ajax_del" href="{:url('del',array('id'=>$value['id']))}">删除</a>
+					{/neq}
 				</td>
 			</tr>
 		{/volist}

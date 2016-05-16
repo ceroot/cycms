@@ -37,8 +37,8 @@
 				<td>{$value.create_time_show}</td>
 				<td><a href="{:url('manager/disable',array('id'=>$value['id']))}" class="cy-ajax" title="快捷设置状态">{$value.status_text}</a></td>
 				<td align='center' >
-					<a href="{:url('manager/edit',array('id'=>$value['id']))}" title="修改">修改</a> | 
-					<a href="{:url('manager/del',array('id'=>$value['id']))}" class="cy-ajax" title="删除">删除</a>  
+					<a href="{:url('manager/edit',array('id'=>$value['id']))}" title="修改">修改</a>
+					{neq name="value.id" value="1"} | <a href="{:url('manager/del',array('id'=>$value['id']))}" class="cy-ajax" title="删除">删除</a>{/neq}
 				</td>
 			</tr>
 		{/volist}
