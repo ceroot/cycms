@@ -302,6 +302,7 @@ class Base extends Extend
         $status = db(CONTROLLER_NAME)->getFieldById($id, 'status');
 
         $data['status'] = ($status == 1) ? 0 : 1;
+        // $data['status'] = ($status == 1) ?? 0;
 
         $status = $this->model->save($data, [$pk => $id]);
 
