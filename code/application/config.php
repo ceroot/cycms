@@ -29,6 +29,8 @@ return [
         '__ROOT__'   => '/',
     ],
 
+    // 'default_return_type' => 'json',
+
     // 手动注册命名空间
     'root_namespace'   => [
         //'third'  => '../third/',

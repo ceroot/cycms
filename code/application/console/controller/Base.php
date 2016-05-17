@@ -17,7 +17,6 @@
 namespace app\console\controller;
 
 use app\common\controller\Extend;
-use \thik\Paginator;
 
 class Base extends Extend
 {
@@ -135,21 +134,21 @@ class Base extends Extend
     public function _list()
     {
 
-        // $pageLimit = input('get.limit');
-        // $pageLimit = isset($pageLimit) ? $pageLimit : 10;
+        $pageLimit = input('get.limit');
+        $pageLimit = isset($pageLimit) ? $pageLimit : 10;
 
-        // $count = db(CONTROLLER_NAME)->count(); // 查询满足要求的总记录数
-        // $page  = new \page\Page($count, $pageLimit); // 实例化分页类 传入总记录数和每页显示的记录数
-        // $page->setConfig('prev', '上一页');
-        // $page->setConfig('next', '下一页');
-        // $show = $page->show(); // 分页显示输出
-        // $this->assign('page', $show); // 赋值分页输出
-        $page = new Paginator;
-        $dd   = $page->items();
-        dump($dd);
+        $count = db(CONTROLLER_NAME)->count(); // 查询满足要求的总记录数
+        $page  = new \page\Page($count, $pageLimit); // 实例化分页类 传入总记录数和每页显示的记录数
+        $page->setConfig('prev', '上一页');
+        $page->setConfig('next', '下一页');
+        $show = $page->show(); // 分页显示输出
+        $this->assign('page', $show); // 赋值分页输出
+        // $page = new Paginator;
+        // $dd   = $page->items();
+        // dump($dd);
 
-        $scope['pk'] = $this->model->getPk(); // 取得主键字段名
-        // $scope['limit'] = $page->listRows; //每页显示数
+        $scope['pk']    = $this->model->getPk(); // 取得主键字段名
+        $scope['limit'] = $page->listRows; //每页显示数
 
         $data = $this->model::scope(function ($query) use ($scope) {
             $page  = input('get.p');
@@ -167,7 +166,7 @@ class Base extends Extend
                     # code...
                     break;
             }
-            $query->order($order)->page($page, 10);
+            $query->order($order)->page($page, $scope['limit']);
         })->all();
 
         return $data;
