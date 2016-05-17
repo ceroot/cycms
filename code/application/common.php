@@ -407,10 +407,10 @@ function toCamel($str)
  * 退出 url
  * @return     string  (url地址)
  */
-function loginouturl()
+function logouturl()
 {
     // $loginout = url('Login/loginout') . '?backurl=' . getbackurl();
-    $loginout = url('console/login/loginout?time=' . date('YmdHis') . getrandom(128)) . '?backurl=' . getbackurl();
+    $loginout = url('console/login/logout?time=' . date('YmdHis') . getrandom(128)) . '?backurl=' . getbackurl();
     return $loginout;
 }
 

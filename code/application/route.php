@@ -11,7 +11,7 @@
 // $Id$
 
 return [
-    '__pattern__'         => [
+    '__pattern__'       => [
         'name' => '\w+',
         'id'   => '\d+',
     ],
@@ -22,10 +22,10 @@ return [
     // 'new/:id'  => 'News/read',
     // 'blog/:id' => ['Blog/update', ['method' => 'post|put'], ['id' => '\d+']],
     // 'hello/:name'   => 'index/hello',
-    'hello/[:name]'       => 'index/hello',
-    'news/[:id]'          => 'news/read',
-    'con/[:time]'         => ['console/index/index', ['method' => 'get'], ['time' => '\d+']],
-    'conlogin/[:time]'    => ['console/login/index', ['time' => '\d+']],
-    'conloginout/[:time]' => ['console/login/loginout', ['time' => '\d+']],
+    'hello/[:name]'     => 'index/hello',
+    'news/[:id]'        => 'news/read',
+    'con/[:time]'       => ['console/index/index', ['method' => 'get'], ['time' => '\d+']],
+    'conlogin/[:time]'  => ['console/login/index', ['time' => '\d+']],
+    'conlogout/[:time]' => ['console/login/logout', ['time' => '\d+']],
 
 ];

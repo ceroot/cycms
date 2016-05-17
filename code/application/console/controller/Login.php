@@ -40,7 +40,11 @@ class Login extends Controller
     public function index()
     {
         // dump(md5('ceroot1'));
-        if (IS_POST) {
+        // $testdata['id']   = 1;
+        // $testdata['name'] = 'SpringYang';
+        // json($testdata);
+        if (IS_AJAX) {
+
             if ($user = $this->model->validateLogin()) {
                 // 设置登录错误记录的session为0
                 session('error_num', 0);
@@ -61,7 +65,9 @@ class Login extends Controller
                     $redata = array('status' => 0, 'info' => $this->model->getError(), 'show_code' => 0, 'error_num' => $error_num);
                 }
             }
-
+            // $testdata['id']   = 1;
+            // $testdata['name'] = 'SpringYang';
+            return $redata;
             return json_encode($redata);
         } else {
             return $this->fetch();
@@ -69,7 +75,7 @@ class Login extends Controller
     }
 
     // 退出方法
-    public function loginout()
+    public function logout()
     {
         $mid = session('userid');
 
@@ -77,7 +83,7 @@ class Login extends Controller
         session('username', null);
         session('nickname', null);
 
-        action_log('loginout', 'manager', $mid, $mid);
+        action_log('logout', 'manager', $mid, $mid);
 
         $backurl = input('get.backurl');
         $backurl = str_replace('/', '%2F', $backurl);
