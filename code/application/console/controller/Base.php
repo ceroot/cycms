@@ -300,14 +300,12 @@ class Base extends Extend
     // 更改 status 字段
     public function disable()
     {
-        $pk     = $this->model->getPk();
-        $id     = input('get.' . $pk);
-        $status = db(CONTROLLER_NAME)->getFieldById($id, 'status');
+        $pk          = $this->model->getPk();
+        $id          = input('get.' . $pk);
+        $statusValue = db(CONTROLLER_NAME)->getFieldById($id, 'status');
 
-        $data['status'] = ($status == 1) ? 0 : 1;
-        // $data['status'] = ($status == 1) ?? 0;
-
-        $status = $this->model->save($data, [$pk => $id]);
+        $data['status'] = $statusValue == 1 ? 0 : 1;
+        $status         = $this->model->save($data, [$pk => $id]);
 
         if ($status) {
             // 记录日志
@@ -321,7 +319,6 @@ class Base extends Extend
 
             $redata['status'] = 'success';
             $redata['info']   = '成功';
-
         } else {
             $redata['status'] = 'fail';
             $redata['info']   = '失败';
