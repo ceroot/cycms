@@ -49,11 +49,11 @@ class Login extends Controller
                 // 设置登录错误记录的session为0
                 session('error_num', 0);
                 // 设置session
-                $this->model->setSession($user);
-                $this->model->updateLogin($user);
+                $this->model->setSession($user); // 登录成功，写入缓存
+                $this->model->updateLogin($user); // 登录成功，更新最后一次登录
 
-                // 登录日志记录
-                action_log('manager_login', 'manager', $user['id'], $user['id']);
+                // 记录登录日志
+                action_log('login_console', 'manager', $user['id'], $user['id']);
 
                 $time   = date('YmdHis') . getrandom(128);
                 $redata = array('status' => 1, 'info' => '登录成功', 'url' => url('console/index/index?time=' . $time), 'error_num' => 0);
@@ -78,12 +78,15 @@ class Login extends Controller
     public function logout()
     {
         $mid = session('userid');
+        if (!$mid) {
+            $this->redirect('console/login/index');
+        }
 
         session('userid', null);
         session('username', null);
         session('nickname', null);
 
-        action_log('logout', 'manager', $mid, $mid);
+        action_log('logout_console', 'manager', $mid, $mid);
 
         $backurl = input('get.backurl');
         $backurl = str_replace('/', '%2F', $backurl);

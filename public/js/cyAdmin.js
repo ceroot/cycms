@@ -594,6 +594,14 @@ function _init(){
 
     };
 
+    // ajax 提交
+    $.Cy.ajax  = {
+        init:function(){},
+        maim:function(){},
+        a_ajax:function(){},
+        form_ajax:function(){}
+    };
+
     $.Cy.scrool  = {
         init:function(){},
         main:function(){}
