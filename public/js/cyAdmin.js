@@ -45,112 +45,6 @@ $(function(){
         }
     }
 
-
-
-    //所有加了dialog类名的a链接，自动弹出它的href
-    if ($('a.J_dialog').length) {
-        Wind.use('artDialog', 'iframeTools', function () {
-            $('.J_dialog').on('click', function (e) {
-                e.preventDefault();
-                var $_this = this,
-                    _this = $($_this);
-                art.dialog.open($(this).prop('href'), {
-                    close: function () {
-                        $_this.focus(); //关闭时让触发弹窗的元素获取焦点
-                        return true;
-                    },
-                    title: _this.prop('title')
-                });
-            }).attr('role', 'button');
-
-        });
-    }
-
-    //所有的删除操作，删除数据后刷新页面
-    if ($('a.J_ajax_del').length) {
-        Wind.use('layer', function () {
-            $('.J_ajax_del').on('click', function (e) {
-                e.preventDefault();
-                var $_this = this,
-                    $this  = $($_this),
-                    href   = $this.prop('href'),
-                    msg    = $this.data('msg');
-                console.log(href);
-                layer.confirm('确定要删除吗？', {
-                  btn: ['删除','关闭'], //按钮
-                  shadeClose:true,
-                }, function(){
-                  layer.load();
-                  $.getJSON(href).done(function(data){
-                    console.log(data);
-                    if(data.status=='success'){
-                        layer.closeAll('loading');
-                        layer.msg(
-                            '删除成功，页面正在进行跳转……',
-                            {
-                                icon: 1,
-                                time:1000,
-                            },
-                            function(){
-                                reloadPage(window);
-                            });
-                    }else{
-                        layer.msg(data.info,{icon:2});
-                        layer.closeAll('loading');
-                    }
-                    
-                  });
-                }, function(index){
-                  layer.close(index);
-                });
-
-            });
-
-        });
-    }
-    
-    // a 标签 ajax 提交，成功之后刷新页面
-    var a_ajax  = 'cy-ajax';
-    if ($('body').find('a.'+a_ajax).length) {
-        Wind.use('layer', function () {
-        	$('body').on('click','a.'+a_ajax, function (e) {
-                e.preventDefault();
-                var $_this  = this,
-                    $_self  = $($_this),
-                    $_href  = $_self.prop('href'),
-                    $_msg   = $_self.data('msg');
-                console.log($_href);
-                layer.confirm('确定要操作吗？', {
-                	icon: 7,
-                    btn: ['提交','关闭'], //按钮
-                    shadeClose:true,
-                }, function(){
-                    layer.load();
-                    $.getJSON($_href).done(function(data){
-	                    console.log(data);
-	                    if(data.status=='success'){
-	                        layer.closeAll('loading');
-	                        layer.msg(
-	                            '操作成功，页面正在进行跳转……',
-	                            {
-	                                icon: 1,
-	                                time:1000,
-	                            },
-	                            function(){
-	                                reloadPage(window);
-	                            });
-	                    }else{
-	                        layer.msg(data.info,{icon:2});
-	                        layer.closeAll('loading');
-	                    }
-                  	});
-                }, function(index){
-                 	layer.close(index);
-                });
-            });
-        });
-    }
-
     //所有的ajax form提交,由于大多业务逻辑都是一样的，故统一处理
     var ajaxForm_list = $('form.J_ajaxForm');
     if (ajaxForm_list.length) {
@@ -298,6 +192,7 @@ function _init(){
 
             $.Cy.sidebar.init();
             $.Cy.fulWrapper.init();
+            $.Cy.ajax.init();
 
         	$(window,'.main-wrapper').resize(function(event) {
         		/* Act on the event */
@@ -338,7 +233,6 @@ function _init(){
                 //     mainWrapper.removeClass('product-sidebar-fold');
                 // }
             }
-
         	
         },
 
@@ -446,7 +340,6 @@ function _init(){
                         $.cookie(productSidebarFold,1, { path: '/', expires: 15 });
                     }
                 };
-
             });
         },
 
@@ -589,33 +482,88 @@ function _init(){
             };
             // 主体滚动函数
             $.Cy.layout.contentMainScroll();
-            
         }
-
     };
 
     // ajax 提交
     $.Cy.ajax  = {
-        init:function(){},
+        init:function(){
+            var _this  = this;
+            _this.a_ajax();
+        },
         maim:function(){},
-        a_ajax:function(){},
+        a_ajax:function(){
+            // a 标签 ajax 提交，成功之后刷新页面或者跳转到新的页面
+            // 使用方法：直接在 a 标签添加 a_ajax class
+            // 参数：
+            // data-layer-msg：显示提示信息，默认为[操作]
+            // data-layer-okbtn：提交按钮文字，默认为[提交]
+            // data-layer-cancelbtn：取消按钮文字，默认为[取消]
+            var a_ajax  = 'cy-ajax';
+            if ($('body').find('a.'+a_ajax).length) {
+                Wind.use('layer', function () {
+                    $('body').on('click','a.'+a_ajax, function (e) {
+                        e.preventDefault();
+                        var $_this   = this,
+                            $_self   = $($_this),
+                            $_href   = $_self.prop('href'),
+                            // $_msg   = $_self.data('msg');
+                            $_msg    = $_self.attr('data-layer-msg') ? $_self.attr('data-layer-msg') : '操作',
+                            $_ok_btn_text      = $_self.attr('data-layer-okbtn') ? $_self.attr('data-layer-okbtn') : '提交',
+                            $_cancel_btn_text  = $_self.attr('data-layer-cancelbtn') ? $_self.attr('data-layer-cancelbtn') : '取消';
+
+                        console.log($_href);
+                        layer.confirm('确定要'+$_msg+'吗？', {
+                            icon: 7,
+                            btn: [$_ok_btn_text,$_cancel_btn_text], //按钮
+                            shadeClose:true,
+                        }, function(){
+                            layer.load();
+                            $.getJSON($_href).done(function(data){
+                                console.log(data);
+                                if(data.status=='success'){
+                                    layer.closeAll('loading');
+                                    layer.msg(
+                                        $_msg+'成功，页面正在进行页面跳转……',
+                                        {
+                                            icon: 1,
+                                            time:1000,
+                                        },
+                                        function(){
+                                            if(!data.url){
+                                                reloadPage(window);
+                                            }else{
+                                                window.lacation.href  = data.url;
+                                            }
+                                        });
+                                }else{
+                                    layer.msg(data.info,{icon:2});
+                                    layer.closeAll('loading');
+                                }
+                            });
+                        }, function(index){
+                            layer.close(index);
+                        });
+                    });
+                });
+            }
+        },
         form_ajax:function(){}
     };
 
-    $.Cy.scrool  = {
-        init:function(){},
-        main:function(){}
-    };
 }
 
 
-//重新刷新页面，使用location.reload()有可能导致重新提交
+// 重新刷新页面，使用location.reload()有可能导致重新提交
 function reloadPage(win) {
     var location = win.location;
     location.href = location.pathname + location.search;
 }
 
 /* getWindexSize Fun */
+// 取值方法
+// 取得宽：getWindowSize().x;
+// 取得高：getWindowSize().y;
 function getWindowSize() {
     var client = {x:0,y:0};
     if(typeof document.compatMode != 'undefined' && document.compatMode == 'CSS1Compat') {
@@ -626,4 +574,21 @@ function getWindowSize() {
         client.y = document.body.clientHeight;
     }
     return client;
+}
+
+// 取得 url 参数
+// name：参数变量
+// 返回 string
+function getQueryString(name)
+{
+    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if(r!=null)return  unescape(r[2]); return null;
+}
+
+// 取得时间函数
+// 返回：int[时间截]
+function genTimestamp(){
+    var time = new Date();
+    return time.getTime();
 }
