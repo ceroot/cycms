@@ -108,8 +108,9 @@ class Base extends Extend
 
     public function basetest()
     {
-        $user = db('manager')->where('username', 'ceroot@163.com')->find();
-        dump($user);
+        $list = $this->model->paginate(10);
+        dump($list);
+
         die;
         $action     = 'disable_authrule';
         $controller = 'authRule';
@@ -126,14 +127,39 @@ class Base extends Extend
     }
 
     function list() {
-        $data = $this->_list();
+        $pageLimit = input('get.limit');
+        $pageLimit = isset($pageLimit) ? $pageLimit : 10; // 每页显示数目
+        $pk        = $this->model->getPk(); // 取得主键字段名
+
+        $order = [
+            $pk => 'desc',
+        ];
+
+        // 排序
+        switch (CONTROLLER_NAME) {
+            case 'auth_group':
+                $order = [
+                    $pk => 'asc',
+                ];
+                break;
+
+            default:
+                # code...
+                break;
+        }
+
+        $data = $this->model->order($order)->paginate($pageLimit);
+
+        // 获取分页显示
+        $page = $data->render();
+        $this->assign('page', $page);
+        // $data = $this->_list();
         $this->assign('data', $data);
         return $this->fetch();
     }
 
-    public function _list()
+    protected function _list()
     {
-
         $pageLimit = input('get.limit');
         $pageLimit = isset($pageLimit) ? $pageLimit : 10;
 

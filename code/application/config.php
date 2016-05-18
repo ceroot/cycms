@@ -51,4 +51,11 @@ return [
         'length'   => 3, // 验证码位数
     ],
 
+    //分页配置
+    'paginate'         => [
+        'type'     => 'bootstrap',
+        'var_page' => 'page',
+        'path'     => '',
+    ],
+
 ];
