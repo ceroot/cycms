@@ -25,7 +25,6 @@ class Base extends Extend
 
     public function _initialize()
     {
-
         // 定义UID
         define('UID', session('userid'));
 
@@ -41,7 +40,6 @@ class Base extends Extend
         // 锁定判断
         if ($manager['status'] == 0) {
             $redirecturl = url('console/login/index') . '?backurl=' . getbackurl();
-            // $this->redirect('console/login/index');
             $this->error('账号被锁定，请联系管理员', $redirecturl);
             exit;
         }
@@ -53,7 +51,6 @@ class Base extends Extend
 
         // 读取不需要进行权限验证的和不需要实例化模型的控制器缓存
         $authModel = cache('authModel');
-        // dump($authModel['not_auth']);die;
 
         if (ACTION_NAME) {
             $authName = CONTROLLER_NAME . '/' . ACTION_NAME;
@@ -66,7 +63,6 @@ class Base extends Extend
         // 1 不是超级管理员
         // 2 是必须验证的
         if (!in_array(UID, config('auth_superadmin')) && !in_array($authName, $authModel['not_auth'])) {
-
             // 处理会员和管理员规则
             $controller = CONTROLLER_NAME;
             if ($controller == 'User' && I('role') == 1) {
@@ -84,7 +80,6 @@ class Base extends Extend
                 // return false;
                 exit;
             }
-
         }
 
         define('CONTROLLER_ACTION', strtolower(CONTROLLER_NAME . '/' . ACTION_NAME));
@@ -158,52 +153,13 @@ class Base extends Extend
         return $this->fetch();
     }
 
-    protected function _list()
-    {
-        $pageLimit = input('get.limit');
-        $pageLimit = isset($pageLimit) ? $pageLimit : 10;
-
-        $count = db(CONTROLLER_NAME)->count(); // 查询满足要求的总记录数
-        $page  = new \page\Page($count, $pageLimit); // 实例化分页类 传入总记录数和每页显示的记录数
-        $page->setConfig('prev', '上一页');
-        $page->setConfig('next', '下一页');
-        $show = $page->show(); // 分页显示输出
-        $this->assign('page', $show); // 赋值分页输出
-        // $page = new Paginator;
-        // $dd   = $page->items();
-        // dump($dd);
-
-        $scope['pk']    = $this->model->getPk(); // 取得主键字段名
-        $scope['limit'] = $page->listRows; //每页显示数
-
-        $data = $this->model::scope(function ($query) use ($scope) {
-            $page  = input('get.p');
-            $order = [
-                $scope['pk'] => 'desc',
-            ];
-            switch (CONTROLLER_NAME) {
-                case 'auth_group':
-                    $order = [
-                        $scope['pk'] => 'asc',
-                    ];
-                    break;
-
-                default:
-                    # code...
-                    break;
-            }
-            $query->order($order)->page($page, $scope['limit']);
-        })->all();
-
-        return $data;
-    }
-
     public function add()
     {
         if (IS_AJAX) {
             $data = input('post.');
             // return $data;
             $result = $this->validate($data, CONTROLLER_NAME);
+            // return $data;
             if (true !== $result) {
                 // 验证失败 输出错误信息
                 $redata['status'] = 'fail';
@@ -214,7 +170,7 @@ class Base extends Extend
             $this->model->data($data);
 
             $status = $this->model->save($data);
-
+            return $data;
             if ($status) {
                 // 记录日志
                 $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
