@@ -21,9 +21,9 @@ use think\Model;
 class Action extends Model
 {
 
-    protected $autoTimeField = ['create_time', 'update_time'];
-    protected $insert        = ['create_time', 'create_ip', 'create_uid'];
-    protected $update        = ['update_time', 'update_ip', 'update_uid'];
+    // protected $autoTimeField = ['create_time', 'update_time'];
+    protected $insert = ['create_ip', 'create_uid'];
+    protected $update = ['update_ip', 'update_uid'];
 
     public function setCreateIpAttr($value)
     {
@@ -53,7 +53,7 @@ class Action extends Model
 
     public function getStatusHandleTextAttr($value, $data)
     {
-        $status = [0 => '启用', 1 => '禁用'];
+        $status = [0 => '禁用', 1 => '启用'];
         return $status[$data['status']];
     }
 

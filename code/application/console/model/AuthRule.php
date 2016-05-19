@@ -23,10 +23,7 @@ class AuthRule extends Model
 {
 
     // 自动完成
-    protected $auto          = [];
-    protected $autoTimeField = ['create_time', 'update_time'];
-    protected $insert        = ['create_time'];
-    protected $update        = ['update_time'];
+    protected $auto = [];
 
     public function getStatusTextAttr($value, $data)
     {
@@ -34,32 +31,23 @@ class AuthRule extends Model
         return $status[$data['status']];
     }
 
-    public function __construct()
-    {
-        if (!cache('authrule')) {
-            $this->updateCache();
-        }
-        $this->cache = cache('authrule'); // 从缓存里取得规则数据
-    }
+    // public function __construct()
+    // {
+    //     if (!cache('authrule')) {
+    //         $this->updateCache();
+    //     }
+    //     $this->cache = cache('authrule'); // 从缓存里取得规则数据
+    // }
     public function getAll($isArray = 0)
     {
+        $cache = cache('authrule');
         if ($isArray) {
-            return Data::channelLevel($this->cache, 0, '', 'id', 'pid');
+            return Data::channelLevel($cache, 0, '', 'id', 'pid');
         } else {
-            return Data::tree($this->cache, 'title', 'id', 'pid');
+            return Data::tree($cache, 'title', 'id', 'pid');
         }
     }
-    public function test()
-    {
-        // $data = db('authRule')->order(['sort' => 'asc', 'id' => 'asc'])->select();
-        $m = model('authRule');
 
-        $data = $m::scope(function ($query) {
-            $query->order(['sort' => 'asc', 'id' => 'asc']);
-        })->all();
-
-        return $data->toArray();
-    }
     /**
      * [update_cache 更新缓存]
      * @return [type] [description]
@@ -68,6 +56,7 @@ class AuthRule extends Model
     {
         $data = db('authRule')->order(['sort' => 'asc', 'id' => 'asc'])->select();
         cache('authrule', $data);
+        $this->updateCacheAuthModel();
 
     }
     /**
@@ -134,7 +123,6 @@ class AuthRule extends Model
         $status = db('authRule')->delete($id);
         if ($status) {
             $this->updateCache();
-            $this->updateCacheAuthModel();
             return true;
         } else {
             $this->error = '根据条件没有数据可进行删除';
@@ -162,9 +150,11 @@ class AuthRule extends Model
      */
     public function consoleMenu()
     {
+        $cache = cache('authrule');
+        // dump($cache);
         // 判断是不是超级管理员
         if (in_array(UID, config('auth_superadmin'))) {
-            $data = $this->cache;
+            $data = $cache;
         } else {
             // 根据用户id来选择id所对应的用户拥有的显示数据
             // 满足条件
@@ -173,7 +163,7 @@ class AuthRule extends Model
             $authModel = cache('authModel'); // 从缓存取得不需要进行权限验证的数据
             // dump($authModel);
             $data = array();
-            foreach ($this->cache as $value) {
+            foreach ($cache as $value) {
                 if (authCheck($value['name'], UID) || in_array(strtolower($value['name']), $authModel['not_auth'])) {
                     $data[] = $value;
                 }
@@ -274,7 +264,15 @@ class AuthRule extends Model
             $this->getError('规则表里不存在此名称，请先进行规则添加');
             return false;
         }
-        $treeArray['menu'] = getCateTreeArr($activedata, 0); // 生成树形结构
+
+        // 去掉不需要显示的
+        $showData = array();
+        foreach ($activedata as $key => $value) {
+            if ($value['isnavshow'] == 1) {
+                $showData[] = $value;
+            }
+        }
+        $treeArray['menu'] = getCateTreeArr($showData, 0); // 生成树形结构$activedata
         // dump($treeArray);
         // 加上key标记
         // $menu        = array();

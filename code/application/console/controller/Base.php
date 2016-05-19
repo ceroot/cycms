@@ -46,17 +46,12 @@ class Base extends Extend
 
         // 生成不需要进行权限验证的和不需要实例化模型的控制器缓存
         if (!cache('authModel')) {
-            model('authRule')->updateCacheAuthModel();
+            model('authRule')->updateCache();
         }
 
         // 读取不需要进行权限验证的和不需要实例化模型的控制器缓存
         $authModel = cache('authModel');
-
-        if (ACTION_NAME) {
-            $authName = CONTROLLER_NAME . '/' . ACTION_NAME;
-        } else {
-            $authName = CONTROLLER_NAME;
-        }
+        $authName  = CONTROLLER_NAME . '/' . ACTION_NAME;
 
         // 验证权限
         // 满足条件
@@ -85,10 +80,8 @@ class Base extends Extend
         define('CONTROLLER_ACTION', strtolower(CONTROLLER_NAME . '/' . ACTION_NAME));
 
         // 取得控制器名称
-        $controllerName = CONTROLLER_NAME;
-
-        if (!in_array($controllerName, $authModel['not_d_controller'])) {
-            $this->model = model($controllerName);
+        if (!in_array(CONTROLLER_NAME, $authModel['not_d_controller'])) {
+            $this->model = model(CONTROLLER_NAME);
         }
 
         // 菜单输出
@@ -107,16 +100,19 @@ class Base extends Extend
         $data['condition']     = '';
         $data['controller']    = 1;
         $data['instantiation'] = '';
-        $data['isnavshow']     = 1;
-        $data['name']          = 'category';
-        $data['pid']           = 8;
+        $data['isnavshow']     = 0;
+        $data['name']          = 'ManagerActionLog/index';
+        $data['pid']           = 1;
         $data['sort']          = 100;
         $data['status']        = 1;
-        $data['title']         = '类别管理';
+        $data['title']         = '管理员日志12';
 
-        $this->model->data($data);
-        $this->model->save();
-
+        $status = $this->model->save($data, ['id' => 119]);
+        if ($status) {
+            dump($status);
+        } else {
+            dump($this->model->getError());
+        }
         die;
         $action     = 'disable_authrule';
         $controller = 'authRule';
@@ -170,15 +166,12 @@ class Base extends Extend
             $data = input('post.');
             // return $data;
             $result = $this->validate($data, CONTROLLER_NAME);
-            return $data;
             if (true !== $result) {
                 // 验证失败 输出错误信息
                 $redata['status'] = 'fail';
                 $redata['info']   = $result;
                 return $redata;
             }
-
-            $this->model->data($data);
 
             $status = $this->model->save($data);
             // return $data;
@@ -211,7 +204,7 @@ class Base extends Extend
         $pk = $this->model->getPk();
         if (IS_AJAX) {
             $data = input('post.');
-
+            // return $pk;
             if (CONTROLLER_NAME == 'auth_group') {
                 $rulesdata = input('post.rules/a');
                 if ($rulesdata) {
@@ -230,7 +223,7 @@ class Base extends Extend
                 $redata['info']   = $result;
                 return $redata;
             }
-
+            // return $data;
             $status = $this->model->save($data, [$pk => $data[$pk]]);
             // return $data;
             if ($status) {

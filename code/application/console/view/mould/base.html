@@ -101,7 +101,7 @@
       <section class="sidebar">
         <ul>
           {volist name="menu.menu" id="menu"}
-            {if condition="$menu.isnavshow"}
+            {eq name="menu.isnavshow" value="1"}
               <li {if condition="$menu.active"}class="active"{/if}>
                 <dl>
                   <dt>
@@ -115,16 +115,18 @@
                   {notempty name="menu.items"}
                   <dd {if condition="$menu.active"}style="display: block;"{/if}>
                     {volist name="menu.items" id="items"}
-                    <a {if condition="$items.active"}class="active"{/if} href="{$items.name}" title="{$items.title}">
-                      <i class="fa fa-circle-o"></i>
-                      {$items.title}
-                    </a>
+                      {eq name="items.isnavshow" value="1"}
+                        <a {if condition="$items.active"}class="active"{/if} href="{$items.name}" title="{$items.title}">
+                          <i class="fa fa-circle-o"></i>
+                          {$items.title}
+                        </a>
+                      {/eq}
                     {/volist}
                   </dd>
                   {/notempty}
                 </dl>
               </li>
-            {/if}
+            {/eq}
           {/volist}
           <!-- <li>
           <dl>
