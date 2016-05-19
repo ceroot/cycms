@@ -103,8 +103,19 @@ class Base extends Extend
 
     public function basetest()
     {
-        $list = $this->model->paginate(10);
-        dump($list);
+        $data['auth']          = 1;
+        $data['condition']     = '';
+        $data['controller']    = 1;
+        $data['instantiation'] = '';
+        $data['isnavshow']     = 1;
+        $data['name']          = 'category';
+        $data['pid']           = 8;
+        $data['sort']          = 100;
+        $data['status']        = 1;
+        $data['title']         = '类别管理';
+
+        $this->model->data($data);
+        $this->model->save();
 
         die;
         $action     = 'disable_authrule';
@@ -159,7 +170,7 @@ class Base extends Extend
             $data = input('post.');
             // return $data;
             $result = $this->validate($data, CONTROLLER_NAME);
-            // return $data;
+            return $data;
             if (true !== $result) {
                 // 验证失败 输出错误信息
                 $redata['status'] = 'fail';
@@ -170,7 +181,7 @@ class Base extends Extend
             $this->model->data($data);
 
             $status = $this->model->save($data);
-            return $data;
+            // return $data;
             if ($status) {
                 // 记录日志
                 $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
