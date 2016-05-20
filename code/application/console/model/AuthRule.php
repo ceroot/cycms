@@ -151,7 +151,7 @@ class AuthRule extends Model
     public function consoleMenu()
     {
         $cache = cache('authrule');
-        // dump($cache);
+
         // 判断是不是超级管理员
         if (in_array(UID, config('auth_superadmin'))) {
             $data = $cache;
@@ -169,54 +169,52 @@ class AuthRule extends Model
                 }
             }
         }
-        // 可显示处理和其它处理
+
         $navdata = array();
-        // dump($data);
         foreach ($data as $value) {
-            // 激活当前处理
-            $value['active'] = 0;
-            $controller      = toCamel(CONTROLLER_NAME);
-            $action          = toCamel(ACTION_NAME);
+            if ($value['status']) {
+                // 激活当前处理
+                $value['active'] = 0;
+                $controller      = toCamel(CONTROLLER_NAME);
+                $action          = toCamel(ACTION_NAME);
 
-            // 取得当前方法id
-            if (strtolower($value['name']) == strtolower($controller . '/' . $action)) {
-                $current_action_id  = $value['id'];
-                $current_action_pid = $value['pid'];
-            }
+                // 取得当前控制器id与方法id
+                if (strtolower($value['name']) == strtolower($controller . '/' . $action)) {
+                    $currentData = [
+                        'action_id'     => $value['id'],
+                        'controller_id' => $value['pid'],
+                    ];
+                }
 
-            // $isnavshow = $value['isnavshow']; // 显示标记，这里不需要了，让前端进行控制
-            $status = $value['status']; // 正常使用标记
-            if ($status) {
                 switch ($value['name']) {
                     case 'index/index':
                         $time = date('YmdHis') . getrandom(128);
-                        $name = url('console/index/index?time=' . $time);
+                        $url  = url('console/index/index?time=' . $time);
                         # code...
                         break;
                     case 'manager/log': // 管理员管理
                         // $name = url($name, array('role' => 1));
-                        $name = url('actionLog/list', array('role' => 1));
+                        $url = url('actionLog/list', array('role' => 1));
                         break;
                     case 'UserComment/index': // 评论管理
-                        $name = url($name, array('verifystate' => 1));
+                        $url = url($name, array('verifystate' => 1));
                         break;
                     case '':
-                        $name = '';
+                        $url = '';
                         break;
                     default:
-                        $name = url($value['name']);
+                        $url = url($value['name']);
                 }
-                $value['name'] = $name;
-                $navdata[]     = $value;
+                $value['url'] = $url;
+                $navdata[]    = $value;
             }
         }
 
         // 处理当前高亮标记
-        if (isset($current_action_id)) {
+        if (isset($currentData['action_id'])) {
             // 子级返回父级数组
-            $bread = getParents($navdata, $current_action_id);
-            // dump($bread);
-            // die;
+            $bread = getParents($navdata, $currentData['action_id']);
+
             // 只取id组成数组
             $activeidarr = array();
             foreach ($bread as $value) {
@@ -234,33 +232,27 @@ class AuthRule extends Model
             $second = null;
             if (count($activeidarr) > 2) {
                 foreach ($activedata as $value) {
-                    if ($current_action_pid == $value['id']) {
+                    if ($currentData['controller_id'] == $value['id']) {
                         $producttitle = $value['title'];
                         break;
                     }
                 }
                 $second['title'] = $producttitle;
-                $second['data']  = getCateByPid($activedata, $current_action_pid);
+                $second['data']  = getCateByPid($activedata, $currentData['controller_id']);
             } else {
                 foreach ($activedata as $value) {
-                    // dump($current_action_id);
-                    // dump($value['id']);
-                    // echo 'id:'.$current_action_id;
-                    // echo '<br/>vid:'.$value['id'].'<br/>';
-                    if ($current_action_id == $value['id']) {
+                    if ($currentData['action_id'] == $value['id']) {
                         $producttitle = $value['title'];
-                        // dump(1);
                         break;
                     }
                 }
                 $second['title'] = $producttitle;
-                $second['data']  = getChiIds($navdata, $current_action_id);
+                $second['data']  = getChiIds($navdata, $currentData['action_id']);
             }
-            $treeArray['second']    = $second;
+            $treeArray['second']    = $second; // 二级菜单数据
             $treeArray['bread']     = $bread; // 面包萱
             $treeArray['showtitle'] = end($bread)['title']; // 当前标题
         } else {
-            // dump('规则表里不存在此名称，请先进行规则添加');
             $this->getError('规则表里不存在此名称，请先进行规则添加');
             return false;
         }
@@ -272,22 +264,10 @@ class AuthRule extends Model
                 $showData[] = $value;
             }
         }
-        $treeArray['menu'] = getCateTreeArr($showData, 0); // 生成树形结构$activedata
-        // dump($treeArray);
-        // 加上key标记
-        // $menu        = array();
-        // foreach ($treeArray as $value)
-        // {
-        //     if($value['pid']==0)
-        //     {
-        //         $key        = 'admin'.$value['id'];
-        //         $menu[$key]    = $value;
-        //     }
-        // }
-        // 转换json
-        // $menu    = json_encode($menu);
+        $treeArray['menu'] = getCateTreeArr($showData, 0); // 生成树形结构$showData
         return $treeArray;
     }
+
     // protected $beforeActionList = [
     //     'first',
     //     'second'=>  ['except'=>'hello'],

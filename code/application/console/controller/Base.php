@@ -94,6 +94,11 @@ class Base extends Extend
 
     }
 
+    public function ctest()
+    {
+        dump('base');
+    }
+
     public function basetest()
     {
         $data['auth']          = 1;

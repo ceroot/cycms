@@ -32,4 +32,10 @@ class Category extends Base
         $this->assign('category', $category);
 
     }
+
+    public function ctest()
+    {
+        parent::ctest();
+        dump('category');
+    }
 }

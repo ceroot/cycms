@@ -105,7 +105,7 @@
               <li {if condition="$menu.active"}class="active"{/if}>
                 <dl>
                   <dt>
-                    <a href="{$menu.name}" title="{$menu.title}">
+                    <a href="{$menu.url}" title="{$menu.title}">
                       <i class="fa {empty name="menu.icon"}fa-circle-o{else /}{$menu.icon}{/empty}"></i>
                       <span>{$menu.title}</span>
                       {notempty name="menu.items"} <em class="fa fa-angle-left pull-right"></em>
@@ -116,7 +116,7 @@
                   <dd {if condition="$menu.active"}style="display: block;"{/if}>
                     {volist name="menu.items" id="items"}
                       {eq name="items.isnavshow" value="1"}
-                        <a {if condition="$items.active"}class="active"{/if} href="{$items.name}" title="{$items.title}">
+                        <a {if condition="$items.active"}class="active"{/if} href="{$items.url}" title="{$items.title}">
                           <i class="fa fa-circle-o"></i>
                           {$items.title}
                         </a>
@@ -378,7 +378,7 @@
           <dd>
             {volist name="second.data" id="second"}
               {if condition="$second.isnavshow"}
-                <a {if condition="$second.active"}class="active"{/if} href="{$second.name}" title="{$second.title}">{$second.title}</a>
+                <a {if condition="$second.active"}class="active"{/if} href="{$second.url}" title="{$second.title}">{$second.title}</a>
               {/if}
             {/volist}
             <!-- <a href="" title="second-sidebar1">secondsecondsecondsecond-sidebar1</a>
@@ -422,7 +422,7 @@
           </li>
           {volist name="bread" id="bread"}
             <li {if condition="$bread.active"}class="active"{/if}>
-              <a href="{$bread.name}" title="{$bread.title}">{$bread.title}</a>
+              <a href="{$bread.url}" title="{$bread.title}">{$bread.title}</a>
             </li>
           {/volist}
           <!-- <li class="active">Dashboard</li> -->
