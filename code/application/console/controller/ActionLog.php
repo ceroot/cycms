@@ -27,9 +27,7 @@ class ActionLog extends Base
     public function _initialize()
     {
         parent::_initialize();
-
     }
-
     public function atest()
     {
         // $list = $this->model->paginate(10, true, [
