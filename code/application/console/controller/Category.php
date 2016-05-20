@@ -36,6 +36,7 @@ class Category extends Base
     public function ctest()
     {
         parent::ctest();
-        dump('category');
+        dump($category);
+        return $category;
     }
 }

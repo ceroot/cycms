@@ -23,10 +23,9 @@ class Manager extends Model
 {
 
     // 自动完成
-    protected $auto          = [];
-    protected $autoTimeField = ['create_time', 'login_time', 'update_time'];
-    protected $insert        = ['create_uid', 'create_time', 'create_ip'];
-    protected $update        = ['update_uid', 'update_time', 'update_ip'];
+    protected $auto   = [];
+    protected $insert = ['create_uid', 'create_time', 'create_ip'];
+    protected $update = ['update_uid', 'update_time', 'update_ip'];
 
     // public function setPasswordAttr($value, $data)
     // {

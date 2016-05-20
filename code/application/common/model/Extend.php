@@ -14,6 +14,10 @@ use third\Data;
 
 class Extend extends Model
 {
+
+    protected $insert = ['create_uid', 'create_ip'];
+    protected $update = ['update_uid', 'update_ip'];
+
     // 取得全部数据并生成相应结构
     public function getAll($isArray = 0)
     {

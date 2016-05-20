@@ -499,54 +499,68 @@ function _init(){
             // data-layer-msg：显示提示信息，默认为[操作]
             // data-layer-okbtn：提交按钮文字，默认为[提交]
             // data-layer-cancelbtn：取消按钮文字，默认为[取消]
+            // data-layer-confirm: 是否弹出提交提示，默认为[false]不弹出
+            var _this = this;
             var a_ajax  = 'cy-ajax';
             if ($('body').find('a.'+a_ajax).length) {
                 Wind.use('layer', function () {
                     $('body').on('click','a.'+a_ajax, function (e) {
                         e.preventDefault();
-                        var $_this   = this,
-                            $_self   = $($_this),
+                        var $_self   = $(this),
                             $_href   = $_self.prop('href'),
                             // $_msg   = $_self.data('msg');
                             $_msg    = $_self.attr('data-layer-msg') ? $_self.attr('data-layer-msg') : '操作',
                             $_ok_btn_text      = $_self.attr('data-layer-okbtn') ? $_self.attr('data-layer-okbtn') : '提交',
-                            $_cancel_btn_text  = $_self.attr('data-layer-cancelbtn') ? $_self.attr('data-layer-cancelbtn') : '取消';
+                            $_cancel_btn_text  = $_self.attr('data-layer-cancelbtn') ? $_self.attr('data-layer-cancelbtn') : '取消',
+                            $_confirm          = $_self.attr('data-layer-confirm')  ? $_self.attr('data-layer-confirm') : false;
 
-                        console.log($_href);
-                        layer.confirm('确定要'+$_msg+'吗？', {
-                            icon: 7,
-                            btn: [$_ok_btn_text,$_cancel_btn_text], //按钮
-                            shadeClose:true,
-                        }, function(){
-                            layer.load();
-                            $.getJSON($_href).done(function(data){
-                                console.log(data);
-                                if(data.status=='success'){
-                                    layer.closeAll('loading');
-                                    layer.msg(
-                                        $_msg+'成功，页面正在进行页面跳转……',
-                                        {
-                                            icon: 1,
-                                            time:1000,
-                                        },
-                                        function(){
-                                            if(!data.url){
-                                                reloadPage(window);
-                                            }else{
-                                                window.lacation.href  = data.url;
-                                            }
-                                        });
-                                }else{
-                                    layer.msg(data.info,{icon:2});
-                                    layer.closeAll('loading');
-                                }
+                        if($_self.hasClass('disabled')){
+                            return false;
+                        }
+                        if($_confirm){
+                            layer.confirm('确定要'+$_msg+'吗？', {
+                                icon: 7,
+                                btn: [$_ok_btn_text,$_cancel_btn_text], //按钮
+                                shadeClose:true,
+                            }, function(){
+                                var loading = layer.load();
+                                $_self.addClass('disabled');
+                                _this.a_ajax_json($_self,$_href,$_msg,loading);
+                            }, function(index){
+                                layer.close(index);
                             });
-                        }, function(index){
-                            layer.close(index);
-                        });
+                        }else{
+                            var loading = layer.load();
+                            $_self.addClass('disabled');
+                            _this.a_ajax_json($_self,$_href,$_msg,loading);
+                        }
                     });
                 });
             }
+        },
+        a_ajax_json:function($_self,$_href,$_msg,loading){
+            $.getJSON($_href).done(function(data){
+                console.log(data);
+                if(data.status=='success'){
+                    layer.closeAll('loading');
+                    layer.msg(
+                        $_msg+'成功，页面正在进行页面跳转……',
+                        {
+                            icon: 1,
+                            time:1000,
+                        },
+                        function(){
+                            if(!data.url){
+                                reloadPage(window);
+                            }else{
+                                window.lacation.href  = data.url;
+                            }
+                        });
+                }else{
+                    layer.msg(data.info,{icon:2});
+                    layer.closeAll('loading');
+                }
+            });
         },
         form_ajax:function(){}
     };

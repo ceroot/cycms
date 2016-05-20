@@ -96,11 +96,16 @@ class Base extends Extend
 
     public function ctest()
     {
-        dump('base');
+        $base     = 'base';
+        $category = 'category';
+        dump($base);
+        return $base;
     }
 
     public function basetest()
     {
+        dump('basetest');
+        die;
         $data['auth']          = 1;
         $data['condition']     = '';
         $data['controller']    = 1;
