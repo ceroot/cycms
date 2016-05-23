@@ -69,7 +69,7 @@ class AuthRule extends Base
         return $this->updatefield('isnavshow');
     }
 
-    // 更新菜单显示
+    // 更新权限验证
     public function updateauth()
     {
         return $this->updatefield('auth');

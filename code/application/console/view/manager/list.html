@@ -35,10 +35,10 @@
 				<td>{$value.email}</td>
 				<td>{$value.login_time_show}</td>
 				<td>{$value.create_time_show}</td>
-				<td><a class="cy-ajax" href="{:url('manager/disable',array('id'=>$value['id']))}" title="快捷设置状态">{$value.status_text}</a></td>
+				<td><a class="cy-ajax" href="{:url('disable',array('id'=>$value['id']))}" title="快捷设置状态">{$value.status_text}</a></td>
 				<td align='center' >
-					<a href="{:url('manager/edit',array('id'=>$value['id']))}" title="修改">修改</a>
-					{neq name="value.id" value="1"} | <a class="cy-ajax" href="{:url('manager/del',array('id'=>$value['id']))}" data-layer-msg="删除" data-layer-okbtn="删除" title="删除" data-layer-confirm="true">删除</a>{/neq}
+					<a href="{:url('edit',array('id'=>$value['id']))}" title="修改">修改</a>
+					{neq name="value.id" value="1"} | <a class="cy-ajax" href="{:url('del',array('id'=>$value['id']))}" data-layer-msg="删除" data-layer-okbtn="删除" title="删除" data-layer-confirm="true">删除</a>{/neq}
 				</td>
 			</tr>
 		{/volist}

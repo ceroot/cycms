@@ -157,14 +157,14 @@ $(function(){
                             var text = btn.text();
                             //按钮文案、状态修改
                             btn.prop('disabled',false).removeClass('disabled').text(text.replace('中...', '')).parent().find('span').remove();
-                            if(data.status === 'success'){
-                                layer.msg(data.info,function(){
+                            if(data.code){
+                                layer.msg(data.msg,function(){
                                    if(data.url){
                                         window.location.href = data.url;
                                     } 
                                 });
                             }else{
-                                layer.msg(data.info);
+                                layer.msg(data.msg);
                             }
                             layer.closeAll('loading');
                         }
@@ -541,7 +541,7 @@ function _init(){
         a_ajax_json:function($_self,$_href,$_msg,loading){
             $.getJSON($_href).done(function(data){
                 console.log(data);
-                if(data.status=='success'){
+                if(data.code){
                     layer.closeAll('loading');
                     layer.msg(
                         $_msg+'成功，页面正在进行页面跳转……',
@@ -550,14 +550,10 @@ function _init(){
                             time:1000,
                         },
                         function(){
-                            if(!data.url){
-                                reloadPage(window);
-                            }else{
-                                window.lacation.href  = data.url;
-                            }
+                            reloadPage(window);
                         });
                 }else{
-                    layer.msg(data.info,{icon:2});
+                    layer.msg(data.msg,{icon:2});
                     layer.closeAll('loading');
                 }
             });

@@ -17,6 +17,7 @@
 namespace app\console\controller;
 
 use app\console\controller\Base;
+use third\Data;
 
 class Category extends Base
 {
@@ -28,9 +29,43 @@ class Category extends Base
     {
         parent::_initialize();
 
-        $category = $this->model->getAll();
+        $category = db('Category')->select();
+
+        $category = Data::tree($category, 'title', 'id', 'pid');
+        // dump($category);
+        // die;
         $this->assign('category', $category);
 
+    }
+
+    function list() {
+        return $this->fetch();
+    }
+
+    // 更新显示状态
+    public function updateshow()
+    {
+        $pk    = $this->model->getPk();
+        $id    = input('get.' . $pk);
+        $value = db(CONTROLLER_NAME)->getFieldById($id, 'show_status');
+
+        $data['show_status'] = ($value == 1) ? 0 : 1;
+
+        $status = $this->model->save($data, [$pk => $id]);
+
+        if ($status) {
+            // 记录日志
+            $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
+            action_log($action, CONTROLLER_NAME, $id, UID);
+
+            $redata['status'] = 'success';
+            $redata['info']   = '成功';
+        } else {
+            $redata['status'] = 'fail';
+            $redata['info']   = '失败';
+        }
+
+        return $redata;
     }
 
     public function ctest()

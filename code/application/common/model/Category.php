@@ -14,8 +14,4 @@ use app\common\model\Extend;
 class Category extends Extend
 {
 
-    public function index()
-    {
-
-    }
 }

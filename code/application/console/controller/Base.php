@@ -82,6 +82,7 @@ class Base extends Extend
         // 取得控制器名称
         if (!in_array(CONTROLLER_NAME, $authModel['not_d_controller'])) {
             $this->model = model(CONTROLLER_NAME);
+            // dump($this->model);
         }
 
         // 菜单输出
@@ -94,43 +95,9 @@ class Base extends Extend
 
     }
 
-    public function ctest()
-    {
-        $base     = 'base';
-        $category = 'category';
-        dump($base);
-        return $base;
-    }
-
     public function basetest()
     {
-        dump('basetest');
-        die;
-        $data['auth']          = 1;
-        $data['condition']     = '';
-        $data['controller']    = 1;
-        $data['instantiation'] = '';
-        $data['isnavshow']     = 0;
-        $data['name']          = 'ManagerActionLog/index';
-        $data['pid']           = 1;
-        $data['sort']          = 100;
-        $data['status']        = 1;
-        $data['title']         = '管理员日志12';
 
-        $status = $this->model->save($data, ['id' => 119]);
-        if ($status) {
-            dump($status);
-        } else {
-            dump($this->model->getError());
-        }
-        die;
-        $action     = 'disable_authrule';
-        $controller = 'authRule';
-        $status     = 205;
-        $uid        = 1;
-        $stu        = action_log($action, $controller, $status, $uid);
-
-        dump($stu);
     }
 
     public function index()
@@ -178,11 +145,9 @@ class Base extends Extend
             $result = $this->validate($data, CONTROLLER_NAME);
             if (true !== $result) {
                 // 验证失败 输出错误信息
-                $redata['status'] = 'fail';
-                $redata['info']   = $result;
-                return $redata;
+                return $this->error($result);
             }
-
+            // return $data;
             $status = $this->model->save($data);
             // return $data;
             if ($status) {
@@ -195,18 +160,30 @@ class Base extends Extend
                     $this->model->updateCacheAuthModel(); // 更新缓存
                 }
 
-                $redata['status'] = 'success';
-                $redata['info']   = '添加成功';
-                $redata['url']    = url('list');
-
+                return $this->success('添加成功', url('list'));
             } else {
-                $redata['status'] = 'fail';
-                $redata['info']   = '失败';
+                return $this->error('失败');
             }
-            return $redata;
         } else {
             return $this->fetch();
         }
+    }
+
+    public function edittest()
+    {
+        $pk            = $this->model->getPk();
+        $data['name']  = 'edittest';
+        $data['title'] = 'edittitle';
+        $data['pid']   = 0;
+        $data['id']    = 5;
+
+        $status = $this->model->save($data, [$pk => $data[$pk]]);
+        if ($status) {
+            dump($status);
+        } else {
+            dump($this->model->getError());
+        }
+
     }
 
     public function edit()
@@ -214,7 +191,7 @@ class Base extends Extend
         $pk = $this->model->getPk();
         if (IS_AJAX) {
             $data = input('post.');
-            // return $pk;
+
             if (CONTROLLER_NAME == 'auth_group') {
                 $rulesdata = input('post.rules/a');
                 if ($rulesdata) {
@@ -225,17 +202,17 @@ class Base extends Extend
                 $data['id'] = input('post.id');
 
             }
-            // return $data;
+
             $result = $this->validate($data, CONTROLLER_NAME);
             if (true !== $result) {
                 // 验证失败 输出错误信息
                 $redata['status'] = 'fail';
                 $redata['info']   = $result;
                 return $redata;
+                // $this->error($result);
             }
-            // return $data;
+
             $status = $this->model->save($data, [$pk => $data[$pk]]);
-            // return $data;
             if ($status) {
                 // 记录日志
                 $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
@@ -258,7 +235,7 @@ class Base extends Extend
         } else {
             $id = input('get.' . $pk);
             if (!$id) {
-                return '参数错误';
+                return $this->error('参数错误');
             } else {
                 $one = db(CONTROLLER_NAME)->find($id);
                 $this->assign('one', $one);
@@ -293,16 +270,14 @@ class Base extends Extend
         return $redata;
     }
 
-    // 更改 status 字段
-    public function disable()
+    // 更新 status 字段状态
+    public function status()
     {
-        $pk          = $this->model->getPk();
-        $id          = input('get.' . $pk);
-        $statusValue = db(CONTROLLER_NAME)->getFieldById($id, 'status');
-
-        $data['status'] = $statusValue == 1 ? 0 : 1;
+        $pk             = $this->model->getPk();
+        $id             = input('get.' . $pk);
+        $value          = db(CONTROLLER_NAME)->getFieldById($id, 'status');
+        $data['status'] = $value ? 0 : 1;
         $status         = $this->model->save($data, [$pk => $id]);
-
         if ($status) {
             // 记录日志
             $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
@@ -312,14 +287,10 @@ class Base extends Extend
                 $this->model->updateCache(); // 更新缓存
                 $this->model->updateCacheAuthModel(); // 更新缓存
             }
-
-            $redata['status'] = 'success';
-            $redata['info']   = '成功';
+            return $this->success('成功');
         } else {
-            $redata['status'] = 'fail';
-            $redata['info']   = '失败';
+            return $this->error('失败');
         }
-        return $redata;
     }
 
 }
