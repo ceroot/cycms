@@ -33,7 +33,7 @@
 			</td>
 			<td>{$value.name}</td>
 			<td>{$value._name}</td>
-			<td><a class="cy-ajax" href="{:url('disable',array('id'=>$value['id']))}" title="快捷设置状态">{if condition='$value["status"] eq 1'}正常{else /}禁用{/if}</a></td>
+			<td><a class="cy-ajax" href="{:url('status',array('id'=>$value['id']))}" title="快捷设置状态">{if condition='$value["status"] eq 1'}正常{else /}禁用{/if}</a></td>
 			<td><a class="cy-ajax" href="{:url('updateshow',array('id'=>$value['id']))}" title="快捷设置是显示">{if condition='$value["show_status"] eq 1'}显示{else /}隐藏{/if}</a></td>
 			<td align='center' >
 				<a href="{:url('edit',array('id'=>$value['id']))}">修改</a> | 

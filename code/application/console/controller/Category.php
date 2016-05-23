@@ -32,8 +32,6 @@ class Category extends Base
         $category = db('Category')->select();
 
         $category = Data::tree($category, 'title', 'id', 'pid');
-        // dump($category);
-        // die;
         $this->assign('category', $category);
 
     }
@@ -58,14 +56,10 @@ class Category extends Base
             $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
             action_log($action, CONTROLLER_NAME, $id, UID);
 
-            $redata['status'] = 'success';
-            $redata['info']   = '成功';
+            return $this->success('成功');
         } else {
-            $redata['status'] = 'fail';
-            $redata['info']   = '失败';
+            return $this->error('失败');
         }
-
-        return $redata;
     }
 
     public function ctest()
