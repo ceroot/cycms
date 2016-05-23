@@ -35,11 +35,11 @@
 			<td>{$value.name}</td>
 			<td>{$value._name}</td>
 			<td><a class="cy-ajax" href="{:url('updateauth',array('id'=>$value['id']))}" title="快捷设置验证状态">{if condition='$value["auth"] eq 1'}需要{else /}否{/if}</a></td>
-			<td><a class="cy-ajax" href="{:url('disable',array('id'=>$value['id']))}" title="快捷设置状态">{if condition='$value["status"] eq 1'}正常{else /}禁用{/if}</a></td>
+			<td><a class="cy-ajax" href="{:url('status',array('id'=>$value['id']))}" title="快捷设置状态">{if condition='$value["status"] eq 1'}正常{else /}禁用{/if}</a></td>
 			<td><a class="cy-ajax" href="{:url('updateshow',array('id'=>$value['id']))}" title="快捷设置是显示">{if condition='$value["isnavshow"] eq 1'}显示{else /}隐藏{/if}</a></td>
 			<td align='center' >
-				<a href="{:url('AuthRule/edit',array('id'=>$value['id']))}">修改</a> | 
-				<a class="cy_ajax" href="{:url('authRule/del',array('id'=>$value['id']))}">删除</a>  
+				<a href="{:url('edit',array('id'=>$value['id']))}">修改</a> | 
+				<a class="cy-ajax" href="{:url('del',array('id'=>$value['id']))}" data-layer-msg="删除" data-layer-okbtn="删除" title="删除" data-layer-confirm="true">删除</a>  
 			</td>
 		</tr>
 		{/volist}

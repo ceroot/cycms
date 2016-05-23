@@ -206,10 +206,7 @@ class Base extends Extend
             $result = $this->validate($data, CONTROLLER_NAME);
             if (true !== $result) {
                 // 验证失败 输出错误信息
-                $redata['status'] = 'fail';
-                $redata['info']   = $result;
-                return $redata;
-                // $this->error($result);
+                return $this->error($result);
             }
 
             $status = $this->model->save($data, [$pk => $data[$pk]]);
@@ -222,16 +219,10 @@ class Base extends Extend
                     $this->model->updateCache(); // 更新缓存
                     $this->model->updateCacheAuthModel(); // 更新缓存
                 }
-
-                $redata['status'] = 'success';
-                $redata['info']   = '修改成功';
-                $redata['url']    = url('list');
-
+                return $this->success('修改成功', url('list'));
             } else {
-                $redata['status'] = 'fail';
-                $redata['info']   = '失败';
+                return $this->error('失败');
             }
-            return $redata;
         } else {
             $id = input('get.' . $pk);
             if (!$id) {
@@ -259,13 +250,9 @@ class Base extends Extend
                 $this->model->updateCache(); // 更新缓存
                 $this->model->updateCacheAuthModel(); // 更新缓存
             }
-
-            $redata['status'] = 'success';
-            $redata['info']   = '成功';
-
+            return $this->success('成功');
         } else {
-            $redata['status'] = 'fail';
-            $redata['info']   = '失败';
+            return $this->error('失败');
         }
         return $redata;
     }

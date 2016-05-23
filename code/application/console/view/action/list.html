@@ -35,7 +35,7 @@
 				<td><a class="cy-ajax" href="{:url('status',array('id'=>$value['id']))}" title="快捷设置状态">{$value.status_text}</a></td>
 				<td align='center' >
 					<a href="{:url('edit',array('id'=>$value['id']))}" title="修改">修改</a> | 
-					<a class="cy-ajax" href="{:url('del',array('id'=>$value['id']))}" data-layer-msg="删除" data-layer-okbtn="删除" title="删除">删除</a>  
+					<a class="cy-ajax" href="{:url('del',array('id'=>$value['id']))}" data-layer-msg="删除" data-layer-okbtn="删除" data-layer-confirm="true" title="删除">删除</a>  
 				</td>
 			</tr>
 		{/volist}

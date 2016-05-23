@@ -54,13 +54,10 @@ class AuthRule extends Base
                 $this->model->updateCacheAuthModel(); // 更新缓存
             }
 
-            $redata['status'] = 'success';
-            $redata['info']   = '成功';
+            return $this->success('成功');
         } else {
-            $redata['status'] = 'fail';
-            $redata['info']   = $this->model->getError();
+            return $this->error($this->model->getError());
         }
-        return $redata;
     }
 
     // 更新菜单显示
@@ -94,14 +91,10 @@ class AuthRule extends Base
             $this->model->updateCache(); // 更新缓存
             $this->model->updateCacheAuthModel(); // 更新缓存
 
-            $redata['status'] = 'success';
-            $redata['info']   = '成功';
+            return $this->success('成功');
         } else {
-            $redata['status'] = 'fail';
-            $redata['info']   = '失败';
+            return $this->error('失败');
         }
-
-        return $redata;
     }
 
 }
