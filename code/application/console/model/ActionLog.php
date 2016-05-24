@@ -17,15 +17,9 @@
 
 namespace app\console\model;
 
-use think\Model;
+use app\common\model\Extend;
 
-class ActionLog extends Model
+class ActionLog extends Extend
 {
-
-    public function getStatusTextAttr($value, $data)
-    {
-        $status = [0 => '禁用', 1 => '正常'];
-        return $status[$data['status']];
-    }
 
 }

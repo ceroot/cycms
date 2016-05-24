@@ -32,4 +32,8 @@ class AuthRule extends Validate
         'title.unique'  => '规则名称已存在',
     ];
 
+    protected $scene = [
+        'edit' => ['name', 'title'],
+    ];
+
 }

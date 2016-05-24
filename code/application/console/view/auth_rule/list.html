@@ -24,22 +24,22 @@
             <td align='center'>管理操作</td>
           </tr>
         </thead>
-		{volist name='data' id='value'}
+		{volist name='rule' id='list'}
         <tr>
         	<td>
-				{$value.id}
+				{$list.id}
 			</td>
 			<td align='center'>
-				<input name='sort[{$value.id}]' type='text' size='3' value='{$value.sort}' class='input'>
+				<input name='sort[{$list.id}]' type='text' size='3' value='{$list.sort}' class='input'>
 			</td>
-			<td>{$value.name}</td>
-			<td>{$value._name}</td>
-			<td><a class="cy-ajax" href="{:url('updateauth',array('id'=>$value['id']))}" title="快捷设置验证状态">{if condition='$value["auth"] eq 1'}需要{else /}否{/if}</a></td>
-			<td><a class="cy-ajax" href="{:url('status',array('id'=>$value['id']))}" title="快捷设置状态">{if condition='$value["status"] eq 1'}正常{else /}禁用{/if}</a></td>
-			<td><a class="cy-ajax" href="{:url('updateshow',array('id'=>$value['id']))}" title="快捷设置是显示">{if condition='$value["isnavshow"] eq 1'}显示{else /}隐藏{/if}</a></td>
+			<td>{$list.name}</td>
+			<td>{$list._name}</td>
+			<td><a class="cy-ajax" href="{:url('updateauth',array('id'=>$list['id']))}" title="快捷设置验证状态">{$list.auth? '需要' : '否'}</a></td>
+			<td><a class="cy-ajax" href="{:url('updatestatus',array('id'=>$list['id']))}" title="快捷设置状态">{$list.status? '正常' : '禁用'}</a></td>
+			<td><a class="cy-ajax" href="{:url('updateshow',array('id'=>$list['id']))}" title="快捷设置显示状态">{$list.isnavshow? '显示' : '隐藏'}</a></td>
 			<td align='center' >
-				<a href="{:url('edit',array('id'=>$value['id']))}">修改</a> | 
-				<a class="cy-ajax" href="{:url('del',array('id'=>$value['id']))}" data-layer-msg="删除" data-layer-okbtn="删除" title="删除" data-layer-confirm="true">删除</a>  
+				<a href="{:url('edit',array('id'=>$list['id']))}">修改</a> | 
+				<a class="cy-ajax" href="{:url('del',array('id'=>$list['id']))}" data-layer-msg="删除" data-layer-okbtn="删除" title="删除" data-layer-confirm="true">删除</a>  
 			</td>
 		</tr>
 		{/volist}

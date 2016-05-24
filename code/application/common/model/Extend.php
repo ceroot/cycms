@@ -1,12 +1,20 @@
 <?php
+// +----------------------------------------------------------------------+
+// | CYCMS                                                                |
+// +----------------------------------------------------------------------+
+// | Copyright (c) 2016 http://beneng.com All rights reserved.            |
+// +----------------------------------------------------------------------+
+// | Authors: SpringYang [ceroot@163.com]                                 |
+// +----------------------------------------------------------------------+
 /**
- *
- *
- * @authors SpringYang
- * @email   ceroot@163.com
- * @date    2016-05-19 00:50:49
- * @site    http://www.benweng.com
+ * @filename  Extend.php[通用模型基础]
+ * @authors   SpringYang
+ * @email     ceroot@163.com
+ * @QQ        525566309
+ * @date      2016-05-19 00:50:49
+ * @site      http://www.benweng.com
  */
+
 namespace app\common\model;
 
 use think\Model;

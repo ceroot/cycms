@@ -28,40 +28,33 @@ class Category extends Base
     public function _initialize()
     {
         parent::_initialize();
-
         $category = db('Category')->select();
-
         $category = Data::tree($category, 'title', 'id', 'pid');
         $this->assign('category', $category);
-
     }
-
+    /**
+     *
+     */
     function list() {
         return $this->fetch();
     }
-
     // 更新显示状态
     public function updateshow()
     {
-        $pk    = $this->model->getPk();
-        $id    = input('get.' . $pk);
-        $value = db(CONTROLLER_NAME)->getFieldById($id, 'show_status');
-
+        $pk                  = $this->model->getPk();
+        $id                  = input('get.' . $pk);
+        $value               = db(CONTROLLER_NAME)->getFieldById($id, 'show_status');
         $data['show_status'] = ($value == 1) ? 0 : 1;
-
-        $status = $this->model->save($data, [$pk => $id]);
-
+        $status              = $this->model->save($data, [$pk => $id]);
         if ($status) {
             // 记录日志
             $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
             action_log($action, CONTROLLER_NAME, $id, UID);
-
             return $this->success('成功');
         } else {
             return $this->error('失败');
         }
     }
-
     public function ctest()
     {
         parent::ctest();

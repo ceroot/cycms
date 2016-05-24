@@ -24,27 +24,16 @@ class Login extends Controller
 
     /**
      * [_initialize 初始化]
-     * @return [type] [description]
      */
     public function _initialize()
     {
         $this->model = model('manager');
-
-    }
-    public function test()
-    {
-
     }
 
     // 登录首页
     public function index()
     {
-        // dump(md5('ceroot1'));
-        // $testdata['id']   = 1;
-        // $testdata['name'] = 'SpringYang';
-        // json($testdata);
         if (IS_AJAX) {
-
             if ($user = $this->model->validateLogin()) {
                 // 设置登录错误记录的session为0
                 session('error_num', 0);
@@ -53,7 +42,7 @@ class Login extends Controller
                 $this->model->updateLogin($user); // 登录成功，更新最后一次登录
 
                 // 记录登录日志
-                action_log('login_console', 'manager', $user['id'], $user['id']);
+                action_log($user['id'], 'console_login', 'manager', $user['id']);
 
                 $time   = date('YmdHis') . getrandom(128);
                 $redata = array('status' => 1, 'info' => '登录成功', 'url' => url('console/index/index?time=' . $time), 'error_num' => 0);
@@ -65,11 +54,11 @@ class Login extends Controller
                     $redata = array('status' => 0, 'info' => $this->model->getError(), 'show_code' => 0, 'error_num' => $error_num);
                 }
             }
-            // $testdata['id']   = 1;
-            // $testdata['name'] = 'SpringYang';
             return $redata;
-            return json_encode($redata);
         } else {
+            if (session('userid')) {
+                $this->redirect(input('get.backurl'));
+            }
             return $this->fetch();
         }
     }
@@ -86,13 +75,12 @@ class Login extends Controller
         session('username', null);
         session('nickname', null);
 
-        action_log('logout_console', 'manager', $mid, $mid);
+        action_log($mid, 'console_logout', 'manager', $mid);
 
         $backurl = input('get.backurl');
         $backurl = str_replace('/', '%2F', $backurl);
         $backurl = str_replace(':', '%3A', $backurl);
-        // $login   = url('index') . '?backurl=' . $backurl;
-        $login = url('console/login/index?time=' . time()) . '?backurl=' . $backurl;
+        $login   = url('console/login/index?time=' . time()) . '?backurl=' . $backurl;
 
         return $this->success('注销成功', $login);
     }

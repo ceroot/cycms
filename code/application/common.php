@@ -1,25 +1,10 @@
 <?php
-use third\Verify;
 function yctest()
 {
     // $dd  = new \third\Yctest();
     return Yctest::sayHello();
 }
 
-/**
- * 验证码验证
- * @param  string    $$code    传入的验证码
- * @return booln
- */
-function verifyCheck($code)
-{
-    $verify = new \third\Verify();
-    if ($verify->check($code)) {
-        return true;
-    } else {
-        return false;
-    }
-}
 /**
  * 生成树形结构数组
  * @param array     $cate   传入数组
@@ -198,15 +183,26 @@ function get_realname($uid = null)
 }
 
 /**
- * 获得禁用和启用文字
- * @param string $model_id
+ * 获得禁用和启用状态文字
+ * @param string $table_id [表名和当前id]
  * @author SpringYang <ceroot@163.com>
  */
-function disable_enable($model_id)
+function status_text($table_id)
 {
-    $arr    = explode('|', $model_id);
-    $status = db($arr[0])->getFieldById($arr[1], 'status');
-    return ($status == 1) ? '启用' : '禁用';
+    $arr   = explode('|', $table_id);
+    $value = db($arr[0])->getFieldById($arr[1], 'status');
+    return ($value == 1) ? '启用' : '禁用';
+}
+
+/**
+ * 获特殊情况文字
+ * @param string $type [从session取得的文字]
+ * @author SpringYang <ceroot@163.com>
+ */
+function get_log_session_text($type)
+{
+    session('log_text', null);
+    return $type;
 }
 
 /**
@@ -218,13 +214,17 @@ function disable_enable($model_id)
  * @return boolean
  * @author
  */
-function action_log($action = null, $model = null, $record_id = null, $user_id = null)
+function action_log($record_id = null, $action = null, $model = CONTROLLER_NAME, $user_id = UID)
 {
-
     // 参数检查
-    if (empty($action) || empty($model) || empty($record_id)) {
+    if (empty($record_id)) {
         return '参数不能为空';
     }
+
+    if (empty($action)) {
+        $action = strtolower(toCamel(CONTROLLER_NAME)) . '_' . ACTION_NAME;
+    }
+
     // 查询行为,判断是否执行
     $action_info = db('action')->getByName($action);
     if ($action_info['status'] != 1) {
@@ -239,8 +239,9 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
             $log['user']     = $user_id;
             $log['record']   = $record_id;
             $log['model']    = $model;
-            $log['model_id'] = $model . '|' . $record_id;
             $log['time']     = NOW_TIME;
+            $log['table_id'] = $model . '|' . $record_id;
+            $log['type']     = session('log_text');
             $log['data']     = array('user' => $user_id, 'model' => $model, 'record' => $record_id, 'time' => NOW_TIME);
 
             foreach ($match[1] as $key => $value) {
