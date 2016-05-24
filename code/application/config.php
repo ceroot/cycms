@@ -19,6 +19,9 @@ return [
     // 显示调试信息
     'response_exit'    => true,
 
+    // 配置列表
+    // 'extra_config_list' => [],
+
     // 模板输出替换  //$view->config('parse_str',['__PUBLIC__'=>'/public/'])->fetch();
     'view_replace_str' => [
         '__PUBLIC__' => '/statics',
@@ -53,9 +56,10 @@ return [
 
     //分页配置
     'paginate'         => [
-        'type'     => 'bootstrap',
-        'var_page' => 'page',
-        'path'     => '',
+        'type'      => 'bootstrap',
+        'var_page'  => 'page',
+        'path'      => '',
+        'list_rows' => 20,
     ],
 
 ];
