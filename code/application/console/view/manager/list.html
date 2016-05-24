@@ -26,19 +26,19 @@
             <td align='center'>管理操作</td>
           </tr>
         </thead>
-		{volist name='data' id='value'}
+		{volist name='list' id='list'}
 	        <tr>
-	        	<td>{$value.id}</td>
-				<td>{$value.username}</td>
-				<td>{$value.nickname}</td>
-				<td>{$value.realname}</td>
-				<td>{$value.email}</td>
-				<td>{$value.login_time_show}</td>
-				<td>{$value.create_time_show}</td>
-				<td><a class="cy-ajax" href="{:url('disable',array('id'=>$value['id']))}" title="快捷设置状态">{$value.status_text}</a></td>
+	        	<td>{$list.id}</td>
+				<td>{$list.username}</td>
+				<td>{$list.nickname}</td>
+				<td>{$list.realname}</td>
+				<td>{$list.email}</td>
+				<td>{$list.login_time_show}</td>
+				<td>{$list.create_time_show}</td>
+				<td><a class="cy-ajax" href="{:url('updatestatus',array('id'=>$list['id']))}" title="快捷设置状态">{$list.status_text}</a></td>
 				<td align='center' >
-					<a href="{:url('edit',array('id'=>$value['id']))}" title="修改">修改</a>
-					{neq name="value.id" value="1"} | <a class="cy-ajax" href="{:url('del',array('id'=>$value['id']))}" data-layer-msg="删除" data-layer-okbtn="删除" title="删除" data-layer-confirm="true">删除</a>{/neq}
+					<a href="{:url('edit',array('id'=>$list['id']))}" title="修改">修改</a>
+					{neq name="list.id" value="1"} | <a class="cy-ajax" href="{:url('del',array('id'=>$list['id']))}" data-layer-msg="删除" data-layer-okbtn="删除" title="删除" data-layer-confirm="true">删除</a>{/neq}
 				</td>
 			</tr>
 		{/volist}
