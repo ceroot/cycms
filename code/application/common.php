@@ -195,6 +195,17 @@ function status_text($table_id)
 }
 
 /**
+ * 获特殊情况文字
+ * @param string $type [从session取得的文字]
+ * @author SpringYang <ceroot@163.com>
+ */
+function get_log_session_text($type)
+{
+    session('log_text', null);
+    return $type;
+}
+
+/**
  * 记录行为日志，并执行该行为的规则
  * @param string $action 行为标识
  * @param string $model 触发行为的模型名
@@ -228,8 +239,9 @@ function action_log($record_id = null, $action = null, $model = CONTROLLER_NAME,
             $log['user']     = $user_id;
             $log['record']   = $record_id;
             $log['model']    = $model;
-            $log['table_id'] = $model . '|' . $record_id;
             $log['time']     = NOW_TIME;
+            $log['table_id'] = $model . '|' . $record_id;
+            $log['type']     = session('log_text');
             $log['data']     = array('user' => $user_id, 'model' => $model, 'record' => $record_id, 'time' => NOW_TIME);
 
             foreach ($match[1] as $key => $value) {

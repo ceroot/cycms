@@ -188,8 +188,9 @@ class Base extends Extend
                 $rulesdata = input('post.rules/a');
                 if ($rulesdata) {
                     $data['rules'] = implode(',', $rulesdata);
+                    session('log_text', '修改了权限');
                 } else {
-                    $data['rules'] = '';
+                    session('log_text', '编辑了角色');
                 }
                 $data['id'] = input('post.id');
             }
