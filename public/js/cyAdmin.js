@@ -5,8 +5,6 @@
  * @version $Id$
  */
 
-
-
 if (typeof jQuery === "undefined") {
   throw new Error("需要引入 jQuery");
 }
@@ -44,144 +42,6 @@ $(function(){
             $.Cy.sidebar.fold();
         }
     }
-
-    //所有的ajax form提交,由于大多业务逻辑都是一样的，故统一处理
-    var ajaxForm_list = $('form.J_ajaxForm');
-    if (ajaxForm_list.length) {
-        Wind.use('ajaxForm', 'layer', function () {
-
-            $('button.J_ajax_submit_btn').on('click', function (e) {
-                e.preventDefault();
-                var btn  = $(this),
-                    form = btn.parents('form.J_ajaxForm');
-
-                //批量操作 判断选项
-                if (btn.data('subcheck')) {
-                    btn.parent().find('span').remove();
-                    if (form.find('input.J_check:checked').length) {
-                        var msg = btn.data('msg');
-                        if (msg) {
-                            art.dialog({
-                                id: 'warning',
-                                icon: 'warning',
-                                content: btn.data('msg'),
-                                cancelVal: '关闭',
-                                cancel: function () {
-                                    btn.data('subcheck', false);
-                                    btn.click();
-                                }
-                            });
-                        } else {
-                            btn.data('subcheck', false);
-                            btn.click();
-                        }
-
-                    } else {
-                        resultTip({error:1,msg:'请至少选择一项'});
-                       // $('<span class="tips_error">请至少选择一项</span>').appendTo(btn.parent()).fadeIn('fast');
-                    }
-                    return false;
-                }
-
-                form.ajaxSubmit({
-                    url: btn.data('action') ? btn.data('action') : form.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
-                    dataType: 'json',
-                    beforeSubmit: function (arr, $form, options) {
-                        var text = btn.text();
-
-                        // 按钮文案、状态修改
-                        btn.text(text + '中...').prop('disabled', true).addClass('disabled');
-                        layer.load();
-                    },
-                    success: function (data, statusText, xhr, $form) {
-                        var text = btn.text();
-                        console.log(data);
-                        //按钮文案、状态修改
-                        btn.removeClass('disabled').text(text.replace('中...', '')).parent().find('span').remove();
-
-                        if (data.code) {
-                            layer.msg(data.msg,function(){
-                                if(data.url){
-                                    window.location.href = data.url;
-                                } 
-                            });
-                        } else {
-                            layer.msg(data.msg);
-                        }
-                        btn.prop('disabled',false);
-                        layer.closeAll('loading');
-                    }
-                });
-            });
-
-        });
-    }
-
-    var ajaxForm_lists = $('form.J_ajaxForms');
-    if(ajaxForm_lists.length){
-        Wind.use('validate', 'localization', 'ajaxForm', 'layer', function () {
-            var btn = ajaxForm_lists.find('.J_ajax_submit_btn');
-
-            //表单验证开始
-            var baseValidate = {
-                //是否在获取焦点时验证
-                onfocusout:false,
-                //是否在敲击键盘时验证
-                onkeyup:false,
-                //当鼠标掉级时验证
-                onclick: false,
-                //验证错误
-                showErrors: function (errorMap, errorArr) {
-                    //errorMap {'name':'错误信息'}
-                    //errorArr [{'message':'错误信息',element:({})}]
-                    try{
-                        $(errorArr[0].element).focus();
-                        layer.msg(errorArr[0].message);
-                    }catch(err){
-                    }
-                },
-                //验证规则
-               
-                //给未通过验证的元素加效果,闪烁等
-                highlight: true,
-                //验证通过，提交表单
-                submitHandler: function (forms) {
-                    ajaxForm_lists.ajaxSubmit({
-                        url: ajaxForm_lists.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
-                        dataType: 'json',
-                        beforeSubmit: function (arr, $form, options) {
-                            var text = btn.text();
-
-                            // 按钮文案、状态修改
-                            btn.text(text + '中...').prop('disabled', true).addClass('disabled');
-                            layer.load();
-                        },
-                        success: function (data, statusText, xhr, $form) {
-                            console.log(data);
-                            var text = btn.text();
-                            //按钮文案、状态修改
-                            btn.prop('disabled',false).removeClass('disabled').text(text.replace('中...', '')).parent().find('span').remove();
-                            if(data.code){
-                                layer.msg(data.msg,function(){
-                                   if(data.url){
-                                        window.location.href = data.url;
-                                    } 
-                                });
-                            }else{
-                                layer.msg(data.msg);
-                            }
-                            layer.closeAll('loading');
-                        }
-                    });
-                }
-            };
-            var validate = $.extend({},baseValidate,userValidate);
-            
-            ajaxForm_lists.validate(validate);
-        });
-    }
-
-
 });
 
 function _init(){
@@ -564,39 +424,109 @@ function _init(){
             });
         },
         form_ajax:function(){
-            var ajaxForm = $('form.cy_ajaxForm');
+            var ajaxForm = $('form.cy-ajaxForm');
             if(ajaxForm.length){
-                var validateStatus  = ajaxForm.attr('data-validate');
-                var ddd = ['validate', 'localization', 'ajaxForm', 'layer',];
-                Wind.use(ddd, function () {
-                    var btn = ajaxForm.find('.J_ajax_submit_btn');
+                var validateStatus  = ajaxForm.attr('data-validate') ? ajaxForm.attr('data-validate') : true;
+                var args = ['validate', 'localization', 'ajaxForm', 'layer'];
+                if(!validateStatus){
+                    args = ['ajaxForm', 'layer'];
+                }
 
-                    //表单验证开始
-                    var baseValidate = {
-                        //是否在获取焦点时验证
-                        onfocusout:false,
-                        //是否在敲击键盘时验证
-                        onkeyup:false,
-                        //当鼠标掉级时验证
-                        onclick: false,
-                        //验证错误
-                        showErrors: function (errorMap, errorArr) {
-                            //errorMap {'name':'错误信息'}
-                            //errorArr [{'message':'错误信息',element:({})}]
-                            try{
-                                $(errorArr[0].element).focus();
-                                layer.msg(errorArr[0].message);
-                            }catch(err){
+                Wind.use(args, function () {
+                    var btn = ajaxForm.find('.J_ajax_submit_btn');
+                    if(validateStatus==true){
+                        //表单验证开始
+                        var baseValidate = {
+                            //是否在获取焦点时验证
+                            onfocusout:false,
+                            //是否在敲击键盘时验证
+                            onkeyup:false,
+                            //当鼠标掉级时验证
+                            onclick: false,
+                            //验证错误
+                            showErrors: function (errorMap, errorArr) {
+                                //errorMap {'name':'错误信息'}
+                                //errorArr [{'message':'错误信息',element:({})}]
+                                try{
+                                    $(errorArr[0].element).focus();
+                                    layer.msg(errorArr[0].message);
+                                }catch(err){
+                                }
+                            },
+                            //验证规则
+                           
+                            //给未通过验证的元素加效果,闪烁等
+                            highlight: true,
+                            //验证通过，提交表单
+                            submitHandler: function (forms) {
+                                ajaxForm.ajaxSubmit({
+                                    url: ajaxForm.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
+                                    dataType: 'json',
+                                    beforeSubmit: function (arr, $form, options) {
+                                        var text = btn.text();
+
+                                        // 按钮文案、状态修改
+                                        btn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                                        layer.load();
+                                    },
+                                    success: function (data, statusText, xhr, $form) {
+                                        console.log(data);
+                                        var text = btn.text();
+                                        //按钮文案、状态修改
+                                        btn.prop('disabled',false).removeClass('disabled').text(text.replace('中...', '')).parent().find('span').remove();
+                                        if(data.code){
+                                            layer.msg(data.msg,function(){
+                                               if(data.url){
+                                                    window.location.href = data.url;
+                                                } 
+                                            });
+                                        }else{
+                                            layer.msg(data.msg);
+                                        }
+                                        layer.closeAll('loading');
+                                    }
+                                });
                             }
-                        },
-                        //验证规则
-                       
-                        //给未通过验证的元素加效果,闪烁等
-                        highlight: true,
-                        //验证通过，提交表单
-                        submitHandler: function (forms) {
-                            ajaxForm.ajaxSubmit({
-                                url: ajaxForm.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
+                        };
+                        var validate = $.extend({},baseValidate,userValidate);
+                        
+                        ajaxForm.validate(validate);
+                    }else{
+                        ajaxForm.find('button').on('click', function (e) {
+                            e.preventDefault();
+                            var btn  = $(this),
+                                form = ajaxForm;
+
+                            //批量操作 判断选项
+                            if (btn.data('subcheck')) {
+                                btn.parent().find('span').remove();
+                                if (form.find('input.J_check:checked').length) {
+                                    var msg = btn.data('msg');
+                                    if (msg) {
+                                        art.dialog({
+                                            id: 'warning',
+                                            icon: 'warning',
+                                            content: btn.data('msg'),
+                                            cancelVal: '关闭',
+                                            cancel: function () {
+                                                btn.data('subcheck', false);
+                                                btn.click();
+                                            }
+                                        });
+                                    } else {
+                                        btn.data('subcheck', false);
+                                        btn.click();
+                                    }
+
+                                } else {
+                                    resultTip({error:1,msg:'请至少选择一项'});
+                                   // $('<span class="tips_error">请至少选择一项</span>').appendTo(btn.parent()).fadeIn('fast');
+                                }
+                                return false;
+                            }
+
+                            form.ajaxSubmit({
+                                url: btn.data('action') ? btn.data('action') : form.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
                                 dataType: 'json',
                                 beforeSubmit: function (arr, $form, options) {
                                     var text = btn.text();
@@ -606,27 +536,26 @@ function _init(){
                                     layer.load();
                                 },
                                 success: function (data, statusText, xhr, $form) {
-                                    console.log(data);
                                     var text = btn.text();
+                                    console.log(data);
                                     //按钮文案、状态修改
-                                    btn.prop('disabled',false).removeClass('disabled').text(text.replace('中...', '')).parent().find('span').remove();
-                                    if(data.code){
+                                    btn.removeClass('disabled').text(text.replace('中...', '')).parent().find('span').remove();
+
+                                    if (data.code) {
                                         layer.msg(data.msg,function(){
-                                           if(data.url){
+                                            if(data.url){
                                                 window.location.href = data.url;
                                             } 
                                         });
-                                    }else{
+                                    } else {
                                         layer.msg(data.msg);
                                     }
+                                    btn.prop('disabled',false);
                                     layer.closeAll('loading');
                                 }
                             });
-                        }
-                    };
-                    var validate = $.extend({},baseValidate,userValidate);
-                    
-                    ajaxForm.validate(validate);
+                        });
+                    }
                 });
             }
         }
