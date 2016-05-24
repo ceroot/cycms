@@ -183,15 +183,15 @@ function get_realname($uid = null)
 }
 
 /**
- * 获得禁用和启用文字
- * @param string $model_id
+ * 获得禁用和启用状态文字
+ * @param string $table_id [表名和当前id]
  * @author SpringYang <ceroot@163.com>
  */
-function disable_enable($model_id)
+function status_text($table_id)
 {
-    $arr    = explode('|', $model_id);
-    $status = db($arr[0])->getFieldById($arr[1], 'status');
-    return ($status == 1) ? '启用' : '禁用';
+    $arr   = explode('|', $table_id);
+    $value = db($arr[0])->getFieldById($arr[1], 'status');
+    return ($value == 1) ? '启用' : '禁用';
 }
 
 /**
@@ -224,7 +224,7 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
             $log['user']     = $user_id;
             $log['record']   = $record_id;
             $log['model']    = $model;
-            $log['model_id'] = $model . '|' . $record_id;
+            $log['table_id'] = $model . '|' . $record_id;
             $log['time']     = NOW_TIME;
             $log['data']     = array('user' => $user_id, 'model' => $model, 'record' => $record_id, 'time' => NOW_TIME);
 
