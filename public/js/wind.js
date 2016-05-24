@@ -678,7 +678,7 @@ Wind.ready(function() {
 (function(win) {
 	//var root = win.ROOT+"/Data/Public/org/" || location.origin + '/statics/js/', //在wind.js加载之前定义ROOT
 	var root = "/statics/" || location.origin + '/statics/js/', //在wind.js加载之前定义ROOT
-		ver = '',
+		ver = '1.1',
 		//定义常用JS组件别名，使用别名加载
 		alias = {
             datePicker         : 'datePicker/datePicker',
@@ -719,8 +719,11 @@ Wind.ready(function() {
 	for(var i in alias) {
 		if (alias.hasOwnProperty(i)) {
 			alias[i] = root + alias[i] +'.js?v=' + ver;
+
 		}
 	}
+
+
 
 	for(var i in alias_css) {
 		if (alias_css.hasOwnProperty(i)) {
@@ -749,12 +752,31 @@ Wind.ready(function() {
 	//Using the alias to load the script file
 	Wind.use = function() {
 		var args = arguments,len = args.length;
+        var temp =[];
+        //console.log(arguments);
+        //console.log(len);
+
+
         for( var i = 0;i < len;i++ ) {
-        	if(typeof args[i] === 'string' && alias[args[i]]) {
-        		args[i] = alias[args[i]];
-        	}
+            // Object.prototype.toString.call(o) === '[object Array]';
+            if(Object.prototype.toString.call(args[i]) === '[object Array]'){
+                for (var n = 0; n < args[i].length; n++) {
+                    temp.push(args[i][n]);
+                }
+            }else{
+                temp.push(args[i]);
+            }
+
+        	// if(typeof args[i] === 'string' && alias[args[i]]) {
+        	// 	args[i] = alias[args[i]];
+        	// }
         }
-		Wind.js.apply(null,args);
+        for (var m = 0; m < temp.length; m++) {
+            if(typeof temp[m] === 'string' && alias[temp[m]]){
+                temp[m] = alias[temp[m]];
+            }
+        }
+		Wind.js.apply(null,temp);
 	};
 
     //Wind javascript template (author: John Resig http://ejohn.org/blog/javascript-micro-templating/)
@@ -769,4 +791,3 @@ Wind.ready(function() {
     //Wind全局功能函数命名空间
     Wind.Util = {}
 })(window);
-
