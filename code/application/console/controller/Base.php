@@ -60,29 +60,21 @@ class Base extends Extend
         if (!in_array(UID, config('auth_superadmin')) && !in_array($authName, $authModel['not_auth'])) {
             // 处理会员和管理员规则
             $controller = CONTROLLER_NAME;
-            if ($controller == 'User' && I('role') == 1) {
+            if ($controller == 'user' && input('role') == 1) {
                 $controller = 'manager';
             }
 
             // 权限验证
-            $authName = $controller . '/' . ACTION_NAME;
+            $authName = toCamel($controller) . '/' . ACTION_NAME;
             // 执行验证
             if (!authCheck($authName, UID)) {
-                // 提示
-                // $this->assign('message','您没有相关权限');
-                // $this->display('./Data/Public/notice/auth.html');
-                $this->error('您没有相关权限');
-                // return false;
-                exit;
+                return $this->error('您没有相关权限');
             }
         }
-
-        define('CONTROLLER_ACTION', strtolower(CONTROLLER_NAME . '/' . ACTION_NAME));
 
         // 取得控制器名称
         if (!in_array(CONTROLLER_NAME, $authModel['not_d_controller'])) {
             $this->model = model(CONTROLLER_NAME);
-            // dump($this->model);
         }
 
         // 菜单输出
@@ -92,7 +84,6 @@ class Base extends Extend
         $this->assign('title', $menu['showtitle']); // 标题输出
         $this->assign('bread', $menu['bread']); // 面包输出
         $this->assign('manager', $manager); // 管理员信息输出
-
     }
 
     public function basetest()
@@ -143,10 +134,9 @@ class Base extends Extend
             if ($status === false) {
                 return $this->error($this->model->getError());
             }
-            // return $data;
+
             if ($status) {
-                // 记录日志
-                action_log($status);
+                action_log($status); // 记录日志
 
                 if (CONTROLLER_NAME == 'auth_rule') {
                     $this->model->updateCache(); // 更新缓存
@@ -200,8 +190,7 @@ class Base extends Extend
                 return $this->error($this->model->getError());
             }
             if ($status) {
-                // 记录日志
-                action_log($data[$pk]);
+                action_log($data[$pk]); // 记录日志
 
                 if (CONTROLLER_NAME == 'auth_rule') {
                     $this->model->updateCache(); // 更新缓存
@@ -230,8 +219,7 @@ class Base extends Extend
         $status = db(CONTROLLER_NAME)->delete($id);
 
         if ($status) {
-            // 记录日志
-            action_log($id);
+            action_log($id); // 记录日志
 
             if (CONTROLLER_NAME == 'auth_rule') {
                 $this->model->updateCache(); // 更新缓存
@@ -253,8 +241,7 @@ class Base extends Extend
         $data['status'] = $value ? 0 : 1;
         $status         = $this->model->save($data, [$pk => $id]);
         if ($status) {
-            // 记录日志
-            action_log($id);
+            action_log($id); // 记录日志
 
             if (CONTROLLER_NAME == 'auth_rule') {
                 $this->model->updateCache(); // 更新缓存
