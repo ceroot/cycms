@@ -107,9 +107,9 @@ class Base extends Extend
 
     function list() {
         $pageLimit = input('get.limit');
-        $pageLimit = isset($pageLimit) ? $pageLimit : 10; // 每页显示数目
+        $pageLimit = isset($pageLimit) ? $pageLimit : 15; // 每页显示数目
         $pk        = $this->model->getPk(); // 取得主键字段名
-
+        //
         $order = [
             $pk => 'desc',
         ];
@@ -127,32 +127,27 @@ class Base extends Extend
                 break;
         }
 
-        $data = $this->model->order($order)->paginate($pageLimit);
-
-        // 获取分页显示
-        $page = $data->render();
+        $list = $this->model->order($order)->paginate($pageLimit);
+        $page = $list->render();
+        // 模板变量赋值
+        $this->assign('list', $list);
         $this->assign('page', $page);
-        // $data = $this->_list();
-        $this->assign('data', $data);
         return $this->fetch();
     }
 
     public function add()
     {
         if (IS_AJAX) {
-            $data = input('post.');
-            // return $data;
-            $result = $this->validate($data, CONTROLLER_NAME);
-            if (true !== $result) {
-                // 验证失败 输出错误信息
-                return $this->error($result);
+            $data   = input('post.');
+            $status = $this->model->validate(true)->save($data);
+            if ($status === false) {
+                return $this->error($this->model->getError());
             }
-            // return $data;
-            $status = $this->model->save($data);
             // return $data;
             if ($status) {
                 // 记录日志
-                $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
+                // $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
+                $action = strtolower(toCamel(CONTROLLER_NAME)) . '_' . ACTION_NAME;
                 action_log($action, CONTROLLER_NAME, $status, UID);
 
                 if (CONTROLLER_NAME == 'auth_rule') {
@@ -203,16 +198,14 @@ class Base extends Extend
 
             }
 
-            $result = $this->validate($data, CONTROLLER_NAME);
-            if (true !== $result) {
-                // 验证失败 输出错误信息
-                return $this->error($result);
+            $status = $this->model->validate(true)->save($data, [$pk => $data[$pk]]);
+            if ($status === false) {
+                return $this->error($this->model->getError());
             }
-
-            $status = $this->model->save($data, [$pk => $data[$pk]]);
             if ($status) {
                 // 记录日志
-                $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
+                // $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
+                $action = strtolower(toCamel(CONTROLLER_NAME)) . '_' . ACTION_NAME;
                 action_log($action, CONTROLLER_NAME, $data[$pk], UID);
 
                 if (CONTROLLER_NAME == 'auth_rule') {
@@ -258,7 +251,7 @@ class Base extends Extend
     }
 
     // 更新 status 字段状态
-    public function status()
+    public function updatestatus()
     {
         $pk             = $this->model->getPk();
         $id             = input('get.' . $pk);
@@ -267,7 +260,8 @@ class Base extends Extend
         $status         = $this->model->save($data, [$pk => $id]);
         if ($status) {
             // 记录日志
-            $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
+            // $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
+            $action = strtolower(toCamel(CONTROLLER_NAME)) . '_' . ACTION_NAME;
             action_log($action, CONTROLLER_NAME, $id, UID);
 
             if (CONTROLLER_NAME == 'auth_rule') {
