@@ -186,7 +186,6 @@ class Base extends Extend
         $pk = $this->model->getPk();
         if (IS_AJAX) {
             $data = input('post.');
-
             if (CONTROLLER_NAME == 'auth_group') {
                 $rulesdata = input('post.rules/a');
                 if ($rulesdata) {
@@ -195,7 +194,6 @@ class Base extends Extend
                     $data['rules'] = '';
                 }
                 $data['id'] = input('post.id');
-
             }
 
             $status = $this->model->validate(CONTROLLER_NAME . '.edit')->save($data, [$pk => $data[$pk]]);
@@ -235,7 +233,7 @@ class Base extends Extend
 
         if ($status) {
             // 记录日志
-            $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
+            $action = strtolower(toCamel(CONTROLLER_NAME)) . '_' . ACTION_NAME;
             action_log($action, CONTROLLER_NAME, $id, UID);
 
             if (CONTROLLER_NAME == 'auth_rule') {

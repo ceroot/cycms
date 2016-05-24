@@ -99,10 +99,14 @@ $(function(){
                         //按钮文案、状态修改
                         btn.removeClass('disabled').text(text.replace('中...', '')).parent().find('span').remove();
 
-                        if (data.status === 'success') {
-                            layer.msg(data.info);
+                        if (data.code) {
+                            layer.msg(data.msg,function(){
+                                if(data.url){
+                                    window.location.href = data.url;
+                                } 
+                            });
                         } else {
-                            layer.msg(data.info);
+                            layer.msg(data.msg);
                         }
                         btn.prop('disabled',false);
                         layer.closeAll('loading');

@@ -23,14 +23,14 @@
 	        	<td>{$list.id}</td>
 				<td>{$list.title}</td>
 				<td>{$list.rules}</td>
-				<td><a href="{:url('updatestatus',array('id'=>$list['id']))}" class="J_ajax_del" title="快捷设置状态">{$list.status_text}</a></td>
+				<td><a href="{:url('updatestatus',array('id'=>$list['id']))}" class="cy-ajax" title="快捷设置状态">{neq name="list.id" value="1"}{$list.status_text}{/neq}</a></td>
 				<td align='center'>
 					{neq name="list.id" value="1"}
 						<a href="{:url('rule',array('id'=>$list['id']))}">权限分配</a> | 
 					{/neq}
 					<a href="{:url('edit',array('id'=>$list['id']))}">修改</a>
 					{neq name="list.id" value="1"} | 
-						<a class="J_ajax_del" href="{:url('del',array('id'=>$list['id']))}">删除</a>
+						<a class="cy-ajax" href="{:url('del',array('id'=>$list['id']))}" data-layer-msg="删除" data-layer-okbtn="删除" data-layer-confirm="true" title="删除">删除</a>
 					{/neq}
 				</td>
 			</tr>
