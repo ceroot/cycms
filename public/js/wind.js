@@ -701,6 +701,7 @@ Wind.ready(function() {
             artDialog         : 'artDialog/6.0.5/js/dialog',
             iframeTools       : 'artDialog/iframeTools',
             xd                : 'xd',//Iframe跨域通信
+            // dd                : Array('aa','bb')
 
 
 			//native js util plugs
@@ -722,8 +723,6 @@ Wind.ready(function() {
 
 		}
 	}
-
-
 
 	for(var i in alias_css) {
 		if (alias_css.hasOwnProperty(i)) {
