@@ -146,9 +146,7 @@ class Base extends Extend
             // return $data;
             if ($status) {
                 // 记录日志
-                // $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
-                $action = strtolower(toCamel(CONTROLLER_NAME)) . '_' . ACTION_NAME;
-                action_log($action, CONTROLLER_NAME, $status, UID);
+                action_log($status);
 
                 if (CONTROLLER_NAME == 'auth_rule') {
                     $this->model->updateCache(); // 更新缓存
@@ -202,8 +200,7 @@ class Base extends Extend
             }
             if ($status) {
                 // 记录日志
-                $action = strtolower(toCamel(CONTROLLER_NAME)) . '_' . ACTION_NAME;
-                action_log($action, CONTROLLER_NAME, $data[$pk], UID);
+                action_log($data[$pk]);
 
                 if (CONTROLLER_NAME == 'auth_rule') {
                     $this->model->updateCache(); // 更新缓存
@@ -233,8 +230,7 @@ class Base extends Extend
 
         if ($status) {
             // 记录日志
-            $action = strtolower(toCamel(CONTROLLER_NAME)) . '_' . ACTION_NAME;
-            action_log($action, CONTROLLER_NAME, $id, UID);
+            action_log($id);
 
             if (CONTROLLER_NAME == 'auth_rule') {
                 $this->model->updateCache(); // 更新缓存
@@ -257,9 +253,7 @@ class Base extends Extend
         $status         = $this->model->save($data, [$pk => $id]);
         if ($status) {
             // 记录日志
-            // $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
-            $action = strtolower(toCamel(CONTROLLER_NAME)) . '_' . ACTION_NAME;
-            action_log($action, CONTROLLER_NAME, $id, UID);
+            action_log($id);
 
             if (CONTROLLER_NAME == 'auth_rule') {
                 $this->model->updateCache(); // 更新缓存

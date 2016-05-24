@@ -42,7 +42,7 @@ class Login extends Controller
                 $this->model->updateLogin($user); // 登录成功，更新最后一次登录
 
                 // 记录登录日志
-                action_log('console_login', 'manager', $user['id'], $user['id']);
+                action_log($user['id'], 'console_login', 'manager', $user['id']);
 
                 $time   = date('YmdHis') . getrandom(128);
                 $redata = array('status' => 1, 'info' => '登录成功', 'url' => url('console/index/index?time=' . $time), 'error_num' => 0);
@@ -75,7 +75,7 @@ class Login extends Controller
         session('username', null);
         session('nickname', null);
 
-        action_log('console_logout', 'manager', $mid, $mid);
+        action_log($mid, 'console_logout', 'manager', $mid);
 
         $backurl = input('get.backurl');
         $backurl = str_replace('/', '%2F', $backurl);

@@ -203,13 +203,17 @@ function status_text($table_id)
  * @return boolean
  * @author
  */
-function action_log($action = null, $model = null, $record_id = null, $user_id = null)
+function action_log($record_id = null, $action = null, $model = CONTROLLER_NAME, $user_id = UID)
 {
-
     // 参数检查
-    if (empty($action) || empty($model) || empty($record_id)) {
+    if (empty($record_id)) {
         return '参数不能为空';
     }
+
+    if (empty($action)) {
+        $action = strtolower(toCamel(CONTROLLER_NAME)) . '_' . ACTION_NAME;
+    }
+
     // 查询行为,判断是否执行
     $action_info = db('action')->getByName($action);
     if ($action_info['status'] != 1) {

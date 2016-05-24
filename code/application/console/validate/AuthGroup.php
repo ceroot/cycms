@@ -30,7 +30,7 @@ class AuthGroup extends Validate
     ];
 
     protected $scene = [
-        'edit' => [],
+
     ];
 
 }
