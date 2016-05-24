@@ -30,8 +30,8 @@ class AuthRule extends Base
     {
         parent::_initialize();
 
-        $data = $this->model->getAll();
-        $this->assign('data', $data);
+        $rule = $this->model->getAll();
+        $this->assign('rule', $rule);
     }
 
     function list() {
@@ -46,7 +46,7 @@ class AuthRule extends Base
 
         if ($status) {
             // 记录日志
-            $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
+            $action = strtolower(toCamel(CONTROLLER_NAME)) . '_' . ACTION_NAME;
             action_log($action, CONTROLLER_NAME, $id, UID);
 
             if (CONTROLLER_NAME == 'auth_rule') {
