@@ -204,7 +204,6 @@ class Base extends Extend
             }
             if ($status) {
                 // 记录日志
-                // $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
                 $action = strtolower(toCamel(CONTROLLER_NAME)) . '_' . ACTION_NAME;
                 action_log($action, CONTROLLER_NAME, $data[$pk], UID);
 
