@@ -198,7 +198,7 @@ class Base extends Extend
 
             }
 
-            $status = $this->model->validate(true)->save($data, [$pk => $data[$pk]]);
+            $status = $this->model->validate(CONTROLLER_NAME . '.edit')->save($data, [$pk => $data[$pk]]);
             if ($status === false) {
                 return $this->error($this->model->getError());
             }
