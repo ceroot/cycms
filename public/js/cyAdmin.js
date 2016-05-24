@@ -117,7 +117,69 @@ $(function(){
         });
     }
 
+    var ajaxForm_lists = $('form.J_ajaxForms');
+    if(ajaxForm_lists.length){
+        Wind.use('validate', 'localization', 'ajaxForm', 'layer', function () {
+            var btn = ajaxForm_lists.find('.J_ajax_submit_btn');
 
+            //表单验证开始
+            var baseValidate = {
+                //是否在获取焦点时验证
+                onfocusout:false,
+                //是否在敲击键盘时验证
+                onkeyup:false,
+                //当鼠标掉级时验证
+                onclick: false,
+                //验证错误
+                showErrors: function (errorMap, errorArr) {
+                    //errorMap {'name':'错误信息'}
+                    //errorArr [{'message':'错误信息',element:({})}]
+                    try{
+                        $(errorArr[0].element).focus();
+                        layer.msg(errorArr[0].message);
+                    }catch(err){
+                    }
+                },
+                //验证规则
+               
+                //给未通过验证的元素加效果,闪烁等
+                highlight: true,
+                //验证通过，提交表单
+                submitHandler: function (forms) {
+                    ajaxForm_lists.ajaxSubmit({
+                        url: ajaxForm_lists.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
+                        dataType: 'json',
+                        beforeSubmit: function (arr, $form, options) {
+                            var text = btn.text();
+
+                            // 按钮文案、状态修改
+                            btn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                            layer.load();
+                        },
+                        success: function (data, statusText, xhr, $form) {
+                            console.log(data);
+                            var text = btn.text();
+                            //按钮文案、状态修改
+                            btn.prop('disabled',false).removeClass('disabled').text(text.replace('中...', '')).parent().find('span').remove();
+                            if(data.code){
+                                layer.msg(data.msg,function(){
+                                   if(data.url){
+                                        window.location.href = data.url;
+                                    } 
+                                });
+                            }else{
+                                layer.msg(data.msg);
+                            }
+                            layer.closeAll('loading');
+                        }
+                    });
+                }
+            };
+            var validate = $.extend({},baseValidate,userValidate);
+            
+            ajaxForm_lists.validate(validate);
+        });
+    }
 
 
 });
@@ -502,10 +564,12 @@ function _init(){
             });
         },
         form_ajax:function(){
-            var ajaxForm_lists = $('form.J_ajaxForms');
-            if(ajaxForm_lists.length){
-                Wind.use('validate', 'localization', 'ajaxForm', 'layer', function () {
-                    var btn = ajaxForm_lists.find('.J_ajax_submit_btn');
+            var ajaxForm = $('form.cy_ajaxForm');
+            if(ajaxForm.length){
+                var validateStatus  = ajaxForm.attr('data-validate');
+                var ddd = ['validate', 'localization', 'ajaxForm', 'layer',];
+                Wind.use(ddd, function () {
+                    var btn = ajaxForm.find('.J_ajax_submit_btn');
 
                     //表单验证开始
                     var baseValidate = {
@@ -523,7 +587,6 @@ function _init(){
                                 $(errorArr[0].element).focus();
                                 layer.msg(errorArr[0].message);
                             }catch(err){
-                                
                             }
                         },
                         //验证规则
@@ -532,8 +595,8 @@ function _init(){
                         highlight: true,
                         //验证通过，提交表单
                         submitHandler: function (forms) {
-                            ajaxForm_lists.ajaxSubmit({
-                                url: ajaxForm_lists.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
+                            ajaxForm.ajaxSubmit({
+                                url: ajaxForm.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
                                 dataType: 'json',
                                 beforeSubmit: function (arr, $form, options) {
                                     var text = btn.text();
@@ -563,7 +626,7 @@ function _init(){
                     };
                     var validate = $.extend({},baseValidate,userValidate);
                     
-                    ajaxForm_lists.validate(validate);
+                    ajaxForm.validate(validate);
                 });
             }
         }

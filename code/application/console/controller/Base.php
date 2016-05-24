@@ -100,7 +100,7 @@ class Base extends Extend
         $pageLimit = input('get.limit');
         $pageLimit = isset($pageLimit) ? $pageLimit : 5; // 每页显示数目
         $pk        = $this->model->getPk(); // 取得主键字段名
-        //
+
         $order = [
             $pk => 'desc',
         ];
