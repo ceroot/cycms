@@ -752,13 +752,9 @@ Wind.ready(function() {
 	//Using the alias to load the script file
 	Wind.use = function() {
 		var args = arguments,len = args.length;
-        var temp =[];
-        //console.log(arguments);
-        //console.log(len);
-
+        var temp = [];
 
         for( var i = 0;i < len;i++ ) {
-            // Object.prototype.toString.call(o) === '[object Array]';
             if(Object.prototype.toString.call(args[i]) === '[object Array]'){
                 for (var n = 0; n < args[i].length; n++) {
                     temp.push(args[i][n]);
@@ -766,10 +762,6 @@ Wind.ready(function() {
             }else{
                 temp.push(args[i]);
             }
-
-        	// if(typeof args[i] === 'string' && alias[args[i]]) {
-        	// 	args[i] = alias[args[i]];
-        	// }
         }
         for (var m = 0; m < temp.length; m++) {
             if(typeof temp[m] === 'string' && alias[temp[m]]){
