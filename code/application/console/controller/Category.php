@@ -35,7 +35,9 @@ class Category extends Base
         $this->assign('category', $category);
 
     }
-
+    /**
+     *
+     */
     function list() {
         return $this->fetch();
     }

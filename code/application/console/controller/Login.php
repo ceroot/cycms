@@ -24,27 +24,16 @@ class Login extends Controller
 
     /**
      * [_initialize 初始化]
-     * @return [type] [description]
      */
     public function _initialize()
     {
         $this->model = model('manager');
-
-    }
-    public function test()
-    {
-
     }
 
     // 登录首页
     public function index()
     {
-        // dump(md5('ceroot1'));
-        // $testdata['id']   = 1;
-        // $testdata['name'] = 'SpringYang';
-        // json($testdata);
         if (IS_AJAX) {
-
             if ($user = $this->model->validateLogin()) {
                 // 设置登录错误记录的session为0
                 session('error_num', 0);
@@ -65,11 +54,11 @@ class Login extends Controller
                     $redata = array('status' => 0, 'info' => $this->model->getError(), 'show_code' => 0, 'error_num' => $error_num);
                 }
             }
-            // $testdata['id']   = 1;
-            // $testdata['name'] = 'SpringYang';
             return $redata;
-            return json_encode($redata);
         } else {
+            if (session('userid')) {
+                $this->redirect(input('get.backurl'));
+            }
             return $this->fetch();
         }
     }
@@ -91,8 +80,7 @@ class Login extends Controller
         $backurl = input('get.backurl');
         $backurl = str_replace('/', '%2F', $backurl);
         $backurl = str_replace(':', '%3A', $backurl);
-        // $login   = url('index') . '?backurl=' . $backurl;
-        $login = url('console/login/index?time=' . time()) . '?backurl=' . $backurl;
+        $login   = url('console/login/index?time=' . time()) . '?backurl=' . $backurl;
 
         return $this->success('注销成功', $login);
     }

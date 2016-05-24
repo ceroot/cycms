@@ -1,25 +1,10 @@
 <?php
-use third\Verify;
 function yctest()
 {
     // $dd  = new \third\Yctest();
     return Yctest::sayHello();
 }
 
-/**
- * 验证码验证
- * @param  string    $$code    传入的验证码
- * @return booln
- */
-function verifyCheck($code)
-{
-    $verify = new \third\Verify();
-    if ($verify->check($code)) {
-        return true;
-    } else {
-        return false;
-    }
-}
 /**
  * 生成树形结构数组
  * @param array     $cate   传入数组
