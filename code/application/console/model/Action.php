@@ -20,18 +20,6 @@ use app\common\model\Extend;
 
 class Action extends Extend
 {
-    public function getStatusTextAttr($value, $data)
-    {
-        $status = [0 => '禁用', 1 => '正常'];
-        return $status[$data['status']];
-    }
-
-    public function getStatusHandleTextAttr($value, $data)
-    {
-        $status = [0 => '禁用', 1 => '启用'];
-        return $status[$data['status']];
-    }
-
     public function getTypeTextAttr($value, $data)
     {
         $status = [1 => '系统', 2 => '用户'];
