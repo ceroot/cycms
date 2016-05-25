@@ -1,15 +1,26 @@
 <?php
-function yctest()
+/**
+ * checkAuth 权限验证
+ * @param string    $authName  [传入验证标识]
+ * @param string    $uid       [用户id]
+ * @return boolean             [返回布尔值]
+ * @author  SpringYang <ceroot@163.com>
+ */
+function authCheck($authName, $uid)
 {
-    // $dd  = new \third\Yctest();
-    return Yctest::sayHello();
+    $auth = new \auth\Auth();
+    if ($auth->check(strtolower($authName), $uid)) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 /**
  * 生成树形结构数组
  * @param array     $cate   传入数组
  * @param string    $pid    传入父id
- * @return array    $arr    返还数组
+ * @return array    $arr    返回数组
  */
 function getCateTreeArr($cate, $pid)
 {
@@ -29,7 +40,7 @@ function getCateTreeArr($cate, $pid)
  * 传递一个子级返回父级id 例如:首页>>服装>>女装>>裙子
  * @param array     $cate   传入数组
  * @param string    $pid    传入id
- * @return array    $arr    返还数组
+ * @return array    $arr    返回数组
  */
 function getParents($cate, $id)
 {
@@ -46,7 +57,7 @@ function getParents($cate, $id)
  * 传递一个父级ID返回所有子级分类
  * @param array     $cate   传入数组
  * @param string    $pid    传入id
- * @return array    $arr    返还数组
+ * @return array    $arr    返回数组
  */
 function getChiIds($cate, $pid, $str = 0)
 {
@@ -65,7 +76,7 @@ function getChiIds($cate, $pid, $str = 0)
  * 传递一个子级返回父级id 例如:首页>>服装>>女装>>裙子
  * @param array     $cate   传入数组
  * @param string    $pid    传入id
- * @return array    $arr    返还数组
+ * @return array    $arr    返回数组
  */
 function getCateByPid($cate, $pid = 0)
 {
@@ -78,25 +89,12 @@ function getCateByPid($cate, $pid = 0)
     }
     return $arr;
 }
-/**
- * checkAuth 权限验证
- * @param $authName
- * @param $uid
- * @return booln
- */
-function authCheck($authName, $uid)
-{
-    $auth = new \auth\Auth();
-    if ($auth->check(strtolower($authName), $uid)) {
-        return true;
-    } else {
-        return false;
-    }
-}
+
 /**
  * [ip2int ip地址转换为int]
- * @return  [int]
- * @author  ceroot@163.com
+ * @param   string  $ip  [ip地址]
+ * @return  int          [返回整形数字]
+ * @author  SpringYang <ceroot@163.com>
  */
 function ip2int($ip = '')
 {
@@ -108,7 +106,7 @@ function ip2int($ip = '')
 /**
  * 获取客户端IP地址
  * @param integer $type 返回类型 0 返回IP地址 1 返回IPV4地址数字
- * @param boolean $adv 是否进行高级模式获取（有可能被伪装）
+ * @param boolean $adv  是否进行高级模式获取（有可能被伪装）
  * @return mixed
  */
 function get_client_ip($type = 0, $adv = false)
@@ -143,48 +141,47 @@ function get_client_ip($type = 0, $adv = false)
 }
 /**
  * 时间戳格式化
- * @param int $time
- * @return string 完整的时间显示
+ * @param  int     $time   [时间]
+ * @param  string  $format [时间格式]
+ * @return string          [返回时间显示格式]
  * @author SpringYang <ceroot@163.com>
  */
-function time_format($time = null, $format = 'Y-m-d H:i:s')
+function time_format($time = NOW_TIME, $format = 'Y-m-d H:i:s')
 {
-    $time = $time === null ? NOW_TIME : intval($time);
-    return date($format, $time);
+    return date($format, intval($time));
 }
 /**
  * 取得管理员昵称
- * @param int $uid
+ * @param  int    $uid  [用户id]
+ * @return string       [返回字符]
  * @author SpringYang <ceroot@163.com>
  */
 function get_nickname($uid = null)
 {
     if (!($uid && is_numeric($uid))) {
-        //获取当前登录用户名
         return session('username');
     }
-    // $uid  = session('userid');
     return db('manager')->getFieldById($uid, 'nickname');
 }
 
 /**
  * 取得管理员真实姓名
- * @param int $uid
+ * @param  int    $uid  [用户id]
+ * @return string       [返回字符]
  * @author SpringYang <ceroot@163.com>
  */
 function get_realname($uid = null)
 {
     if (!($uid && is_numeric($uid))) {
-        //获取当前登录用户名
         return '';
     }
-    // $uid  = session('userid');
     return db('manager')->getFieldById($uid, 'realname');
 }
 
 /**
  * 获得禁用和启用状态文字
- * @param string $table_id [表名和当前id]
+ * @param  string  $table_id [表名和当前id]
+ * @return string            [返回启用或者禁用]
  * @author SpringYang <ceroot@163.com>
  */
 function status_text($table_id)
@@ -197,6 +194,7 @@ function status_text($table_id)
 /**
  * 获特殊情况文字
  * @param string $type [从session取得的文字]
+ * @param string       [返回字符]
  * @author SpringYang <ceroot@163.com>
  */
 function get_log_session_text($type)
@@ -207,12 +205,12 @@ function get_log_session_text($type)
 
 /**
  * 记录行为日志，并执行该行为的规则
- * @param string $action 行为标识
- * @param string $model 触发行为的模型名
- * @param int $record_id 触发行为的记录id
- * @param int $user_id 执行行为的用户id
+ * @param  string $action [行为标识]
+ * @param  string $model  [触发行为的模型名]
+ * @param  int $record_id [触发行为的记录id]
+ * @param  int $user_id   [执行行为的用户id]
  * @return boolean
- * @author
+ * @author SpringYang <ceroot@163.com>
  */
 function action_log($record_id = null, $action = null, $model = CONTROLLER_NAME, $user_id = UID)
 {
@@ -284,8 +282,8 @@ function action_log($record_id = null, $action = null, $model = CONTROLLER_NAME,
  *              cycle->执行周期，单位（小时），表示$cycle小时内最多执行$max次
  *              max->单个周期内的最大执行次数（$cycle和$max必须同时定义，否则无效）
  * 单个行为后可加 ； 连接其他规则
- * @param string $action 行为id或者name
- * @param int $self 替换规则里的变量为执行用户的id
+ * @param string $action [行为id或者name]
+ * @param int    $self   [替换规则里的变量为执行用户的id]
  * @return boolean|array: false解析出错 ， 成功返回规则数组
  * @author huajie <banhuajie@163.com>
  */
@@ -332,10 +330,10 @@ function parse_action($action = null, $self)
 
 /**
  * 执行行为
- * @param array $rules 解析后的规则数组
- * @param int $action_id 行为id
- * @param array $user_id 执行的用户id
- * @return boolean false 失败 ， true 成功
+ * @param  array   $rules     [解析后的规则数组]
+ * @param  int     $action_id [行为id]
+ * @param  array   $user_id   [执行的用户id]
+ * @return boolean            [false 失败 ， true 成功]
  * @author huajie <banhuajie@163.com>
  */
 function execute_action($rules = false, $action_id = null, $user_id = null)
@@ -369,9 +367,9 @@ function execute_action($rules = false, $action_id = null, $user_id = null)
 
 /**
  * 将驼峰式命名转换为下划线命名
- * @param string $str 字符串
- * @return string
- * @author
+ * @param  string $str [字符串]
+ * @return string      [返回字符]
+ * @author SpringYang <ceroot@163.com>
  */
 function toUnderline($str)
 {
@@ -393,9 +391,9 @@ function toUnderline($str)
 
 /**
  * 将下划线命名转换为驼峰式命名
- * @param string $str 字符串
- * @return string
- * @author
+ * @param  string $str [字符串]
+ * @return string      [返回字符]
+ * @author SpringYang <ceroot@163.com>
  */
 function toCamel($str)
 {
@@ -406,7 +404,8 @@ function toCamel($str)
 
 /**
  * 退出 url
- * @return     string  (url地址)
+ * @return     string  [url地址]
+ * @author SpringYang <ceroot@163.com>
  */
 function logouturl()
 {
@@ -416,9 +415,10 @@ function logouturl()
 }
 
 /**
- *getcurrenturl  取得当前url并转换成asc
+ * getcurrenturl  取得当前url并转换成asc
  * 退出 url
- * @return     string  (url地址)
+ * @return     string  [url地址]
+ * @author SpringYang <ceroot@163.com>
  */
 function getbackurl()
 {
@@ -437,9 +437,10 @@ function getbackurl()
 
 /**
  * 随机数函数
- * @param   [string]    $length     [长度]
- * @param   [int]       $numeric    [类型 0为数字，1为全部，2为大写，3为小写，4为数字加小写，5为uniqid()]
- * @return  [string]    $hash       [返回数字]
+ * @param  [string]    $length     [长度]
+ * @param  [int]       $numeric    [类型 0为数字，1为全部，2为大写，3为小写，4为数字加小写，5为uniqid()]
+ * @return [string]    $hash       [返回数字]
+ * @author SpringYang <ceroot@163.com>
  */
 function getrandom($length = 6, $numeric = 0)
 {
