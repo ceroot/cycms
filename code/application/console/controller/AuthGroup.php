@@ -41,22 +41,34 @@ class AuthGroup extends Base
             $pk => 'asc',
         ];
 
-        $list = $this->model->order($order)->paginate($pageLimit);
-        foreach ($list as $value) {
-            $rules    = $value['rules'];
-            $rulesarr = explode(',', $rules);
-            foreach ($rulesarr as $v) {
-                $dd = model('authrule')->getOne($v);
+        $list  = $this->model->order($order)->paginate($pageLimit);
+        $rules = cache('authrule');
 
-                $dddd = Data::tree($dd, 'title', 'id', 'pid');
-                dump($dddd);
+        $rulesTree = [];
+        foreach ($list as $value) {
+            $rulesid = $value['rules'];
+            if ($rulesid != '') {
+                $rulesidarr = explode(',', $rulesid);
+                if (!empty($rulesidarr)) {
+                    $rerules = [];
+                    foreach ($rulesidarr as $v) {
+                        foreach ($rules as $m) {
+                            if ($v == $m['id']) {
+                                $rerules[] = $m;
+                                break;
+                            }
+                        }
+                    }
+                    $value['tree'] = Data::tree($rerules, 'title', 'id', 'pid');
+                }
             }
+            $rulesTree[] = $value;
 
         }
-        die;
+        // dump($rulesTree);die;
         $page = $list->render();
         // 模板变量赋值
-        $this->assign('list', $list);
+        $this->assign('list', $rulesTree);
         $this->assign('page', $page);
         return $this->fetch();
     }
