@@ -427,7 +427,7 @@ function _init(){
             var ajaxForm = $('form.cy-ajaxForm');
             if(ajaxForm.length){
                 var validateStatus  = ajaxForm.attr('data-validate') ? ajaxForm.attr('data-validate') : true;
-                var args = ['validate', 'localization', 'ajaxForm', 'layer'];
+                var args = ['validate', 'ajaxForm', 'layer'];
                 if(!validateStatus){
                     args = ['ajaxForm', 'layer'];
                 }
