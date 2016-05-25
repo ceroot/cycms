@@ -54,7 +54,8 @@ class AuthRule extends Model
      */
     public function updateCache()
     {
-        $data = db('authRule')->order(['sort' => 'asc', 'id' => 'asc'])->select();
+        // $data = db('authRule')->order(['sort' => 'asc', 'id' => 'asc'])->select();
+        $data = $this->order(['sort' => 'asc', 'id' => 'asc'])->select();
         cache('authrule', $data);
         $this->updateCacheAuthModel();
 

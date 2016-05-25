@@ -103,7 +103,7 @@ function add_group(obj)
     var html = $(obj).parent('.row').clone();
     html.find('select').addClass('mg-t-10');
     html.find('a').attr('onclick','del_group(this)').html('[-]');
-    html.find('select option').removeAttr('selected');
+    // html.find('select option').removeAttr('selected');
     $(obj).parents('.dd').append(html);
 }
 
