@@ -1,10 +1,10 @@
 <?php
 /**
  * checkAuth 权限验证
- * @param string    $authName  [传入验证标识]
- * @param string    $uid       [用户id]
- * @return boolean             [返回布尔值]
- * @author  SpringYang <ceroot@163.com>
+ * @param  string    $authName  [传入验证标识]
+ * @param  string    $uid       [用户id]
+ * @return boolean              [返回布尔值]
+ * @author SpringYang <ceroot@163.com>
  */
 function authCheck($authName, $uid)
 {
@@ -18,9 +18,9 @@ function authCheck($authName, $uid)
 
 /**
  * 生成树形结构数组
- * @param array     $cate   传入数组
- * @param string    $pid    传入父id
- * @return array    $arr    返回数组
+ * @param  array   $cate  传入数组
+ * @param  string  $pid   传入父id
+ * @return array   $arr   返回数组
  */
 function getCateTreeArr($cate, $pid)
 {
@@ -38,9 +38,9 @@ function getCateTreeArr($cate, $pid)
 }
 /**
  * 传递一个子级返回父级id 例如:首页>>服装>>女装>>裙子
- * @param array     $cate   传入数组
- * @param string    $pid    传入id
- * @return array    $arr    返回数组
+ * @param array   $cate  传入数组
+ * @param string  $pid   传入id
+ * @return array  $arr   返回数组
  */
 function getParents($cate, $id)
 {
@@ -205,10 +205,10 @@ function get_log_session_text($type)
 
 /**
  * 记录行为日志，并执行该行为的规则
- * @param  string $action [行为标识]
- * @param  string $model  [触发行为的模型名]
- * @param  int $record_id [触发行为的记录id]
- * @param  int $user_id   [执行行为的用户id]
+ * @param  string   $action     [行为标识]
+ * @param  string   $model      [触发行为的模型名]
+ * @param  int      $record_id  [触发行为的记录id]
+ * @param  int      $user_id    [执行行为的用户id]
  * @return boolean
  * @author SpringYang <ceroot@163.com>
  */
@@ -437,9 +437,9 @@ function getbackurl()
 
 /**
  * 随机数函数
- * @param  [string]    $length     [长度]
- * @param  [int]       $numeric    [类型 0为数字，1为全部，2为大写，3为小写，4为数字加小写，5为uniqid()]
- * @return [string]    $hash       [返回数字]
+ * @param  string    $length     [长度]
+ * @param  int       $numeric    [类型 0为数字，1为全部，2为大写，3为小写，4为数字加小写，5为uniqid()]
+ * @return string    $hash       [返回数字]
  * @author SpringYang <ceroot@163.com>
  */
 function getrandom($length = 6, $numeric = 0)
@@ -497,6 +497,5 @@ function getrandom($length = 6, $numeric = 0)
             $hash = sprintf('%0' . $length . 'd', mt_rand(0, pow(10, $length) - 1));
             // 代码
     }
-
     return $hash;
 }
