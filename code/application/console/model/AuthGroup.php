@@ -17,14 +17,34 @@
 namespace app\console\model;
 
 use think\Model;
+use third\Data;
 
 class AuthGroup extends Model
 {
-
-    public function getStatusTextAttr($value, $data)
+    public function getRules($list)
     {
-        $status = [0 => '禁用', 1 => '正常'];
-        return $status[$data['status']];
+        $rulesTree = [];
+        $rules     = cache('authrule');
+        foreach ($list as $value) {
+            $rulesid = $value['rules'];
+            if ($rulesid != '') {
+                $rulesidarr = explode(',', $rulesid);
+                if (!empty($rulesidarr)) {
+                    $rerules = [];
+                    foreach ($rulesidarr as $v) {
+                        foreach ($rules as $m) {
+                            if ($v == $m['id']) {
+                                $rerules[] = $m;
+                                break;
+                            }
+                        }
+                    }
+                    $value['tree'] = Data::tree($rerules, 'title', 'id', 'pid');
+                }
+            }
+            $rulesTree[] = $value;
+        }
+        return $rulesTree;
     }
 
 }

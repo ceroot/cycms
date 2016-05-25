@@ -29,7 +29,7 @@
 						{/volist}
 					{/notempty}
 				</td>
-				<td><a href="{:url('updatestatus',array('id'=>$list['id']))}" class="cy-ajax" title="快捷设置状态">{neq name="list.id" value="1"}{$list.status_text}{/neq}</a></td>
+				<td><a href="{:url('updatestatus',array('id'=>$list['id']))}" class="cy-ajax" title="快捷设置状态">{neq name="list.id" value="1"}{$list.status ? '正常' : '禁用'}{/neq}</a></td>
 				<td align='center'>
 					{neq name="list.id" value="1"}
 						<a href="{:url('rule',array('id'=>$list['id']))}">权限分配</a> | 

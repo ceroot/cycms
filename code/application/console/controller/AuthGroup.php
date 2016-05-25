@@ -17,7 +17,6 @@
 namespace app\console\controller;
 
 use app\console\controller\Base;
-use third\Data;
 
 class AuthGroup extends Base
 {
@@ -41,33 +40,10 @@ class AuthGroup extends Base
             $pk => 'asc',
         ];
 
-        $list  = $this->model->order($order)->paginate($pageLimit);
-        $rules = cache('authrule');
+        $list      = $this->model->order($order)->paginate($pageLimit);
+        $page      = $list->render();
+        $rulesTree = $this->model->getRules($list);
 
-        $rulesTree = [];
-        foreach ($list as $value) {
-            $rulesid = $value['rules'];
-            if ($rulesid != '') {
-                $rulesidarr = explode(',', $rulesid);
-                if (!empty($rulesidarr)) {
-                    $rerules = [];
-                    foreach ($rulesidarr as $v) {
-                        foreach ($rules as $m) {
-                            if ($v == $m['id']) {
-                                $rerules[] = $m;
-                                break;
-                            }
-                        }
-                    }
-                    $value['tree'] = Data::tree($rerules, 'title', 'id', 'pid');
-                }
-            }
-            $rulesTree[] = $value;
-
-        }
-        // dump($rulesTree);die;
-        $page = $list->render();
-        // 模板变量赋值
         $this->assign('list', $rulesTree);
         $this->assign('page', $page);
         return $this->fetch();
