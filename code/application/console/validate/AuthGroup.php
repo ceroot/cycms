@@ -21,12 +21,12 @@ use think\Validate;
 class AuthGroup extends Validate
 {
     protected $rule = [
-        // 'title' => 'require|unique:authGroup',
+        'title' => 'require|unique',
     ];
 
     protected $message = [
-        // 'title.require' => '角色名称必须',
-        // 'title.unique'  => '角色名称已存在',
+        'title.require' => '角色名称必须',
+        'title.unique'  => '角色名称已存在',
     ];
 
     protected $scene = [

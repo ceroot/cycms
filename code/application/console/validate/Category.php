@@ -22,8 +22,8 @@ use think\Validate;
 class Category extends Validate
 {
     protected $rule = [
-        'name'  => 'require|unique:category',
-        'title' => 'require|unique:category',
+        'name'  => 'require|unique',
+        'title' => 'require|unique',
     ];
 
     protected $message = [
