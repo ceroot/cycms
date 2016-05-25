@@ -51,9 +51,14 @@ class Manager extends Model
         return ip2int();
     }
 
-    public function setUpdateUidAttr()
+    public function setUpdateUidAttr($value, $data)
     {
         return session('userid');
+    }
+
+    public function setUpdateIpAttr()
+    {
+        return ip2int();
     }
 
     public function getStatusTextAttr($value, $data)

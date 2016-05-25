@@ -83,7 +83,6 @@ class Auth extends Controller
     // 退出方法
     public function loginout()
     {
-
         session('userid', null);
         session('username', null);
         session('nickname', null);

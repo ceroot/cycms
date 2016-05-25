@@ -21,7 +21,7 @@ use think\Validate;
 class AuthGroup extends Validate
 {
     protected $rule = [
-        'title' => 'require|unique',
+        'title' => 'require|unique:authgroup',
     ];
 
     protected $message = [

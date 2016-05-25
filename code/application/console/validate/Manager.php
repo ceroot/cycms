@@ -21,7 +21,7 @@ use think\Validate;
 class Manager extends Validate
 {
     protected $rule = [
-        'username' => 'require|unique',
+        'username' => 'require|unique:manager',
         'password' => 'require',
     ];
 

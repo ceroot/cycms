@@ -22,8 +22,8 @@ use think\Validate;
 class Category extends Validate
 {
     protected $rule = [
-        'name'  => 'require|unique',
-        'title' => 'require|unique',
+        'name'  => 'require|unique:category',
+        'title' => 'require|unique:category',
     ];
 
     protected $message = [
@@ -31,6 +31,11 @@ class Category extends Validate
         'name.unique'   => '分类标识已存在',
         'title.require' => '分类名称必填',
         'title.unique'  => '分类名称已存在',
+    ];
+
+    protected $scene = [
+        // 'add'  => [''],
+        // 'edit' => [''],
     ];
 
 }

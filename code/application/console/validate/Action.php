@@ -21,8 +21,8 @@ use think\Validate;
 class Action extends Validate
 {
     protected $rule = [
-        'name'  => 'require|unique',
-        'title' => 'require|unique',
+        'name'  => 'require|unique:action',
+        'title' => 'require|unique:action',
     ];
 
     protected $message = [
