@@ -17,6 +17,7 @@
 namespace app\console\controller;
 
 use app\console\controller\Base;
+use third\Data;
 
 class AuthGroup extends Base
 {
@@ -31,15 +32,41 @@ class AuthGroup extends Base
 
     }
 
+    function list() {
+        $pageLimit = input('get.limit');
+        $pageLimit = isset($pageLimit) ? $pageLimit : 5; // 每页显示数目
+        $pk        = $this->model->getPk(); // 取得主键字段名
+
+        $order = [
+            $pk => 'asc',
+        ];
+
+        $list = $this->model->order($order)->paginate($pageLimit);
+        foreach ($list as $value) {
+            $rules    = $value['rules'];
+            $rulesarr = explode(',', $rules);
+            foreach ($rulesarr as $v) {
+                $dd = model('authrule')->getOne($v);
+
+                $dddd = Data::tree($dd, 'title', 'id', 'pid');
+                dump($dddd);
+            }
+
+        }
+        die;
+        $page = $list->render();
+        // 模板变量赋值
+        $this->assign('list', $list);
+        $this->assign('page', $page);
+        return $this->fetch();
+    }
+
     public function rule()
     {
         $rules = model('authRule')->getAll(1);
-        // dump($rules);
-        // die;
         $this->assign('rules', $rules);
 
         $field = db('authGroup')->find(input('get.id'));
-
         $this->assign('field', $field);
         return view();
     }

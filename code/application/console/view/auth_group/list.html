@@ -22,7 +22,9 @@
 	        <tr>
 	        	<td>{$list.id}</td>
 				<td>{$list.title}</td>
-				<td>{$list.rules}</td>
+				<td style="word-break: break-all; word-wrap:break-word;">
+					{$list.rules}
+				</td>
 				<td><a href="{:url('updatestatus',array('id'=>$list['id']))}" class="cy-ajax" title="快捷设置状态">{neq name="list.id" value="1"}{$list.status_text}{/neq}</a></td>
 				<td align='center'>
 					{neq name="list.id" value="1"}

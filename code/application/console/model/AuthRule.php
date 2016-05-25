@@ -107,7 +107,8 @@ class AuthRule extends Model
      */
     public function getOne($id)
     {
-        return isset($this->cache[$id]) ? $this->cache[$id] : null;
+        $cache = cache('authrule');
+        return isset($cache[$id]) ? $cache[$id] : null;
     }
     /**
      * [del 删除规则]
