@@ -692,8 +692,10 @@ Wind.ready(function() {
             //jquery util plugs
             ajaxForm          : 'jquery.form/3.51.0/jquery.form',
             layer             : 'layer/2.2/layer',
-            validate          : 'validate.js/1.15.0/jquery.validate',
-            localization      : 'validate.js/1.15.0/localization/messages_zh',
+            validate          : {
+                validate      : 'validate.js/1.15.0/jquery.validate',
+                localization  : 'validate.js/1.15.0/localization/messages_zh',
+            },
             cookie            : 'cookie',
 			treeview          : 'treeview',
             treeTable         : 'treeTable/treeTable',
@@ -701,11 +703,10 @@ Wind.ready(function() {
             artDialog         : 'artDialog/6.0.5/js/dialog',
             iframeTools       : 'artDialog/iframeTools',
             xd                : 'xd',//Iframe跨域通信
-            // dd                : Array('aa','bb')
-
-
+                                     
 			//native js util plugs
-			swfupload         : 'swfupload/swfupload'
+			swfupload         : 'swfupload/swfupload',
+
 		},
         //CSS路径
 		alias_css = {
@@ -716,11 +717,23 @@ Wind.ready(function() {
 			zTree    : 'zTree/zTreeStyle/zTreeStyle'
 		};
 		
-	//add suffix and version
+	// add suffix and version
+    // 增加子对象的支持[20160525杨春]
+    var newalias = {};
 	for(var i in alias) {
 		if (alias.hasOwnProperty(i)) {
+            var obj  = alias[i];
+            if(typeof obj == 'object'){
+                for(var n in obj){
+                    if(obj.hasOwnProperty(n)){
+                        obj[n] = root + obj[n] +'.js?v=' + ver;
+                    }
+                }
+                newalias[i] = obj;
+            }else{
+                newalias[i] = root + alias[i] +'.js?v=' + ver;
+            }
 			alias[i] = root + alias[i] +'.js?v=' + ver;
-
 		}
 	}
 
@@ -733,8 +746,8 @@ Wind.ready(function() {
 	//css loader
 	win.Wind = win.Wind || {};
     //!TODO old webkit and old firefox does not support
-	Wind.css = function(alias/*alias or path*/,callback) {
-		var url = alias_css[alias] ? alias_css[alias] : alias
+	Wind.css = function(newalias/*newalias or path*/,callback) {
+		var url = alias_css[newalias] ? alias_css[newalias] : newalias
 		var link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = url;
@@ -748,26 +761,44 @@ Wind.ready(function() {
         document.getElementsByTagName('head')[0].appendChild(link);
 	};
 
-	//Using the alias to load the script file
+	// Using the newalias to load the script file
+    // 增加数组的支持[20160525杨春]
 	Wind.use = function() {
 		var args = arguments,len = args.length;
-        var temp = [];
-
+        var newargs = [];
         for( var i = 0;i < len;i++ ) {
             if(Object.prototype.toString.call(args[i]) === '[object Array]'){
                 for (var n = 0; n < args[i].length; n++) {
-                    temp.push(args[i][n]);
+                    newargs.push(args[i][n]);
                 }
             }else{
-                temp.push(args[i]);
+                newargs.push(args[i]);
             }
         }
-        for (var m = 0; m < temp.length; m++) {
-            if(typeof temp[m] === 'string' && alias[temp[m]]){
-                temp[m] = alias[temp[m]];
+
+        // 与别名列表对比取出需要的文件
+        // 处理别名列表和子对象的操作
+        // 把函数增加到最后面
+        var useargs = [];
+        for (var i = 0; i < newargs.length; i++) {
+            if(typeof newargs[i] === 'string' && newalias[newargs[i]]){
+                var obj = newalias[newargs[i]];
+                if(typeof obj == 'object'){
+                    for(var n in obj){
+                        if(obj.hasOwnProperty(n)){
+                            useargs.push(obj[n]);
+                        }
+                    }
+                }else{
+                    useargs.push(newalias[newargs[i]]);
+                }  // newargs[i] = newalias[newargs[i]];
+            }
+            if(typeof newargs[i] == 'function'){
+                useargs.push(newargs[i]);
             }
         }
-		Wind.js.apply(null,temp);
+        console.log(useargs);
+		Wind.js.apply(null,useargs);
 	};
 
     //Wind javascript template (author: John Resig http://ejohn.org/blog/javascript-micro-templating/)
