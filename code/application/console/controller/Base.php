@@ -148,7 +148,8 @@ class Base extends Extend
                 action_log($status); // 记录日志
                 return $this->success('添加成功', url('list'));
             } else {
-                return $this->error('失败');
+                // return $this->error('失败');
+                return $this->model->getError();
             }
         } else {
             return $this->fetch();
@@ -206,7 +207,8 @@ class Base extends Extend
                 action_log($data[$pk]); // 记录日志
                 return $this->success('修改成功', url('list'));
             } else {
-                return $this->error('失败');
+                // return $this->error('失败');
+                return $this->model->getError();
             }
         } else {
             $id = input('get.' . $pk);
@@ -257,7 +259,8 @@ class Base extends Extend
             }
             return $this->success('成功');
         } else {
-            return $this->error('失败');
+            // return $this->error('失败');
+            return $this->model->getError();
         }
     }
 
