@@ -797,7 +797,7 @@ Wind.ready(function() {
                 useargs.push(newargs[i]);
             }
         }
-        console.log(useargs);
+        // console.log(useargs);
 		Wind.js.apply(null,useargs);
 	};
 
