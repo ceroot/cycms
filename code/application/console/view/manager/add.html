@@ -3,18 +3,20 @@
 {block name="content"}
 <form action="{:url('add')}" method="post" class="cy-ajaxForm cy-form" role="form">
     <div class="form-group form-inline">
-        <div class="row">
-            <div class="col-xs-1 col-md-1" style="width:98px"><span for="group">角色：</span></div>
-            <div class="col-xs-11 col-md-11 dd">
-                <div class="row">
-                    <select name="group_id[]" class="form-control">
-                        {volist name='groupdata' id='list'}
-                          <option value="{$list.id}" {eq name="list.id" value="8"} selected="selected"{/eq}>{$list.title}</option>
-                        {/volist}
-                    </select>&nbsp&nbsp&nbsp&nbsp<a href="javascript:void(0)" onclick="add_group(this)" title="添加一个">[+]</a>
-                </div>
-            </div>
-        </div>
+        <table>
+            <tr>
+                <td valign="top"><span for="group" class="pd-t-5">角色：</span></td>
+                <td style="padding-left:3px">
+                    <div class="group-area">
+                        <select name="group_id[]" class="form-control">
+                            {volist name='groupdata' id='list'}
+                              <option value="{$list.id}" {eq name="list.id" value="8"} selected="selected"{/eq}>{$list.title}</option>
+                            {/volist}
+                        </select>&nbsp&nbsp&nbsp&nbsp<a href="javascript:void(0)" onclick="add_group(this)" title="添加一个">[+]</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
     <div class="form-group form-inline">
         <span for="username" class="control-label">用户名：</span>
@@ -88,16 +90,17 @@ var userValidate = {
 
 function add_group(obj)
 {
-    var html = $(obj).parent('.row').clone();
+    var html = $(obj).parent('.group-area').clone();
+    // console.log(html);
     html.find('select').addClass('mg-t-10');
     html.find('a').attr('onclick','del_group(this)').html('[-]');
     // html.find('select option').removeAttr('selected');
-    $(obj).parents('.dd').append(html);
+    $(obj).parents('td').append(html);
 }
 
 function del_group(obj)
 {
-    $(obj).parent('.row').remove();
+    $(obj).parent('.group-area').remove();
 }
 </script>
 {/block}
