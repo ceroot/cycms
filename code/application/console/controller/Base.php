@@ -136,13 +136,16 @@ class Base extends Extend
             }
 
             if ($status) {
-                action_log($status); // 记录日志
+                if (CONTROLLER_NAME == 'manager') {
+                    model('AuthGroupAccess')->saveData($status);
+                }
 
                 if (CONTROLLER_NAME == 'auth_rule') {
                     $this->model->updateCache(); // 更新缓存
                     $this->model->updateCacheAuthModel(); // 更新缓存
                 }
 
+                action_log($status); // 记录日志
                 return $this->success('添加成功', url('list'));
             } else {
                 return $this->error('失败');
@@ -189,13 +192,18 @@ class Base extends Extend
             if ($status === false) {
                 return $this->error($this->model->getError());
             }
+
             if ($status) {
-                action_log($data[$pk]); // 记录日志
+                if (CONTROLLER_NAME == 'manager') {
+                    model('AuthGroupAccess')->saveData($data[$pk]);
+                }
 
                 if (CONTROLLER_NAME == 'auth_rule') {
                     $this->model->updateCache(); // 更新缓存
                     $this->model->updateCacheAuthModel(); // 更新缓存
                 }
+
+                action_log($data[$pk]); // 记录日志
                 return $this->success('修改成功', url('list'));
             } else {
                 return $this->error('失败');

@@ -1,15 +1,21 @@
 {extend name="mould:base" /}
 {block name="title"}{/block}
 {block name="content"}
-<form action="{:url('add')}" method="post" class="J_ajaxForms cy-form" role="form">
-    <!-- <div class="form-group form-inline">
-        <span for="rules">角色：</span>
-        <select name="group" class="form-control">
-            {volist name='groupdata' id='rule'}
-              <option value="{$rule.id}" >{$rule.title}</option>
-            {/volist}
-        </select>
-    </div> -->
+<form action="{:url('add')}" method="post" class="cy-ajaxForm cy-form" role="form">
+    <div class="form-group form-inline">
+        <div class="row">
+            <div class="col-xs-1 col-md-1" style="width:98px"><span for="group">角色：</span></div>
+            <div class="col-xs-11 col-md-11 dd">
+                <div class="row">
+                    <select name="group_id[]" class="form-control">
+                        {volist name='groupdata' id='list'}
+                          <option value="{$list.id}" {eq name="list.id" value="8"} selected="selected"{/eq}>{$list.title}</option>
+                        {/volist}
+                    </select>&nbsp&nbsp&nbsp&nbsp<a href="javascript:void(0)" onclick="add_group(this)" title="添加一个">[+]</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="form-group form-inline">
         <span for="username" class="control-label">用户名：</span>
         <input type="text" class="form-control" name="username" id="username" placeholder="用户名">
@@ -80,5 +86,18 @@ var userValidate = {
     }
 };
 
+function add_group(obj)
+{
+    var html = $(obj).parent('.row').clone();
+    html.find('select').addClass('mg-t-10');
+    html.find('a').attr('onclick','del_group(this)').html('[-]');
+    // html.find('select option').removeAttr('selected');
+    $(obj).parents('.dd').append(html);
+}
+
+function del_group(obj)
+{
+    $(obj).parent('.row').remove();
+}
 </script>
 {/block}

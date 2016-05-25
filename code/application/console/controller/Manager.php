@@ -33,7 +33,10 @@ class Manager extends Base
 
         $groupdata = db('authGroup')->select();
         $this->assign('groupdata', $groupdata);
-        // dump($groupdata);
+        $authgroup = db('AuthGroupAccess')->where('uid', input('get.id'))->select();
+        $this->assign('authgroup', $authgroup);
+        // dump($authgroup);
+        // die;
 
     }
 
