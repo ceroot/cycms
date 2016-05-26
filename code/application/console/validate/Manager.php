@@ -21,14 +21,17 @@ use think\Validate;
 class Manager extends Validate
 {
     protected $rule = [
-        'username' => 'require|unique:manager',
-        'password' => 'require',
+        'username'   => 'require|unique:manager',
+        'password'   => 'require',
+        'repassword' => 'require|confirm:password',
     ];
 
     protected $message = [
-        'username.require' => '用户名必须',
-        'username.unique'  => '用户名已经存在',
-        'password'         => '密码必填',
+        'username.require'   => '用户名必须',
+        'username.unique'    => '用户名已经存在',
+        'password'           => '密码必填',
+        'repassword.require' => '确认密码必须',
+        'username.confirm'   => '确认密码不正确',
     ];
 
     protected $scene = [

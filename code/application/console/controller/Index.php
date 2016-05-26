@@ -61,4 +61,37 @@ class Index extends Base
     {
         // return view('admin@index/index');
     }
+
+    public function copyright()
+    {
+        $info = [
+            '系统版本'       => config('cms_version'),
+            //'操作系统'    => $this->get_os(),
+            '运行环境'       => $_SERVER['SERVER_SOFTWARE'],
+            'PHP版本'      => PHP_VERSION,
+            'PHP运行方式'    => php_sapi_name(),
+            '数据库'        => config('type'), // . ' ' . $this->get_mysql_version(),
+            'ThinkPHP版本' => THINK_VERSION,
+            '最大上传附件'     => ini_get('upload_max_filesize'),
+        ];
+        // dump($info);die;
+        $this->assign('info', $info);
+        return $this->fetch();
+    }
+
+    /**
+     * [get_mysql_version 数据库版本]
+     * @return [type] [description]
+     */
+    public function get_mysql_version()
+    {
+        // $user      = db();
+        // $pdo       = new PDO("mysql:host=127.0.0.1;dbname=think5", "root", "root");
+        $con       = mysql_connect('127.0.0.1', 'root', 'root');
+        $mysqlinfo = mysql_get_server_info($con);
+        // $res = mysql_query("select VERSION()");
+        // $row = mysql_fetch_row($res);
+        return $mysqlinfo;
+    }
+
 }

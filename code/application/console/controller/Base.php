@@ -117,7 +117,7 @@ class Base extends Extend
      */
     function list() {
         $pageLimit = input('get.limit');
-        $pageLimit = isset($pageLimit) ? $pageLimit : 5; // 每页显示数目
+        $pageLimit = isset($pageLimit) ? $pageLimit : 15; // 每页显示数目
         $pk        = $this->model->getPk(); // 取得主键字段名
 
         $order = [
@@ -219,6 +219,12 @@ class Base extends Extend
                     session('log_text', '编辑了角色');
                 }
                 $data['id'] = input('post.id');
+            }
+
+            if (CONTROLLER_NAME == 'manager') {
+                if (input('post.passwrod') == '') {
+                    unset($data['password']);
+                }
             }
 
             $validate = CONTROLLER_NAME . '.edit';

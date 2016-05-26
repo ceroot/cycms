@@ -93,4 +93,18 @@ class Manager extends Base
         return 'data';
     }
 
+    public function info()
+    {
+        $one = $this->model->find(UID);
+
+        return $this->fetch();
+    }
+
+    public function change()
+    {
+        $one = $this->model->find(UID);
+        $this->assign('one', $one);
+        return $this->fetch();
+    }
+
 }

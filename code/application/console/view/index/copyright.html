@@ -1,0 +1,33 @@
+{extend name="mould:base" /}
+{block name="title"}后台首页{/block}
+{block name="content"}
+<div class="wrap">
+  	<div id="home_toptip"></div>
+  	<h2 class="h_a">系统信息</h2>
+  	<div class="home_info">
+    	<ul class="list-unstyled">
+      		<?php $n=1; ?>
+    		{foreach name='info' item='value'}
+        		<li {if condition='$n%2 eq 0'}class='active' style='background:#f5f5f5; font-weight:800'{/if}
+		     		<em>{$i}</em>
+		     		<span >{$value}</span>
+	     		</li>
+       			<?php $n++; ?>
+  			{/foreach}
+     	</ul>
+  	</div>
+  	<h2 class="h_a">开发团队</h2>
+  	<div class="home_info" id="home_devteam">
+    	<ul class="list-unstyled">
+      		<li>
+        		<em>版权所有</em> 
+        		<span><a href="http://www.benweng.com" target="_blank" title="笨翁">http://www.benweng.com</a></span> 
+      		</li>
+      		<li style='background:#fff;font-weight:800'>
+        		<em>负责人</em> 
+        		<span>SpringYang</span> 
+      		</li>
+    	</ul>
+ 	</div>
+</div>
+{/block}

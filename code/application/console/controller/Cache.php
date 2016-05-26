@@ -76,8 +76,9 @@ class Cache extends Base
                 $msg = '缓存更新成功...';
                 cache('action', null);
                 cache('actionlength', null);
+
                 // 日志记录
-                action_log('cache', '1', UID, UID);
+                action_log(1);
                 return $this->error($msg);
             }
 
