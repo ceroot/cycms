@@ -46,5 +46,4 @@ class AuthGroup extends Model
         }
         return $rulesTree;
     }
-
 }

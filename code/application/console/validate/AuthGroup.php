@@ -23,12 +23,9 @@ class AuthGroup extends Validate
     protected $rule = [
         'title' => 'require|unique:authGroup',
     ];
-
     protected $message = [
         'title.require' => '角色名称必须',
         'title.unique'  => '角色名称已存在',
     ];
-
     protected $scene = [''];
-
 }
