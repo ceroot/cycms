@@ -20,10 +20,13 @@ use think\Model;
 
 class AuthGroupAccess extends Model
 {
-
+    /**
+     * @name   saveData             [保存数据]
+     * @author SpringYang <ceroot@163.com>
+     */
     public function saveData($uid)
     {
-        $this->where('uid', $uid)->delete();
+        $this->delDataByUid($uid);
 
         $group_id = input('post.group_id/a');
         $group_id = array_unique($group_id);
@@ -35,4 +38,27 @@ class AuthGroupAccess extends Model
         }
         $this->saveall($data);
     }
+
+    /**
+     * @name   delDataByUid         [根据用户id删除数据]
+     * @param  string   $uid        [用户id]
+     * @return boolean              [返回布尔值]
+     * @author SpringYang <ceroot@163.com>
+     */
+    public function delDataByUid($uid)
+    {
+        $this->where('uid', $uid)->delete();
+    }
+
+    /**
+     * @name   delDataByUid         [根据角色id删除数据]
+     * @param  string   $gid        [角色id]
+     * @return boolean              [返回布尔值]
+     * @author SpringYang <ceroot@163.com>
+     */
+    public function delDataByGid($gid)
+    {
+        $this->where('group_id', $gid)->delete();
+    }
+
 }

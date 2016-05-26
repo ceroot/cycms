@@ -22,7 +22,10 @@ class Base extends Extend
 {
 
     protected $model;
-
+    /**
+     * @name   _initialize          [初始化]
+     * @author SpringYang <ceroot@163.com>
+     */
     public function _initialize()
     {
         // 定义UID
@@ -86,16 +89,32 @@ class Base extends Extend
         $this->assign('manager', $manager); // 管理员信息输出
     }
 
+    /**
+     * @name   basetest             [基本测试]
+     * @param  string   $string     [说明]
+     * @return boolean              [返回布尔值]
+     * @author SpringYang <ceroot@163.com>
+     */
     public function basetest()
     {
 
     }
 
+    /**
+     * @name   index                [通用index方法]
+     * @author SpringYang <ceroot@163.com>
+     */
     public function index()
     {
         return $this->fetch();
     }
 
+    /**
+     * @name   list                 [通用list方法]
+     * @param  string   $string     [说明]
+     * @return boolean              [返回布尔值]
+     * @author SpringYang <ceroot@163.com>
+     */
     function list() {
         $pageLimit = input('get.limit');
         $pageLimit = isset($pageLimit) ? $pageLimit : 5; // 每页显示数目
@@ -126,6 +145,10 @@ class Base extends Extend
         return $this->fetch();
     }
 
+    /**
+     * @name   add                  [通用添加方法]
+     * @author SpringYang <ceroot@163.com>
+     */
     public function add()
     {
         if (IS_AJAX) {
@@ -156,6 +179,10 @@ class Base extends Extend
         }
     }
 
+    /**
+     * @name   edittest             [编辑方法测试]
+     * @author SpringYang <ceroot@163.com>
+     */
     public function edittest()
     {
         $pk            = $this->model->getPk();
@@ -173,6 +200,10 @@ class Base extends Extend
 
     }
 
+    /**
+     * @name   edit                 [通用编辑方法]
+     * @author SpringYang <ceroot@163.com>
+     */
     public function edit()
     {
         $pk = $this->model->getPk();
@@ -222,6 +253,11 @@ class Base extends Extend
         }
     }
 
+    /**
+     * @name   del                  [通用删除方法]
+     * @return boolean              [返回布尔值]
+     * @author SpringYang <ceroot@163.com>
+     */
     public function del()
     {
         $pk     = $this->model->getPk();
@@ -229,12 +265,19 @@ class Base extends Extend
         $status = db(CONTROLLER_NAME)->delete($id);
 
         if ($status) {
-            action_log($id); // 记录日志
+            if (CONTROLLER_NAME == 'manager') {
+                model('authGroupAccess')->delDataByUid($id);
+            }
+
+            if (CONTROLLER_NAME == 'auth_group') {
+                model('authGroupAccess')->delDataByGid($id);
+            }
 
             if (CONTROLLER_NAME == 'auth_rule') {
                 $this->model->updateCache(); // 更新缓存
                 $this->model->updateCacheAuthModel(); // 更新缓存
             }
+            action_log($id); // 记录日志
             return $this->success('成功');
         } else {
             return $this->error('失败');
@@ -242,7 +285,11 @@ class Base extends Extend
         return $redata;
     }
 
-    // 更新 status 字段状态
+    /**
+     * @name   updatestatus         [更新 status 字段状态]
+     * @return boolean              [返回布尔值]
+     * @author SpringYang <ceroot@163.com>
+     */
     public function updatestatus()
     {
         $pk             = $this->model->getPk();
