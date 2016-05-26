@@ -22,21 +22,22 @@ class Manager extends Validate
 {
     protected $rule = [
         'username'   => 'require|unique:manager',
-        'password'   => 'require',
-        'repassword' => 'require|confirm:password',
+        'password'   => 'require|confirm:repassword',
+        'repassword' => 'require',
     ];
 
     protected $message = [
         'username.require'   => '用户名必须',
         'username.unique'    => '用户名已经存在',
         'password'           => '密码必填',
+        'password.confirm'   => '确认密码不正确',
         'repassword.require' => '确认密码必须',
-        'username.confirm'   => '确认密码不正确',
     ];
 
     protected $scene = [
-        'add'  => ['username', 'password'],
-        'edit' => ['username'],
+        'add'      => ['username', 'password'],
+        'edit'     => ['username'],
+        'password' => ['password', 'repassword'],
     ];
 
 }

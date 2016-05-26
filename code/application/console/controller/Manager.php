@@ -115,7 +115,25 @@ class Manager extends Base
     public function password()
     {
         if (IS_AJAX) {
-            return input('post.');
+            $data     = input('post.');
+            $username = $this->model->getFieldById($data['id'], 'username');
+
+            $data['password']   = md5($username . $data['password']);
+            $data['repassword'] = md5($username . $data['repassword']);
+
+            $status = $this->model->validate(CONTROLLER_NAME . '.password')->save($data, ['id' => $data['id']]);
+            if ($status === false) {
+                return $this->error($this->model->getError());
+            }
+
+            if ($status) {
+                action_log($data['id']);
+                return $this->success('修改密码成功');
+            } else {
+                return $this->error('修改密码失败');
+
+            }
+
         } else {
             $one = $this->model->find(UID);
             $this->assign('one', $one);
