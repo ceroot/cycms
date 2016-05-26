@@ -1,6 +1,7 @@
 {extend name="mould:base" /}
 {block name="title"}{/block}
 {block name="content"}
+<form action="{:url('sort')}" method="post" class="cy-ajaxForm cy-form" data-validate="false">
     <table class="table table-condensed table-hover">
         <colgroup>
 	        <col width="60">
@@ -47,4 +48,11 @@
     <div class="fixed-bottom">
         <button class="btn btn-sm btn-default" type="submit">排序</button>
     </div>
+</form>
+<script type="application/javascript">
+$(function(){
+
+
+})
+</script>
 {/block}

@@ -61,7 +61,7 @@ function _init(){
         	$(window,'.main-wrapper').resize(function(event) {
         		/* Act on the event */
         		_this.slimScroll();
-        		console.log(0);
+        		// console.log(0);
         	});
         },
         main:function(){
@@ -427,14 +427,17 @@ function _init(){
             var ajaxForm = $('form.cy-ajaxForm');
             if(ajaxForm.length){
                 var validateStatus  = ajaxForm.attr('data-validate') ? ajaxForm.attr('data-validate') : true;
-                var args = ['validate', 'ajaxForm', 'layer'];
-                if(!validateStatus){
-                    args = ['ajaxForm', 'layer'];
+                var args = ['ajaxForm'];
+                console.log(10);
+                if(validateStatus==true){
+                    console.log(20);
+                    args = ['validate', 'ajaxForm'];
                 }
-
                 Wind.use(args, function () {
-                    var btn = ajaxForm.find('.J_ajax_submit_btn');
+                    var btn = ajaxForm.find('button');
+                    console.log(30);
                     if(validateStatus==true){
+                        console.log(40);
                         //表单验证开始
                         var baseValidate = {
                             //是否在获取焦点时验证
@@ -492,10 +495,10 @@ function _init(){
                         
                         ajaxForm.validate(validate);
                     }else{
-                        ajaxForm.find('button').on('click', function (e) {
+                        console.log(41);
+                        btn.on('click', function (e) {
                             e.preventDefault();
-                            var btn  = $(this),
-                                form = ajaxForm;
+                            var form = ajaxForm;
 
                             //批量操作 判断选项
                             if (btn.data('subcheck')) {
