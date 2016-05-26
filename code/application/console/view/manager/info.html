@@ -1,5 +1,52 @@
 {extend name="mould:base" /}
-{block name="title"}后台首页{/block}
+{block name="title"}{/block}
 {block name="content"}
-  index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>index3<br/>end
+<form action="{:url('info')}" method="post" class="cy-ajaxForm cy-form" role="form">
+    <div class="form-group form-inline">
+        <span for="username">用户名：</span>
+        <p class="form-control-static">{$one.username}</p>
+    </div>
+    <div class="form-group form-inline">
+        <span for="nickname">用户昵称：</span>
+        <input type="text" class="form-control" name="nickname" id="nickname" value="{$one.nickname}" placeholder="用户昵称">
+    </div>
+    <div class="form-group form-inline">
+        <span for="realname">姓名：</span>
+        <input type="text" class="form-control" name="realname" id="realname" value="{$one.realname}" placeholder="真实姓名">
+    </div>
+    <div class="form-group form-inline">
+        <span for="email">邮箱：</span>
+        <input type="text" class="form-control" name="email" id="email" value="{$one.email}" placeholder="邮箱">
+    </div>
+    <div class="fixed-bottom">
+        <input type="hidden" name="id" value="{$one.id}">
+        <button class="btn btn-default">保存</button>
+    </div>
+</form>
+<script type="text/javascript">
+var userValidate = {
+    rules: {
+        email:{
+        	email:true
+        },
+    }, 
+    messages: {
+        email:'邮箱格式不正确',
+    }
+};
+
+function add_group(obj)
+{
+    var html = $(obj).parent('.group-area').clone();
+    html.find('select').addClass('mg-t-10');
+    html.find('a').attr('onclick','del_group(this)').html('[-]');
+    // html.find('select option').removeAttr('selected');
+    $(obj).parents('td').append(html);
+}
+
+function del_group(obj)
+{
+    $(obj).parent('.group-area').remove();
+}
+</script>
 {/block}

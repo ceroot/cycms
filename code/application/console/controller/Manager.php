@@ -95,9 +95,25 @@ class Manager extends Base
 
     public function info()
     {
-        $one = $this->model->find(UID);
+        if (IS_AJAX) {
+            $data   = input('post.');
+            $status = $this->model->validate(CONTROLLER_NAME . '.info')->save($data, ['id' => $data['id']]);
+            if ($status === false) {
+                return $this->error($this->model->getError());
+            }
 
-        return $this->fetch();
+            if ($status) {
+                action_log($data['id']); // 记录操作日志
+                return $this->success('个人信息修改成功');
+            } else {
+                return $this->error('个人信息修改失败');
+            }
+            return $data;
+        } else {
+            $one = $this->model->find(UID);
+            $this->assign('one', $one);
+            return $this->fetch();
+        }
     }
 
     public function change()

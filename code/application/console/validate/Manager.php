@@ -24,6 +24,8 @@ class Manager extends Validate
         'username'   => 'require|unique:manager',
         'password'   => 'require|confirm:repassword',
         'repassword' => 'require',
+        'nickname'   => 'unique:manager',
+        'email'      => 'email',
     ];
 
     protected $message = [
@@ -32,12 +34,16 @@ class Manager extends Validate
         'password.require'   => '密码必填',
         'password.confirm'   => '确认密码不正确',
         'repassword.require' => '确认密码必须',
+        // 'nickname.require'   => '昵称必填',
+        'nickname.unique'    => '昵称已经存在',
+        'email'              => '邮箱格式不正确',
     ];
 
     protected $scene = [
         'add'      => ['username', 'password'],
         'edit'     => ['username'],
         'password' => ['password', 'repassword'],
+        'info'     => ['nickname', 'email'],
     ];
 
 }
