@@ -60,19 +60,30 @@ class AuthRule extends Base
         }
     }
 
-    // 更新菜单显示
+    /**
+     * @name   更新菜单显示
+     * @author SpringYang <ceroot@163.com>
+     */
     public function updateshow()
     {
         return $this->updatefield('isnavshow');
     }
 
-    // 更新权限验证
+    /**
+     * @name   更新权限验证
+     * @author SpringYang <ceroot@163.com>
+     */
     public function updateauth()
     {
         return $this->updatefield('auth');
     }
 
-    // 更新字段
+    /**
+     * @name   更新字段
+     * @param  string   $string     [说明]
+     * @return boolean              [返回布尔值]
+     * @author SpringYang <ceroot@163.com>
+     */
     protected function updatefield($field)
     {
         $pk     = $this->model->getPk();
@@ -84,14 +95,36 @@ class AuthRule extends Base
         $status = $this->model->save($data, [$pk => $id]);
 
         if ($status) {
-            action_log($id); // 记录日志
-
             $this->model->updateCache(); // 更新缓存
             $this->model->updateCacheAuthModel(); // 更新缓存
 
+            action_log($id); // 记录日志
             return $this->success('成功');
         } else {
             return $this->error('失败');
+        }
+    }
+
+    /**
+     * @name   规则排序
+     * @author SpringYang <ceroot@163.com>
+     */
+    public function sort()
+    {
+        if (IS_POST) {
+            $sortdata = input('post.sort/a');
+
+            foreach ($sortdata as $key => $value) {
+                $data['sort'] = $value;
+                $this->model->save($data, ['id' => $key]);
+            }
+
+            $this->model->updateCache(); // 更新缓存
+            $this->model->updateCacheAuthModel(); // 更新缓存
+            action_log(UID); // 记录日志
+            return $this->success('排序成功');
+        } else {
+            return $this->error('参数错误');
         }
     }
 

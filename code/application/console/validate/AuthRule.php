@@ -21,8 +21,8 @@ use think\Validate;
 class AuthRule extends Validate
 {
     protected $rule = [
-        'name'  => 'require|unique:authrule',
-        'title' => 'require|unique:authrule',
+        'name'  => 'require|unique:authRule',
+        'title' => 'require|unique:authRule',
     ];
 
     protected $message = [
