@@ -107,4 +107,20 @@ class Manager extends Base
         return $this->fetch();
     }
 
+    /**
+     * @name   password             [修改密码]
+     * @return boolean              [返回布尔值]
+     * @author SpringYang <ceroot@163.com>
+     */
+    public function password()
+    {
+        if (IS_AJAX) {
+            return input('post.');
+        } else {
+            $one = $this->model->find(UID);
+            $this->assign('one', $one);
+            return $this->fetch();
+        }
+    }
+
 }

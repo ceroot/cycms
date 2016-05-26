@@ -222,7 +222,7 @@ class Base extends Extend
             }
 
             if (CONTROLLER_NAME == 'manager') {
-                if (input('post.passwrod') == '') {
+                if (empty($data['password'])) {
                     unset($data['password']);
                 }
             }
@@ -233,6 +233,7 @@ class Base extends Extend
                     $validate = false;
                 }
             }
+            // return $data;
             $status = $this->model->validate($validate)->save($data, [$pk => $data[$pk]]);
             if ($status === false) {
                 return $this->error($this->model->getError());
