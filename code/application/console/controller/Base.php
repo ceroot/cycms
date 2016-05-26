@@ -224,6 +224,11 @@ class Base extends Extend
             if (CONTROLLER_NAME == 'manager') {
                 if (empty($data['password'])) {
                     unset($data['password']);
+                } else {
+                    if (strlen($data['password']) < 6) {
+                        return $this->error('密码长度不够');
+                    }
+                    $data['password'] = md5($data['username'] . $data['password']);
                 }
             }
 

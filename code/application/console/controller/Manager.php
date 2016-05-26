@@ -127,7 +127,7 @@ class Manager extends Base
             }
 
             if ($status) {
-                action_log($data['id']);
+                action_log($data['id']); // 记录操作日志
                 return $this->success('修改密码成功');
             } else {
                 return $this->error('修改密码失败');

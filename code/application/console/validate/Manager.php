@@ -29,7 +29,7 @@ class Manager extends Validate
     protected $message = [
         'username.require'   => '用户名必须',
         'username.unique'    => '用户名已经存在',
-        'password'           => '密码必填',
+        'password.require'   => '密码必填',
         'password.confirm'   => '确认密码不正确',
         'repassword.require' => '确认密码必须',
     ];
