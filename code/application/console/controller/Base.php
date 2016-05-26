@@ -209,6 +209,7 @@ class Base extends Extend
         $pk = $this->model->getPk();
         if (IS_AJAX) {
             $data = input('post.');
+
             if (CONTROLLER_NAME == 'auth_group') {
                 $rulesdata = input('post.rules/a');
                 if ($rulesdata) {
@@ -220,7 +221,13 @@ class Base extends Extend
                 $data['id'] = input('post.id');
             }
 
-            $status = $this->model->validate(CONTROLLER_NAME . '.edit')->save($data, [$pk => $data[$pk]]);
+            $validate = CONTROLLER_NAME . '.edit';
+            if (input('get.rule')) {
+                if (input('get.rule') == 1) {
+                    $validate = false;
+                }
+            }
+            $status = $this->model->validate($validate)->save($data, [$pk => $data[$pk]]);
             if ($status === false) {
                 return $this->error($this->model->getError());
             }

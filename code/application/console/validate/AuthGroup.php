@@ -29,9 +29,6 @@ class AuthGroup extends Validate
         'title.unique'  => '角色名称已存在',
     ];
 
-    protected $scene = [
-        'add'  => ['title'],
-        'edit' => [''],
-    ];
+    protected $scene = [''];
 
 }
