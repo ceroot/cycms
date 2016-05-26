@@ -412,7 +412,8 @@ function _init(){
                         $_msg+'成功，页面正在进行页面跳转……',
                         {
                             icon: 1,
-                            time:1000,
+                            time:800,
+                            shift:0,
                         },
                         function(){
                             reloadPage(window);
@@ -478,7 +479,7 @@ function _init(){
                                         //按钮文案、状态修改
                                         btn.prop('disabled',false).removeClass('disabled').text(text.replace('中...', '')).parent().find('span').remove();
                                         if(data.code){
-                                            layer.msg(data.msg,function(){
+                                            layer.msg(data.msg,{time:500,shift:0},function(){
                                                if(data.url){
                                                     window.location.href = data.url;
                                                 } 
@@ -545,7 +546,7 @@ function _init(){
                                     btn.removeClass('disabled').text(text.replace('中...', '')).parent().find('span').remove();
 
                                     if (data.code) {
-                                        layer.msg(data.msg,function(){
+                                        layer.msg(data.msg,{time:500,shift:0},function(){
                                             if(data.url){
                                                 window.location.href = data.url;
                                             } 

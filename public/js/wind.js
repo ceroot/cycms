@@ -696,6 +696,7 @@ Wind.ready(function() {
                 validate      : 'validate.js/1.15.0/jquery.validate',
                 localization  : 'validate.js/1.15.0/localization/messages_zh',
             },
+            echarts           : 'echarts/3.1.10/echarts.min',
             cookie            : 'cookie',
 			treeview          : 'treeview',
             treeTable         : 'treeTable/treeTable',
