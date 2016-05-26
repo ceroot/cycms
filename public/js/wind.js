@@ -691,7 +691,7 @@ Wind.ready(function() {
 
             //jquery util plugs
             ajaxForm          : 'jquery.form/3.51.0/jquery.form',
-            layer             : 'layer/2.2/layer',
+            layer             : 'layer/2.3/layer',
             validate          : {
                 validate      : 'validate.js/1.15.0/jquery.validate',
                 localization  : 'validate.js/1.15.0/localization/messages_zh',
