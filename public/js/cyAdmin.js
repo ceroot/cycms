@@ -63,6 +63,8 @@ function _init(){
         		_this.slimScroll();
         		// console.log(0);
         	});
+            
+            // $('.page-loading').hide();
         },
         main:function(){
             
@@ -97,6 +99,8 @@ function _init(){
                 //     mainWrapper.removeClass('product-sidebar-fold');
                 // }
             }
+
+
         	
         },
 
