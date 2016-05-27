@@ -37,8 +37,16 @@
 							<tr>
 								<td>
 									<label>
-										<input type="checkbox" name="action[]" value="authRule" checked='checked'/>
+										<input type="checkbox" name="action[]" value="rule" checked='checked'/>
 										规则表缓存
+									</label>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>
+										<input type="checkbox" name="action[]" value="other" checked='checked'/>
+										其它项
 									</label>
 								</td>
 							</tr>
@@ -52,8 +60,8 @@
 
 	<div class="">
 		<div class="btn_wrap_pd">
+			<input type="hidden" name="action[]" value="end" checked='checked'>
 			<button class="btn btn_submit mr10 " type="submit">更新缓存</button>
-
 		</div>
 	</div>
 </form>

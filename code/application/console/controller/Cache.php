@@ -43,11 +43,10 @@ class Cache extends Base
                 $action = cache('action');
             }
 
-            cache('actionlength', count($action));
             $current = array_shift($action);
             cache('action', $action);
 
-            if (cache('actionlength') > 1) {
+            if (!empty($action)) {
                 switch ($current) {
                     case 'Config':
                         $msg = '网站配置更新成功...';
@@ -56,14 +55,16 @@ class Cache extends Base
                         $msg = '栏目缓存更新成功...';
                         //D('Category')->update_cache();
                         break;
-                    case 'authRule':
-                        Dir::del(RUNTIME_PATH . 'cache');
-                        //model('authRule')->updateCache();
-                        break;
                     case 'Table':
 
                         $msg = '数据表缓存更新成功...';
-                    default:
+                        break;
+                    case 'rule':
+                        //Dir::del(RUNTIME_PATH . 'cache');
+                        model('authRule')->updateCache();
+                        $msg = '规则表缓存缓存更新成功...';
+                        break;
+                    case 'other':
                         // is_file(RUNTIME_PATH . 'common~runtime.php') &&
                         // unlink(RUNTIME_PATH . 'common~runtime.php');
                         // // 删除目录
@@ -73,6 +74,9 @@ class Cache extends Base
                         //Dir::del(RUNTIME_PATH . 'logs');
                         Dir::del(RUNTIME_PATH . 'temp');
                         $msg = '其它项更新成功';
+                        break;
+                    default:
+
                         # code...
                         break;
                 }
@@ -80,7 +84,6 @@ class Cache extends Base
             } else {
                 $msg = '缓存更新成功...';
                 cache('action', null);
-                cache('actionlength', null);
 
                 // 日志记录
                 action_log(1);
