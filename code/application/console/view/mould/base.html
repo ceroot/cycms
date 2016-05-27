@@ -463,38 +463,18 @@
     if(_storage){
         var _class  = _body.className;
         if(_storage.getItem('sidebarFold')){
-            _class = _class.replace(/sidebar-expanded/g, '');
-            _class = _class + ' sidebar-collapsed';
+            _class = _class.replace(/sidebar-expanded/g, '') + ' sidebar-collapsed';
             _body.className = _class;
         }
     }else{
         var _class  = _body.className;
         if(getCookie('sidebarFold')){
-            _class = _class.replace(/sidebar-expanded/g, '');
-            _class = _class + ' sidebar-collapsed';
+            _class = _class.replace(/sidebar-expanded/g, '') + ' sidebar-collapsed';
             _body.className = _class;
         }
     }
 
 
-    paceOptions = {
-        ajax: false, // disabled
-        document: false, // disabled
-        eventLag: false, // disabled
-        elements: {
-            selectors: ['.page-loading,.timeline-error','.user-profile,.profile-error']
-        }
-    }
-
-function getCookie(name)
-{
-    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
-    if(arr=document.cookie.match(reg)){
-        return unescape(arr[2]);
-    }else{
-        return null;
-    }
-}
 </script>
 <script type="text/javascript" src="__JS__/wind.js"></script>
 <!-- layer -->

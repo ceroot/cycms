@@ -541,17 +541,24 @@ function _init(){
 }
 
 
-// 重新刷新页面，使用location.reload()有可能导致重新提交
-function reloadPage(win) {
+/**
+ * reloadPage       [重新刷新页面，使用location.reload()有可能导致重新提交]
+ */
+function reloadPage(win)
+{
     var location = win.location;
     location.href = location.pathname + location.search;
 }
 
-/* getWindexSize Fun */
-// 取值方法
-// 取得宽：getWindowSize().x;
-// 取得高：getWindowSize().y;
-function getWindowSize() {
+/**
+ * getWindowSize          [getWindexSize Fun]
+ * 取值方法
+ * 取得宽：getWindowSize().x;
+ * 取得高：getWindowSize().y;
+ * @return     int
+ */
+function getWindowSize()
+{
     var client = {x:0,y:0};
     if(typeof document.compatMode != 'undefined' && document.compatMode == 'CSS1Compat') {
         client.x = document.documentElement.clientWidth;
@@ -563,9 +570,12 @@ function getWindowSize() {
     return client;
 }
 
-// 取得 url 参数
-// name：参数变量
-// 返回 string
+/**
+ * getQueryString           [取得 url 参数]
+ *
+ * @param   string  name    参数变量
+ * @return  string 
+ */
 function getQueryString(name)
 {
     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
@@ -573,9 +583,26 @@ function getQueryString(name)
     if(r!=null)return  unescape(r[2]); return null;
 }
 
-// 取得时间函数
-// 返回：int[时间截]
-function genTimestamp(){
+/**
+ * genTimestamp     [取得时间函数]
+ * @return     int  [时间截]
+ */
+function genTimestamp()
+{
     var time = new Date();
     return time.getTime();
+}
+/**
+ * getCookie   [取得Cookie值]
+ * @param      string  name    The name
+ * @return     string  Cookie.
+ */
+function getCookie(name)
+{
+    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+    if(arr=document.cookie.match(reg)){
+        return unescape(arr[2]);
+    }else{
+        return null;
+    }
 }
