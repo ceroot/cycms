@@ -164,8 +164,7 @@ class Base extends Extend
                 }
 
                 if (CONTROLLER_NAME == 'auth_rule') {
-                    $this->model->updateCache(); // 更新缓存
-                    $this->model->updateCacheAuthModel(); // 更新缓存
+                    model('authRule')->updateCache();
                 }
 
                 action_log($status); // 记录日志
@@ -250,8 +249,7 @@ class Base extends Extend
                 }
 
                 if (CONTROLLER_NAME == 'auth_rule') {
-                    $this->model->updateCache(); // 更新缓存
-                    $this->model->updateCacheAuthModel(); // 更新缓存
+                    model('authRule')->updateCache();
                 }
 
                 action_log($data[$pk]); // 记录日志
@@ -293,8 +291,7 @@ class Base extends Extend
             }
 
             if (CONTROLLER_NAME == 'auth_rule') {
-                $this->model->updateCache(); // 更新缓存
-                $this->model->updateCacheAuthModel(); // 更新缓存
+                model('authRule')->updateCache();
             }
             action_log($id); // 记录日志
             return $this->success('成功');
@@ -320,8 +317,7 @@ class Base extends Extend
             action_log($id); // 记录日志
 
             if (CONTROLLER_NAME == 'auth_rule') {
-                $this->model->updateCache(); // 更新缓存
-                $this->model->updateCacheAuthModel(); // 更新缓存
+                model('authRule')->updateCache();
             }
             return $this->success('成功');
         } else {

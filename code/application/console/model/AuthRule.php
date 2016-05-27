@@ -58,7 +58,6 @@ class AuthRule extends Model
         $data = $this->order(['sort' => 'asc', 'id' => 'asc'])->select();
         cache('authrule', $data);
         $this->updateCacheAuthModel();
-
     }
     /**
      * [update_cache_auth_model 更新不需要权限验证的控制器、方法和不需要实例化模型缓存]
@@ -206,6 +205,9 @@ class AuthRule extends Model
                         break;
                     default:
                         $url = url($value['name']);
+                        if ($value['url'] != '0') {
+                            $url = url($value['url']);
+                        }
                 }
                 $value['url'] = $url;
                 $navdata[]    = $value;

@@ -56,18 +56,23 @@ class Cache extends Base
                         $msg = '栏目缓存更新成功...';
                         //D('Category')->update_cache();
                         break;
+                    case 'authRule':
+                        Dir::del(RUNTIME_PATH . 'cache');
+                        //model('authRule')->updateCache();
+                        break;
                     case 'Table':
-                        model("authRule")->updateCache();
+
+                        $msg = '数据表缓存更新成功...';
+                    default:
                         // is_file(RUNTIME_PATH . 'common~runtime.php') &&
                         // unlink(RUNTIME_PATH . 'common~runtime.php');
                         // // 删除目录
                         // Dir::del(RUNTIME_PATH . 'cache');
+                        //Dir::del(RUNTIME_PATH . 'temp');
+                        //Dir::del(RUNTIME_PATH . 'data');
+                        //Dir::del(RUNTIME_PATH . 'logs');
                         Dir::del(RUNTIME_PATH . 'temp');
-                        Dir::del(RUNTIME_PATH . 'data');
-                        Dir::del(RUNTIME_PATH . 'logs');
-
-                        $msg = '数据表缓存更新成功...';
-                    default:
+                        $msg = '其它项更新成功';
                         # code...
                         break;
                 }
