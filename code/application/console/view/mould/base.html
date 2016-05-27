@@ -1,41 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>{block name="title"}{/block}{$title} -- 后台管理</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap -->
-  <link rel="stylesheet" href="__PUBLIC__/bootstrap/4.0.0/css/bootstrap.css">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="__PUBLIC__/font-awesome/4.6.3/css/font-awesome.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="__PUBLIC__/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- animate.css -->
-  <link rel="stylesheet" href="__PUBLIC__/animate.css/3.5.1/animate.css">
-  <!-- layer -->
-  <!-- <link rel="stylesheet" href="__PUBLIC__/layer/2.3/skin/layer.css"> -->
-  <!-- artDialog -->
-  <link rel="stylesheet" href="__PUBLIC__/artDialog/6.0.5/css/ui-dialog.css">
-  <link rel="stylesheet" href="__CSS__/cyAdmin.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="__CSS__/skins/skin-default.css">
-  <link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/orange/pace-theme-flash.css">
-  <!-- //cdn.bootcss.com/pace/1.0.2/themes/orange/pace-theme-minimal.css -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{block name="title"}{/block}{$title} -- 后台管理</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<!-- Bootstrap -->
+<link rel="stylesheet" href="__PUBLIC__/bootstrap/4.0.0/css/bootstrap.css">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="__PUBLIC__/font-awesome/4.6.3/css/font-awesome.min.css">
+<!-- Ionicons -->
+<link rel="stylesheet" href="__PUBLIC__/ionicons/2.0.1/css/ionicons.min.css">
+<!-- animate.css -->
+<link rel="stylesheet" href="__PUBLIC__/animate.css/3.5.1/animate.css">
+<!-- layer -->
+<!-- <link rel="stylesheet" href="__PUBLIC__/layer/2.3/skin/layer.css"> -->
+<!-- artDialog -->
+<link rel="stylesheet" href="__PUBLIC__/artDialog/6.0.5/css/ui-dialog.css">
+<link rel="stylesheet" href="__CSS__/cyAdmin.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="__CSS__/skins/skin-default.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/orange/pace-theme-flash.css">
+<!-- //cdn.bootcss.com/pace/1.0.2/themes/orange/pace-theme-minimal.css -->
 
-  <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
-  <!-- jQuery -->
-  <script src="__PUBLIC__/jQuery/jQuery-2.2.0.min.js"></script>
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+<!-- <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script> -->
+<script src="__PUBLIC__/pace/pace.js"></script>
+
+<!-- jQuery -->
+<script src="__PUBLIC__/jQuery/jQuery-2.2.0.min.js"></script>
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
 </head>
-<body class="skin-default">
-  <div class="wrapper">
+<body class="sidebar-expanded skin-default">
     <header class="main-header">
       <!-- Logo -->
       <a href="#" class="logo">
@@ -450,9 +451,51 @@
 <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
 <div class="control-sidebar-bg"></div>
-</div>
+
 <!-- ./wrapper -->
-<div class="page-loading pace"><span>正在加载……</span></div>
+<!-- <div class="page-loading" id="page-loading">
+    <span>正在加载……</span>
+</div> -->
+<script type="text/javascript">
+    var _storage  = window.localStorage;  // html5 本地存储对象
+    var _body     = document.body; //document.getElementsByTagName('body')[0];
+
+    if(_storage){
+        var _class  = _body.className;
+        if(_storage.getItem('sidebarFold')){
+            _class = _class.replace(/sidebar-expanded/g, '');
+            _class = _class + ' sidebar-collapsed';
+            _body.className = _class;
+        }
+    }else{
+        var _class  = _body.className;
+        if(getCookie('sidebarFold')){
+            _class = _class.replace(/sidebar-expanded/g, '');
+            _class = _class + ' sidebar-collapsed';
+            _body.className = _class;
+        }
+    }
+
+
+    paceOptions = {
+        ajax: false, // disabled
+        document: false, // disabled
+        eventLag: false, // disabled
+        elements: {
+            selectors: ['.page-loading,.timeline-error','.user-profile,.profile-error']
+        }
+    }
+
+function getCookie(name)
+{
+    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+    if(arr=document.cookie.match(reg)){
+        return unescape(arr[2]);
+    }else{
+        return null;
+    }
+}
+</script>
 <script type="text/javascript" src="__JS__/wind.js"></script>
 <!-- layer -->
 <script type="text/javascript" src="__PUBLIC__/layer/2.3/layer.js"></script>

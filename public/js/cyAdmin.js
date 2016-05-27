@@ -68,37 +68,6 @@ function _init(){
         },
         main:function(){
             
-            var _body        = $('body');
-            var mainWrapper  = $('.main-wrapper');
-
-            // 本地存储数据判断[html5/cookie]
-            if(storage){
-                // 侧边栏状态
-                if(storage.getItem('sidebarFold')){
-                    _body.addClass('sidebar-fold');
-                }else{
-                    _body.removeClass('sidebar-fold');
-                }
-
-                // 二级边栏状态
-                // if(storage.getItem('productSidebarFold')){
-                //     _body.addClass('product-sidebar-fold');
-                // }else{
-                //     _body.removeClass('product-sidebar-fold');
-                // }
-            }else{
-                if($.cookie(sidebarFold)){
-                    mainWrapper.addClass('sidebar-fold');
-                }else{
-                    mainWrapper.removeClass('sidebar-fold');
-                }
-
-                // if($.cookie(productSidebarFold)){
-                //     mainWrapper.addClass('product-sidebar-fold');
-                // }else{
-                //     mainWrapper.removeClass('product-sidebar-fold');
-                // }
-            }
 
 
         	
@@ -310,23 +279,23 @@ function _init(){
         },
         fold:function(){
             // 侧边栏折叠
-            if($('body').hasClass('sidebar-fold')){
-                $('body').removeClass('sidebar-fold');
-
-                // 本地存储数据判断[html5/cookie]
-                if(storage){
-                    storage.removeItem('sidebarFold');
-                }else{
-                    $.cookie(sidebarFold, null, { path: '/' });  //删除cookie
-                }
-            }else{
-                $('body').addClass('sidebar-fold');
+            if($('body').hasClass('sidebar-expanded')){
+                $('body').removeClass('sidebar-expanded').addClass('sidebar-collapsed');
 
                 // 本地存储数据判断[html5/cookie]
                 if(storage){
                     storage.setItem('sidebarFold',1);
                 }else{
                     $.cookie(sidebarFold,1, { path: '/', expires: 15 });
+                }
+            }else{
+                $('body').removeClass('sidebar-collapsed').addClass('sidebar-expanded');
+
+                // 本地存储数据判断[html5/cookie]
+                if(storage){
+                    storage.removeItem('sidebarFold');
+                }else{
+                    $.cookie(sidebarFold, null, { path: '/' });  //删除cookie
                 }
             };
         }
