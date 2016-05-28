@@ -205,7 +205,7 @@ class AuthRule extends Model
                         break;
                     default:
                         $url = url($value['name']);
-                        if ($value['url'] != '0') {
+                        if ($value['url'] != null) {
                             $url = url($value['url']);
                         }
                 }
