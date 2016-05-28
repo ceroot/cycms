@@ -696,6 +696,10 @@ Wind.ready(function() {
                 validate      : 'validate.js/1.15.0/jquery.validate',
                 localization  : 'validate.js/1.15.0/localization/messages_zh',
             },
+            ueditor           : {
+                config        : 'ueditor/1.4.3.3/utf8-php/ueditor.config',
+                ueditor       : 'ueditor/1.4.3.3/utf8-php/ueditor.all.min',
+            },
             echarts           : 'echarts/3.1.10/echarts.min',
             cookie            : 'cookie',
 			treeview          : 'treeview',

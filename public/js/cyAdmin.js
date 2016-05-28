@@ -406,6 +406,8 @@ function _init(){
                 }
                 Wind.use(args, function () {
                     var btn = ajaxForm.find('button');
+                    // window.UEDITOR_HOME_URL = "/statics/";
+                    // var ue  = UE.getEditor('content');
                     console.log(30);
                     if(validateStatus==true){
                         console.log(40);
