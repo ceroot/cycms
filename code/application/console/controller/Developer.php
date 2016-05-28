@@ -59,8 +59,10 @@ class Developer extends Base
                 }
 
                 foreach ($imgSql as $value) {
-                    if (file_exists('.' . $value)) {
-                        unlink('.' . $value);
+                    $arr  = parse_url($value);
+                    $path = $arr['path'];
+                    if (file_exists('.' . $path)) {
+                        unlink('.' . $path);
                     }
                 }
             }
@@ -85,6 +87,10 @@ class Developer extends Base
 
     public function dddd()
     {
+        $url = 'http://127.0.0.1:89/data/images/dd.jpg';
+        $ddd = parse_url($url);
+        dump($ddd);
+        die;
 
         $a1 = ['a', 'b', 'c', 'd'];
         $a2 = ['b', 'e', 'f', 'g'];
