@@ -292,14 +292,14 @@ body.skin-default{
 
 .content-area{ padding-bottom: 46px; }
 .fixed-bottom,
-.pager-wrapper{ position: fixed; bottom: 0; margin-left:-16px; margin-right:0; width:100%; background:#FFF;border-top:1px solid #ccc; padding: 5px; padding-left: 16px; }
+.pager-wrapper{ position: fixed; z-index: 10000; bottom: 0; margin-left:-16px; margin-right:0; width:100%; background:#FFF;border-top:1px solid #ccc; padding: 5px; padding-left: 16px; }
 .pager-wrapper .pager{margin: 0; padding: 0; text-align: left;}
 .pager-wrapper .pager ul.pagination{ padding: 0; margin: 0 }
 
 
 /*表单*/
 form.cy-form{}
-form.cy-form .form-inline span{width: 80px; display: inline-block; text-align: right; }
+form.cy-form .form-inline span:first-child{width: 80px; display: inline-block; text-align: right; }
 form.cy-form .form-inline label{}
 form.cy-form .form-inline textarea{width:60%;}
 form.cy-form input,

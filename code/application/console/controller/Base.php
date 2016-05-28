@@ -152,7 +152,8 @@ class Base extends Extend
     public function add()
     {
         if (IS_AJAX) {
-            $data   = input('post.');
+            $data = input('post.');
+            // return $data;
             $status = $this->model->validate(true)->save($data);
             if ($status === false) {
                 return $this->error($this->model->getError());
@@ -164,7 +165,7 @@ class Base extends Extend
                 }
 
                 if (CONTROLLER_NAME == 'auth_rule') {
-                    model('authRule')->updateCache();
+                    $this->model->updateCache();
                 }
 
                 action_log($status); // 记录日志
@@ -205,6 +206,7 @@ class Base extends Extend
      */
     public function edit()
     {
+
         $pk = $this->model->getPk();
         if (IS_AJAX) {
             $data = input('post.');
@@ -249,7 +251,7 @@ class Base extends Extend
                 }
 
                 if (CONTROLLER_NAME == 'auth_rule') {
-                    model('authRule')->updateCache();
+                    $this->model->updateCache();
                 }
 
                 action_log($data[$pk]); // 记录日志
@@ -277,8 +279,11 @@ class Base extends Extend
      */
     public function del()
     {
-        $pk     = $this->model->getPk();
-        $id     = input('get.' . $pk);
+        $pk  = $this->model->getPk();
+        $id  = input('get.' . $pk);
+        $ddd = session('del');
+        return $ddd;
+        die;
         $status = db(CONTROLLER_NAME)->delete($id);
 
         if ($status) {
@@ -291,7 +296,7 @@ class Base extends Extend
             }
 
             if (CONTROLLER_NAME == 'auth_rule') {
-                model('authRule')->updateCache();
+                $this->model->updateCache();
             }
             action_log($id); // 记录日志
             return $this->success('成功');
@@ -314,11 +319,11 @@ class Base extends Extend
         $data['status'] = $value ? 0 : 1;
         $status         = $this->model->save($data, [$pk => $id]);
         if ($status) {
+            if (CONTROLLER_NAME == 'auth_rule') {
+                $this->model->updateCache();
+            }
             action_log($id); // 记录日志
 
-            if (CONTROLLER_NAME == 'auth_rule') {
-                model('authRule')->updateCache();
-            }
             return $this->success('成功');
         } else {
             // return $this->error('失败');

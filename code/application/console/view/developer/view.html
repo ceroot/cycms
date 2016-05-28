@@ -1,0 +1,7 @@
+{extend name="mould:base" /}
+{block name="title"}{$one.title}{/block}
+{block name="content"}
+	<h5 class="text-center">{$one.title}</h5>
+	<div><spa>发布人：{$one.create_uid|get_nickname}</spa>&nbsp&nbsp&nbsp&nbsp发布时间：{$one.create_time|time_format}</div>
+	<p>{$one.content}</p>
+{/block}
