@@ -94,4 +94,16 @@ class Index extends Base
         return $mysqlinfo;
     }
 
+    public function collapsed()
+    {
+        $collapsed = input('post.collapsed');
+        if ($collapsed == 1 || $collapsed == 0) {
+            if ($collapsed == '1') {
+                session('collapsed', $collapsed);
+            } else {
+                session('collapsed', null);
+            }
+        }
+    }
+
 }
