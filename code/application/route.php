@@ -22,7 +22,7 @@ return [
     // 'new/:id'  => 'News/read',
     // 'blog/:id' => ['Blog/update', ['method' => 'post|put'], ['id' => '\d+']],
     // 'hello/:name'   => 'index/hello',
-    'hello/[:name]'     => 'index/hello',
+    //'hello/[:name]'     => 'index/hello',
     'news/[:id]'        => 'news/read',
     'con/[:time]'       => ['console/index/index', ['method' => 'get'], ['time' => '\d+']],
     'conlogin/[:time]'  => ['console/login/index', ['time' => '\d+']],
