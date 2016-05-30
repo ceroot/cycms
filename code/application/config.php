@@ -15,7 +15,7 @@ return [
     'log'              => [
         'type' => 'trace', // 支持 socket trace file
     ],
-    'cms_version'      => '0.8[20160528]',
+    'cms_version'      => '0.8.1[20160530]',
     // 显示调试信息
     'response_exit'    => true,
 

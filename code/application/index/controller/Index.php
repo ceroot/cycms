@@ -7,9 +7,8 @@ class Index extends Controller
 {
     public function index()
     {
-        $url = model('index')->geturl();
-        dump($url);
-        return $this->fetch();
+
+        return 'index';
     }
 
     public function hello()

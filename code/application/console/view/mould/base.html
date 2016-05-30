@@ -182,9 +182,13 @@
                             控制台
                         </a>
                     </li>
-                    {volist name="bread" id="bread"}
-                        <li {if condition="$bread.active"}class="active"{/if}>
-                            <a href="{$bread.url}" title="{$bread.title}">{$bread.title}</a>
+                    {volist name="bread" id="breads"}
+                        <li {if condition="$breads.active"}class="active"{/if}>
+                            {if condition="$i eq count($bread)"}
+                                {$breads.title}
+                            {else /}
+                                <a href="{$breads.url}" title="{$breads.title}">{$breads.title}</a>
+                            {/if}
                         </li>
                     {/volist}
                     <!-- <li class="active">Dashboard</li> -->
