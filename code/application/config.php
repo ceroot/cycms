@@ -41,7 +41,7 @@ return [
     ],
 
     // 去掉url方法里的index.php
-    'base_url'         => '',
+    // 'base_url'         => '',
 
     //默认错误跳转对应的模板文件
     //'dispatch_error_tmpl'   => APP_PATH . 'notice/error.html',
@@ -61,5 +61,10 @@ return [
         'path'      => '',
         'list_rows' => 15,
     ],
+
+    // 关闭控制器名的自动转换
+    //'url_controller_convert' => false,
+    // 关闭操作名的自动转换
+    //'url_action_convert'     => false,
 
 ];
