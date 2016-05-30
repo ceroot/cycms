@@ -2,73 +2,59 @@
 {block name="title"}{/block}
 {block name="content"}
 <form action="{:url('cache')}" method="post" >
-    <div class="table_full">
-		<div class="h_a">更新缓存</div>
-		<table width='100%'  class="table_form">
-			<tr>
-				<th width="200" style='vertical-align:middle'>选择更新</th>
-				<td>
-					<table>
-						<tbody>
-							<tr>
-								<td>
-									<label>
-										<input type="checkbox" name="action[]" value="Config" checked='checked'/>
-										网站配置
-									</label>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label>
-										<input type="checkbox" name="action[]" value="Category" checked='checked'/>
-										栏目缓存
-									</label>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label>
-										<input type="checkbox" name="action[]" value="Table" checked='checked'/>
-										数据表缓存
-									</label>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label>
-										<input type="checkbox" name="action[]" value="rule" checked='checked'/>
-										规则表缓存
-									</label>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label>
-										<input type="checkbox" name="action[]" value="other" checked='checked'/>
-										其它项
-									</label>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</td>
-			</tr>
-		</table>
-	    <div class="showstatus"></div>
-    </div>
-
-	<div class="">
-		<div class="btn_wrap_pd">
-			<input type="hidden" name="action[]" value="end" checked='checked'>
-			<button class="btn btn_submit mr10 " type="submit">更新缓存</button>
+	<div class="row">
+		<div class="col-xs-2 col-md-2 text-xs-right">选择更新</div>
+		<div class="col-xs-10 col-md-10">
+			<div class="form-group form-inline">
+		        <label>
+					<input type="checkbox" name="action[]" value="Config" checked='checked'/>
+												网站配置
+				</label>
+		    </div>
+		    <div class="form-group form-inline">
+		        <label>
+					<input type="checkbox" name="action[]" value="Category" checked='checked'/>
+					栏目缓存
+				</label>
+		    </div>
+		    <div class="form-group form-inline">
+		        <label>
+					<input type="checkbox" name="action[]" value="Table" checked='checked'/>
+					数据表缓存
+				</label>
+		    </div>
+		    <div class="form-group form-inline">
+		        <label>
+					<input type="checkbox" name="action[]" value="rule" checked='checked'/>
+					规则表缓存
+				</label>
+		    </div>
+		    <div class="form-group form-inline">
+		        <label>
+					<input type="checkbox" name="action[]" value="other" checked='checked'/>
+					其它项
+				</label>
+		    </div>
+		    <div class="showstatus"></div>
 		</div>
 	</div>
+	<div class="fixed-bottom">
+		<input type="hidden" name="action[]" value="end" checked='checked'>
+		<button class="btn btn-sm btn-danger" type="submit">更新缓存</button>
+	</div>
 </form>
+{/block}
+{block name="script"}
 <script type="text/javascript">
 
 $(function(){
-	$('button.btn_submit').on('click',function(e){
+	// $('input').iCheck({
+ //        checkboxClass: 'icheckbox_square-blue',
+ //        radioClass: 'iradio_square-blue',
+ //        increaseArea: '20%' // optional
+ //    });
+
+	$('form button').on('click',function(e){
 		// alert(1);
 		e.preventDefault();
 		var _self  = $(this);

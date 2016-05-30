@@ -78,8 +78,10 @@ class Developer extends Base
         $pattern = '<img.*?src="(.*?)">';
         preg_match_all($pattern, $content, $matches);
         foreach ($matches[1] as $value) {
-            if (file_exists('.' . $value)) {
-                unlink('.' . $value);
+            $arr  = parse_url($value);
+            $path = $arr['path'];
+            if (file_exists('.' . $path)) {
+                unlink('.' . $path);
             }
         }
 

@@ -308,7 +308,7 @@ a:visited {
 
 /*product sidebar*/
 .product-sidebar {
-	position: absolute;
+	position: fixed;
 	width: 170px;
 	z-index: 900;
 	-webkit-transition: -webkit-transform 0.3s ease-in-out, width 0.3s ease-in-out;
@@ -436,21 +436,24 @@ a:visited {
 }
 
 .content-main .content-header{
-	position: relative;
+	position: fixed;
+	background: #eceeef;
+	z-index: 911;
+	width: 100%;
 }
 .content-main .content-header h1{
 	font-size: 16px;
 	margin: 0;
 	padding: 0;
 	padding-left: 10px;
-	line-height: 44px;
+	line-height: 38px;
 }
 .content-main .content-header .breadcrumb{
 	font-size: 12px;
     padding: 10px 5px;
     padding-right: 40px;
-    position: absolute;
-    top: 0;
+    position: fixed;
+    /*top: 0;*/
     right: 0;
 }
 

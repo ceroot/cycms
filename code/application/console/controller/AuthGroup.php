@@ -31,6 +31,16 @@ class AuthGroup extends Base
 
     }
 
+    protected $beforeActionList = [
+        'edit_before' => ['only' => 'edit'],
+        'del_before'  => ['only' => 'del'],
+    ];
+
+    protected function edit_before()
+    {
+
+    }
+
     function list() {
         $pageLimit = input('get.limit');
         $pageLimit = isset($pageLimit) ? $pageLimit : 5; // 每页显示数目

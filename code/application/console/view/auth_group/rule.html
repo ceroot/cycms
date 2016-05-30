@@ -41,6 +41,9 @@ h5{ font-family: "微软雅黑"; margin-top: 20px;}
 	    <button class="btn btn-sm btn-default">保存</button>
 	</div>
 </form>
+
+{/block}
+{block name="script"}
 <script type="application/javascript">
 $(function(){
 	$('body').on('click','input[type=checkbox]',function(){
@@ -48,7 +51,7 @@ $(function(){
 		var _value  = _self.val();
 		var _pid    = _self.attr('pid');
 		var _class  = _self.attr('class');
-	
+	alert(1);
 		if(_self.is(':checked')){
 			$('[pid='+_value+']').prop('checked',true);
 			$('.'+_value).prop('checked',true);

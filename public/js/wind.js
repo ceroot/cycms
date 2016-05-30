@@ -701,6 +701,9 @@ Wind.ready(function() {
                 ueditor       : 'ueditor/1.4.3.3/utf8-php/ueditor.all.min',
             },
             echarts           : 'echarts/3.1.10/echarts.min',
+            iCheck            : 'iCheck/icheck.min',
+
+
             cookie            : 'cookie',
 			treeview          : 'treeview',
             treeTable         : 'treeTable/treeTable',
@@ -715,13 +718,15 @@ Wind.ready(function() {
 		},
         //CSS路径
 		alias_css = {
+            iCheck      : 'iCheck/square/blue',
             colorPicker : 'colorPicker/style',
             artDialog   : 'artDialog/skins/default',
 			datePicker	: 'datePicker/style',
-            treeTable    : 'treeTable/treeTable',
-			zTree    : 'zTree/zTreeStyle/zTreeStyle'
+            treeTable   : 'treeTable/treeTable',
+			zTree       : 'zTree/zTreeStyle/zTreeStyle'
 		};
 		
+    // js
 	// add suffix and version
     // 增加子对象的支持[20160525杨春]
     var newalias = {};
@@ -742,17 +747,23 @@ Wind.ready(function() {
 		}
 	}
 
+    // css
 	for(var i in alias_css) {
 		if (alias_css.hasOwnProperty(i)) {
 			alias_css[i] = root + alias_css[i] +'.css?v=' + ver;
 		}
+        // console.log(alias_css[i]);
 	}
 
 	//css loader
 	win.Wind = win.Wind || {};
     //!TODO old webkit and old firefox does not support
 	Wind.css = function(newalias/*newalias or path*/,callback) {
-		var url = alias_css[newalias] ? alias_css[newalias] : newalias
+		var url = alias_css[newalias];// ? alias_css[newalias] : newalias
+        // console.log(url);
+        if(!url){
+            return false;
+        }
 		var link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = url;
@@ -781,6 +792,8 @@ Wind.ready(function() {
             }
         }
 
+        // console.log(newargs);
+
         // 与别名列表对比取出需要的文件
         // 处理别名列表和子对象的操作
         // 把函数增加到最后面
@@ -792,10 +805,12 @@ Wind.ready(function() {
                     for(var n in obj){
                         if(obj.hasOwnProperty(n)){
                             useargs.push(obj[n]);
+                            Wind.css(obj[n]);
                         }
                     }
                 }else{
                     useargs.push(newalias[newargs[i]]);
+                    Wind.css(newargs[i]);
                 }  // newargs[i] = newalias[newargs[i]];
             }
             if(typeof newargs[i] == 'function'){

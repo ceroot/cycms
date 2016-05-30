@@ -299,9 +299,9 @@ body.skin-default{
 
 /*表单*/
 form.cy-form{}
-form.cy-form .form-inline span:first-child{width: 80px; display: inline-block; text-align: right; }
+form.cy-form span.title{display: inline-block; text-align: right; }
 form.cy-form .form-inline label{}
-form.cy-form .form-inline textarea{width:60%;}
+form.cy-form .form-inline textarea{ min-width: 60%; }
 form.cy-form input,
 form.cy-form textarea,
 form.cy-form select{ font-size: 12px;}

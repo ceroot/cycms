@@ -279,11 +279,8 @@ class Base extends Extend
      */
     public function del()
     {
-        $pk  = $this->model->getPk();
-        $id  = input('get.' . $pk);
-        $ddd = session('del');
-        return $ddd;
-        die;
+        $pk     = $this->model->getPk();
+        $id     = input('get.' . $pk);
         $status = db(CONTROLLER_NAME)->delete($id);
 
         if ($status) {

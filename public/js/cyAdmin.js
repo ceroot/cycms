@@ -66,7 +66,17 @@ function _init(){
             
         },
         main:function(){
-
+            // iCheck
+            var checkbox = $('body').find('input[type="checkbox"]');
+            if(checkbox.length>0){
+                Wind.use('iCheck',function(){
+                    checkbox.iCheck({
+                    checkboxClass: 'icheckbox_square-blue',
+                    radioClass: 'iradio_square-blue',
+                    increaseArea: '20%' // optional
+                });
+                });
+            }
         	
         },
 
@@ -98,7 +108,7 @@ function _init(){
             }
 
             // 主体滚动函数
-            _this.contentMainScroll();
+            // _this.contentMainScroll();
         },
 
         // 主体滚动
