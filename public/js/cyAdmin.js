@@ -196,18 +196,19 @@ function _init(){
         init:function(){
             var _this  = this;
 
-            // 侧边栏折叠
-            $('body').on('click', '.main-sidebar-toggle', function(event) {
-                event.preventDefault();
-                _this.fold();
-            });
-
             _this.main();
             _this.click();
             _this.hover();
 
         },
         main:function(){
+            var _this  = this;
+            // 侧边栏折叠
+            $('body').on('click', '.main-sidebar-toggle', function(event) {
+                event.preventDefault();
+                _this.fold();
+            });
+
             $('body').on('mouseenter', '.sidebar-tooltip', function(event) {
                 event.preventDefault();
                 /* Act on the event */
@@ -288,6 +289,7 @@ function _init(){
             // 侧边栏折叠
             if($('body').hasClass('sidebar-expanded')){
                 $('body').removeClass('sidebar-expanded').addClass('sidebar-collapsed');
+                $.post('/console/index/collapsed',{collapsed:1});
 
                 // 本地存储数据判断[html5/cookie]
                 if(storage){
@@ -297,7 +299,7 @@ function _init(){
                 }
             }else{
                 $('body').removeClass('sidebar-collapsed').addClass('sidebar-expanded');
-
+                $.post('/console/index/collapsed',{collapsed:0});
                 // 本地存储数据判断[html5/cookie]
                 if(storage){
                     storage.removeItem('sidebarFold');
