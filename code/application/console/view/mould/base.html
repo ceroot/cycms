@@ -32,7 +32,7 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body class="sidebar-expanded skin-default">
+<body class="{neq name="Think.session.collapsed" value="1"}sidebar-expanded{else/}sidebar-collapsed{/neq} skin-default">
     <header class="main-header">
         <!-- Logo -->
         <a href="#" class="logo">
@@ -203,22 +203,22 @@
     <span>正在加载……</span>
 </div> -->
 <script type="text/javascript">
-var _storage  = window.localStorage;  // html5 本地存储对象
-var _body     = document.body; //document.getElementsByTagName('body')[0];
+// var _storage  = window.localStorage;  // html5 本地存储对象
+// var _body     = document.body; //document.getElementsByTagName('body')[0];
 
-if(_storage){
-    var _class  = _body.className;
-    if(_storage.getItem('sidebarFold')){
-        _class = _class.replace(/sidebar-expanded/g, '') + ' sidebar-collapsed';
-        _body.className = _class;
-    }
-}else{
-    var _class  = _body.className;
-    if(getCookie('sidebarFold')){
-        _class = _class.replace(/sidebar-expanded/g, '') + ' sidebar-collapsed';
-        _body.className = _class;
-    }
-}
+// if(_storage){
+//     var _class  = _body.className;
+//     if(_storage.getItem('sidebarFold')){
+//         _class = _class.replace(/sidebar-expanded/g, '') + ' sidebar-collapsed';
+//         _body.className = _class;
+//     }
+// }else{
+//     var _class  = _body.className;
+//     if(getCookie('sidebarFold')){
+//         _class = _class.replace(/sidebar-expanded/g, '') + ' sidebar-collapsed';
+//         _body.className = _class;
+//     }
+// }
 </script>
 <script type="text/javascript" src="__JS__/wind.js"></script>
 <!-- layer -->
