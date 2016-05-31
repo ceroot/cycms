@@ -223,6 +223,10 @@
 //         _body.className = _class;
 //     }
 // }
+if(document.documentElement.clientWidth<1366 || document.body.clientWidth<1366){
+    document.body.className = document.body.className.replace(/sidebar-expanded/g, '') + ' sidebar-collapsed';;
+}
+
 </script>
 <script type="text/javascript" src="__JS__/wind.js"></script>
 <!-- layer -->

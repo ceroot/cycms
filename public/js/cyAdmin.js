@@ -209,6 +209,14 @@ function _init(){
                 _this.fold();
             });
 
+            // 屏幕大小判断
+            if(getWindowSize().x<1366){
+                $.post('/console/index/collapsed',{collapsed:1});
+                if($('body').hasClass('sidebar-expanded')){
+                    $('body').removeClass('sidebar-expanded').addClass('sidebar-collapsed');
+                }
+            }
+
             $('body').on('mouseenter', '.sidebar-tooltip', function(event) {
                 event.preventDefault();
                 /* Act on the event */
