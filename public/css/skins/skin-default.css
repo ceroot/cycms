@@ -292,9 +292,38 @@ body.skin-default{
 
 .content-area{ padding-bottom: 46px; }
 .fixed-bottom,
-.pager-wrapper{ position: fixed; z-index: 10000; bottom: 0; margin-left:-16px; margin-right:0; width:100%; background:#FFF;border-top:1px solid #ccc; padding: 5px; padding-left: 16px; }
+.pager-wrapper{ position: fixed; z-index: 899; bottom: 0; left: 0; margin-left:0; margin-right:0; width:100%; background:#FFF;border-top:1px solid #ccc; padding: 5px; padding-left: 16px; }
 .pager-wrapper .pager{margin: 0; padding: 0; text-align: left;}
 .pager-wrapper .pager ul.pagination{ padding: 0; margin: 0 }
+
+.bottom-area{
+	-webkit-transition: -webkit-transform 0.3s ease-in-out, padding 0.3s ease-in-out, left 0.3s ease-in-out;
+	-moz-transition: -moz-transform 0.3s ease-in-out, padding 0.3s ease-in-out, left 0.3s ease-in-out;
+	-o-transition: -o-transform 0.3s ease-in-out, padding 0.3s ease-in-out, left 0.3s ease-in-out;
+	transition: transform 0.3s ease-in-out, padding 0.3s ease-in-out, left 0.3s ease-in-out;
+}
+
+.sidebar-expanded .fixed-bottom .bottom-area{
+	padding-left: 170px;
+}
+
+.sidebar-collapsed .fixed-bottom .bottom-area{
+	padding-left: 220px;
+}
+
+.sidebar-collapsed .product-sidebar-fold .fixed-bottom .bottom-area{
+	padding-left: 50px;
+}
+
+.sidebar-expanded .fixed-bottom .bottom-area{
+	padding-left: 350px;
+}
+
+.sidebar-expanded .product-sidebar-fold .fixed-bottom .bottom-area{
+	padding-left: 170px;
+}
+
+
 
 
 /*表单*/

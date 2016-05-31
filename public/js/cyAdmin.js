@@ -62,6 +62,7 @@ function _init(){
         		/* Act on the event */
         		_this.slimScroll();
         		// console.log(0);
+                
         	});
             
         },
