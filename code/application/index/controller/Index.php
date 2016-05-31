@@ -7,7 +7,7 @@ class Index extends Controller
 {
     public function index()
     {
-
+        dump(ROOT_PATH);
         return 'index';
     }
 

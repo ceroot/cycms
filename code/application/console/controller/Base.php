@@ -71,7 +71,7 @@ class Base extends Extend
             $authName = toCamel($controller) . '/' . ACTION_NAME;
             // 执行验证
             if (!authCheck($authName, UID)) {
-                return $this->error('您没有相关权限');
+                return $this->error('您没有相关权限，请联系管理员', url('index/index'));
             }
         }
 

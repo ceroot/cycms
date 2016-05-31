@@ -1,0 +1,104 @@
+@charset "UTF-8";
+/**
+ * 
+ * @authors SpringYang (ceroot@163.com)
+ * @date    2016-05-31 11:49:40
+ * @version $Id$
+ */
+
+*{ padding: 0; margin: 0; }
+body{
+    background: #f3f3f3;
+    font-family: "Microsoft Yahei","Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #333;
+    font-size: 14px;
+}
+.system-message{
+    padding: 24px 48px;
+    width: 500px;
+    border:1px solid #d4d4d4;
+    background:#fff;
+    -webkit-box-shadow: #ccc 0 1px 5px;
+    -moz-box-shadow: #ccc 0 1px 5px;
+    -o-box-shadow:#ccc 0 1px 5px;
+    box-shadow: #ccc 0 1px 5px;
+    filter: progid: DXImageTransform.Microsoft.Shadow(Strength=3, Direction=180, Color='#ccc');
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -250px;
+    margin-top: -150px;
+}
+.system-message h2{
+    font:bold 14px/40px Arial;
+    height:40px;
+    padding:0 20px;
+    color:#666;
+    background:#f9f9f9;
+    background-repeat: no-repeat;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), color-stop(25%, #ffffff), to(#f4f4f4));
+    background-image: -webkit-linear-gradient(#ffffff, #ffffff 25%, #f4f4f4);
+    background-image: -moz-linear-gradient(top, #ffffff, #ffffff 25%, #f4f4f4);
+    background-image: -ms-linear-gradient(#ffffff, #ffffff 25%, #f4f4f4);
+    background-image: -o-linear-gradient(#ffffff, #ffffff 25%, #f4f4f4);
+    background-image: linear-gradient(#ffffff, #ffffff 25%, #f4f4f4);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f4f4f4', GradientType=0);
+    border-bottom:1px solid #dfdfdf;
+}
+.system-message .jump{
+    padding:10px 0 0 0;
+}
+.system-message .jump a{
+    color: #333;
+    margin-top: 10px;
+}
+.system-message .detail{
+    font-size: 12px;
+    line-height: 20px;
+    margin-top: 12px;
+    display: none;
+}
+.content-area{
+    padding:20px 20px 30px 80px;
+    line-height:1.8;
+}
+
+.btn {
+  color: #333;
+  background:#e6e6e6;
+  border: 1px solid #c4c4c4;
+  border-radius: 2px;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  padding:4px 10px;
+  display: inline-block;
+  cursor: pointer;
+  font-size:100%;
+  line-height: normal;
+  text-decoration:none;
+  overflow:visible;
+  vertical-align: middle;
+  text-align:center;
+  zoom: 1;
+  white-space:nowrap;
+  font-family:inherit;
+  _position:relative;
+  margin:0;
+}
+
+.btn:hover {
+  background-position: 0 -40px;
+  color: #333;
+  text-decoration: none;
+}
+
+.btn:active {
+  background-position:0 -81px;
+}
+
+.success{}
+.success h2{}
+.success .content-area{background:url(../images/tips/success.gif) 20px center no-repeat;}
+
+.error{}
+.error h2{}
+.error .content-area{background:url(../images/tips/light.png) 20px center no-repeat;}
