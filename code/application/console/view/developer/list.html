@@ -24,7 +24,7 @@
 	        <tr>
 	        	<td>{$list.id}</td>
 				<td>{$list.title}</td>
-				<td>{$list.content|substr=0,120}</td>
+				<td>{$list.content|mb_substr=0,60}</td>
 				<td>{$list.create_time|time_format}</td>
 				<td>{$list.create_uid|get_nickname}</td>
 				<td align='center' >
