@@ -1,0 +1,12 @@
+@charset "UTF-8";
+/**
+ * 
+ * @authors Your Name (you@example.org)
+ * @date    2016-06-01 00:30:46
+ * @version $Id$
+ */
+.nav{ background: #ccc; line-height: 36px;}
+.nav ul{ margin: 0;}
+.nav ul > li{}
+.nav ul > li > a{ color: #001F3F; display: block; padding: 0 10px;}
+.nav ul > li > a:hover{ background:#005983; color: #FFF; text-decoration: none;}
