@@ -169,44 +169,44 @@
         <!-- /.product-sidebar -->
         <!-- Content Header (Page header) -->
         <div class="content-wrapper">
-        <div class="full-control">
-            <a href="javascript:void(0)" title="全屏">
-                <i class="fa fa-arrows-alt"></i>
-            </a>
-        </div>
-        <div class="content-main">
-            <section class="content-header">
-                <ol class="breadcrumb">
-                    <li>
-                        <a href="{:url('index/index')}">
-                            <i class="fa fa-dashboard"></i>
-                            控制台
-                        </a>
-                    </li>
-                    {volist name="bread" id="breads"}
-                        <li {if condition="$breads.active"}class="active"{/if}>
-                            {if condition="$i eq count($bread)"}
-                                {$breads.title}
-                            {else /}
-                                <a href="{$breads.url}" title="{$breads.title}">{$breads.title}</a>
-                            {/if}
+            <div class="full-control" style="display:none">
+                <a href="javascript:void(0)" title="全屏">
+                    <i class="fa fa-arrows-alt"></i>
+                </a>
+            </div>
+            <div class="content-main">
+                <section class="content-header">
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="{:url('index/index')}">
+                                <i class="fa fa-dashboard"></i>
+                                控制台
+                            </a>
                         </li>
-                    {/volist}
-                    <!-- <li class="active">Dashboard</li> -->
-                </ol>
-                <h1> <strong>{$title}</strong></h1>
-            </section>
-            <!-- Main content -->
-            <section class="content-area" style="padding-left: 16px; padding-top: 44px; margin-right:16px;">{block name="content"}内容区{/block}</section>
+                        {volist name="bread" id="breads"}
+                            <li {if condition="$breads.active"}class="active"{/if}>
+                                {if condition="$i eq count($bread)"}
+                                    {$breads.title}
+                                {else /}
+                                    <a href="{$breads.url}" title="{$breads.title}">{$breads.title}</a>
+                                {/if}
+                            </li>
+                        {/volist}
+                        <!-- <li class="active">Dashboard</li> -->
+                    </ol>
+                    <h1> <strong>{$title}</strong></h1>
+                </section>
+                <!-- Main content -->
+                <section class="content-area" style="padding-left: 16px; padding-top: 44px; margin-right:16px;">{block name="content"}内容区{/block}</section>
+            </div>
         </div>
+      <!-- /.content -->
     </div>
-  <!-- /.content -->
-</div>
-<!-- /.content-wrapper -->
-<!-- ./wrapper -->
-<!-- <div class="page-loading" id="page-loading">
-    <span>正在加载……</span>
-</div> -->
+    <!-- /.content-wrapper -->
+    <!-- ./wrapper -->
+    <!-- <div class="page-loading" id="page-loading">
+        <span>正在加载……</span>
+    </div> -->
 <script type="text/javascript">
 // var _storage  = window.localStorage;  // html5 本地存储对象
 // var _body     = document.body; //document.getElementsByTagName('body')[0];

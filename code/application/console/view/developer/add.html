@@ -42,14 +42,18 @@ var userValidate = {
 var ue = UE.getEditor('content',{
     // pasteplain : true,
     // fontsize   : [14]
-    zIndex:800
+    zIndex:898,
+    topOffset:48,
+    maximumWords:20000
 });
 
 UE.getEditor('content').addListener('beforefullscreenchange',function(event,isFullScreen){
     if(isFullScreen){
-        alert('全屏');
+        // alert('全屏');
+        $('body').find('.edui-editor').css({'top':0});
     }else{
-        alert('默认');
+        // alert('默认');
+        $('body').find('.edui-editor').css({'top':48+'px'});
     }
 })
 

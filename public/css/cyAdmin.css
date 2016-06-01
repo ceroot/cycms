@@ -438,7 +438,7 @@ a:visited {
 .content-main .content-header{
 	position: fixed;
 	background: #eceeef;
-	z-index: 911;
+	z-index: 897;
 	width: 100%;
 }
 .content-main .content-header h1{
