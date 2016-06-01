@@ -2,27 +2,32 @@
 {block name="title"}首页{/block}
 {block name="content"}
 <div class="container-fluid">
-	<div class="carousel" data-role="carousel">
-        <div class="slides">
-            <div class="slide image" id="slide1">
-                <img />
-                <div class="description">
-                    Description text here...
+    <div class="row">
+    	<div id="myCarousel" class="carousel slide dot-index-slide" data-auto="true" data-interval="2000" data-role="carousel" data-ride="carousel">
+            <!-- 轮播（Carousel）指标 -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>   
+            <!-- 轮播（Carousel）项目 -->
+            <div class="carousel-inner">
+                <div class="item active">
+                    <img src="/data/examples/101.jpg" alt="First slide">
+                </div>
+                <div class="item">
+                    <img src="/data/examples/102.jpg" alt="Second slide">
+                </div>
+                <div class="item">
+                    <img src="/data/examples/103.jpg" alt="Third slide">
                 </div>
             </div>
- 
-            <div class="slide mixed" id="slide2">
-                <img />
-                <div class="description">
-                    Description text here...
-                </div>
-            </div>
-            ...
-        </div>
- 
-        <span class="control left">‹</span>
-        <span class="control right">›</span>
- 
+            <!-- 轮播（Carousel）导航 -->
+            <a class="carousel-control left" href="#myCarousel" 
+                data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right" href="#myCarousel" 
+                data-slide="next">&rsaquo;</a>
+        </div> 
     </div>
 </div>
 <div class="container">

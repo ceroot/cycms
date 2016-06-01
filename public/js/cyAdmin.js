@@ -336,7 +336,7 @@ function _init(){
                 $('body').addClass('full-wrapper');
             };
             // 主体滚动函数
-            $.Cy.layout.contentMainScroll();
+            //$.Cy.layout.contentMainScroll();
         }
     };
 
