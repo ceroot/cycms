@@ -30,6 +30,12 @@ class Base extends Extend
     {
         // 定义UID
         define('UID', session('userid'));
+        define('CONTROLLER_NAME', request()->controller());
+        define('ACTION_NAME', request()->action());
+
+        // request()->module();//取得模块名称
+        // request()->controller()//;取得控制器名称
+        // request()->action();//取得方法名称
 
         if (!UID) {
             $redirecturl = url('console/login/index') . '?backurl=' . getbackurl();
