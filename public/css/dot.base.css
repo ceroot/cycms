@@ -162,7 +162,7 @@ body{ font-size: 12px; }
 
 h4{ font-family: "微软雅黑";}
 
-.container{ width: 1180px;}
+.container{}
 
 .header{ height: 100px;}
 
@@ -188,3 +188,4 @@ h4{ font-family: "微软雅黑";}
 
 .dot-footer{ border-bottom: 2px solid #D26;}
 .dot-footer .container{ border-top: 2px solid #ddd;}
+

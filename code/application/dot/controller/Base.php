@@ -23,7 +23,8 @@ class Base extends Extend
 {
     public function _initialize()
     {
-
+        $category = db('dotCategory')->select();
+        $this->assign('category', $category);
     }
 
     public function index()
