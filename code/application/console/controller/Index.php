@@ -94,7 +94,7 @@ class Index extends Base
         return $mysqlinfo;
     }
 
-    public function collapsed()
+    public function setcollapsed()
     {
         $collapsed = input('post.collapsed');
         if ($collapsed == 1 || $collapsed == 0) {
@@ -103,6 +103,36 @@ class Index extends Base
             } else {
                 session('collapsed', null);
             }
+        }
+    }
+
+    public function getcollapsed()
+    {
+        if (session('?collapsed')) {
+            return session('collapsed');
+        } else {
+            return 0;
+        }
+    }
+
+    public function setsmscscreen()
+    {
+        $smscreen = input('post.screen');
+        if ($smscreen == 1 || $smscreen == 0) {
+            if ($smscreen == '1') {
+                session('screen', $smscreen);
+            } else {
+                session('screen', null);
+            }
+        }
+    }
+
+    public function getsmscscreen()
+    {
+        if (session('?screen')) {
+            return session('screen');
+        } else {
+            return 0;
         }
     }
 

@@ -212,11 +212,27 @@ function _init(){
 
             // 屏幕大小判断
             if(getWindowSize().x<1366){
-                $.post('/console/index/collapsed',{collapsed:1});
-                if($('body').hasClass('sidebar-expanded')){
-                    $('body').removeClass('sidebar-expanded').addClass('sidebar-collapsed');
-                }
-            }
+                $.get('/console/index/getcollapsed',{},function(data){
+                    if(data==1){
+                        
+                    }else{
+                        $.post('/console/index/setcollapsed',{collapsed:1});
+                        if($('body').hasClass('sidebar-expanded')){
+                            $('body').removeClass('sidebar-expanded').addClass('sidebar-collapsed');
+                        }
+                    }
+                });
+                // $.post('/console/index/setcollapsed',{collapsed:1});
+
+                // $.get('/console/index/getcollapsed',{},function(data){
+                //     if(data!='1'){
+                //         $.post('/console/index/setcollapsed',{collapsed:1});
+                //         if($('body').hasClass('sidebar-expanded')){
+                //             $('body').removeClass('sidebar-expanded').addClass('sidebar-collapsed');
+                //         }
+                //     }
+                // },'json');
+            };
 
             $('body').on('mouseenter', '.sidebar-tooltip', function(event) {
                 event.preventDefault();
@@ -298,7 +314,7 @@ function _init(){
             // 侧边栏折叠
             if($('body').hasClass('sidebar-expanded')){
                 $('body').removeClass('sidebar-expanded').addClass('sidebar-collapsed');
-                $.post('/console/index/collapsed',{collapsed:1});
+                $.post('/console/index/setcollapsed',{collapsed:1});
 
                 // 本地存储数据判断[html5/cookie]
                 if(storage){
@@ -308,7 +324,7 @@ function _init(){
                 }
             }else{
                 $('body').removeClass('sidebar-collapsed').addClass('sidebar-expanded');
-                $.post('/console/index/collapsed',{collapsed:0});
+                $.post('/console/index/setcollapsed',{collapsed:0});
                 // 本地存储数据判断[html5/cookie]
                 if(storage){
                     storage.removeItem('sidebarFold');
