@@ -36,7 +36,7 @@ class Developer extends Base
 
     protected function edit_before()
     {
-        if (IS_AJAX) {
+        if (request()->isAjax()) {
             $contentForm = input('post.content');
             if (!$contentForm) {
                 return false;
