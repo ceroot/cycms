@@ -15,7 +15,7 @@
  * @site      http://www.benweng.com
  */
 
-namespace app\console\model;
+namespace app\common\model;
 
 use think\Model;
 

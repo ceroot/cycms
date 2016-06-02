@@ -27,5 +27,7 @@ return [
     'con/[:time]'       => ['console/index/index', ['method' => 'get'], ['time' => '\d+']],
     'conlogin/[:time]'  => ['console/login/index', ['time' => '\d+']],
     'conlogout/[:time]' => ['console/login/logout', ['time' => '\d+']],
+    'api/:table/[:id]'  => ['api/api/index', []], //array('api/api/index'),
+    // 'hello/:name'       => ['api/api/index', [], ['name' => '\w+']],
 
 ];

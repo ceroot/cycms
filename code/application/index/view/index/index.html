@@ -1,9 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>index</title>
+<title>index</title>
+<!-- jQuery -->
+<script src="__PUBLIC__/jQuery/jQuery-2.2.4.min.js"></script>
 </head>
 <body>
-{:url('indexUser')}
+<a href="javascript:void(0)" title="点击" class="test">点击</a>
+<script type="text/javascript">
+$(function(){
+	$('body').on('click', '.test', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		$.ajax({
+			url: '/api/manager',
+			type: 'POST',
+			//dataType: 'json',
+			//data: {table: 'manager',id:1},
+		})
+		.done(function(data) { 
+			console.log(data);
+		})
+		.fail(function(data) {
+			console.log(data);
+		})
+		.always(function(data) {
+			// console.log(data);
+		});
+		
+	});;
+});
+</script>
 </body>
 </html>
