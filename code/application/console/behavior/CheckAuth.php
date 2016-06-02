@@ -21,9 +21,6 @@ class CheckAuth
     public function run(&$params)
     {
         dump(1);die;
-        define('UID', session('userid'));
-        define('CONTROLLER_NAME', request()->controller());
-        define('ACTION_NAME', request()->action());
 
     }
 

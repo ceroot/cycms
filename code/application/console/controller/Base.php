@@ -158,14 +158,15 @@ class Base extends Extend
      */
     public function add()
     {
-        if (IS_AJAX) {
+        if (request()->isAjax()) {
             $data = input('post.');
-            // return $data;
+
             $status = $this->model->validate(true)->save($data);
+
             if ($status === false) {
                 return $this->error($this->model->getError());
             }
-
+            // return $data;
             if ($status) {
                 if (CONTROLLER_NAME == 'manager') {
                     model('AuthGroupAccess')->saveData($status);
@@ -215,7 +216,7 @@ class Base extends Extend
     {
 
         $pk = $this->model->getPk();
-        if (IS_AJAX) {
+        if (request()->isAjax()) {
             $data = input('post.');
 
             if (CONTROLLER_NAME == 'auth_group') {

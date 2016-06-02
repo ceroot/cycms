@@ -146,8 +146,11 @@ function get_client_ip($type = 0, $adv = false)
  * @return string          [返回时间显示格式]
  * @author SpringYang <ceroot@163.com>
  */
-function time_format($time = NOW_TIME, $format = 'Y-m-d H:i:s')
+function time_format($time = null, $format = 'Y-m-d H:i:s')
 {
+    if (empty($time)) {
+        $time = time();
+    }
     return date($format, intval($time));
 }
 /**
@@ -212,15 +215,19 @@ function get_log_session_text($type)
  * @return boolean
  * @author SpringYang <ceroot@163.com>
  */
-function action_log($record_id = null, $action = null, $model = CONTROLLER_NAME, $user_id = UID)
+function action_log($record_id = null, $action = null, $model = null, $user_id = UID)
 {
     // 参数检查
     if (empty($record_id)) {
         return '参数不能为空';
     }
 
+    if (empty($model)) {
+        $model = request()->controller();
+    }
+
     if (empty($action)) {
-        $action = strtolower(toCamel(CONTROLLER_NAME)) . '_' . ACTION_NAME;
+        $action = strtolower(toCamel(request()->controller())) . '_' . request()->action();
     }
 
     // 查询行为,判断是否执行
@@ -237,10 +244,10 @@ function action_log($record_id = null, $action = null, $model = CONTROLLER_NAME,
             $log['user']     = $user_id;
             $log['record']   = $record_id;
             $log['model']    = $model;
-            $log['time']     = NOW_TIME;
+            $log['time']     = time();
             $log['table_id'] = $model . '|' . $record_id;
             $log['type']     = session('log_text');
-            $log['data']     = array('user' => $user_id, 'model' => $model, 'record' => $record_id, 'time' => NOW_TIME);
+            $log['data']     = array('user' => $user_id, 'model' => $model, 'record' => $record_id, 'time' => time());
 
             foreach ($match[1] as $key => $value) {
                 //dump($value);
@@ -267,7 +274,7 @@ function action_log($record_id = null, $action = null, $model = CONTROLLER_NAME,
     $data['action_ip']   = ip2int();
     $data['model']       = $model;
     $data['record_id']   = $record_id;
-    $data['create_time'] = NOW_TIME;
+    $data['create_time'] = time();
 
     db('ActionLog')->insert($data);
 }
