@@ -30,6 +30,7 @@ class Base extends Extend
     {
         // 定义UID
         define('UID', session('userid'));
+        define('MODULE_NAME', request()->module());
         define('CONTROLLER_NAME', request()->controller());
         define('ACTION_NAME', request()->action());
 

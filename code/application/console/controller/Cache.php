@@ -33,7 +33,7 @@ class Cache extends Base
         // return $this->success('准备更新...', url('cache/update'));
 
         // die;
-        if (IS_AJAX) {
+        if (request()->isAjax()) {
             if (!cache('action')) {
                 $action = input('post.');
                 $action = $action['action'];

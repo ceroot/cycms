@@ -24,31 +24,35 @@ class Api extends Rest
     public function index()
     {
         // return file_get_contents("php://input");REQUEST_METHOD
-        // response(REQUEST_METHOD);
-        // return REQUEST_METHOD;
-        // if (input('get.table')) {
 
-        if (IS_GET) {
-            $this->_get();
+        $meth = strtolower(request()->method());
+        // return $meth;
+        switch ($meth) {
+            case 'get':
+                $this->_get();
+                break;
+            case 'post':
+                // response(1);
+                return $this->_post();
+                break;
+            case 'put':
+                $this->_put();
+                break;
+            case 'delete':
+                $this->_delete();
+                break;
+            case 'ajax':
+                $this->_ajax();
+                break;
+
+            default:
+                return 'This is api page.';
+                break;
         }
-        if (IS_POST) {
-            $this->_post();
-        }
-        if (IS_PUT) {
-            $this->_put();
-        }
-        if (IS_DELETE) {
-            $this->_delete();
-        }
-        if (IS_AJAX) {
-            $this->_ajax();
-        }
-        // } else {
-        return 'This is api page.';
-        // }
+
     }
 
-    public function _get()
+    protected function _get()
     {
         $table = input('get.table');
         if ($table) {
@@ -56,26 +60,28 @@ class Api extends Rest
 
             if ($list) {
                 $list->select();
-                response($list);
+                // response($list);
+                return $list;
             }
         } else {
             return 'This is api page.';
         }
     }
 
-    public function _post()
+    protected function _post()
     {
         $table = input('get.table');
         $list  = db($table)->find(input('get.id'));
-        response($list);
+        return $list;
+        //response(1);
     }
 
-    public function _delete()
+    protected function _delete()
     {
         response('delete');
     }
 
-    public function _ajax()
+    protected function _ajax()
     {
         response('ajax');
     }
