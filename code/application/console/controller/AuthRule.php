@@ -111,7 +111,7 @@ class AuthRule extends Base
      */
     public function sort()
     {
-        if (IS_POST) {
+        if (request()->isAjax()) {
             $sortdata = input('post.sort/a');
 
             foreach ($sortdata as $key => $value) {
@@ -120,7 +120,6 @@ class AuthRule extends Base
             }
 
             $this->model->updateCache(); // 更新缓存
-            $this->model->updateCacheAuthModel(); // 更新缓存
             action_log(UID); // 记录日志
             return $this->success('排序成功');
         } else {

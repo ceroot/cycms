@@ -33,7 +33,7 @@ class Login extends Controller
     // 登录首页
     public function index()
     {
-        if (IS_AJAX) {
+        if (request()->isAjax()) {
             if ($user = $this->model->validateLogin()) {
                 // 设置登录错误记录的session为0
                 session('error_num', 0);

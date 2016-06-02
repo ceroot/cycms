@@ -95,7 +95,7 @@ class Manager extends Base
 
     public function info()
     {
-        if (IS_AJAX) {
+        if (request()->isAjax()) {
             $data   = input('post.');
             $status = $this->model->validate(CONTROLLER_NAME . '.info')->save($data, ['id' => $data['id']]);
             if ($status === false) {
@@ -130,7 +130,7 @@ class Manager extends Base
      */
     public function password()
     {
-        if (IS_AJAX) {
+        if (request()->isAjax()) {
             $data     = input('post.');
             $username = $this->model->getFieldById($data['id'], 'username');
 

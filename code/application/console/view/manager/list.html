@@ -43,9 +43,13 @@
 			</tr>
 		{/volist}
 	</table>
-	<div class="pager-wrapper">
-		<div class="pager">
-		    {$page}
+	{notempty name="page"}
+		<div class="pager-wrapper">
+			<div class="bottom-area">
+				<div class="pager">
+				    {$page}
+				</div>
+			</div>
 		</div>
-	</div>
+	{/notempty}
 {/block}
