@@ -87,6 +87,19 @@
             <div class="">
             	<h4>成功案例</h4>
             	<div class="row">
+            		{volist name="case" id="cases"}
+            			<div class="col-xs-12 col-sm-6 col-md-4">
+						    <div class="thumbnail">
+						    	<a href="" title="" target="_blank">
+							      	<img src="/data/examples/201.jpg" alt="...">
+							      	<div class="caption">
+								        <h3>{$cases.title}</h3>
+								        <p>{$cases.content|mb_substr=0,10}</p>
+							      	</div>
+						      	</a>
+						    </div>
+						</div>
+            		{/volist}
             		<div class="col-xs-12 col-sm-6 col-md-4">
 					    <div class="thumbnail">
 					    	<a href="" title="" target="_blank">

@@ -28,6 +28,8 @@ class Index extends Base
 
     public function index()
     {
+        $case = model('dotCases')->select();
+        $this->assign('case', $case);
         return $this->fetch();
     }
 }
