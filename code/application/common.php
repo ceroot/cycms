@@ -222,7 +222,7 @@ function action_log($record_id = null, $action = null, $model = null, $user_id =
         return '参数不能为空';
     }
 
-    if (empty($model) {
+    if (empty($model)) {
         $model = request()->controller();
     }
 

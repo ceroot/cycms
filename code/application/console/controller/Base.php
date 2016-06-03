@@ -28,6 +28,13 @@ class Base extends Extend
      */
     public function _initialize()
     {
+        // dump(is_null(''));
+        // dump(empty(''));
+        // dump(is_null(0));
+        // dump(empty(0));
+        // dump(is_null(false));
+        // dump(empty(false));
+        // die;
         // 定义UID
         define('UID', session('userid'));
         define('MODULE_NAME', request()->module());
