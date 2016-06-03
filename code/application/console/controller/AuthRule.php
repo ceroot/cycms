@@ -34,6 +34,17 @@ class AuthRule extends Base
         $this->assign('rule', $rule);
     }
 
+    protected $beforeActionList = [
+        'add_before' => ['only' => 'add'],
+    ];
+
+    protected function add_before()
+    {
+        if (input('get.pid')) {
+            $this->assign('pid', input('get.pid'));
+        }
+    }
+
     function list() {
         return $this->fetch();
     }
