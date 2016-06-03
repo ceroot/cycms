@@ -290,6 +290,7 @@ body.skin-default{
     color: #FFF;
 }
 
+
 .content-area{ padding-bottom: 46px; }
 .fixed-bottom,
 .pager-wrapper{ position: fixed; z-index: 899; bottom: 0; left: 0; margin-left:0; margin-right:0; width:100%; background:#FFF;border-top:1px solid #ccc; padding: 5px; padding-left: 16px; }
