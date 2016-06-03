@@ -4,18 +4,25 @@
 
 <form action="{:url('add')}" method="post" class="cy-ajaxForm cy-form" role="form">
     <div class="form-group form-inline">
-        <span class="title" for="title">成功案例标题：</span>
-        <input type="text" class="form-control input-sm" name="title" id="title" placeholder="成功案例标题">
+        <span class="title" for="name">菜单标识：</span>
+        <input type="text" class="form-control input-sm" name="name" id="name" value="" placeholder="菜单标识">
     </div>
     <div class="form-group form-inline">
-        <span class="title" for="show_pic">首图：</span>
-        <input type="file" class="form-control input-sm" name="show_pic" id="show_pic">
+        <span class="title" for="title">菜单标题：</span>
+        <input type="text" class="form-control input-sm" name="title" id="title" value="" placeholder="菜单标题">
     </div>
-    <div class="form-group pd-r-10">
-        <span for="content" class="title pd-t-5">内容：</span>
-        <script id="content" class="ueditor" name="content" type="text/plain">
-            这里写你的初始化内容
-        </script>
+    <div class="form-group form-inline">
+        <span class="title" for="url">url：</span>
+        <input type="text" class="form-control input-sm" name="url" id="url" value="" placeholder="菜单url">
+    </div>
+    <div class="form-group form-inline">
+        <span>状态：</span>
+        <label class="radio-inline">
+            <input type="radio" name="status" id="status" value="1" checked="checked"> 正常
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="status" id="status" value="0"> 禁用
+        </label>
     </div>
     <div class="fixed-bottom">
         <div class="bottom-area">

@@ -5,7 +5,9 @@
         <colgroup>
 	        <col width="60">
 	        <col width="120">
+	        <col width="90">
 	        <col>
+	        <col width="90">
 	        <col width="140">
 	        <col width="90">
 	        <col width="90">
@@ -13,10 +15,11 @@
         <thead>
           <tr>
           	<td>id</td>
-            <td>标题</td>
-            <td>内容</td>
-            <td>发布者</td>
-            <td>发布时间</td>
+            <td>标识</td>
+            <td>名称</td>
+            <td>url</td>
+            <td>添加人</td>
+            <td>添加时间</td>
             <td>状态</td>
             <td align='center'>管理操作</td>
           </tr>
@@ -24,10 +27,11 @@
 		{volist name='list' id='list'}
 	        <tr>
 	        	<td>{$list.id}</td>
+				<td>{$list.name}</td>
 				<td>{$list.title}</td>
-				<td>{$list.content|mb_substr=0,60}</td>
-				<td>{$list.create_time|time_format}</td>
+				<td>{$list.url}</td>
 				<td>{$list.create_uid|get_nickname}</td>
+				<td>{$list.create_time|time_format}</td>
 				<td><a class="cy-ajax" href="{:url('updatestatus',array('id'=>$list['id']))}" title="快捷设置状态">{$list.status ? '正常' : '禁用'}</a></td>
 				<td align='center' >
 					<a href="{:url('edit',array('id'=>$list['id']))}" title="修改">修改</a> | 
