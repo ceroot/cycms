@@ -35,6 +35,7 @@ class Base extends Extend
         // dump(is_null(false));
         // dump(empty(false));
         // die;
+
         // 定义UID
         define('UID', session('userid'));
         define('MODULE_NAME', request()->module());
@@ -130,6 +131,7 @@ class Base extends Extend
      * @author SpringYang <ceroot@163.com>
      */
     function list() {
+
         $pageLimit = input('get.limit');
         $pageLimit = isset($pageLimit) ? $pageLimit : 15; // 每页显示数目
         $pk        = $this->model->getPk(); // 取得主键字段名
