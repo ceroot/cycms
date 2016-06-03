@@ -62,8 +62,8 @@
 		<div class="row">
 			<ul class="list-inline">
 				<li class="active"><a href="" title="首页">首页</a></li>
-				{volist name="category" id="categorys"}
-					<li><a href="{$categorys.url|url}" title="{$categorys.title}">{$categorys.title}</a></li>
+				{volist name="menu" id="menus"}
+					<li><a href="{$menus.url|url}" title="{$menus.title}">{$menus.title}</a></li>
 				{/volist}
 			</ul>
 		</div>

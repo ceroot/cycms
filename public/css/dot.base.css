@@ -189,3 +189,7 @@ h4{ font-family: "微软雅黑";}
 .dot-footer{ border-bottom: 2px solid #D26;}
 .dot-footer .container{ border-top: 2px solid #ddd;}
 
+.dot-case-index{}
+.dot-case-index .thumbnail{}
+.dot-case-index .thumbnail h5{}
+.dot-case-index .thumbnail a:hover{ text-decoration: none; }
