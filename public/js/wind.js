@@ -697,8 +697,8 @@ Wind.ready(function() {
                 localization  : 'validate.js/1.15.0/localization/messages_zh',
             },
             ueditor           : {
-                config        : 'ueditor/1.4.3.3/utf8-php/ueditor.config',
-                ueditor       : 'ueditor/1.4.3.3/utf8-php/ueditor.all.min',
+                config        : 'ueditor/1.4.3.3/ueditor.config',
+                ueditor       : 'ueditor/1.4.3.3/ueditor.all.min',
             },
             echarts           : 'echarts/3.1.10/echarts.min',
             iCheck            : 'iCheck/icheck.min',
