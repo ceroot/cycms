@@ -183,6 +183,7 @@ class Base extends Extend
 
                 if (CONTROLLER_NAME == 'auth_rule') {
                     $this->model->updateCache();
+                    model('action')->add_for_rule();
                 }
 
                 action_log($status); // 记录日志
@@ -227,7 +228,7 @@ class Base extends Extend
         $pk = $this->model->getPk();
         if (request()->isAjax()) {
             $data = input('post.');
-
+            // return $data;
             if (CONTROLLER_NAME == 'auth_group') {
                 $rulesdata = input('post.rules/a');
                 if ($rulesdata) {

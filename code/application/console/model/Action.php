@@ -26,4 +26,23 @@ class Action extends Extend
         return $status[$data['type']];
     }
 
+    public function add_for_rule()
+    {
+        if (request()->isAjax()) {
+            if (input('post._log')) {
+                $name = input('post.name');
+
+                $arr                = explode('/', $name);
+                $name               = strtolower($arr[0] . '_' . $arr[1]);
+                $title              = input('post.title');
+                $data['title']      = $title;
+                $data['name']       = $name;
+                $data['create_uid'] = UID;
+                $data['log']        = '[user|get_realname]在[time|time_format]操作了' . $title;
+
+                $this->save($data);
+            }
+        }
+    }
+
 }

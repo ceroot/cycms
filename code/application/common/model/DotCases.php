@@ -20,5 +20,20 @@ use app\common\model\Extend;
 
 class DotCases extends Extend
 {
+    public function getImgUrlAttr($value, $data)
+    {
+        $imgUrl = $data['show_img'];
+        if (empty($imgUrl)) {
+            $pattern = '<img.*?src="(.*?)">';
+            preg_match_all($pattern, $data['content'], $matches);
+            if ($matches[1]) {
+                $imgUrl = $matches[1];
+                $imgUrl = $imgUrl[0];
+            } else {
+                $imgUrl = '/data/examples/201.jpg';
+            }
+        }
+        return $imgUrl;
+    }
 
 }

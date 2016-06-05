@@ -22,14 +22,13 @@ class AuthRule extends Validate
 {
     protected $rule = [
         'name'  => 'require|unique:authRule',
-        'title' => 'require|unique:authRule',
+        'title' => 'require',
     ];
 
     protected $message = [
         'name.require'  => '用户名必须',
         'name.unique'   => '规则标识已存在',
         'title.require' => '规则名称必须',
-        'title.unique'  => '规则名称已存在',
     ];
 
     protected $scene = [

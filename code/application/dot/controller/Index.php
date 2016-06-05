@@ -32,4 +32,23 @@ class Index extends Base
         $this->assign('case', $case);
         return $this->fetch();
     }
+
+    public function yctest()
+    {
+        $case    = model('dotCases')->find(1);
+        $content = $case['content'];
+        $imgUrl  = $case['show_img'];
+        if (empty($imgUrl)) {
+            $pattern = '<img.*?src="(.*?)">';
+            preg_match_all($pattern, $content, $matches);
+            dump($matches[1]);
+            if ($matches[1]) {
+                $imgUrl = $matches[1];
+                $imgUrl = $imgUrl[0];
+            } else {
+                $imgUrl = '/data/examples/201.jpg';
+            }
+        }
+        dump($imgUrl);
+    }
 }

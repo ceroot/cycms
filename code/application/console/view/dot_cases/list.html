@@ -4,17 +4,16 @@
     <table class="table table-condensed table-hover">
         <colgroup>
 	        <col width="60">
-	        <col width="120">
 	        <col>
 	        <col width="140">
 	        <col width="90">
+	        <col width="48">
 	        <col width="90">
         </colgroup>
         <thead>
           <tr>
           	<td>id</td>
             <td>标题</td>
-            <td>内容</td>
             <td>发布者</td>
             <td>发布时间</td>
             <td>状态</td>
@@ -25,7 +24,6 @@
 	        <tr>
 	        	<td>{$list.id}</td>
 				<td>{$list.title}</td>
-				<td>{$list.content|mb_substr=0,60}</td>
 				<td>{$list.create_time|time_format}</td>
 				<td>{$list.create_uid|get_nickname}</td>
 				<td><a class="cy-ajax" href="{:url('updatestatus',array('id'=>$list['id']))}" title="快捷设置状态">{$list.status ? '正常' : '禁用'}</a></td>
