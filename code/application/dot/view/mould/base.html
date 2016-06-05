@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>{block name="title"}标题{/block}</title>
-<meta name="description" content="">
-<meta name="keywords" content="">
+<title>{block name="title"}标题{/block}{notempty name="webinfo.title"}--{$webinfo.title}{/notempty}</title>
+<meta name="description" content="{block name="description"}{/block}">
+<meta name="keywords" content="{block name="keywords"}{/block}">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <!-- Bootstrap -->
@@ -26,19 +26,17 @@
 <script type="text/javascript" src="__PUBLIC__/bootstrap/3.3.6/js/bootstrap.js"></script>
 </head>
 <body>
-<div class="container-fluid hidden-xs">
-	<div class="container">
-		<div class="row">
-			<div class="col-xs-12 col-md-6">
-				<div class="row">
-					
-				</div>
+<div class="container hidden-xs">
+	<div class="row">
+		<div class="col-xs-12 col-md-6">
+			<div class="row">
+				
 			</div>
-			<div class="col-xs-12 col-md-6">
-				<div class="row text-right">
-					<a href="" title="设为首页">设为首页</a>
-					<a href="" title="加入收藏">加入收藏</a>
-				</div>
+		</div>
+		<div class="col-xs-12 col-md-6">
+			<div class="row text-right">
+				<a href="" title="设为首页">设为首页</a>
+				<a href="" title="加入收藏">加入收藏</a>
 			</div>
 		</div>
 	</div>
@@ -57,35 +55,29 @@
 			</div>
 		</div>
 </div>
-<div class="container-fluid nav">
-	<div class="container">
-		<div class="row">
-			<ul class="list-inline">
-				<li class="active"><a href="/dot" title="首页">首页</a></li>
-				{volist name="menu" id="menus"}
-					<li><a href="{$menus.name|url}" title="{$menus.title}">{$menus.title}</a></li>
-				{/volist}
-			</ul>
-		</div>
-	</div>
+<div class="container nav">
+	<ul class="list-inline">
+		<li class="active"><a href="/dot" title="首页">首页</a></li>
+		{volist name="menu" id="menus"}
+			<li><a href="{$menus.name|url}" title="{$menus.title}">{$menus.title}</a></li>
+		{/volist}
+	</ul>
 </div>
 {block name="content"}内容{/block}
-<div class="container-fluid dot-footer">
-	<div class="container">
-		<div class="row">
-			<div class="col-xs-12 col-md-6">
-				<div class="row pd-10">
-					地址：贵州省贵阳市南明区<br />
-					电话：<br />
-					email：<br />
-					QQ：
-				</div>
+<div class="container dot-footer">
+	<div class="row">
+		<div class="col-xs-12 col-md-6">
+			<div class="row pd-10">
+				{notempty name="webinfo.title"}地址：{$webinfo.address}<br/>{/notempty}
+				{notempty name="webinfo.telephone"}电话：{$webinfo.telephone}<br/>{/notempty}
+				{notempty name="webinfo.email"}email：{$webinfo.email}<br/>{/notempty}
+				{notempty name="webinfo.qq"}QQ：{$webinfo.qq}<br/>{/notempty}
 			</div>
-			<div class="col-xs-12 col-md-6">
-				<div class="row"></div>
-			</div>
-			
 		</div>
+		<div class="col-xs-12 col-md-6">
+			<div class="row"></div>
+		</div>
+		
 	</div>
 </div>
 <div class="container">

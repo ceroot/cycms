@@ -22,13 +22,11 @@ class DotCategory extends Validate
 {
 
     protected $rule = [
-        'title'   => 'require|unique:dotCategory',
-        'content' => 'require',
+        'title' => 'require|unique:dotCategory',
     ];
 
     protected $message = [
-        'title.require'   => '标题必填',
-        'title.unique'    => '标题已经存在',
-        'content.require' => '内容必填',
+        'title.require' => '标题必填',
+        'title.unique'  => '标题已经存在',
     ];
 }

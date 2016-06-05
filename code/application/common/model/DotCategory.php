@@ -17,8 +17,17 @@
 namespace app\common\model;
 
 use app\common\model\Extend;
+use third\Data;
 
 class DotCategory extends Extend
 {
-
+    public function getAll($isArray = 0)
+    {
+        $category = $this->select();
+        if ($isArray) {
+            return Data::channelLevel($category, 0, '', 'id', 'pid');
+        } else {
+            return Data::tree($category, 'title', 'id', 'pid');
+        }
+    }
 }

@@ -30,6 +30,10 @@ class Index extends Base
     {
         $case = model('dotCases')->select();
         $this->assign('case', $case);
+        $category = model('dotCategory')->getAll(1);
+        // dump($category);
+        // die;
+        $this->assign('category', $category);
         return $this->fetch();
     }
 

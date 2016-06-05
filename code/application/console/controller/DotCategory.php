@@ -28,5 +28,24 @@ class DotCategory extends Base
     public function _initialize()
     {
         parent::_initialize();
+        $category = model('dotCategory')->getAll();
+        // dump($category);
+        $this->assign('category', $category);
     }
+
+    function list() {
+        return $this->fetch();
+    }
+
+    protected $beforeActionList = [
+        'add_before' => ['only' => 'add'],
+    ];
+
+    protected function add_before()
+    {
+        if (input('get.pid')) {
+            $this->assign('pid', input('get.pid'));
+        }
+    }
+
 }

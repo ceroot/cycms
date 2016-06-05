@@ -1,7 +1,9 @@
 {extend name="mould:base" /}
 {block name="title"}首页{/block}
+{block name="keywords"}{notempty name="webinfo.title"}{$webinfo.keywords}{/notempty}{/block}
+{block name="description"}{notempty name="webinfo.title"}{$webinfo.description}{/notempty}{/block}
 {block name="content"}
-<div class="container-fluid">
+<div class="container pd-t-10">
     <div class="row">
         <div id="carousel-example-generic" class="carousel slide dot-index-slide" data-interval="3000" data-ride="carousel">
             <!-- 轮播（Carousel）指标 -->
@@ -36,10 +38,28 @@
         </div>
     </div>
 </div>
-<div class="hr-10">
-	
+<div class="container pd-t-10">
+	<div class="row">
+		<div class="col-xs-12 col-md-9 dot-index-about">
+			<div class="row">
+				<h4 class="pd-l-10 pd-r-10">关于我们<small class="pull-right pd-t-10"><a href="" class="" title="详情">详情>></a></small></h4>
+				<div class="text-justify text-danger content pd-10">{$webinfo.about}</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-md-3 hidden-xs">
+			<div class="dot-index-about-link">
+				<h4>联系我们</h4>
+				<div class="pd-t-10 content">
+					{notempty name="webinfo.title"}地址：{$webinfo.address}<br/>{/notempty}
+					{notempty name="webinfo.telephone"}电话：{$webinfo.telephone}<br/>{/notempty}
+					{notempty name="webinfo.email"}email：{$webinfo.email}<br/>{/notempty}
+					{notempty name="webinfo.qq"}QQ：{$webinfo.qq}<br/>{/notempty}
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-<div class="container">
+<div class="container pd-t-10">
 	<div class="row">
 		<div class="col-xs-12 col-md-3">
 			<div class="row">
@@ -47,13 +67,14 @@
 					<dl>
 						<dt>服务项目</dt>
 						<dd>
-							<a href="" title="内容">内容</a>
-							<a href="" title="内容">内容</a>
-							<a href="" title="内容">内容</a>
-							<a href="" title="内容">内容</a>
-							<a href="" title="内容">内容</a>
-							<a href="" title="内容">内容</a>
-							<a href="" title="内容">内容</a>
+							{volist name="category" id="vo"}
+								<a href="" class="first" title="内容">|+|&nbsp;&nbsp;{$vo.title}</a>
+								{notempty name="vo._data"}
+									{volist name="vo._data" id="v"}
+										<a href="" title="内容">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$v.title}</a>
+									{/volist}
+								{/notempty}
+							{/volist}
 						</dd>
 					</dl>
 					<dl class="mg-t-10 hidden-xs">
@@ -64,13 +85,13 @@
 							{/volist}
 						</dd>
 					</dl>
-					<dl class="mg-t-10">
+					<dl class="mg-t-10 hidden-xs">
 						<dt>联系我们</dt>
 						<dd>
-							地址：贵州省贵阳市南明区<br />
-							电话：<br />
-							email：<br />
-							QQ
+							{notempty name="webinfo.title"}地址：{$webinfo.address}<br/>{/notempty}
+							{notempty name="webinfo.telephone"}电话：{$webinfo.telephone}<br/>{/notempty}
+							{notempty name="webinfo.email"}email：{$webinfo.email}<br/>{/notempty}
+							{notempty name="webinfo.qq"}QQ：{$webinfo.qq}<br/>{/notempty}
 						</dd>
 					</dl>
 				</div>

@@ -4,12 +4,21 @@
 
 <form action="{:url('edit')}" method="post" class="cy-ajaxForm cy-form" role="form">
     <div class="form-group form-inline">
-        <span class="title" for="name">菜单标识：</span>
-        <input type="text" class="form-control input-sm" name="name" id="name" value="{$one.name}" placeholder="菜单标识">
+        <span class="title" for="name">类别标识：</span>
+        <input type="text" class="form-control input-sm" name="name" id="name" value="{$one.name}" placeholder="类别标识">
     </div>
     <div class="form-group form-inline">
-        <span class="title" for="title">菜单标题：</span>
-        <input type="text" class="form-control input-sm" name="title" id="title" value="{$one.title}" placeholder="菜单标题">
+        <span class="title" for="title">类别标题：</span>
+        <input type="text" class="form-control input-sm" name="title" id="title" value="{$one.title}" placeholder="类别标题">
+    </div>
+    <div class="form-group form-inline">
+        <span for="title">父级规则：</span>
+        <select name="pid" class="form-control">
+            <option value="0">顶级</option>
+            {volist name='category' id='categorys'}
+                <option value="{$categorys.id}" {eq name="categorys.id" value="$one.pid" }selected="selected"{/eq}{$categorys._name}</option>
+            {/volist}
+        </select>
     </div>
     <div class="form-group form-inline">
         <span class="title" for="url">url：</span>
@@ -36,15 +45,9 @@
 var userValidate = {
     rules: {
         'title':'required',
-        'content':{
-            required:true
-        }
     }, 
     messages: {
         'title':'请填写标题',
-        'content':{
-            required:'请填写内容'
-        }
     }
 };
 

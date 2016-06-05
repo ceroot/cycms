@@ -1,0 +1,57 @@
+{extend name="mould:base" /}
+{block name="title"}{/block}
+{block name="content"}
+
+<form action="{:url('edit')}" method="post" class="cy-ajaxForm cy-form" role="form">
+    <div class="form-group form-inline">
+        <span class="title" for="title">网站标题：</span>
+        <input type="text" class="form-control input-sm" name="title" id="title" value="{$one.title}" placeholder="网站标题">
+    </div>
+    <div class="form-group form-inline">
+        <span class="title" for="keywords">关键字：</span>
+        <input type="text" class="form-control input-sm" name="keywords" id="keywords" value="{$one.keywords}" placeholder="网站关键字">
+    </div>
+    <div class="form-group form-inline">
+        <span class="title" for="description">描述：</span>
+        <textarea class="form-control" name="description" id="description">{$one.description}</textarea>
+    </div>
+    <div class="form-group form-inline">
+        <span class="title" for="address">地址：</span>
+        <input type="text" class="form-control input-sm" name="address" id="address" value="{$one.address}" placeholder="联系地址">
+    </div>
+    <div class="form-group form-inline">
+        <span class="title" for="telephone">电话：</span>
+        <input type="text" class="form-control input-sm" name="telephone" id="telephone" value="{$one.telephone}" placeholder="联系电话">
+    </div>
+    <div class="form-group form-inline">
+        <span class="title" for="email">email：</span>
+        <input type="text" class="form-control input-sm" name="email" id="email" value="{$one.email}" placeholder="联系邮箱">
+    </div>
+    <div class="form-group form-inline">
+        <span class="title" for="qq">QQ：</span>
+        <input type="text" class="form-control input-sm" name="qq" id="qq" value="{$one.qq}" placeholder="联系QQ">
+    </div>
+    <div class="form-group form-inline">
+        <span class="title" for="about">关于我们：</span>
+        <textarea class="form-control" name="about" id="about">{$one.about}</textarea>
+    </div>
+    <div class="fixed-bottom">
+        <div class="bottom-area">
+            <input type="hidden" name="id" value="{$one.id}">
+            <button class="btn btn-sm btn-default">保存</button>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+var userValidate = {
+    rules: {
+        'title':'required',
+    }, 
+    messages: {
+        'title':'请填写标题',
+    }
+};
+
+</script>
+{/block}
