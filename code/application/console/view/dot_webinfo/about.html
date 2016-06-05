@@ -1,0 +1,29 @@
+{extend name="mould:base" /}
+{block name="title"}{/block}
+{block name="content"}
+
+<form action="{:url('about')}" method="post" class="cy-ajaxForm cy-form" role="form">
+    <div class="form-group form-inline">
+        <span class="title" for="about">关于我们：</span>
+        <textarea class="form-control" rows="10" name="about" id="about">{$one.about}</textarea>
+    </div>
+    <div class="fixed-bottom">
+        <div class="bottom-area">
+            <input type="hidden" name="id" value="{empty name="one.id"}1{else/}{$one.id}{/empty}">
+            <button class="btn btn-sm btn-default">保存</button>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+var userValidate = {
+    rules: {
+        'title':'required',
+    }, 
+    messages: {
+        'title':'请填写标题',
+    }
+};
+
+</script>
+{/block}

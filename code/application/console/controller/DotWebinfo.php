@@ -39,23 +39,53 @@ class DotWebinfo extends Base
     public function edit()
     {
         if (request()->isAjax()) {
-            $data = input('post.');
-            $pk   = $this->model->getPk();
-
-            $status = $this->model->save($data, [$pk => $data[$pk]]);
-            // return $status;
-            if ($status) {
-                action_log($data[$pk]); // 记录日志
-                return $this->success('修改成功', url('index'));
-            } else {
-                return $this->error('失败');
-                // return $this->model->getError();
-            }
+            return $this->_edit();
         } else {
-            $one = db('dotWebinfo')->find(1);
-            $this->assign('one', $one);
+            $this->_one();
             return $this->fetch();
         }
 
+    }
+
+    public function link()
+    {
+        if (request()->isAjax()) {
+            return $this->_edit();
+        } else {
+            $this->_one();
+            return $this->fetch();
+        }
+    }
+
+    public function about()
+    {
+        if (request()->isAjax()) {
+            return $this->_edit();
+        } else {
+            $this->_one();
+            return $this->fetch();
+        }
+    }
+
+    protected function _one()
+    {
+        $one = db('dotWebinfo')->find(1);
+        $this->assign('one', $one);
+    }
+
+    protected function _edit()
+    {
+        $data = input('post.');
+        $pk   = $this->model->getPk();
+
+        $status = $this->model->save($data, [$pk => $data[$pk]]);
+        // return $status;
+        if ($status) {
+            action_log($data[$pk]); // 记录日志
+            return $this->success('修改成功', url('index'));
+        } else {
+            return $this->error('失败');
+            // return $this->model->getError();
+        }
     }
 }
