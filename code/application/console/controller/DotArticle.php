@@ -17,6 +17,7 @@
 namespace app\console\controller;
 
 use app\console\controller\Base;
+use think\Input;
 
 class DotArticle extends Base
 {
@@ -43,6 +44,10 @@ class DotArticle extends Base
         if ($cid == '-1') {
             return $this->error('请选择分类');
         }
+
+        $file = Input::file('show_pic');
+        return $file;
+
     }
 
     protected function edit_before()
