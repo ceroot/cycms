@@ -44,10 +44,6 @@ class DotArticle extends Base
         if ($cid == '-1') {
             return $this->error('请选择分类');
         }
-
-        $file = Input::file('show_pic');
-        return $file;
-
     }
 
     protected function edit_before()
@@ -55,6 +51,60 @@ class DotArticle extends Base
         $cid = input('cid');
         if ($cid == '-1') {
             return $this->error('请选择分类');
+        }
+    }
+
+    public function add()
+    {
+        if (request()->isAjax()) {
+            $data   = input('post.');
+            $status = $this->model->validate(true);
+
+            if ($status === false) {
+                return $this->error($this->model->getError());
+            }
+
+            $file = Input::file('images');
+            $info = $file->move('./data/image/');
+            // return $info;
+            if ($info) {
+                $filename = $info->getFilename();
+
+                $data['cover'] = $info->getFilename();
+            }
+            // return $info->getPathname();
+            $status = $this->model->save($data);
+            // return $data;
+            if ($status) {
+
+                action_log($status, 'dotarticle_add'); // 记录日志
+                return $this->success('添加成功', url('list'));
+            } else {
+                // return $this->error('失败');
+                return $this->model->getError();
+            }
+        } else {
+
+            return $this->fetch();
+        }
+    }
+
+    public function file()
+    {
+        if (request()->isAjax()) {
+            $file = Input::file('images');
+            $info = $file->move('./data/test/');
+            if ($info) {
+                // 成功上传后 获取上传信息
+                // return $info->getExtension(); // 输出 jpg
+                return $info->getPathname(); // 输出 42a79759f284b767dfcb2a0197904287.jpg
+            } else {
+                // 上传失败获取错误信息
+                return $file->getError();
+            }
+            return $file;
+        } else {
+            return $this->fetch();
         }
     }
 

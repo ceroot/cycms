@@ -168,8 +168,7 @@ class Base extends Extend
     public function add()
     {
         if (request()->isAjax()) {
-            $data = input('post.');
-            // return $data;
+            $data   = input('post.');
             $status = $this->model->validate(true)->save($data);
 
             if ($status === false) {
