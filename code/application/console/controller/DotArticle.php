@@ -32,4 +32,25 @@ class DotArticle extends Base
         // dump($category);
     }
 
+    protected $beforeActionList = [
+        'add_before'  => ['only' => 'add'],
+        'edit_before' => ['only' => 'edit'],
+    ];
+
+    protected function add_before()
+    {
+        $cid = input('cid');
+        if ($cid == '-1') {
+            return $this->error('请选择分类');
+        }
+    }
+
+    protected function edit_before()
+    {
+        $cid = input('cid');
+        if ($cid == '-1') {
+            return $this->error('请选择分类');
+        }
+    }
+
 }

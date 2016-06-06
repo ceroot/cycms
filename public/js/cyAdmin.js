@@ -42,6 +42,32 @@ $(function(){
             $.Cy.sidebar.fold();
         }
     }
+    
+    
+    $("#file0").change(function(){
+		var objUrl = getObjectURL(this.files[0]) ;
+		
+		console.log("objUrl = "+objUrl) ;
+		if (objUrl) {
+			$("#img0").attr("src", objUrl) ;
+		}
+		
+	});
+	
+	function getObjectURL(file) {
+		var url = null ;
+		if (window.createObjectURL!=undefined) { // basic
+			//$("#oldcheckpic").val("nopic");
+			url = window.createObjectURL(file) ;
+		} else if (window.URL!=undefined) { // mozilla(firefox)
+			//$("#oldcheckpic").val("nopic");
+			url = window.URL.createObjectURL(file) ;
+		} else if (window.webkitURL!=undefined) { // webkit or chrome
+			//$("#oldcheckpic").val("nopic");
+			url = window.webkitURL.createObjectURL(file) ;
+		}
+		return url ;
+	}
 });
 
 function _init(){

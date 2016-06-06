@@ -23,9 +23,11 @@ class DotArticle extends Validate
 
     protected $rule = [
         'title' => 'require',
+        'cid'   => 'require',
     ];
 
     protected $message = [
         'title.require' => '标题必填',
+        'cid.require'   => '分类必选',
     ];
 }

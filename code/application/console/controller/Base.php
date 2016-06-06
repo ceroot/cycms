@@ -169,7 +169,7 @@ class Base extends Extend
     {
         if (request()->isAjax()) {
             $data = input('post.');
-
+            return $data;
             $status = $this->model->validate(true)->save($data);
 
             if ($status === false) {
