@@ -65,12 +65,12 @@ class DotArticle extends Base
             }
 
             $file = Input::file('images');
-            $info = $file->move('./data/image/');
+            $info = $file->move('./data/images/');
             // return $info;
             if ($info) {
                 $filename = $info->getFilename();
 
-                $data['cover'] = $info->getFilename();
+                $data['cover'] = date('Ymd') . '/' . $filename;
             }
             // return $info->getPathname();
             $status = $this->model->save($data);
