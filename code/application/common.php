@@ -515,7 +515,7 @@ function getrandom($length = 6, $numeric = 0)
  * @return string    $str        [返回分词]
  * @author SpringYang <ceroot@163.com>
  */
-function get_keywords($str, $lenght = 5, $separator = ',')
+function get_keywords($str, $lenght = 10, $separator = ',')
 {
     Vendor('scws.pscws4');
     $pscws = new \PSCWS4();
