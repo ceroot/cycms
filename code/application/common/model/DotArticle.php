@@ -75,7 +75,7 @@ class DotArticle extends Extend
         $patternImg = '<img.*?src="(.*?)">';
         if (preg_match_all($patternImg, $data['content'], $matchesImg)) {
             foreach ($matchesImg[1] as $value) {
-                if (stripos($value, 'ueditor') !== false) {
+                if (stripos($value, 'data/ueditor') !== false) {
                     $nameArr  = explode('/', $value);
                     $datePath = array_slice($nameArr, -2, 1);
                     $name     = end($nameArr);
