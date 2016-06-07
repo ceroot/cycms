@@ -35,7 +35,8 @@ class Base extends Extend
         // dump(is_null(false));
         // dump(empty(false));
         // die;
-
+        // dump(md5('lilulilu123456'));
+        // die;
         // 定义UID
         define('UID', session('userid'));
         define('MODULE_NAME', request()->module());

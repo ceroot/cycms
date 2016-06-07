@@ -34,7 +34,8 @@ a:visited {
 	text-decoration: none;
 }
 
-label{ font-weight: 400;}
+label{ }
+label span{ font-weight: 400;}
 
 /*input[type=email],
 input[type=url],
