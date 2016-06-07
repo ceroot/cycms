@@ -50,7 +50,7 @@ class DotArticle extends Base {
 				return $this->error('请选择分类');
 			}
 			$id = input('post.id');
-			$data = db(CONTROLLER_NAME)->find($id);
+			$data = db(request()->controller())->find($id);
 			$file = Input::file('images');
 			if ($file) {
 				$path = '/data/images/' . $data['cover'];
@@ -119,7 +119,7 @@ class DotArticle extends Base {
 				return $this->error('参数错误');
 			}
 
-			$one = db(CONTROLLER_NAME)->find($id);
+			$one = db(request()->controller())->find($id);
 			$this->assign('one', $one);
 			return $this->fetch();
 		}
