@@ -62,7 +62,14 @@ class Cache extends Base
                     case 'rule':
                         //Dir::del(RUNTIME_PATH . 'cache');
                         model('authRule')->updateCache();
-                        $msg = '规则表缓存缓存更新成功...';
+                        $msg = '规则表缓存更新成功...';
+                        break;
+                    case 'ueditor':
+                        //Dir::del(RUNTIME_PATH . 'cache');
+                        Dir::del('./data/ueditor/file');
+                        Dir::del('./data/ueditor/images');
+                        Dir::del('./data/ueditor/video');
+                        $msg = 'ueditor 暂存目录更新成功...';
                         break;
                     case 'other':
                         // is_file(RUNTIME_PATH . 'common~runtime.php') &&
