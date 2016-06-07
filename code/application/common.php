@@ -516,3 +516,37 @@ function get_keywords($str, $lenght = 10, $separator = ',') {
 	}
 	return $tags;
 }
+
+/**
+ * 修改文章时删除原来数据库里被修改去的图片
+ * @param  string    $dataForm    [表单提交过来的数据]
+ * @param  string    $dataSql     [数据库里的数据]
+ * @return string    $str            [返回分词]
+ * @author SpringYang <ceroot@163.com>
+ */
+function del_images($dataForm, $dataSql) {
+
+	// 取得图片正则
+	$pattern = '<img.*?src="(.*?)">';
+
+	preg_match_all($pattern, $dataForm, $matchesForm);
+	$imgForm = $matchesForm[1];
+
+	preg_match_all($pattern, $dataSql, $matchesSql);
+	$imgSql = $matchesSql[1];
+
+	foreach ($imgForm as $value) {
+		if (in_array($value, $imgSql)) {
+			$k = array_search($value, $imgSql);
+			unset($imgSql[$k]);
+		}
+	}
+
+	foreach ($imgSql as $value) {
+		$arr = parse_url($value);
+		$path = $arr['path'];
+		if (file_exists('.' . $path)) {
+			unlink('.' . $path);
+		}
+	}
+}
