@@ -283,7 +283,7 @@ class Uploader {
 	private function getFullName() {
 		//替换日期事件
 		//$t = time();
-		$t = microtime(); //microtime
+		$t = microtime(); //microtime 20160607[杨春]
 		$t = str_replace('.', '', $t);
 		$t = explode(' ', $t);
 		$t = $t[1] . $t[0];
