@@ -35,7 +35,7 @@ class DotArticle extends Extend
             if ($id) {
                 $coveSql = $this->getFieldById($id, 'cover');
                 $path    = '/data/images/' . $coveSql;
-                if (file_exists('.' . $path)) {
+                if (is_file('.' . $path)) {
                     unlink('.' . $path);
                 }
             }
@@ -46,6 +46,8 @@ class DotArticle extends Extend
                 $filename      = $info->getFilename();
                 $data['cover'] = date('Ymd') . '/' . $filename;
             }
+        } else {
+            unset($data['cover']); // 如果没有数据则删除数组值
         }
 
         // 关键词处理
@@ -67,6 +69,33 @@ class DotArticle extends Extend
                 $description = mb_substr(strip_tags($data['content']), 0, 120);
             }
             $data['description'] = str_replace('&nbsp;', '', str_replace(' ', '', $description));
+        }
+
+        // 图片替换处理
+        $patternImg = '<img.*?src="(.*?)">';
+        if (preg_match_all($patternImg, $data['content'], $matchesImg)) {
+            foreach ($matchesImg[1] as $value) {
+                if (stripos($value, 'ueditor') !== false) {
+                    $nameArr  = explode('/', $value);
+                    $datePath = array_slice($nameArr, -2, 1);
+                    $name     = end($nameArr);
+                    $newPath  = './data/images/' . $datePath[0] . '/';
+
+                    // 判断目录是否存在，如果不存在则创建
+                    if (!is_dir($newPath)) {
+                        make_dir($newPath);
+                    }
+
+                    $newPath = $newPath . $name; // 新路径
+                    $value   = '.' . $value; // 旧路径
+                    if (is_file($value)) {
+                        rename($value, $newPath);
+                    }
+                }
+            }
+
+            // 内容全局替换成新的路径
+            $data['content'] = str_replace('ueditor/', '', $data['content']);
         }
 
         // 写入形式

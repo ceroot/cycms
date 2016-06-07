@@ -101,6 +101,8 @@ class DotArticle extends Base
         $one = db(request()->controller())->find($id);
 
         if (request()->isAjax()) {
+            // $file = Input::file('cover');
+
             $data   = input('post.');
             $result = $this->validate($data, request()->controller());
 
@@ -136,6 +138,13 @@ class DotArticle extends Base
             $this->assign('one', $one);
             return $this->fetch();
         }
+    }
+
+    public function file()
+    {
+        $path = '/data/image/';
+        $name = '200.jpg';
+        return $path . $name;
     }
 
 }
