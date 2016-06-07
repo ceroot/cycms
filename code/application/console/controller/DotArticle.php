@@ -53,7 +53,6 @@ class DotArticle extends Base {
 	public function add() {
 		if (request()->isAjax()) {
 			$data = input('post.');
-			// $status  = $this->model->save($data);
 			$content = $data['content'];
 
 			$status = $this->model->validate(true);
