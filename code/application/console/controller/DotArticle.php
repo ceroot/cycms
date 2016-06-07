@@ -37,9 +37,11 @@ class DotArticle extends Base {
 	];
 
 	protected function add_before() {
-		$cid = input('cid');
-		if ($cid == '-1') {
-			return $this->error('请选择分类');
+		if (request()->isAjax()) {
+			$cid = input('cid');
+			if ($cid == '-1') {
+				return $this->error('请选择分类');
+			}
 		}
 	}
 
