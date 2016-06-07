@@ -48,7 +48,7 @@ class DotArticle extends Extend {
 			$pattern = '/<p[^>]*>(.*?)<\/p>/';
 			$preg = preg_match($pattern, $data['content'], $matches);
 			if ($preg) {
-				$description = strip_tags($matches[1]);
+				$description = mb_substr(strip_tags($matches[1]), 0, 120);
 			} else {
 				$description = mb_substr(strip_tags($data['content']), 0, 120);
 			}

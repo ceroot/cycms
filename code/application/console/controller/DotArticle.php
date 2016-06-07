@@ -125,31 +125,4 @@ class DotArticle extends Base {
 		}
 	}
 
-	public function file() {
-		if (request()->isAjax()) {
-			$file = Input::file('images');
-			$info = $file->move('./data/test/');
-			if ($info) {
-				// 成功上传后 获取上传信息
-				// return $info->getExtension(); // 输出 jpg
-				return $info->getPathname(); // 输出 42a79759f284b767dfcb2a0197904287.jpg
-			} else {
-				// 上传失败获取错误信息
-				return $file->getError();
-			}
-			return $file;
-		} else {
-			return $this->fetch();
-		}
-	}
-
-	public function ppp() {
-		$str = '<p style="text-indent: 2em; text-align: left;">华为的官方解释则是：在ICT产业中，友商之间应该通过开放式的创新、联合创新的方式共同推动产业进步。业界解决知识产权问题的最佳途径，是通过谈判签订专利交叉许可协议后合法使用对方开发的技术和知识产权。诉讼是最后的解决争议的方式，在某些情况下也是一种常见方式。</p><p style="text-indent: 2em; text-align: left;">此，三星方面回应《中国经济周刊》记者称，“我们会对诉讼做彻底评估，并采取适当行动维护三星的业务利益”。截至发稿，记者未获得华为方面的采访回应。
-</p><p style="text-indent: 2em; text-align: left;">为何同时在中国、美国两地起诉</p>';
-		// $pattern = '/<p[^>]*>(.*?)<\/p>/';
-		$pp = preg_match($pattern, $str, $matches);
-		dump($pp);
-		dump($matches[1]);
-	}
-
 }
