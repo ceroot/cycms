@@ -57,22 +57,29 @@ class DotArticle extends Base
     public function add()
     {
         if (request()->isAjax()) {
-            $data   = input('post.');
+            $data = input('post.');
+            // return $data;
             $status = $this->model->validate(true);
 
             if ($status === false) {
                 return $this->error($this->model->getError());
             }
 
+            // 封面保存并取得路径
             $file = Input::file('images');
             $info = $file->move('./data/images/');
-            // return $info;
+
             if ($info) {
                 $filename = $info->getFilename();
 
                 $data['cover'] = date('Ymd') . '/' . $filename;
             }
-            // return $info->getPathname();
+
+            // 关键词处理
+            if (empty($data['keywords'])) {
+                $data['keywords'] = get_keywords($data['content']);
+            }
+
             $status = $this->model->save($data);
             // return $data;
             if ($status) {
@@ -106,6 +113,30 @@ class DotArticle extends Base
         } else {
             return $this->fetch();
         }
+    }
+
+    public function scws()
+    {
+        Vendor('scws.pscws4');
+        $pscws = new \PSCWS4();
+        $pscws->set_dict(VENDOR_PATH . 'scws/lib/dict.utf8.xdb');
+        $pscws->set_rule(VENDOR_PATH . 'scws/lib/rules.utf8.ini');
+        $title = '第三方中文分词';
+        $pscws->set_ignore(true);
+        $pscws->send_text($title);
+        $words = $pscws->get_tops(5);
+        dump($words);
+        $tags = array();
+        foreach ($words as $val) {
+            $tags[] = $val['word'];
+        }
+        $pscws->close();
+        dump($tags);
+        //结果
+        //         array (size=3)
+        //         0 => string '分词' (length=6)
+        //         1 => string '中文' (length=6)
+        //         2 => string '第三方' (length=9)
     }
 
 }
