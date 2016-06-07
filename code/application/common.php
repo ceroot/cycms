@@ -526,10 +526,10 @@ function get_keywords($str, $lenght = 5, $separator = ',')
     $words = $pscws->get_tops($lenght);
     $pscws->close();
 
-    $arrlen = count($words) - 1;
-    $tags   = '';
-    foreach ($words as $key => $val) {
-        if ($key != $arrlen) {
+    $end  = end($words);
+    $tags = '';
+    foreach ($words as $val) {
+        if ($val != $end) {
             $tags .= $val['word'] . $separator;
         } else {
             $tags .= $val['word'];
