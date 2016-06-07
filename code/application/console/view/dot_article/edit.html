@@ -6,7 +6,7 @@
     <div class="form-group form-group-sm">
         <label class="col-sm-12" for="cid">所属分类：</label>
         <div class="col-sm-12">
-            <select name="cid" class="form-cy col-sm-3" id="cid" required>
+            <select name="cid" class="form-cy col-sm-3" id="cid">
                 <option value>请选择</option>
                 {volist name='category' id='categorys'}
                     <option value="{$categorys.id}"{eq name="categorys.id" value="$one.cid"} selected="selected"{/eq}>{$categorys._name}</option>
@@ -33,10 +33,10 @@
         </div>
     </div>
     <div class="form-group form-group-sm">
-        <label class="col-sm-12" for="images">封面图：</label>
+        <label class="col-sm-12" for="cover">封面图：</label>
         <div class="col-sm-12">
             <a href="javascript:;" class="file">
-                <input type="file" name="images" id="file0" />
+                <input type="file" name="cover" id="file0" />
                 选择上传文件
             </a>
             <span class="lbl">&nbsp;&nbsp;<img src="/data/images/{$one.cover}" width="100" height="70" id="img0" ></span>
@@ -62,13 +62,13 @@
 <script type="text/javascript">
 var userValidate = {
     rules: {
-        'title':'required',
+        'title1':'required',
         'content':{
             required:true
         }
     }, 
     messages: {
-        'title':'请填写标题',
+        'title1':'请填写标题',
         'content':{
             required:'请填写内容'
         }

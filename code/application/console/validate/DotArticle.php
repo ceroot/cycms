@@ -22,12 +22,14 @@ class DotArticle extends Validate
 {
 
     protected $rule = [
-        'title' => 'require',
-        'cid'   => 'require',
+        'cid'     => 'require',
+        'title'   => 'require',
+        'content' => 'require',
     ];
 
     protected $message = [
-        'title.require' => '标题必填',
-        'cid.require'   => '分类必选',
+        'cid.require'     => '请选择分类',
+        'title.require'   => '标题必填',
+        'content.require' => '内容必填',
     ];
 }
