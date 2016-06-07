@@ -18,140 +18,113 @@ namespace app\console\controller;
 
 use app\console\controller\Base;
 
-class Developer extends Base
-{
-    /**
-     * [_initialize 初始化]
-     * @return [type] [description]
-     */
-    public function _initialize()
-    {
-        parent::_initialize();
-    }
+class Developer extends Base {
+	/**
+	 * [_initialize 初始化]
+	 * @return [type] [description]
+	 */
+	public function _initialize() {
+		parent::_initialize();
+	}
 
-    protected $beforeActionList = [
-        'edit_before' => ['only' => 'edit'],
-        'del_before'  => ['only' => 'del'],
-    ];
+	protected $beforeActionList = [
+		'edit_before' => ['only' => 'edit'],
+		'del_before' => ['only' => 'del'],
+	];
 
-    protected function edit_before()
-    {
-        if (request()->isAjax()) {
-            $contentForm = input('post.content');
-            if (!$contentForm) {
-                return false;
-            } else {
-                $pattern = '<img.*?src="(.*?)">';
-                preg_match_all($pattern, $contentForm, $matchesForm);
-                $imgForm = $matchesForm[1];
+	protected function edit_before() {
+		if (request()->isAjax()) {
+			$contentForm = input('post.content');
+			if (!$contentForm) {
+				return false;
+			} else {
+				$contentSql = $data['content'];
+				// 对比判断并删除操作
+				del_images($contentForm, $contentSql);
+			}
 
-                $pk         = $this->model->getPk();
-                $id         = input('post.' . $pk);
-                $contentSql = $this->model->getFieldById($id, 'content');
-                preg_match_all($pattern, $contentSql, $matchesSql);
-                $imgSql = $matchesSql[1];
+		}
+	}
 
-                foreach ($imgForm as $value) {
-                    if (in_array($value, $imgSql)) {
-                        $k = array_search($value, $imgSql);
-                        unset($imgSql[$k]);
-                    }
-                }
+	protected function del_before() {
+		$pk = $this->model->getPk();
+		$id = input('get.' . $pk);
+		$content = $this->model->getFieldById($id, 'content');
+		$pattern = '<img.*?src="(.*?)">';
+		preg_match_all($pattern, $content, $matches);
+		foreach ($matches[1] as $value) {
+			$arr = parse_url($value);
+			$path = $arr['path'];
+			if (file_exists('.' . $path)) {
+				unlink('.' . $path);
+			}
+		}
 
-                foreach ($imgSql as $value) {
-                    $arr  = parse_url($value);
-                    $path = $arr['path'];
-                    if (file_exists('.' . $path)) {
-                        unlink('.' . $path);
-                    }
-                }
-            }
+	}
 
-        }
-    }
+	public function dddd() {
+		$url = 'http://127.0.0.1:89/data/images/dd.jpg';
+		$ddd = parse_url($url);
+		dump($ddd);
+		die;
 
-    protected function del_before()
-    {
-        $pk      = $this->model->getPk();
-        $id      = input('get.' . $pk);
-        $content = $this->model->getFieldById($id, 'content');
-        $pattern = '<img.*?src="(.*?)">';
-        preg_match_all($pattern, $content, $matches);
-        foreach ($matches[1] as $value) {
-            $arr  = parse_url($value);
-            $path = $arr['path'];
-            if (file_exists('.' . $path)) {
-                unlink('.' . $path);
-            }
-        }
+		$a1 = ['a', 'b', 'c', 'd'];
+		$a2 = ['b', 'e', 'f', 'g'];
+		dump($a2);
+		dump($a1);
+		foreach ($a2 as $value) {
+			if (in_array($value, $a1)) {
+				$k = array_search($value, $a1);
+				dump($a1[$k]);
+				unset($a1[$k]);
+			}
 
-    }
+		}
+		dump($a1);
+		die;
+		$k = array_search('b', $a1);
+		unset($a1[$k]);
+		dump($a1);
 
-    public function dddd()
-    {
-        $url = 'http://127.0.0.1:89/data/images/dd.jpg';
-        $ddd = parse_url($url);
-        dump($ddd);
-        die;
+		die;
+		$data = [
+			'/ueditor/php/upload/image/20160528/1464423663.jpg',
+			'/ueditor/php/upload/image/20160528/1464423664.jpg',
+			'/ueditor/php/upload/image/20160528/1464423666.jpg',
+		];
 
-        $a1 = ['a', 'b', 'c', 'd'];
-        $a2 = ['b', 'e', 'f', 'g'];
-        dump($a2);
-        dump($a1);
-        foreach ($a2 as $value) {
-            if (in_array($value, $a1)) {
-                $k = array_search($value, $a1);
-                dump($a1[$k]);
-                unset($a1[$k]);
-            }
+		$data2 = [
+			'/ueditor/php/upload/image/20160528/1464423664.jpg',
+			'/ueditor/php/upload/image/20160528/1464423667.jpg',
+			'/ueditor/php/upload/image/20160528/1464423668.jpg',
+			'/ueditor/php/upload/image/20160528/1464423669.jpg',
+			'/ueditor/php/upload/image/20160528/1464423670.jpg',
+			'/ueditor/php/upload/image/20160528/1464423671.jpg',
+		];
 
-        }
-        dump($a1);
-        die;
-        $k = array_search('b', $a1);
-        unset($a1[$k]);
-        dump($a1);
+		foreach ($data2 as $value) {
+			if (in_array($value, $data)) {
+				// array_shift($);
+			}
+		}
+		dump($data);
+		die;
+		$content = $this->model->getFieldById(2, 'content');
+		$pattern = '<img.*?src="(.*?)">';
+		preg_match_all($pattern, $content, $matches);
+		// dump($matches);
+		// dump($matches[1]);
+		foreach ($matches[1] as $value) {
+			dump($value);
+		}
 
-        die;
-        $data = [
-            '/ueditor/php/upload/image/20160528/1464423663.jpg',
-            '/ueditor/php/upload/image/20160528/1464423664.jpg',
-            '/ueditor/php/upload/image/20160528/1464423666.jpg',
-        ];
+	}
 
-        $data2 = [
-            '/ueditor/php/upload/image/20160528/1464423664.jpg',
-            '/ueditor/php/upload/image/20160528/1464423667.jpg',
-            '/ueditor/php/upload/image/20160528/1464423668.jpg',
-            '/ueditor/php/upload/image/20160528/1464423669.jpg',
-            '/ueditor/php/upload/image/20160528/1464423670.jpg',
-            '/ueditor/php/upload/image/20160528/1464423671.jpg',
-        ];
-
-        foreach ($data2 as $value) {
-            if (in_array($value, $data)) {
-                // array_shift($);
-            }
-        }
-        dump($data);
-        die;
-        $content = $this->model->getFieldById(2, 'content');
-        $pattern = '<img.*?src="(.*?)">';
-        preg_match_all($pattern, $content, $matches);
-        // dump($matches);
-        // dump($matches[1]);
-        foreach ($matches[1] as $value) {
-            dump($value);
-        }
-
-    }
-
-    public function view()
-    {
-        $id  = input('get.id');
-        $one = $this->model->find($id);
-        $this->assign('one', $one);
-        return $this->fetch();
-    }
+	public function view() {
+		$id = input('get.id');
+		$one = $this->model->find($id);
+		$this->assign('one', $one);
+		return $this->fetch();
+	}
 
 }

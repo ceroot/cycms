@@ -63,28 +63,10 @@ class DotArticle extends Base {
 			if (!$contentForm) {
 				return false;
 			} else {
-				$pattern = '<img.*?src="(.*?)">';
-				preg_match_all($pattern, $contentForm, $matchesForm);
-				$imgForm = $matchesForm[1];
 
 				$contentSql = $data['content'];
-				preg_match_all($pattern, $contentSql, $matchesSql);
-				$imgSql = $matchesSql[1];
-
-				foreach ($imgForm as $value) {
-					if (in_array($value, $imgSql)) {
-						$k = array_search($value, $imgSql);
-						unset($imgSql[$k]);
-					}
-				}
-
-				foreach ($imgSql as $value) {
-					$arr = parse_url($value);
-					$path = $arr['path'];
-					if (file_exists('.' . $path)) {
-						unlink('.' . $path);
-					}
-				}
+				// 对比判断并删除操作
+				del_images($contentForm, $contentSql);
 			}
 		}
 	}
