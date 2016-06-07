@@ -55,7 +55,7 @@ class DotArticle extends Extend {
 			$data['description'] = str_replace('&nbsp;', '', str_replace(' ', '', $description));
 		}
 
-		if ($data['id']) {
+		if (input('post.id')) {
 			$status = $this->save($data, ['id' => $data['id']]);
 		} else {
 			$status = $this->save($data);
