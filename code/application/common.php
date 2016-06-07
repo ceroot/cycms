@@ -506,3 +506,34 @@ function getrandom($length = 6, $numeric = 0)
     }
     return $hash;
 }
+
+/**
+ * 取得关键词，分词
+ * @param  string    $str        [需要分词的字符串]
+ * @param  string    $lenght     [分文词长度，默认为5个]
+ * @param  string    $separator  [分隔符，默认为英文的逗号]
+ * @return string    $str        [返回分词]
+ * @author SpringYang <ceroot@163.com>
+ */
+function get_keywords($str, $lenght = 5, $separator = ',')
+{
+    Vendor('scws.pscws4');
+    $pscws = new \PSCWS4();
+    $pscws->set_dict(VENDOR_PATH . 'scws/lib/dict.utf8.xdb');
+    $pscws->set_rule(VENDOR_PATH . 'scws/lib/rules.utf8.ini');
+    $pscws->set_ignore(true);
+    $pscws->send_text($str);
+    $words = $pscws->get_tops($lenght);
+    $pscws->close();
+
+    $arrlen = count($words) - 1;
+    $tags   = '';
+    foreach ($words as $key => $val) {
+        if ($key != $arrlen) {
+            $tags .= $val['word'] . $separator;
+        } else {
+            $tags .= $val['word'];
+        }
+    }
+    return $tags;
+}
