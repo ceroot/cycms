@@ -83,16 +83,15 @@ class DotArticle extends Extend {
 		$patternImg = '/<img.*?src="(.*?)".*?>/is';
 		if (preg_match_all($patternImg, $data['content'], $matchesImg)) {
 			// return $matchesImg;
-			$imagesTemp = [];
 			$replaceData = [];
 			foreach ($matchesImg[0] as $key => $value) {
 				if (stripos($value, 'data/ueditor') !== false) {
 					$oldValue = $newValue = $value; // 临时变量
-					$imageSrc = $matchesImg[1][$key]; // 匹配所得的 img 里的 src
-					$imagesArr = explode('/', $imageSrc); // 拆分 src 为数组
-					$imagesName = end($imagesArr); // 取数组最后一个，也就是文件名
-					$datePath = array_slice($imagesArr, -2, 1); // 取得时间目录
-					$newPath = $pathImages . $datePath[0] . '/';
+					$imageSrc = $matchesImg[1][$key]; // 取得 img 里的 src
+					$imagesArr = explode('/', $imageSrc); // 以 / 拆分 src 变为数组
+					$imagesName = end($imagesArr); // 取得数组里的最后一个值，也就是文件名
+					$datePath = array_slice($imagesArr, -2, 1); // 取得数组里的倒数第二个值，也就是以日期命名的目录
+					$newPath = $pathImages . $datePath[0] . '/'; // 新的文件目录
 
 					// 判断目录是否存在，如果不存在则创建
 					if (!is_dir($newPath)) {
@@ -107,32 +106,31 @@ class DotArticle extends Extend {
 					}
 
 					// alt 替换
-					$patternAlt = '/<img.*alt\=[\"|\'](.*)[\"|\'].*>/i';
-					$altPreg = preg_match($patternAlt, $oldValue, $matchAlt);
+					$patternAlt = '/<img.*alt\=[\"|\'](.*)[\"|\'].*>/i'; // alt 规则
+					$newAlt = 'alt="' . $data['title'] . '"'; // 新的 alt
 
+					$altPreg = preg_match($patternAlt, $oldValue, $matchAlt);
 					if ($altPreg) {
-						$newAlt = 'alt="' . $data['title'] . '"';
 						$newValue = preg_replace('/alt=.+?[*|\"]/i', $newAlt, $newValue);
 					} else {
 						$valueTemp = str_replace('/>', '', $newValue);
-						$newAlt = 'alt="' . $data['title'] . '"';
 						$newValue = $valueTemp . ' ' . $newAlt . '/>';
 					}
 
 					// 标题替换处理
-					$patternTitle = '/<img.*title\=[\"|\'](.*)[\"|\'].*>/i';
+					$patternTitle = '/<img.*title\=[\"|\'](.*)[\"|\'].*>/i'; // title 规则
+					$newTitle = 'title="' . $data['title'] . '"'; // 新的 title
+
 					$titlePreg = preg_match($patternTitle, $oldValue, $matchTitle);
 					if ($titlePreg) {
-						$newTitle = 'title="' . $data['title'] . '"';
 						$newValue = preg_replace('/title=.+?[*|\"]/i', $newTitle, $newValue);
 					} else {
 						$valueTemp = str_replace('/>', '', $newValue);
-						$newTitle = 'title="' . $data['title'] . '"';
 						$newValue = $valueTemp . ' ' . $newTitle . '/>';
 					}
-					// return $data;
+
 					// 样式为空替换处理
-					$stylePattern = '<img.*?style="(.*?)">';
+					$stylePattern = '<img.*?style="(.*?)">'; // style 规则
 					$stylePreg = preg_match($stylePattern, $oldValue, $styleMatch);
 					if ($stylePreg) {
 						if (empty($styleMatch[1])) {
@@ -143,7 +141,6 @@ class DotArticle extends Extend {
 					// 替换成新的图片路径
 					$newValue = str_replace('ueditor/', '', $newValue);
 
-					// 组合数据
 					$replaceData[] = [$oldValue => $newValue];
 
 				}
@@ -152,6 +149,11 @@ class DotArticle extends Extend {
 			return $replaceData;
 
 			die;
+			// 内容替换成新的图片路径
+			foreach ($imagesTemp as $value) {
+				$newValue = str_replace('ueditor/', '', $value);
+				$data['content'] = str_replace($value, $newValue, $data['content']);
+			}
 		}
 
 		/*
