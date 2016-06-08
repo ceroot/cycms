@@ -545,13 +545,13 @@ function del_images($dataForm, $dataSql) {
 	$patternImage = '<img.*?src="(.*?)">';
 
 	// 匹配表单数据并取得数据
-	if (preg_match_all($patternImage, $dataForm, $matchesForm)) {
-		$imgForm = $matchesForm[1];
+	if (preg_match_all($patternImage, $dataForm, $matchesImageForm)) {
+		$imgForm = $matchesImageForm[1];
 	}
 
 	// 匹配数据库数据并取得数据
-	if (preg_match_all($patternImage, $dataSql, $matchesSql)) {
-		$imgSql = $matchesSql[1];
+	if (preg_match_all($patternImage, $dataSql, $matchesImageSql)) {
+		$imgSql = $matchesImageSql[1];
 	}
 
 	// 如果表单数据不为空的话就去和数据库作对比并删除不需要进行删除的数据
@@ -577,9 +577,15 @@ function del_images($dataForm, $dataSql) {
 		}
 	}
 
+	// 匹配表单数据并取得数据
 	$patternHref = '<a.*?href="(.*?)">';
-	if (preg_match_all($patternHref, $dataForm, $matchesHref)) {
-		return $matchesHref;
+	if (preg_match_all($patternHref, $dataForm, $matchesHrefForm)) {
+		// return $matchesHrefForm;
+	}
+
+	// 匹配数据库数据并取得数据
+	if (preg_match_all($patternHref, $dataSql, $matchesHrefSql)) {
+		return $matchesHrefSql;
 	}
 
 }
