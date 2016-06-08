@@ -59,7 +59,7 @@ class DotArticle extends Base {
 			}
 
 			$status = $this->model->datahandle();
-			return $status;
+			// return $status;
 			if ($status) {
 				action_log($status); // 记录日志
 				return $this->success('添加成功', url('list'));
@@ -120,7 +120,7 @@ class DotArticle extends Base {
 			}
 
 			$status = $this->model->datahandle();
-			return $status;
+			// return $status;
 			if ($status) {
 				action_log($data['id']); // 记录日志
 				return $this->success('修改成功', url('list'));

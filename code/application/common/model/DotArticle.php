@@ -145,14 +145,7 @@ class DotArticle extends Extend {
 					$data['content'] = str_replace($oldValue, $newValue, $data['content']);
 				}
 			}
-
 		}
-
-		/*
-			        $patternHrf = '/<a.*?href=[\'\"]?([^\'\" ]+).*?>/';
-
-			        $pattern = '/<p[^>]*>(.*?)<\/p>/';
-		*/
 
 		// 文件替换处理
 		if (preg_match_all("'<\s*a\s.*?href\s*=\s*([\"\'])?(?(1)(.*?)\\1|([^\s\>]+))[^>]*>?(.*?)</a>'isx", $data['content'], $links)) {
@@ -178,10 +171,10 @@ class DotArticle extends Extend {
 
 			}
 
-			$linkTemp = [];
+			// 文件地址处理
 			foreach ($match['link'] as $value) {
 				if (stripos($value, 'data/ueditor') !== false) {
-					$linkTemp[] = $value;
+					$oldValue = $value;
 					$linkArr = explode('/', $value);
 					$datePath = array_slice($linkArr, -2, 1);
 					$fileName = end($linkArr);
@@ -192,18 +185,19 @@ class DotArticle extends Extend {
 						make_dir($newPath);
 					}
 
+					// 移动文件
 					$newPath = $newPath . $fileName; // 新路径
 					$value = '.' . $value; // 旧路径
 					if (is_file($value)) {
 						rename($value, $newPath);
 					}
-				}
-			}
 
-			// 内容替换成新的文件路径
-			foreach ($linkTemp as $value) {
-				$newvalue = str_replace('ueditor/', '', $value);
-				$data['content'] = str_replace($value, $newvalue, $data['content']);
+					// 替换成新的文件路径
+					$newvalue = str_replace('ueditor/', '', $oldValue);
+
+					// 内容替换成新的值
+					$data['content'] = str_replace($oldValue, $newvalue, $data['content']);
+				}
 			}
 		}
 
@@ -219,6 +213,7 @@ class DotArticle extends Extend {
 			$status = $this->save($data);
 		}
 
+		// 返回状态
 		return $status;
 	}
 }
