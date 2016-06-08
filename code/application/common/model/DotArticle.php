@@ -24,6 +24,7 @@ class DotArticle extends Extend {
 	// 写入处理
 	public function datahandle() {
 		$data = input('post.');
+		// return $data['content'];
 		$id = input('post.id'); // 因需要到 id 来判断写入形式，所以这里单独获取 id，有 id 的时候是修改，没有 id 的时候是新增
 
 		// 一些路径
@@ -83,7 +84,6 @@ class DotArticle extends Extend {
 		$patternImg = '/<img.*?src="(.*?)".*?>/is';
 		if (preg_match_all($patternImg, $data['content'], $matchesImg)) {
 			// return $matchesImg;
-			$replaceData = [];
 			foreach ($matchesImg[0] as $key => $value) {
 				if (stripos($value, 'data/ueditor') !== false) {
 					$oldValue = $newValue = $value; // 临时变量
@@ -141,19 +141,11 @@ class DotArticle extends Extend {
 					// 替换成新的图片路径
 					$newValue = str_replace('ueditor/', '', $newValue);
 
-					$replaceData[] = [$oldValue => $newValue];
-
+					// 内容替换成新的值
+					$data['content'] = str_replace($oldValue, $newValue, $data['content']);
 				}
 			}
 
-			return $replaceData;
-
-			die;
-			// 内容替换成新的图片路径
-			foreach ($imagesTemp as $value) {
-				$newValue = str_replace('ueditor/', '', $value);
-				$data['content'] = str_replace($value, $newValue, $data['content']);
-			}
 		}
 
 		/*
