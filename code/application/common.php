@@ -624,7 +624,11 @@ function del_images($dataForm, $dataSql)
 
     if (!empty($hrefSql)) {
         foreach ($hrefSql as $value) {
-            // return $value;
+            $arr  = parse_url($value);
+            $path = $arr['path'];
+            if (is_file('.' . $path)) {
+                unlink('.' . $path);
+            }
         }
     }
 

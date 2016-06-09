@@ -103,7 +103,8 @@ class DotArticle extends Base
         if (request()->isAjax()) {
             // $file = Input::file('cover');
 
-            $data   = input('post.');
+            $data = input('post.');
+            // return $data;
             $result = $this->validate($data, request()->controller());
 
             if ($result !== true) {
@@ -122,6 +123,7 @@ class DotArticle extends Base
             if ($contentForm) {
                 $contentSql = $one['content'];
                 // 对比判断并删除操作
+
                 $dd = del_images($contentForm, $contentSql);
                 return $dd;
             }
