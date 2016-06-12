@@ -511,6 +511,10 @@ function getrandom($length = 6, $numeric = 0) {
  * @author SpringYang <ceroot@163.com>
  */
 function get_keywords($str, $lenght = 10, $separator = ',') {
+	$str = strip_tags($str); // 去掉 html 代码
+	$str = str_replace(' ', '', $str); // 去掉空格
+	$str = str_replace('&nbsp;', '', $str); // 去掉 &nbsp;
+
 	Vendor('scws.pscws4');
 	$pscws = new \PSCWS4();
 	$pscws->set_dict(VENDOR_PATH . 'scws/lib/dict.utf8.xdb');
@@ -530,6 +534,32 @@ function get_keywords($str, $lenght = 10, $separator = ',') {
 		}
 	}
 	return $tags;
+}
+
+/**
+ * 取得描述
+ * @param  string    $str        [需要分词的字符串]
+ * @param  string    $lenght     [分文词长度，默认为120个]
+ * @return string    $str        [返回描述]
+ * @author SpringYang <ceroot@163.com>
+ */
+function get_description($str, $lenght = 120) {
+	$pattern = '/<p[^>]*>(.*?)<\/p>/';
+	$preg = preg_match($pattern, $str, $matches);
+	// 当能够正常匹配的时候就使用匹配的值，当不能匹配的时候取默认值
+	if ($preg) {
+		$description = mb_substr(strip_tags($matches[1]), 0, $lenght);
+		if (empty($description)) {
+			$description = mb_substr(strip_tags($str), 0, $lenght);
+		}
+	} else {
+		$description = mb_substr(strip_tags($str), 0, $lenght);
+	}
+
+	$description = str_replace(' ', '', $description); // 去掉空格
+	$description = str_replace('&nbsp;', '', $description); // 去掉 &nbsp
+
+	return $description;
 }
 
 /**
