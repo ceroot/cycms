@@ -114,18 +114,18 @@ class DotArticle extends Base {
 					}
 				}
 			}
-			return 2;
+
 			$contentForm = $data['content'];
 			if ($contentForm) {
 				$contentSql = $one['content'];
 				// 对比判断并删除操作
 
 				$dd = del_images($contentForm, $contentSql);
-				return $dd;
+				// return $dd;
 			}
 
 			$status = $this->model->datahandle();
-			return $status;
+			// return $status;
 			if ($status) {
 				action_log($data['id']); // 记录日志
 				return $this->success('修改成功', url('list'));
