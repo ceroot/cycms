@@ -507,7 +507,7 @@ function getrandom($length = 6, $numeric = 0) {
  * @param  string    $str        [需要分词的字符串]
  * @param  string    $lenght     [分文词长度，默认为5个]
  * @param  string    $separator  [分隔符，默认为英文的逗号]
- * @return string    $str        [返回分词]
+ * @return string    $tags       [返回分词]
  * @author SpringYang <ceroot@163.com>
  */
 function get_keywords($str, $lenght = 10, $separator = ',') {
@@ -538,13 +538,13 @@ function get_keywords($str, $lenght = 10, $separator = ',') {
 
 /**
  * 取得描述
- * @param  string    $str        [需要分词的字符串]
- * @param  string    $lenght     [分文词长度，默认为120个]
- * @return string    $str        [返回描述]
+ * @param  string    $str          [需要分词的字符串]
+ * @param  string    $lenght       [分文词长度，默认为120个]
+ * @return string    $description  [返回描述]
  * @author SpringYang <ceroot@163.com>
  */
 function get_description($str, $lenght = 120) {
-	$pattern = '/<p[^>]*>(.*?)<\/p>/';
+	$pattern = '/<p[^>]*>(.*?)<\/p>/'; // 因为 ueditor 是以 p 标签来做段落
 	$preg = preg_match($pattern, $str, $matches);
 	// 当能够正常匹配的时候就使用匹配的值，当不能匹配的时候取默认值
 	if ($preg) {
@@ -566,7 +566,7 @@ function get_description($str, $lenght = 120) {
  * 修改文章时删除原来数据库里被修改去的图片或者文件
  * @param  string    $dataForm    [表单提交过来的数据]
  * @param  string    $dataSql     [数据库里的数据]
- * @return string    $str            [返回分词]
+ * @return string
  * @author SpringYang <ceroot@163.com>
  */
 function del_file($dataForm, $dataSql) {
@@ -663,7 +663,6 @@ function del_file($dataForm, $dataSql) {
  * @author SpringYang <ceroot@163.com>
  */
 function ueditor_handle($content, $title = null) {
-	// 一些路径
 	$pathFiles = './data/files/'; // 文件保存路径
 	$pathImages = './data/images/'; // 图片保存路径
 	$pathVideos = './data/videos/'; // 视频保存路径
@@ -672,7 +671,6 @@ function ueditor_handle($content, $title = null) {
 	// $patternImg = '<img.*?src="(.*?)">';
 	$patternImg = '/<img.*?src="(.*?)".*?>/is';
 	if (preg_match_all($patternImg, $content, $matchesImg)) {
-		// return $matchesImg;
 		foreach ($matchesImg[0] as $key => $value) {
 			if (stripos($value, 'data/ueditor') !== false) {
 				$oldValue = $newValue = $value; // 临时变量
