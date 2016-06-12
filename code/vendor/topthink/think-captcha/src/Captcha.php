@@ -98,7 +98,7 @@ class Captcha
             return false;
         }
         // session 过期
-        if (NOW_TIME - $secode['verify_time'] > $this->expire) {
+        if (time() - $secode['verify_time'] > $this->expire) {
             Session::delete($key);
             return false;
         }
@@ -135,7 +135,7 @@ class Captcha
         $ttfPath = __DIR__ . '/../assets/' . ($this->useZh ? 'zhttfs' : 'ttfs') . '/';
 
         if (empty($this->fontttf)) {
-            $dir  = dir($ttfPath);
+            $dir = dir($ttfPath);
             $ttfs = [];
             while (false !== ($file = $dir->read())) {
                 if ('.' != $file[0] && substr($file, -4) == '.ttf') {
@@ -161,7 +161,7 @@ class Captcha
         }
 
         // 绘验证码
-        $code   = []; // 验证码
+        $code = []; // 验证码
         $codeNX = 0; // 验证码第N个字符的左边距
         if ($this->useZh) {
             // 中文验证码
@@ -178,9 +178,9 @@ class Captcha
         }
 
         // 保存验证码
-        $key                   = $this->authcode($this->seKey);
-        $code                  = $this->authcode(strtoupper(implode('', $code)));
-        $secode                = [];
+        $key = $this->authcode($this->seKey);
+        $code = $this->authcode(strtoupper(implode('', $code)));
+        $secode = [];
         $secode['verify_code'] = $code; // 把校验码保存到session
         $secode['verify_time'] = time(); // 验证码创建时间
         Session::set($key . $id, $secode);
@@ -224,7 +224,7 @@ class Captcha
         for ($px = $px1; $px <= $px2; $px = $px + 1) {
             if (0 != $w) {
                 $py = $A * sin($w * $px + $f) + $b + $this->imageH / 2; // y = Asin(ωx+φ) + b
-                $i  = (int) ($this->fontSize / 5);
+                $i = (int)($this->fontSize / 5);
                 while ($i > 0) {
                     imagesetpixel($this->_image, $px + $i, $py + $i, $this->_color); // 这里(while)循环画像素点比imagettftext和imagestring用字体大小一次画出（不用这while循环）性能要好很多
                     $i--;
@@ -233,18 +233,18 @@ class Captcha
         }
 
         // 曲线后部分
-        $A   = mt_rand(1, $this->imageH / 2); // 振幅
-        $f   = mt_rand(-$this->imageH / 4, $this->imageH / 4); // X轴方向偏移量
-        $T   = mt_rand($this->imageH, $this->imageW * 2); // 周期
-        $w   = (2 * M_PI) / $T;
-        $b   = $py - $A * sin($w * $px + $f) - $this->imageH / 2;
+        $A = mt_rand(1, $this->imageH / 2); // 振幅
+        $f = mt_rand(-$this->imageH / 4, $this->imageH / 4); // X轴方向偏移量
+        $T = mt_rand($this->imageH, $this->imageW * 2); // 周期
+        $w = (2 * M_PI) / $T;
+        $b = $py - $A * sin($w * $px + $f) - $this->imageH / 2;
         $px1 = $px2;
         $px2 = $this->imageW;
 
         for ($px = $px1; $px <= $px2; $px = $px + 1) {
             if (0 != $w) {
                 $py = $A * sin($w * $px + $f) + $b + $this->imageH / 2; // y = Asin(ωx+φ) + b
-                $i  = (int) ($this->fontSize / 5);
+                $i = (int)($this->fontSize / 5);
                 while ($i > 0) {
                     imagesetpixel($this->_image, $px + $i, $py + $i, $this->_color);
                     $i--;
@@ -277,7 +277,7 @@ class Captcha
     private function _background()
     {
         $path = dirname(__FILE__) . '/verify/bgs/';
-        $dir  = dir($path);
+        $dir = dir($path);
 
         $bgs = [];
         while (false !== ($file = $dir->read())) {
