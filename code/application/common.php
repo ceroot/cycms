@@ -558,7 +558,6 @@ function get_description($str, $lenght = 120) {
 
 	$description = str_replace(' ', '', $description); // 去掉空格
 	$description = str_replace('&nbsp;', '', $description); // 去掉 &nbsp
-
 	return $description;
 }
 
@@ -570,7 +569,6 @@ function get_description($str, $lenght = 120) {
  * @author SpringYang <ceroot@163.com>
  */
 function del_file($dataForm, $dataSql) {
-
 	// 取得图片正则
 	$patternImage = '<img.*?src="(.*?)">';
 	// 匹配表单数据并取得数据
@@ -659,7 +657,7 @@ function del_file($dataForm, $dataSql) {
  * 处理 ueditor 富文本编辑器对图片和文件及其它的处理
  * @param  string    $content    [表单提交过来的内容]
  * @param  string    $title      [标题内容，用于图片的 alt 和 title 属性值，默认为 null，不执行]
- * @return string    $str        [返回新的内容]
+ * @return string    $content    [返回新的内容]
  * @author SpringYang <ceroot@163.com>
  */
 function ueditor_handle($content, $title = null) {
@@ -795,6 +793,5 @@ function ueditor_handle($content, $title = null) {
 	if (stripos($content, 'ueditor/1.4.3.2/dialogs/attachment') !== false) {
 		$content = str_replace('ueditor/1.4.3.2/dialogs/attachment', 'images', $content);
 	}
-
 	return $content;
 }
