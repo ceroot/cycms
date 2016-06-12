@@ -119,9 +119,7 @@ class DotArticle extends Base {
 			if ($contentForm) {
 				$contentSql = $one['content'];
 				// 对比判断并删除操作
-
-				$dd = del_images($contentForm, $contentSql);
-				// return $dd;
+				del_file($contentForm, $contentSql);
 			}
 
 			$status = $this->model->datahandle();
