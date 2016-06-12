@@ -57,26 +57,12 @@ class DotArticle extends Extend {
 
 		// 关键词处理
 		if (empty($data['keywords'])) {
-			$str = strip_tags($data['content']); // 去掉 html 代码
-			$str = str_replace(' ', '', $str); // 去掉空格
-			$str = str_replace('&nbsp;', '', $str); // 去掉 &nbsp;
-			$data['keywords'] = get_keywords($str);
+			$data['keywords'] = get_keywords($data['content']);
 		}
 
 		// 描述处理
 		if (empty($data['description'])) {
-			$pattern = '/<p[^>]*>(.*?)<\/p>/';
-			$preg = preg_match($pattern, $data['content'], $matches);
-			// 当能够正常匹配的时候就使用匹配的值，当不能匹配的时候取前 120
-			if ($preg) {
-				$description = mb_substr(strip_tags($matches[1]), 0, 120);
-				if (empty($description)) {
-					$description = mb_substr(strip_tags($data['content']), 0, 120);
-				}
-			} else {
-				$description = mb_substr(strip_tags($data['content']), 0, 120);
-			}
-			$data['description'] = str_replace('&nbsp;', '', str_replace(' ', '', $description));
+			$data['description'] = get_description($data['content']);
 		}
 
 		// 对 ueditor 内容数据的处理
