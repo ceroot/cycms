@@ -281,12 +281,9 @@ class Uploader {
 	 * @return string
 	 */
 	private function getFullName() {
-		//替换日期事件
-		//$t = time();
-		$t = microtime(); //microtime 20160607[杨春]
-		$t = str_replace('.', '', $t);
-		$t = explode(' ', $t);
-		$t = $t[1] . $t[0];
+		// 替换日期事件
+		// $t = time();
+		$t = md5(microtime(true)); // microtime 20160612[杨春]
 
 		$d = explode('-', date("Y-y-m-d-H-i-s"));
 		$format = $this->config["pathFormat"];
