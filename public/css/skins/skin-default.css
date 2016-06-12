@@ -293,7 +293,7 @@ body.skin-default{
 
 .content-area{ padding-bottom: 46px; }
 .fixed-bottom,
-.pager-wrapper{ position: fixed; z-index: 899; bottom: 0; left: 0; margin-left:0; margin-right:0; width:100%; background:#FFF;border-top:1px solid #ccc; padding: 5px; padding-left: 16px; }
+.pager-wrapper{ position: fixed; z-index: 899; bottom: 0; left: 0; margin-left:0; margin-right:0; width:100%; background:#FFF;border-top:1px solid #E5E5E5; padding: 5px; padding-left: 16px; }
 .pager-wrapper .pager{margin: 0; padding: 0; text-align: left;}
 .pager-wrapper .pager ul.pagination{ padding: 0; margin: 0 }
 
