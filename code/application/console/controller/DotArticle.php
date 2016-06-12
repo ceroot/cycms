@@ -58,7 +58,7 @@ class DotArticle extends Base
             }
 
             $status = $this->model->datahandle();
-            return $status;
+            // return $status;
             if ($status) {
                 action_log($status); // 记录日志
                 return $this->success('添加成功', url('list'));

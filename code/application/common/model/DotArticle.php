@@ -58,12 +58,13 @@ class DotArticle extends Extend
                 if (!file_exists($pathImages . $ymd)) {
                     make_dir($pathImages . $ymd);
                 }
-                // 取得文件信息
-                $imageInfo = getimagesize($tempFile);
-                if ($imageInfo) {
-                    // 判断图片宽度来是否进行缩小操作
-                    if ($imageInfo[0] > 800) {
-                        if (is_file($tempFile)) {
+
+                if (is_file($tempFile)) {
+                    // 取得文件信息
+                    $imageInfo = getimagesize($tempFile);
+                    if ($imageInfo) {
+                        // 判断图片宽度来是否进行缩小操作
+                        if ($imageInfo[0] > 800) {
                             // 实例化图片尺寸类
                             $newimage = new \imageresize\ImageResize();
                             $result   = $newimage->resize($tempFile, $savePath, 800, 500);
@@ -71,12 +72,12 @@ class DotArticle extends Extend
                                 $cover = $ymd . $filename;
                                 unlink($tempFile); // 删除临时文件
                             }
-                        }
-                    } else {
-                        // 移动文件
-                        $result = rename($tempFile, $savePath);
-                        if ($result) {
-                            $cover = $ymd . $filename;
+                        } else {
+                            // 移动文件
+                            $result = rename($tempFile, $savePath);
+                            if ($result) {
+                                $cover = $ymd . $filename;
+                            }
                         }
                     }
                 }
