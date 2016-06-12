@@ -565,7 +565,7 @@ function del_images($dataForm, $dataSql) {
 			}
 		}
 	}
-	// return $imgSql;
+
 	// 如果表单数据不为空的话就去和数据库作对比并删除不需要进行删除的数据
 	if (!empty($imgForm)) {
 		foreach ($imgForm as $value) {
@@ -588,7 +588,7 @@ function del_images($dataForm, $dataSql) {
 			}
 		}
 	}
-	// return $imgSql;
+
 	// 匹配表单数据并取得数据
 	$patternHref = '<a.*?href="(.*?)">';
 	if (preg_match_all($patternHref, $dataForm, $matchesHrefForm)) {
@@ -600,6 +600,7 @@ function del_images($dataForm, $dataSql) {
 		$hrefSql = $matchesHrefSql[1];
 	}
 
+	// 如果表单数据不为空的话就去和数据库作对比并删除不需要进行删除的数据
 	if (!empty($hrefForm)) {
 		foreach ($hrefForm as $value) {
 			if (!empty($hrefSql)) {
@@ -611,8 +612,8 @@ function del_images($dataForm, $dataSql) {
 		}
 	}
 
+	// 如果进行处理后的数据不为空则执行删除操作
 	if (!empty($hrefSql)) {
-		// return 3;
 		foreach ($hrefSql as $value) {
 			$arr = parse_url($value);
 			$path = $arr['path'];
@@ -621,7 +622,5 @@ function del_images($dataForm, $dataSql) {
 			}
 		}
 	}
-
-	// return 4;
 
 }
