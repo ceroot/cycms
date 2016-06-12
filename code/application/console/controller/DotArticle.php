@@ -28,7 +28,6 @@ class DotArticle extends Base {
 		parent::_initialize();
 		$category = model('dotCategory')->getAll();
 		$this->assign('category', $category);
-		// dump($category);
 	}
 
 	protected $beforeActionList = [
@@ -37,12 +36,7 @@ class DotArticle extends Base {
 	];
 
 	protected function add_before() {
-		if (request()->isAjax()) {
-			$cid = input('cid');
-			if ($cid == '-1') {
-				return $this->error('请选择分类');
-			}
-		}
+
 	}
 
 	protected function edit_before() {
@@ -59,16 +53,13 @@ class DotArticle extends Base {
 			}
 
 			$status = $this->model->datahandle();
-			return $status;
 			if ($status) {
 				action_log($status); // 记录日志
 				return $this->success('添加成功', url('list'));
 			} else {
-				// return $this->error('失败');
 				return $this->model->getError();
 			}
 		} else {
-
 			return $this->fetch();
 		}
 	}
@@ -92,19 +83,19 @@ class DotArticle extends Base {
 			return $this->error('参数错误');
 		}
 
+		// 读取数据
 		$one = db(request()->controller())->find($id);
 
+		// 判断提交类型
 		if (request()->isAjax()) {
-			// $file = Input::file('cover');
-
 			$data = input('post.');
-			// return $data;
 			$result = $this->validate($data, request()->controller());
 
 			if ($result !== true) {
 				return $this->error($result);
 			}
 
+			// 封面处理
 			$file = Input::file('images');
 			if ($file) {
 				if (empty($one['cover'])) {
@@ -118,8 +109,10 @@ class DotArticle extends Base {
 			$contentForm = $data['content'];
 			if ($contentForm) {
 				$contentSql = $one['content'];
-				// 对比判断并删除操作
-				del_file($contentForm, $contentSql);
+				if (empty($contentSql)) {
+					// 对比判断并删除操作
+					del_file($contentForm, $contentSql);
+				}
 			}
 
 			$status = $this->model->datahandle();
@@ -128,19 +121,12 @@ class DotArticle extends Base {
 				action_log($data['id']); // 记录日志
 				return $this->success('修改成功', url('list'));
 			} else {
-				// return $this->error('失败');
 				return $this->model->getError();
 			}
 		} else {
 			$this->assign('one', $one);
 			return $this->fetch();
 		}
-	}
-
-	public function file() {
-		$path = '/data/image/';
-		$name = '200.jpg';
-		return $path . $name;
 	}
 
 }
