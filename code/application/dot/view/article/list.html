@@ -1,0 +1,20 @@
+{extend name="mould:base" /}
+{block name="title"}{/block}
+{block name="content"}
+<div class="container">
+	<div class="row dot-article">
+		<div class="col-xs-12 col-md-9">
+			<ul class="list-unstyled">
+				{volist name="list" id="vo"}
+					<li>
+						<a href="{:url('view',array('id'=>$vo['id']))}" title="{$vo.title}" target="_blank">{$vo.title}</a>
+					</li>
+				{/volist}
+			</ul>
+		</div>
+		<div class="col-xs-12 col-md-3">
+			df
+		</div>
+	</div>
+</div>
+{/block}
