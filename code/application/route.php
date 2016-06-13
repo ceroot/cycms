@@ -31,7 +31,8 @@ return [
     // 'hello/:name'       => ['api/api/index', [], ['name' => '\w+']],
 
     '__domain__'        => [
-        'www.gylbgg.com' => 'dot',
+        'www.gylbgg.com'   => 'dot',
+        'gylb.benweng.com' => 'dot',
         // 泛域名规则建议在最后定义
         // '*.user'         => 'user',
         // '*'              => 'book',

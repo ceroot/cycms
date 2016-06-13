@@ -17,6 +17,7 @@
 namespace app\dot\controller;
 
 use app\dot\controller\Base;
+use third\Data;
 
 class Index extends Base
 {
@@ -30,7 +31,10 @@ class Index extends Base
     {
         $case = model('dotCases')->select();
         $this->assign('case', $case);
-        $category = model('dotCategory')->getAll(1);
+
+        $category = model('dotCategory')->where('hidden')->select();
+        $category = Data::channelLevel($category, 0, '', 'id', 'pid');
+
         // dump($category);
         // die;
         $this->assign('category', $category);

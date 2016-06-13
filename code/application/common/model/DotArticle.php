@@ -21,6 +21,12 @@ use think\Input;
 
 class DotArticle extends Extend
 {
+    public function getCategoryTextAttr($value, $data)
+    {
+        $cid   = $data['cid'];
+        $title = db('dotCategory')->getFieldById($cid, 'title');
+        return $title;
+    }
 
     // 写入处理
     public function datahandle()

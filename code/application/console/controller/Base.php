@@ -329,8 +329,13 @@ class Base extends Extend
      */
     public function updatestatus()
     {
-        $pk             = $this->model->getPk();
-        $id             = input('get.' . $pk);
+        $pk = $this->model->getPk();
+        $id = input('get.' . $pk);
+
+        if (!$id) {
+            return $this->error('参数错误');
+        }
+
         $value          = db(CONTROLLER_NAME)->getFieldById($id, 'status');
         $data['status'] = $value ? 0 : 1;
         $status         = $this->model->save($data, [$pk => $id]);

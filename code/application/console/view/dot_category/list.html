@@ -9,7 +9,8 @@
 	        <col>
 	        <col width="90">
 	        <col width="140">
-	        <col width="90">
+	        <col width="36">
+	        <col width="36">
 	        <col width="120">
         </colgroup>
         <thead>
@@ -20,6 +21,7 @@
             <td>url</td>
             <td>添加人</td>
             <td>添加时间</td>
+            <td>状态</td>
             <td>状态</td>
             <td align='center'>管理操作</td>
           </tr>
@@ -33,6 +35,7 @@
 				<td>{$list.create_uid|get_nickname}</td>
 				<td>{$list.create_time|time_format}</td>
 				<td><a class="cy-ajax" href="{:url('updatestatus',array('id'=>$list['id']))}" title="快捷设置状态">{$list.status ? '正常' : '禁用'}</a></td>
+				<td><a class="cy-ajax" href="{:url('updatehidden',array('id'=>$list['id']))}" title="快捷设置显示状态">{$list.hidden ? '显示' : '隐藏'}</a></td>
 				<td align='center' >
 					<a href="{:url('edit',array('id'=>$list['id']))}" title="修改">修改</a> | 
 					<a href="{:url('add',array('pid'=>$list['id']))}" title="添加">添加</a> | 

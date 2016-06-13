@@ -8,7 +8,7 @@
 		<div class="col-xs-12 col-md-9 content mg-t-15">
 			<div class="">
 				<h3 class="title">{$one.title}</h3>
-				<div class="pd-l-10">发表时间：{$one.create_time|time_format}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发表人：{$one.create_time|get_nickname}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;浏览：{$one.times}</div>
+				<div class="pd-l-10">发表时间：{$one.create_time|time_format}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发表人：{$one.create_uid|get_nickname}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{notempty name="$one['source']"}来源：{$one.source}{/notempty}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;浏览：{$one.times}</div>
 				<div class="mg-t-20">{$one.content}</div>
 			</div>
 		</div>

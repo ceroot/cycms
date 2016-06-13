@@ -33,10 +33,6 @@ class DotCategory extends Base
         $this->assign('category', $category);
     }
 
-    function list() {
-        return $this->fetch();
-    }
-
     protected $beforeActionList = [
         'add_before' => ['only' => 'add'],
     ];
@@ -46,6 +42,32 @@ class DotCategory extends Base
         if (input('get.pid')) {
             $this->assign('pid', input('get.pid'));
         }
+    }
+
+    function list() {
+        return $this->fetch();
+    }
+
+    public function updatehidden()
+    {
+        $pk = $this->model->getPk();
+        $id = input('get.' . $pk);
+
+        if (!$id) {
+            return $this->error('参数错误');
+        }
+
+        $value          = db(CONTROLLER_NAME)->getFieldById($id, 'hidden');
+        $data['hidden'] = $value ? 0 : 1;
+        $status         = $this->model->save($data, [$pk => $id]);
+        if ($status) {
+            action_log($id); // 记录日志
+            return $this->success('成功');
+        } else {
+            // return $this->error('失败');
+            return $this->model->getError();
+        }
+
     }
 
 }

@@ -64,6 +64,8 @@ return [
         'list_rows' => 15,
     ],
 
+    'url_domain_deploy'     => true,
+
     // 关闭控制器名的自动转换
     //'url_controller_convert' => false,
     // 关闭操作名的自动转换
