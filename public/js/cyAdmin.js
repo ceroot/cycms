@@ -51,8 +51,16 @@ $(function(){
 		if (objUrl) {
 			$("#img0").attr("src", objUrl) ;
 		}
+
+        $('.cover-show').show();
 		
 	});
+
+    $('body').on('click', '.fileinput-remove-button', function(event) {
+        event.preventDefault();
+        /* Act on the event */
+        $('.cover-show').hide();
+    });
 	
 	function getObjectURL(file) {
 		var url = null ;

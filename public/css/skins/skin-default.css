@@ -336,8 +336,10 @@ form.cy-form input,
 form.cy-form textarea,
 form.cy-form select{ font-size: 12px;}
 
+.file-input{}
+.file-input .btn{ padding: 5px 10px; font-size: 12px; line-height: 1.5;}
 
-.file {
+/*.file {
     position: relative;
     display: inline-block;
     background: #d0eeff;
@@ -357,4 +359,4 @@ form.cy-form select{ font-size: 12px;}
     right: 10;
     top: 0;
     opacity: 0;
-}
+}*/

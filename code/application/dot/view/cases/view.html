@@ -2,7 +2,12 @@
 {block name="title"}{$one.title}{/block}
 {block name="content"}
 <div class="container">
-	<h3>{$one.title}</h3>
-	<div>{$one.content}</div>
+	<div class="row">
+		<div class="col-xs-12 col-md-9">
+			<h3>{$one.title}</h3>
+			<div>{$one.content}</div>
+		</div>
+		<div class="col-xs-12 col-md-3"></div>
+	</div>
 </div>
 {/block}
