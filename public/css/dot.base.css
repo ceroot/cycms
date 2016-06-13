@@ -209,9 +209,9 @@ h4{ font-family: "微软雅黑";}
 .dot-case-index .thumbnail > a:hover{ text-decoration: none; }
 
 .dot-article{}
-.dot-article .content{}
-.dot-article .content img{ max-width: 800px; }
-.dot-article{}
+.dot-article .content{ border:1px #ddd solid; }
+.dot-article .content img{ max-width: 800px; width: 100%; }
+.dot-article .content h3.title{ border-bottom: 1px solid #ddd; font-family: "微软雅黑"; text-align: center; line-height: 48px }
 .dot-article{}
 .dot-article{}
 .dot-article{}

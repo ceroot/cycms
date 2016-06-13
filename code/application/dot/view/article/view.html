@@ -1,15 +1,52 @@
 {extend name="mould:base" /}
 {block name="title"}{$one.title}{/block}
+{block name="keywords"}{$one.keywords}{/block}
+{block name="description"}{$one.description}{/block}
 {block name="content"}
 <div class="container">
 	<div class="row dot-article">
-		<div class="col-xs-12 col-md-9">
-			<h3>{$one.title}</h3>
-			<div>{$one.title}</div>
-			<div class="content">{$one.content}</div>
+		<div class="col-xs-12 col-md-9 content mg-t-15">
+			<div class="">
+				<h3 class="title">{$one.title}</h3>
+				<div class="pd-l-10">发表时间：{$one.create_time|time_format}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发表人：{$one.create_time|get_nickname}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;浏览：{$one.times}</div>
+				<div class="mg-t-20">{$one.content}</div>
+			</div>
 		</div>
-		<div class="col-xs-12 col-md-3">
-			df
+		<div class="col-xs-12 col-md-3 hidden-xs">
+			<div class="row">
+				<div class="dot-side mg-t-15 mg-l-15">
+					<dl>
+						<dt>服务项目</dt>
+						<dd>
+							{volist name="category" id="vo"}
+								<a href="" class="first" title="内容">|+|&nbsp;&nbsp;{$vo.title}</a>
+								{notempty name="vo._data"}
+									{volist name="vo._data" id="v"}
+										<a href="" title="内容">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$v.title}</a>
+									{/volist}
+								{/notempty}
+							{/volist}
+						</dd>
+					</dl>
+					<dl class="mg-t-10 hidden-xs">
+						<dt>成功案例</dt>
+						<dd>
+							{volist name="case" id="cases" length='10'}
+								<a href="{:url('dot/cases/view',array('id'=>$cases.id))}" title="{$cases.title}" target="_blank">{$cases.title}</a>
+							{/volist}
+						</dd>
+					</dl>
+					<dl class="mg-t-10 hidden-xs">
+						<dt>联系我们</dt>
+						<dd>
+							{notempty name="webinfo.title"}地址：{$webinfo.address}<br/>{/notempty}
+							{notempty name="webinfo.telephone"}电话：{$webinfo.telephone}<br/>{/notempty}
+							{notempty name="webinfo.email"}email：{$webinfo.email}<br/>{/notempty}
+							{notempty name="webinfo.qq"}QQ：{$webinfo.qq}<br/>{/notempty}
+						</dd>
+					</dl>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

@@ -46,6 +46,10 @@ class Article extends Base
         $id  = input('get.id');
         $one = db('dotArticle')->find($id);
         $this->assign('one', $one);
+        $category = model('dotCategory')->getAll(1);
+        $this->assign('category', $category);
+        $case = model('dotCases')->select();
+        $this->assign('case', $case);
         return $this->fetch();
     }
 }
