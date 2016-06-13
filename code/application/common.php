@@ -695,8 +695,8 @@ function ueditor_handle($content, $title = null)
     $patternImg = '/<img.*?src="(.*?)".*?>/is';
     if (preg_match_all($patternImg, $content, $matchesImg)) {
         foreach ($matchesImg[0] as $key => $value) {
+            $oldValue = $newValue = $value; // 临时变量
             if (stripos($value, 'data/ueditor') !== false) {
-                $oldValue   = $newValue   = $value; // 临时变量
                 $imageSrc   = $matchesImg[1][$key]; // 取得 img 里的 src
                 $imagesArr  = explode('/', $imageSrc); // 以 / 拆分 src 变为数组
                 $imagesName = end($imagesArr); // 取得数组里的最后一个值，也就是文件名
@@ -728,6 +728,9 @@ function ueditor_handle($content, $title = null)
                     }
                 }
 
+            }
+
+            if (stripos($value, 'data/') !== false) {
                 // 如果标题存在的时候进行操作
                 if (!empty($title)) {
                     // alt 替换
