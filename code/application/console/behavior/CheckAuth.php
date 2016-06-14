@@ -20,7 +20,7 @@ class CheckAuth
 {
     public function run(&$params)
     {
-        dump(1);die;
+        // dump(1);die;
 
     }
 

@@ -16,8 +16,7 @@
  */
 
 return [
-    'app_init' => [
-        'behavior\\CheckAuth',
-        '_overlay' => true,
+    'module_init' => [
+        'app\\console\\behavior\\CheckAuth',
     ],
 ];

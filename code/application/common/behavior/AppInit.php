@@ -16,22 +16,33 @@
  */
 namespace app\common\behavior;
 
+use think\Config;
+
 class AppInit
 {
     public function run(&$params)
     {
-        // dump('AppInit');
-        // die;
-        // define('MODULE_NAME', request()->module());
-        // define('CONTROLLER_NAME', request()->controller());
-        // define('ACTION_NAME', request()->action());
+        $this->initialization();
+        //注册路由
+        if (Config::get('url_route_on')) {
+            $this->router();
+        }
 
     }
 
-    // public function app_init(&$params)
-    // {
-    //     // dump('AppInit');
-    //     // die;
-    // }
+    private function router()
+    {
+        $router_rule['d']     = 'dot/Index/index';
+        $router_rule['test2'] = 'index/Index/test2';
+        \think\Route::rule($router_rule);
+    }
+
+    //初始化
+    private function initialization()
+    {
+
+        define('NOW_TIME', $_SERVER['REQUEST_TIME']);
+
+    }
 
 }

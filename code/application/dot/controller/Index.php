@@ -17,6 +17,7 @@
 namespace app\dot\controller;
 
 use app\dot\controller\Base;
+use third\Data;
 
 class Index extends Base
 {

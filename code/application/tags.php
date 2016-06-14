@@ -16,7 +16,11 @@
  */
 
 return [
-    'app_init' => [
+    'app_init'    => [
         'app\\common\\behavior\\AppInit',
+    ],
+
+    'module_init' => [
+        'app\\common\\behavior\\ModuleInit',
     ],
 ];

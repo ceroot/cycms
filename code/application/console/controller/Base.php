@@ -28,25 +28,30 @@ class Base extends Extend
      */
     public function _initialize()
     {
-        // dump(is_null(''));
-        // dump(empty(''));
-        // dump(is_null(0));
-        // dump(empty(0));
-        // dump(is_null(false));
-        // dump(empty(false));
+        // $empty = '';
+        // $zore  = 0;
+        // $false = false;
+        // $null  = null;
+        // $value = 'hello';
+
+        // dump(is_null($empty));
+        // dump(is_null($zore));
+        // dump(is_null($false));
+        // dump(is_null($null));
+        // dump(is_null($value));
+        // echo '<hr>';
+        // dump(empty($empty));
+        // dump(empty($zore));
+        // dump(empty($false));
+        // dump(empty($null));
+        // dump(empty($value));
+        // echo '<hr>';
         // die;
         // dump(md5('lilulilu123456'));
         // die;
+
         // 定义UID
-
         define('UID', session('userid'));
-        define('MODULE_NAME', request()->module());
-        define('CONTROLLER_NAME', request()->controller());
-        define('ACTION_NAME', request()->action());
-
-        // request()->module();//取得模块名称
-        // request()->controller()//;取得控制器名称
-        // request()->action();//取得方法名称
 
         if (!UID) {
             $redirecturl = url('console/login/index') . '?backurl=' . getbackurl();
