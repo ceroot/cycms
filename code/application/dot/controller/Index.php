@@ -32,11 +32,8 @@ class Index extends Base
         $case = model('dotCases')->select();
         $this->assign('case', $case);
 
-        $category = model('dotCategory')->where('hidden')->select();
+        $category = model('dotCategory')->where('display')->select();
         $category = Data::channelLevel($category, 0, '', 'id', 'pid');
-
-        // dump($category);
-        // die;
         $this->assign('category', $category);
         return $this->fetch();
     }
