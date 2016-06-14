@@ -43,8 +43,17 @@ class Article extends Base
 
     public function view()
     {
-        $id  = input('get.id');
+        $id = input('get.id');
+        if (!$id && is_numeric($id)) {
+            return $this->error('参数错误', url('dot/index/index'));
+        }
+
         $one = db('dotArticle')->find($id);
+
+        if (empty($one)) {
+            return $this->error('数据不存在', url('dot/index/index'));
+        }
+
         $this->assign('one', $one);
         $category = model('dotCategory')->getAll(1);
         $this->assign('category', $category);

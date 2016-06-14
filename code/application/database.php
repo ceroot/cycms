@@ -41,10 +41,8 @@ return [
     'master_num'     => 1,
     // 指定从服务器序号
     'slave_no'       => '',
-
     // 开启自动写入时间戳字段
     'auto_timestamp' => true,
-
     // 是否严格检查字段是否存在
     'fields_strict'  => false,
 ];
