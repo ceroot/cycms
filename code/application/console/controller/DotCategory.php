@@ -48,7 +48,7 @@ class DotCategory extends Base
         return $this->fetch();
     }
 
-    public function updatehidden()
+    public function updatedisplay()
     {
         $pk = $this->model->getPk();
         $id = input('get.' . $pk);
@@ -57,9 +57,9 @@ class DotCategory extends Base
             return $this->error('参数错误');
         }
 
-        $value          = db(CONTROLLER_NAME)->getFieldById($id, 'hidden');
-        $data['hidden'] = $value ? 0 : 1;
-        $status         = $this->model->save($data, [$pk => $id]);
+        $value           = db(CONTROLLER_NAME)->getFieldById($id, 'display');
+        $data['display'] = $value ? 0 : 1;
+        $status          = $this->model->save($data, [$pk => $id]);
         if ($status) {
             action_log($id); // 记录日志
             return $this->success('成功');
