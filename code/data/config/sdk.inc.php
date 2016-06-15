@@ -19,7 +19,7 @@ return [
     'think_sdk_qq'   => [
         'app_key'    => '100251165',
         'app_secret' => '114d7761ae3f641f82aded9acce3c5a4',
-        'callback'   => 'http://www.benweng.com/index/aauth/callback/type/qq',
+        'callback'   => 'http://www.benweng.com/index/oauth/callback?type=qq',
     ],
 
     'think_sdk_sina' => [

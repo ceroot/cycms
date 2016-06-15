@@ -33,15 +33,31 @@ class Oauth extends Controller
             return $this->error('参数错误');
         }
         $sns = ThinkOauth::getInstance($type);
-        dump($sns->getRequestCodeURL());
-        die;
-        redirect($sns->getRequestCodeURL());
-        // dump($type);
+        $url = $sns->getRequestCodeURL();
+        $this->redirect($url);
     }
 
-    public function callback()
+    public function callback($type = null, $code = null)
     {
-        $type = input('get.type');
+        if (empty($type)) {
+            return $this->error('参数错误');
+        }
+        if (empty($code)) {
+            return $this->error('参数错误');
+        }
+
+        $sns = ThinkOauth::getInstance($type);
+
+        $extend = null;
+
+        if ($type == 'tencent') {
+            $extend = array('openid' => input('get.openid'), 'openkey' => input("get.openkey"));
+        }
+
+        $token     = $sns->getAccessToken($code, $extend);
+        $user_info = controller('Type', 'Event')->$type($token);
+        dump($user_info);
+
         dump($type);
     }
 }
