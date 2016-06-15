@@ -78,19 +78,32 @@ class Oauth extends Controller
     {
         $type = strtolower($type);
         $map  = [
-            'type'   => $type,
-            'openid' => $token['openid'],
+            'type'          => $type,
+            'openid'        => $token['openid'],
+            'status'        => 1,
+            'delete_status' => 1,
         ];
 
         $oauth_user_sql = db('oauthUser')->where($map)->find();
         if ($oauth_user_sql) {
             dump('已经存在');
+            $id                 = $oauth_user_sql['id'];
+            $data['update_uid'] = $id;
+            $data['times']      = $oauth_user_sql['times'] + 1;
+            // $status        = model('oauthUser')->where('id', $id)->setInc('times');
+            $status = model('oauthUser')->save($data, ['id' => $id]);
+            if ($status) {
+                dump('成功');
+            } else {
+                dump('失败');
+            }
         } else {
             $data = array_merge($user_info, $token);
 
             $data['type']         = $type;
             $data['expires_time'] = $token['expires_in'];
             $data['head_img']     = $user_info['head'];
+            $data['times']        = 1;
 
             unset($data['head']);
             unset($data['expires_in']);
