@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>index</title>
+<!-- jQuery -->
+<script src="__PUBLIC__/jQuery/jquery-2.2.4.min.js"></script>
+</head>
+<body>
+<a href="javascript:void(0)" title="点击" class="test">点击</a>
+<hr>
+<a href="{:url('oauth/login',array('type'=>'qq'))}">qq登录</a>
+
+<script type="text/javascript">
+$(function(){
+	$('body').on('click', '.test', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		$.ajax({
+			url: '/api/manager/1',
+			type: 'post',
+			//dataType: 'json',
+			//data: {table: 'manager',id:1},
+		})
+		.done(function(data) { 
+			console.log(data);
+		})
+		.fail(function(data) {
+			console.log(data);
+		})
+		.always(function(data) {
+			// console.log(data);
+		});
+		
+	});;
+});
+</script>
+</body>
+</html>
