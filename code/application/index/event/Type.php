@@ -4,7 +4,7 @@ namespace app\index\event;
 use third\ThinkSDK\ThinkOauth;
 
 Header('Content-Type: text/html; charset=utf-8');
-class TypeEvent
+class Type
 {
     //登录成功，获取腾讯QQ用户信息
     public function qq($token)
