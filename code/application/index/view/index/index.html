@@ -1,35 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-<title>index</title>
-<!-- jQuery -->
-<script src="__PUBLIC__/jQuery/jquery-2.2.4.min.js"></script>
+<meta charset="utf-8">
+<meta property="qc:admins" content="5615414767625675676375" />
+<title>simpler than simpler</title>
+<style type="text/css">
+body{ background:#021c2c;}
+.main{ position:fixed; width:100%; height:100%; background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAABWCAYAAADxEBthAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDIxIDc5LjE1NTc3MiwgMjAxNC8wMS8xMy0xOTo0NDowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTQgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjhDRTdEMUJFNDUzMzExRTQ4Njg1QjkwMkUwOTk1MTlGIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjhDRTdEMUJGNDUzMzExRTQ4Njg1QjkwMkUwOTk1MTlGIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6OENFN0QxQkM0NTMzMTFFNDg2ODVCOTAyRTA5OTUxOUYiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6OENFN0QxQkQ0NTMzMTFFNDg2ODVCOTAyRTA5OTUxOUYiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5K5tnyAAAP+UlEQVR42uxd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") no-repeat center 44%;}
+.footer{ width:100%; position:fixed; bottom:0; left:0; color:#fff; text-align:center; font-family:微软雅黑; font-size:12px; line-height:26px;}
+</style>
 </head>
+
 <body>
-<a href="javascript:void(0)" title="点击" class="test">点击</a>
-<script type="text/javascript">
-$(function(){
-	$('body').on('click', '.test', function(event) {
-		event.preventDefault();
-		/* Act on the event */
-		$.ajax({
-			url: '/api/manager/1',
-			type: 'post',
-			//dataType: 'json',
-			//data: {table: 'manager',id:1},
-		})
-		.done(function(data) { 
-			console.log(data);
-		})
-		.fail(function(data) {
-			console.log(data);
-		})
-		.always(function(data) {
-			// console.log(data);
-		});
-		
-	});;
-});
+<div class="main"></div>
+<div class="footer">Design By BENWENG</div>
+<script>
+  console && console.log(
+    "Built With:\n" +
+    "\n" +
+    "oooooooooooooo    oooooooooooooooo  ooooo      ooooo  ooooo         ooooo         ooooo  oooooooooooooooo  ooooo      ooooo      oooooooooooooo        \n" +
+    "ooooooooooooooo   oooooooooooooooo  oooooo     ooooo  ooooo         ooooo         ooooo  oooooooooooooooo  oooooo     ooooo    oooooooooooooooooo      \n" +
+    "oooooooooooooooo  oooooooooooooooo  ooooooo    ooooo   ooooo       ooooooo       ooooo   oooooooooooooooo  ooooooo    ooooo   ooooooooooooooooooooo    \n" +
+    "ooooo      ooooo  ooooo             oooooooo   ooooo   ooooo       ooooooo       ooooo   ooooo             oooooooo   ooooo  ooooooooo       ooooooo   \n" +
+    "ooooo      ooooo  ooooo             ooooooooo  ooooo    ooooo     ooooooooo     ooooo    ooooo             ooooooooo  ooooo  ooooooo                   \n" +
+    "ooooooooooooooo   oooooooooooooooo  oooooooooo ooooo    ooooo     ooooooooo     ooooo    oooooooooooooooo  oooooooooo ooooo  oooooo       ooooooooooooo\n" +
+    "oooooooooooooo    oooooooooooooooo  oooooooooooooooo     ooooo   ooooooooooo   ooooo     oooooooooooooooo  oooooooooooooooo  ooooo        ooooooooooooo\n" +
+    "ooooooooooooooo   oooooooooooooooo  ooooo oooooooooo     ooooo   ooooo ooooo   ooooo     oooooooooooooooo  ooooo oooooooooo  oooooo          oooooo    \n" +
+    "ooooo      ooooo  ooooo             ooooo  ooooooooo      ooooo ooooo   ooooo ooooo      ooooo             ooooo  ooooooooo  ooooooo       oooooooo    \n" +
+    "ooooo      ooooo  ooooo             ooooo   oooooooo      ooooo ooooo   ooooo ooooo      ooooo             ooooo   oooooooo  ooooooooo  ooooooooooo    \n" +
+    "oooooooooooooooo  oooooooooooooooo  ooooo    ooooooo       ooooooooo     ooooooooo       oooooooooooooooo  ooooo    ooooooo   oooooooooooooo  ooooo    \n" +
+    "oooooooooooooooo  oooooooooooooooo  ooooo     oooooo       ooooooooo     ooooooooo       oooooooooooooooo  ooooo     oooooo    oooooooooooo   ooooo    \n" +
+    "oooooooooooooooo  oooooooooooooooo  ooooo      ooooo        ooooooo       ooooooo        oooooooooooooooo  ooooo      ooooo      oooooooo     ooooo    \n" +
+    "\n" +
+    "                                                          POWERED BY BENWENG\n" +
+    "                                                        http://www.benweng.com"
+  );
 </script>
 </body>
 </html>

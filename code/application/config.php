@@ -10,7 +10,8 @@
 // +----------------------------------------------------------------------
 // $Id$
 
-return [
+$sdk    = include CODE_PATH . 'data/config/sdk.inc.php';
+$config = [
     'url_route_on'          => true,
     'log'                   => [
         'type' => 'trace', // 支持 socket trace file
@@ -20,7 +21,7 @@ return [
     'response_exit'         => true,
 
     // 配置列表
-    // 'extra_config_list' => [],
+    // 'extra_config_list'     => [],
 
     // 模板输出替换  //$view->config('parse_str',['__PUBLIC__'=>'/public/'])->fetch();
     'view_replace_str'      => [
@@ -72,3 +73,5 @@ return [
     //'url_action_convert'     => false,
 
 ];
+
+return array_merge($sdk, $config);

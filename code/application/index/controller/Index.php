@@ -18,6 +18,11 @@ class Index extends Controller
         return $this->fetch();
     }
 
+    public function test()
+    {
+        return $this->fetch();
+    }
+
     public function hello()
     {
         $qin = new \think\auth\Qin();

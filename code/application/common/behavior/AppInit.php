@@ -32,8 +32,8 @@ class AppInit
 
     private function router()
     {
-        $router_rule['d']     = 'dot/Index/index';
-        $router_rule['test2'] = 'index/Index/test2';
+        $router_rule['d']    = 'dot/index/index';
+        $router_rule['test'] = 'index/index/test';
         \think\Route::rule($router_rule);
     }
 
