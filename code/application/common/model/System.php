@@ -14,6 +14,7 @@
  * @date      2016-06-15 10:44:19
  * @site      http://www.benweng.com
  */
+
 namespace app\common\model;
 
 use app\common\model\Extend;

@@ -9,8 +9,10 @@ class Type
     //登录成功，获取腾讯QQ用户信息
     public function qq($token)
     {
+        dump(1);
+        die;
         $qq = ThinkOauth::getInstance('Qq', $token);
-
+        dump(2);
         $data = $qq->call('user/get_user_info'); //调用接口
         if ($data['ret'] == 0) {
             $userInfo['type'] = 'QQ';

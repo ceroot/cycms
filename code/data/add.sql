@@ -6,7 +6,7 @@ ADD `create_ip` BIGINT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '创建ip' AFTE
 ADD `update_uid` INT(11) UNSIGNED NULL DEFAULT '0' COMMENT '更新者id' AFTER `create_ip`, 
 ADD `update_time` INT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间' AFTER `update_uid`, 
 ADD `update_ip` BIGINT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新ip' AFTER `update_time`, 
-ADD `delete_status` TINYINT(2) UNSIGNED NOT NULL DEFAULT '1' COMMENT '删除状态' AFTER `update_ip`, 
+ADD `delete_status` TINYINT(2) UNSIGNED NOT NULL DEFAULT '1' COMMENT '删除状态，1为正常，0为删除' AFTER `update_ip`, 
 ADD `delete_uid` INT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '删除操作者id' AFTER `delete_status`, 
 ADD `delete_time` INT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '删除操作时间' AFTER `delete_uid`, 
 ADD `delete_ip` BIGINT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '删除操作ip' AFTER `delete_time`;

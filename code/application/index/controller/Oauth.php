@@ -53,9 +53,12 @@ class Oauth extends Controller
         if ($type == 'tencent') {
             $extend = array('openid' => input('get.openid'), 'openkey' => input("get.openkey"));
         }
-
-        $token     = $sns->getAccessToken($code, $extend);
-        $user_info = controller('Type', 'Event')->$type($token);
+        // dump($sns);
+        // die;
+        $token = $sns->getAccessToken($code, $extend);
+        // dump($token);
+        die;
+        $user_info = controller('type', 'event')->$type($token);
         dump($user_info);
 
         dump($type);

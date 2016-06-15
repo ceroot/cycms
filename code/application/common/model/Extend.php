@@ -26,7 +26,12 @@ class Extend extends Model
 
     public function setCreateUidAttr($value)
     {
-        return UID;
+        if (defined('UID')) {
+            $uid = UID;
+        } else {
+            $uid = 0;
+        }
+        return $uid;
     }
 
     public function setCreateIpAttr()

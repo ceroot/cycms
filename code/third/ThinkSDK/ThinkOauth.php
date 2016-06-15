@@ -176,6 +176,7 @@ abstract class ThinkOauth
      */
     public function getAccessToken($code, $extend = null)
     {
+
         $this->config();
         $params = array(
             'client_id'     => $this->AppKey,
@@ -185,8 +186,10 @@ abstract class ThinkOauth
             'redirect_uri'  => $this->Callback,
         );
 
-        $data        = $this->http($this->GetAccessTokenURL, $params, 'POST');
+        $data = $this->http($this->GetAccessTokenURL, $params, 'POST');
+
         $this->Token = $this->parseToken($data, $extend);
+        dump($this->Token);
         return $this->Token;
     }
 
