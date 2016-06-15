@@ -29,6 +29,8 @@ return [
     'conlogout/[:time]' => ['console/login/logout', ['time' => '\d+']],
     'api/:table/[:id]'  => ['api/api/index', []], //array('api/api/index'),
     // 'hello/:name'       => ['api/api/index', [], ['name' => '\w+']],
+    'oauthlogin'        => ['index/oauth/login', []],
+    'oauthcallback'     => ['index/oauth/callback', []],
 
     '__domain__'        => [
         'www.gylbgg.com'   => 'dot',

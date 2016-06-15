@@ -26,15 +26,21 @@ class Oauth extends Controller
         dump(1);
     }
 
-    public function login()
+    public function login($type = null)
     {
-        $type = input('get.type');
+        // $type = input('get.type');
         if (empty($type)) {
             return $this->error('参数错误');
         }
         $sns = ThinkOauth::getInstance($type);
         $url = $sns->getRequestCodeURL();
         $this->redirect($url);
+    }
+
+    public function dd($type = null)
+    {
+        dump(input('get.type'));
+        dump(1);
     }
 
     public function callback($type = null, $code = null)
@@ -56,11 +62,47 @@ class Oauth extends Controller
         // dump($sns);
         // die;
         $token = $sns->getAccessToken($code, $extend);
-        // dump($token);
-        die;
-        $user_info = controller('type', 'event')->$type($token);
-        dump($user_info);
 
-        dump($type);
+        // dump($token);
+        if (is_array($token)) {
+            $user_info = controller('type', 'event')->$type($token);
+
+            $user = $this->_login_handle($user_info, $type, $token);
+            // dump($user_info);
+            // dump($user);
+        }
+
+    }
+
+    private function _login_handle($user_info, $type, $token)
+    {
+        $type = strtolower($type);
+        $map  = [
+            'type'   => $type,
+            'openid' => $token['openid'],
+        ];
+
+        $oauth_user_sql = db('oauthUser')->where($map)->find();
+        if ($oauth_user_sql) {
+            dump('已经存在');
+        } else {
+            $data = array_merge($user_info, $token);
+
+            $data['type']         = $type;
+            $data['expires_time'] = $token['expires_in'];
+            $data['head_img']     = $user_info['head'];
+
+            unset($data['head']);
+            unset($data['expires_in']);
+
+            $status = model('oauthUser')->save($data);
+            if ($status) {
+                dump($status);
+            } else {
+                dump('失败');
+            }
+        }
+        // dump($data);
+        // return $user;
     }
 }
