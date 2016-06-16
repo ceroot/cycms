@@ -142,7 +142,7 @@ abstract class Addon
         $map['status'] = 1;
 
         $config = model('addons')->where($map)->value('config');
-        // dump($config);
+
         if ($config) {
             $config = json_decode($config, true);
         } else {
