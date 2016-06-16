@@ -31,7 +31,9 @@ class Hooks extends Extend
         }
         $methods = get_class_methods($addons_class);
         $hooks   = $this->value('name', true);
-
+        dump($hooks);
+        dump($methods);
+        die;
         $common = array_intersect($hooks, $methods);
         if ($common) {
             foreach ($common as $hook) {
