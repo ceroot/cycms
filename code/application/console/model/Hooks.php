@@ -30,11 +30,10 @@ class Hooks extends Extend
             return false;
         }
         $methods = get_class_methods($addons_class);
-        $hooks   = $this->value('name', true);
-        dump($hooks);
-        dump($methods);
-        die;
+        // $hooks   = $this->getField('name', true);
+        $hooks  = $this->column('name');
         $common = array_intersect($hooks, $methods);
+        dump($common);die;
         if ($common) {
             foreach ($common as $hook) {
                 $flag = $this->removeAddons($hook, array($addons_name));
@@ -51,7 +50,7 @@ class Hooks extends Extend
      */
     public function removeAddons($hook_name, $addons_name)
     {
-        $o_addons = $this->where("name='{$hook_name}'")->value('addons');
+        $o_addons = $this->where("name='{$hook_name}'")->getField('addons');
         $o_addons = str2arr($o_addons);
         if ($o_addons) {
             $addons = array_diff($o_addons, $addons_name);
