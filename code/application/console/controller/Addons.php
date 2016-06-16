@@ -135,9 +135,8 @@ class Addons extends Base
         if ($addon['custom_config']) {
             $this->assign('custom_config', $this->fetch($addon['addon_path'] . $addon['custom_config']));
         }
-        // die;
+
         return $this->fetch();
-        // $this->display();
     }
 
     /**
@@ -154,6 +153,59 @@ class Addons extends Base
             return $this->success('保存成功', Cookie('__forward__'));
         } else {
             return $this->error('保存失败');
+        }
+    }
+
+    /**
+     * 安装插件
+     */
+    public function install()
+    {
+        $addon_name = trim(input('addon_name'));
+        $class      = get_addon_class($addon_name);
+        if (!class_exists($class)) {
+            $this->error('插件不存在');
+        }
+
+        $addons = new $class;
+        $info   = $addons->info;
+        if (!$info || !$addons->checkInfo()) //检测信息的正确性
+        {
+            $this->error('插件信息缺失');
+        }
+
+        session('addons_install_error', null);
+        $install_flag = $addons->install();
+        if (!$install_flag) {
+            $this->error('执行插件预安装操作失败' . session('addons_install_error'));
+        }
+        $addonsModel = model('addons');
+        // $data        = $addonsModel->create($info);
+        if (is_array($addons->admin_list) && $addons->admin_list !== array()) {
+            $info['has_adminlist'] = 1;
+        } else {
+            $info['has_adminlist'] = 0;
+        }
+
+        if (!$info) {
+            $this->error($addonsModel->getError());
+        }
+
+        if ($addonsModel->save($info)) {
+            $config = json_encode($addons->getConfig());
+            // $st = $addonsModel->save(['config' => $config], ['id' => $status]);
+            db('addons')->where('name', $addon_name)->setField('config', $config);
+            $hooks_update = model('Hooks')->updateHooks($addon_name);
+            if ($hooks_update) {
+                // S('hooks', null);
+                return $this->success('安装成功');
+            } else {
+                $addonsModel->where("name='{$addon_name}'")->delete();
+                return $this->error('更新钩子处插件失败,请卸载后尝试重新安装');
+            }
+
+        } else {
+            return $this->error('写入插件数据失败');
         }
     }
 
