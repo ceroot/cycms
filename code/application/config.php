@@ -16,7 +16,7 @@ $config = [
     'log'                   => [
         'type' => 'trace', // 支持 socket trace file
     ],
-    'cms_version'           => '0.9.3 [20160615]',
+    'cms_version'           => '0.9.4 [20160616]',
     // 显示调试信息
     'response_exit'         => true,
 

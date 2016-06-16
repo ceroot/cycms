@@ -193,12 +193,12 @@ class Addons extends Base
         if ($hooks_update === false) {
             $this->error('卸载插件所挂载的钩子数据失败');
         }
-        S('hooks', null);
-        $delete = $addonsModel->where("name='{$db_addons['name']}'")->delete();
+        // S('hooks', null);
+        $delete = model('addons')->where("name='{$db_addons['name']}'")->delete();
         if ($delete === false) {
-            $this->error('卸载插件失败');
+            return $this->error('卸载插件失败');
         } else {
-            $this->success('卸载成功');
+            return $this->success('卸载成功');
         }
     }
 

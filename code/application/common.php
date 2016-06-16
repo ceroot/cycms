@@ -924,3 +924,27 @@ function list_sort_by($list, $field, $sortby = 'asc')
     }
     return false;
 }
+
+/**
+ * 字符串转换为数组，主要用于把分隔符调整到第二个参数
+ * @param  string $str  要分割的字符串
+ * @param  string $glue 分割符
+ * @return array
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ */
+function str2arr($str, $glue = ',')
+{
+    return explode($glue, $str);
+}
+
+/**
+ * 数组转换为字符串，主要用于把分隔符调整到第二个参数
+ * @param  array  $arr  要连接的数组
+ * @param  string $glue 分割符
+ * @return string
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ */
+function arr2str($arr, $glue = ',')
+{
+    return implode($glue, $arr);
+}

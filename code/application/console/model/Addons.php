@@ -53,10 +53,11 @@ class Addons extends Extend
             $this->error = '插件目录不可读或者不存在';
             return false;
         }
+
         $addons        = array();
         $where['name'] = array('in', $dirs);
         $list          = $this->where($where)->select();
-
+        // dump($list);die;
         foreach ($list as $addon) {
             $addon['uninstall']     = 0;
             $addons[$addon['name']] = $addon;
@@ -78,7 +79,7 @@ class Addons extends Extend
             }
         }
         int_to_string($addons, array('status' => array(-1 => '损坏', 0 => '禁用', 1 => '启用', null => '未安装')));
-        // dump($addons);die;
+        dump($addons);die;
         $addons = list_sort_by($addons, 'uninstall', 'desc');
 
         return $addons;
