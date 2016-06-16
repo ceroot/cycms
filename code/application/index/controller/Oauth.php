@@ -145,7 +145,7 @@ class Oauth extends Controller
                     $url = url('index/index/test');
                 }
             } else {
-                dump('失败');
+                dump('登录失败');
             }
         }
 

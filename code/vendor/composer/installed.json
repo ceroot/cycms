@@ -1,20 +1,20 @@
 [
     {
         "name": "topthink/think-captcha",
-        "version": "v1.0.4",
-        "version_normalized": "1.0.4.0",
+        "version": "v1.0.5",
+        "version_normalized": "1.0.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/top-think/think-captcha.git",
-            "reference": "f7670c78cda6e172e73eda496e549b91d0efc519"
+            "reference": "02eb4a266702e26b0afc93e6941fa4c64aa34ce0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/top-think/think-captcha/zipball/f7670c78cda6e172e73eda496e549b91d0efc519",
-            "reference": "f7670c78cda6e172e73eda496e549b91d0efc519",
+            "url": "https://api.github.com/repos/top-think/think-captcha/zipball/02eb4a266702e26b0afc93e6941fa4c64aa34ce0",
+            "reference": "02eb4a266702e26b0afc93e6941fa4c64aa34ce0",
             "shasum": ""
         },
-        "time": "2016-06-03 04:25:17",
+        "time": "2016-06-12 02:42:11",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
