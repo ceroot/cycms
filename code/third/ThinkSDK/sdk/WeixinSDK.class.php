@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | WeixinSDK.class.php 2015-12-01
 // +----------------------------------------------------------------------
-use LT\ThinkSDK\ThinkOauth;
+use third\ThinkSDK\ThinkOauth;
 
 class WeixinSDK extends ThinkOauth
 {
@@ -33,10 +33,10 @@ class WeixinSDK extends ThinkOauth
     public function getRequestCodeURL()
     {
         $params = array(
-            'appid' => $this->AppKey,
-            'redirect_uri' => $this->Callback,
+            'appid'         => $this->AppKey,
+            'redirect_uri'  => $this->Callback,
             'response_type' => 'code',
-            'scope' => 'snsapi_login'
+            'scope'         => 'snsapi_login',
         );
         return $this->GetRequestCodeURL . '?' . http_build_query($params);
     }
@@ -48,12 +48,12 @@ class WeixinSDK extends ThinkOauth
     public function getAccessToken($code, $extend = null)
     {
         $params = array(
-            'appid' => $this->AppKey,
-            'secret' => $this->AppSecret,
+            'appid'      => $this->AppKey,
+            'secret'     => $this->AppSecret,
             'grant_type' => $this->GrantType,
-            'code' => $code,
+            'code'       => $code,
         );
-        $data = $this->http($this->GetAccessTokenURL, $params, 'POST');
+        $data        = $this->http($this->GetAccessTokenURL, $params, 'POST');
         $this->Token = $this->parseToken($data, $extend);
         return $this->Token;
     }
@@ -70,13 +70,12 @@ class WeixinSDK extends ThinkOauth
         /* 腾讯微博调用公共参数 */
         $params = array(
             'access_token' => $this->Token['access_token'],
-            'openid' => $this->openid(),
+            'openid'       => $this->openid(),
         );
         $vars = $this->param($params, $param);
         $data = $this->http($this->url($api), $vars, $method, array(), $multi);
         return json_decode($data, true);
     }
-
 
     /**
      * 解析access_token方法请求后的返回值
@@ -86,11 +85,13 @@ class WeixinSDK extends ThinkOauth
         $data = json_decode($result, true);
         //parse_str($result, $data);
         if ($data['access_token'] && $data['expires_in']) {
-            $this->Token = $data;
+            $this->Token    = $data;
             $data['openid'] = $this->openid();
             return $data;
-        } else
+        } else {
             throw new Exception("获取微信 ACCESS_TOKEN 出错：{$result}");
+        }
+
     }
 
     /**
@@ -99,12 +100,11 @@ class WeixinSDK extends ThinkOauth
     public function openid()
     {
         $data = $this->Token;
-        if (!empty($data['openid']))
+        if (!empty($data['openid'])) {
             return $data['openid'];
-        else
+        } else {
             exit('没有获取到微信用户ID！');
+        }
+
     }
 }
-
-?>
-

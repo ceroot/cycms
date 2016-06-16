@@ -28,19 +28,19 @@ class Oauth extends Controller
 
     public function login($type = null)
     {
-        // $type = input('get.type');
         if (empty($type)) {
             return $this->error('参数错误');
         }
+        $backurl = input('get.backurl');
+        if ($backurl) {
+            session('backurl', $backurl);
+        } else {
+            session('backurl', null);
+        }
+
         $sns = ThinkOauth::getInstance($type);
         $url = $sns->getRequestCodeURL();
         $this->redirect($url);
-    }
-
-    public function dd($type = null)
-    {
-        dump(input('get.type'));
-        dump(1);
     }
 
     public function callback($type = null, $code = null)
@@ -59,17 +59,15 @@ class Oauth extends Controller
         if ($type == 'tencent') {
             $extend = array('openid' => input('get.openid'), 'openkey' => input("get.openkey"));
         }
-        // dump($sns);
-        // die;
+
         $token = $sns->getAccessToken($code, $extend);
 
-        // dump($token);
         if (is_array($token)) {
             $user_info = controller('type', 'event')->$type($token);
+            // dump($user_info);
+            // dump($token);
 
             $user = $this->_login_handle($user_info, $type, $token);
-            // dump($user_info);
-            // dump($user);
         }
 
     }
@@ -90,12 +88,39 @@ class Oauth extends Controller
             $id                 = $oauth_user_sql['id'];
             $data['update_uid'] = $id;
             $data['times']      = $oauth_user_sql['times'] + 1;
-            // $status        = model('oauthUser')->where('id', $id)->setInc('times');
+
+            // 判断 name 值是否相等
+            if ($oauth_user_sql['name'] != $user_info['name']) {
+                $data['name'] = $user_info['name'];
+            }
+
+            // 判断 nick 值是否相等
+            if ($oauth_user_sql['nick'] != $user_info['nick']) {
+                $data['nick'] = $user_info['nick'];
+            }
+
+            // 保存数据
             $status = model('oauthUser')->save($data, ['id' => $id]);
             if ($status) {
-                dump('成功');
+                // 判断是否绑定本平台用户
+                if ($oauth_user_sql['uid']) {
+                    session('uid', $oauth_user_sql['uid']);
+                } else {
+                    session('uid', $id);
+                }
+
+                $backurl = session('backurl');
+                if ($backurl) {
+                    $url = $backurl;
+                    session('backurl', null);
+                } else {
+                    $url = url('index/index/test');
+                }
+                $this->redirect($url);
             } else {
-                dump('失败');
+                dump('登录失败');
+                $url = url('index/index/test');
+                $this->redirect($url);
             }
         } else {
             $data = array_merge($user_info, $token);
@@ -110,12 +135,26 @@ class Oauth extends Controller
 
             $status = model('oauthUser')->save($data);
             if ($status) {
-                dump($status);
+                dump('写入成功');
+                session('uid', $status);
+                $backurl = session('backurl');
+                if ($backurl) {
+                    $url = $backurl;
+                    session('backurl', null);
+                } else {
+                    $url = url('index/index/test');
+                }
             } else {
                 dump('失败');
             }
         }
-        // dump($data);
-        // return $user;
+
+    }
+
+    public function logout()
+    {
+        session('uid', null);
+        $url = url('index/index/test');
+        $this->redirect($url);
     }
 }

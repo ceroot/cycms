@@ -8,7 +8,17 @@
 <body>
 <a href="javascript:void(0)" title="点击" class="test">点击</a>
 <hr>
-<a href="/oauthlogin?type=qq">qq登录</a>
+{if condition="$Think.session.uid"}已经登录{/if}
+<br>
+<a href="/oauthlogin?type=qq&backurl={:getbackurl()}">qq登录</a>
+<br>
+<a href="/oauthlogin?type=weixin&backurl={:getbackurl()}">微信登录</a>
+<br>
+<a href="/oauthlogin?type=sina&backurl={:getbackurl()}">微博登录</a>
+<br>
+<a href="/oauthlogin?type=sina&backurl={:getbackurl()}">微博登录</a>
+<br>
+<a href="{:url('index/oauth/logout')}">清除</a>
 
 
 <script type="text/javascript">

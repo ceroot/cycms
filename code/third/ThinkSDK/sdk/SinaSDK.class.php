@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | SinaSDK.class.php 2013-02-25
 // +----------------------------------------------------------------------
-use LT\ThinkSDK\ThinkOauth;
+use third\ThinkSDK\ThinkOauth;
 
 class SinaSDK extends ThinkOauth
 {
@@ -61,8 +61,10 @@ class SinaSDK extends ThinkOauth
             $data['openid'] = $data['uid'];
             unset($data['uid']);
             return $data;
-        } else
+        } else {
             throw new Exception("获取新浪微博ACCESS_TOKEN出错：{$data['error']}");
+        }
+
     }
 
     /**
@@ -72,10 +74,12 @@ class SinaSDK extends ThinkOauth
     public function openid()
     {
         $data = $this->Token;
-        if (isset($data['openid']))
+        if (isset($data['openid'])) {
             return $data['openid'];
-        else
+        } else {
             throw new Exception('没有获取到新浪微博用户ID！');
+        }
+
     }
 
 }
