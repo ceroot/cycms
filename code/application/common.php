@@ -846,7 +846,7 @@ function get_addon_class($name)
     // dump($name);
     $dd = lcfirst($name);
     // $class = CODE_PATH . "addons\\{$name}\\{$name}Addon";
-    $class = "addons\\{$dd}\\{$name}";
+    $class = "addons\\{$dd}\\{$name}Addon";
     // $class = CODE_PATH . 'addons/' . strtolower($name) . '/' . $name;
     return $class;
 }

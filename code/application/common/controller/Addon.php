@@ -51,9 +51,11 @@ abstract class Addon
     public function __construct()
     {
         $this->addon_path = CODE_PATH . 'addons/' . $this->getName() . '/';
+
         if (is_file($this->addon_path . 'config.php')) {
             $this->config_file = $this->addon_path . 'config.php';
         }
+        // dump($this->addon_path);die;
     }
 
     // /**
@@ -106,7 +108,8 @@ abstract class Addon
     final public function getName()
     {
         $class = get_class($this);
-        return substr($class, strrpos($class, '\\') + 1);
+        $class = substr($class, strrpos($class, '\\') + 1, -5); // 去掉 Addon
+        return $class;
     }
 
     final public function checkInfo()
@@ -130,6 +133,7 @@ abstract class Addon
         if (empty($name)) {
             $name = $this->getName();
         }
+
         if (isset($_config[$name])) {
             return $_config[$name];
         }
@@ -138,7 +142,7 @@ abstract class Addon
         $map['status'] = 1;
 
         $config = model('addons')->where($map)->value('config');
-
+        // dump($config);
         if ($config) {
             $config = json_decode($config, true);
         } else {

@@ -82,7 +82,7 @@ class Addons extends Extend
         }
         int_to_string($addons, array('status' => array(-1 => '损坏', 0 => '禁用', 1 => '启用', null => '未安装')));
         $addons = list_sort_by($addons, 'uninstall', 'desc');
-
+        // dump($addons);die;
         return $addons;
     }
 }
