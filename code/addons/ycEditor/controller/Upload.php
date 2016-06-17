@@ -12,12 +12,9 @@ namespace addons\ycEditor\controller;
 class Upload
 {
 
-    public $uploader = null;
-
-    /* 上传图片 */
     public function index()
     {
-        dump('index');
+        dump('fdsfdsaf');
     }
 
 }

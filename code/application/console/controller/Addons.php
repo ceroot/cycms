@@ -289,16 +289,13 @@ class Addons extends Base
         $TMPL_PARSE_STRING                  = config('view_replace_str');
         $TMPL_PARSE_STRING['__ADDONROOT__'] = CODE_PATH . "/addons/{$_addons}";
         config('view_replace_str', $TMPL_PARSE_STRING);
-        dump($_addons);
-        dump($_controller);
-        dump($_action);
-        dump("addons://{$_addons}/{$_controller}");
+
         if (!empty($_addons) && !empty($_controller) && !empty($_action)) {
-            // $Addons = A("Addons://{$_addons}/{$_controller}")->$_action();
-            // $Addons = new \addons\ycEditor\Upload;
-            $Addons = controller("addons/ycEditor/controller", "Upload");
             // $Addons = controller("addons://{$_addons}/{$_controller}")->$_action();
-            // dump($Addons);
+            $class  = "\\addons\\{$_addons}\\controller\\{$_controller}";
+            $Addons = new $class;
+            $ddd    = $Addons->$_action();
+            dump($ddd);
         } else {
             $this->error('没有指定插件名称，控制器或操作！');
         }
