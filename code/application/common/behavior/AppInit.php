@@ -17,6 +17,7 @@
 namespace app\common\behavior;
 
 use think\Config;
+use think\Hook;
 
 class AppInit
 {
@@ -27,9 +28,19 @@ class AppInit
         if (Config::get('url_route_on')) {
             $this->router();
         }
+        $this->hook();
 
     }
 
+    // 初始化
+    private function initialization()
+    {
+
+        define('NOW_TIME', $_SERVER['REQUEST_TIME']);
+
+    }
+
+    // 路由
     private function router()
     {
         $router_rule['d']    = 'dot/index/index';
@@ -37,12 +48,29 @@ class AppInit
         \think\Route::rule($router_rule);
     }
 
-    //初始化
-    private function initialization()
+    // 钩子
+    private function hook()
     {
+        $data = cache('hooks');
+        if (!$data) {
+            $hooks = db('hooks')->column('addons', 'name'); //getField('name,addons');
+            foreach ($hooks as $key => $value) {
+                if ($value) {
+                    $map['status'] = 1;
+                    $names         = explode(',', $value);
+                    $map['name']   = array('IN', $names);
+                    $data          = db('Addons')->where($map)->column('id,name'); //getField('id,name');
+                    if ($data) {
+                        $addons = array_intersect($names, $data);
+                        Hook::add($key, array_map('get_addon_class', $addons));
+                    }
+                }
+            }
 
-        define('NOW_TIME', $_SERVER['REQUEST_TIME']);
-
+            cache('hooks', Hook::get());
+        } else {
+            Hook::import($data, false);
+        }
     }
 
 }

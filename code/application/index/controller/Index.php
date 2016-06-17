@@ -7,6 +7,12 @@ class Index extends Controller
 {
     public function index()
     {
+
+        return $this->fetch();
+    }
+
+    public function test()
+    {
         echo '控制器：（CONTROLLER_NAME）';
         dump(CONTROLLER_NAME);
         echo '<hr>';
@@ -15,11 +21,6 @@ class Index extends Controller
         echo '<hr>';
         echo '控制器：request()->controller()';
         dump(request()->controller());
-        return $this->fetch();
-    }
-
-    public function test()
-    {
         return $this->fetch();
     }
 

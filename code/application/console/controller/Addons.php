@@ -254,4 +254,54 @@ class Addons extends Base
         }
     }
 
+    /**
+     * 钩子列表
+     */
+    public function hooks()
+    {
+        $this->meta_title = '钩子列表';
+        $map              = $fields              = array();
+        // $list             = $this->lists(model("Hooks")->field($fields), $map);
+        $list = model("Hooks")->select();
+        // dump($list);
+        // int_to_string($list, array('type' => config('HOOKS_TYPE')));
+        // 记录当前列表页的cookie
+        Cookie('__forward__', $_SERVER['REQUEST_URI']);
+        $this->assign('list', $list);
+        return $this->fetch();
+
+    }
+
+    public function addontest()
+    {
+        $url = addons_url('EditorForAdmin://Upload/ue_upimg');
+        dump($url);
+        dump('end');
+    }
+
+    public function execute($_addons = null, $_controller = null, $_action = null)
+    {
+        if (config('URL_CASE_INSENSITIVE')) {
+            $_addons     = ucfirst(parse_name($_addons, 1));
+            $_controller = parse_name($_controller, 1);
+        }
+
+        $TMPL_PARSE_STRING                  = config('view_replace_str');
+        $TMPL_PARSE_STRING['__ADDONROOT__'] = CODE_PATH . "/addons/{$_addons}";
+        config('view_replace_str', $TMPL_PARSE_STRING);
+        dump($_addons);
+        dump($_controller);
+        dump($_action);
+        dump("addons://{$_addons}/{$_controller}");
+        if (!empty($_addons) && !empty($_controller) && !empty($_action)) {
+            // $Addons = A("Addons://{$_addons}/{$_controller}")->$_action();
+            // $Addons = new \addons\ycEditor\Upload;
+            $Addons = controller("addons/ycEditor/controller", "Upload");
+            // $Addons = controller("addons://{$_addons}/{$_controller}")->$_action();
+            // dump($Addons);
+        } else {
+            $this->error('没有指定插件名称，控制器或操作！');
+        }
+    }
+
 }

@@ -948,3 +948,52 @@ function arr2str($arr, $glue = ',')
 {
     return implode($glue, $arr);
 }
+
+/**
+ * 处理插件钩子
+ * @param string $hook   钩子名称
+ * @param mixed $params 传入参数
+ * @return void
+ */
+function hook($hook, $params = array())
+{
+    \think\Hook::listen($hook, $params);
+}
+
+/**
+ * 插件显示内容里生成访问插件的url
+ * @param string $url url
+ * @param array $param 参数
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ */
+function addons_url($url, $param = array())
+{
+    $url = parse_url($url);
+
+    $case = true; //C('URL_CASE_INSENSITIVE');
+    // $addons     = $case ? parse_name($url['scheme']) : $url['scheme'];
+    // $controller = $case ? parse_name($url['host']) : $url['host'];
+    // $action     = trim($case ? strtolower($url['path']) : $url['path'], '/');
+
+    $addons     = $url['scheme'];
+    $controller = $url['host'];
+    $action     = trim($url['path'], '/');
+
+    /* 解析URL带的参数 */
+    if (isset($url['query'])) {
+        parse_str($url['query'], $query);
+        $param = array_merge($query, $param);
+    }
+
+    /* 基础参数 */
+    $params = array(
+        '_addons'     => $addons,
+        '_controller' => $controller,
+        '_action'     => $action,
+    );
+
+    $params = array_merge($params, $param); //添加额外参数
+    $url    = url('addons/execute', $params);
+    dump($url);die;
+    return U('Addons/execute', $params);
+}
