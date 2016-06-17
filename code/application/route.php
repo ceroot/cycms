@@ -29,11 +29,13 @@ return [
     'conlogout/[:time]' => ['console/login/logout', ['time' => '\d+']],
     'api/:table/[:id]'  => ['api/api/index', []], //array('api/api/index'),
     // 'hello/:name'       => ['api/api/index', [], ['name' => '\w+']],
-    'oauthlogin'        => ['index/oauth/login', []],
-    'oauthcallback'     => ['index/oauth/callback', []],
+    'oauthlogin1'       => ['index/oauth/login', []],
+    'oauthcallback1'    => ['index/oauth/callback', []],
     'addons'            => ['console/addons/execute?_addons=ycEditor&_controller=Upload&_action=index', []],
     // 'oauthaddons'       => ['console/addons/execute?_addons=oauth&_controller=Oauth&_action=index', []],
-    'oauthaddons'       => ['api/oauth/execute?_addons=oauth&_controller=Oauth&_action=index', []],
+    'oauthaddons'       => ['api/oauth/execute?_addons=oauth&_controller=Oauth&_action=login', []],
+    'oauthlogin'        => ['api/oauth/execute?_addons=oauth&_controller=Oauth&_action=login', []],
+    'oauthcallback'     => ['api/oauth/execute?_addons=oauth&_controller=Oauth&_action=callback', []],
 
     '__domain__'        => [
         'www.gylbgg.com'   => 'dot',
