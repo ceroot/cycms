@@ -296,8 +296,8 @@ class Addons extends Base
             // $Addons = controller("addons://{$_addons}/{$_controller}")->$_action();
             $class  = "\\addons\\{$_addons}\\controller\\{$_controller}";
             $Addons = new $class;
-            $ddd    = $Addons->$_action();
-            dump($ddd);
+            $Addons->$_action();
+            // dump($ddd);
         } else {
             $this->error('没有指定插件名称，控制器或操作！');
         }

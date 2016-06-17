@@ -1,3 +1,15 @@
 <br><br><br><br><br>
-这是第三方登录
+{if condition="$Think.session.uid"}已经登录{/if}
+<br>
+<a href="/oauthlogin?type=qq&backurl={:getbackurl()}">qq登录</a>
+<br>
+<a href="/oauthlogin?type=weixin&backurl={:getbackurl()}">微信登录</a>
+<br>
+<a href="/oauthlogin?type=sina&backurl={:getbackurl()}">微博登录</a>
+<br>
+<a href="/oauthlogin?type=sina&backurl={:getbackurl()}">微博登录</a>
+<br>
+<a href="{:url('index/oauth/logout')}">清除</a>
+<br><br><br><br><br>
+
 {$addons_data.name}

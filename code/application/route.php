@@ -32,6 +32,8 @@ return [
     'oauthlogin'        => ['index/oauth/login', []],
     'oauthcallback'     => ['index/oauth/callback', []],
     'addons'            => ['console/addons/execute?_addons=ycEditor&_controller=Upload&_action=index', []],
+    // 'oauthaddons'       => ['console/addons/execute?_addons=oauth&_controller=Oauth&_action=index', []],
+    'oauthaddons'       => ['api/oauth/execute?_addons=oauth&_controller=Oauth&_action=index', []],
 
     '__domain__'        => [
         'www.gylbgg.com'   => 'dot',
