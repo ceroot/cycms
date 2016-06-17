@@ -31,6 +31,7 @@ return [
     // 'hello/:name'       => ['api/api/index', [], ['name' => '\w+']],
     'oauthlogin'        => ['index/oauth/login', []],
     'oauthcallback'     => ['index/oauth/callback', []],
+    'addons'            => ['console/addons/execute?_addons=ycEditor&_controller=Upload&_action=index', []],
 
     '__domain__'        => [
         'www.gylbgg.com'   => 'dot',

@@ -198,6 +198,7 @@ class Addons extends Base
             $hooks_update = model('Hooks')->updateHooks($addon_name);
             if ($hooks_update) {
                 // S('hooks', null);
+                cache('hooks', null);
                 return $this->success('安装成功');
             } else {
                 $addonsModel->where("name='{$addon_name}'")->delete();
@@ -246,6 +247,7 @@ class Addons extends Base
             $this->error('卸载插件所挂载的钩子数据失败');
         }
         // S('hooks', null);
+        cache('hooks', null);
         $delete = model('addons')->where("name='{$db_addons['name']}'")->delete();
         if ($delete === false) {
             return $this->error('卸载插件失败');
