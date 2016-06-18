@@ -68,6 +68,7 @@ class Addons extends Base
         $msg            = array('success' => '启用成功', 'error' => '启用失败');
         $data['status'] = 1;
         // S('hooks', null);
+        cache('hooks', null);
         $status = model('addons')->save($data, ['id' => $id]);
         if ($status) {
             return $this->success('成功');
@@ -85,13 +86,15 @@ class Addons extends Base
         $id             = input('id');
         $msg            = array('success' => '禁用成功', 'error' => '禁用失败');
         $data['status'] = 0;
-        $status         = model('addons')->save($data, ['id' => $id]);
+        // 清除钩子缓存
+        cache('hooks', null);
+        $status = model('addons')->save($data, ['id' => $id]);
         if ($status) {
             return $this->success('成功');
         } else {
             return $this->error('失败');
         }
-        // S('hooks', null);
+
         // $this->forbid('Addons', "id={$id}", $msg);
     }
 
@@ -281,6 +284,7 @@ class Addons extends Base
         dump('end');
     }
 
+    // 访问插件地址生成
     public function execute($_addons = null, $_controller = null, $_action = null)
     {
         if (config('URL_CASE_INSENSITIVE')) {

@@ -9,7 +9,7 @@
 <a href="javascript:void(0)" title="点击" class="test">点击</a>
 <hr>
 {if condition="$Think.session.uid"}已经登录{/if}
-<br>
+<!-- <br>
 <a href="/oauthlogin?type=qq&backurl={:getbackurl()}">qq登录</a>
 <br>
 <a href="/oauthlogin?type=weixin&backurl={:getbackurl()}">微信登录</a>
@@ -19,7 +19,7 @@
 <a href="/oauthlogin?type=sina&backurl={:getbackurl()}">微博登录</a>
 <br>
 <a href="{:url('api/user/logout')}">清除</a>
-<br>
+<br> -->
 {:hook('oauth', array('name'=>'ddd','value'=>'value'))}
 
 <script type="text/javascript">

@@ -59,7 +59,9 @@ class AppInit
                     $map['status'] = 1;
                     $names         = explode(',', $value);
                     $map['name']   = array('IN', $names);
+                    $map['status'] = 1;
                     $data          = db('Addons')->where($map)->column('id,name'); //getField('id,name');
+                    // dump($data);
                     if ($data) {
                         $addons = array_intersect($names, $data);
                         Hook::add($key, array_map('get_addon_class', $addons));
