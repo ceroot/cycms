@@ -42,8 +42,8 @@ class OauthAddon extends Addon
 
     public function oauth($data)
     {
-        dump($data);
-        dump($this->getConfig());
+        // dump($data);
+        // dump($this->getConfig());
         $this->assign('addons_data', $data);
         $this->assign('addons_config', $this->getConfig());
         $this->display('content');

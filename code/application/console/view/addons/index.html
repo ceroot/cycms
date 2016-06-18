@@ -1,17 +1,23 @@
-<extend name="Public/base" />
-
-<block name="body">
-	<!-- 标题栏 -->
-	<div class="main-title">
-		<h2>插件列表</h2>
-	</div>
+{extend name="mould:base" /}
+{block name="title"}后台首页{/block}
+{block name="content"}
 	<div>
 		<a href="{:url('create')}" class="btn">快速创建</a>
 	</div>
 
 	<!-- 数据列表 -->
 	<div class="data-table table-striped">
-		<table>
+		<!-- <table> -->
+		<table class="table table-condensed table-hover">
+			<colgroup>
+		        <col width="120">
+		        <col width="55">
+		        <col>
+		        <col width="90">
+		        <col width="90">
+		        <col width="90">
+		        <col width="100">
+	        </colgroup>
 			<thead>
 				<tr>
 					<th>名称</th>
@@ -70,11 +76,10 @@
 		</table>
 	</div>
 	<div>
-		{:hook('ycArticleEdit', array('name'=>'ddd','value'=>'value'))}
 		{:hook('oauth', array('name'=>'ddd','value'=>'value'))}
 	</div>
 	<!-- 分页 -->
     <div class="page">
         
     </div>
-</block>
+{/block}

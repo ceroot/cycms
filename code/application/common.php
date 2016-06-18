@@ -629,6 +629,14 @@ function del_file($dataForm, $dataSql)
         }
     }
 
+    // if (!empty($imgForm) && !empty($imgSql)) {
+    //     // 取得交集
+    //     $temp = array_intersect($imgForm, $imgSql);
+    //     // 取得差集
+    //     $imgSql = array_diff($temp, $imgSql);
+
+    // }
+
     // 如果进行处理后的数据不为空则执行删除操作
     if (!empty($imgSql)) {
         foreach ($imgSql as $value) {

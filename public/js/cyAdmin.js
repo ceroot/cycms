@@ -476,7 +476,7 @@ function _init(){
                     args = ['validate', 'ajaxForm'];
                 }
                 Wind.use(args, function () {
-                    var btn = ajaxForm.find('button');
+                    var btn = ajaxForm.find('button.btn-post');
                     // window.UEDITOR_HOME_URL = "/statics/";
                     // var ue  = UE.getEditor('content');
                     console.log(30);
