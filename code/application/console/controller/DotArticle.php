@@ -102,7 +102,6 @@ class DotArticle extends Base
             }
 
             // 修改时对封面的处理
-            // $file = Input::file('images');
             $file = request()->file('cover');
             if ($file) {
                 if (!empty($one['cover'])) {
