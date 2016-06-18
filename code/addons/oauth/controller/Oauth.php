@@ -25,6 +25,10 @@ class Oauth extends Controller
 
     public function index()
     {
+        $class = "\\addons\\oauth\\model\\OauthUser";
+        $model = new $class;
+        $test  = $model->list();
+        dump($test);
         dump('这是第三方登录插件控制器');
     }
 
@@ -69,9 +73,13 @@ class Oauth extends Controller
         $token = $sns->getAccessToken($code, $extend);
 
         if (is_array($token)) {
-            $user_info = controller('type', 'event')->$type($token);
+
+            // $user_info = controller('type', 'event')->$type($token);
             // dump($user_info);
             // dump($token);
+            $class     = "\\addons\\oauth\\event\\Type";
+            $obj       = new $class;
+            $user_info = $obj->$type($token);
 
             $user = $this->_login_handle($user_info, $type, $token);
         }
@@ -88,7 +96,11 @@ class Oauth extends Controller
             'delete_status' => 1,
         ];
 
-        $oauth_user_sql = db('oauthUser')->where($map)->find();
+        $class = "\\addons\\oauth\\model\\OauthUser";
+        $model = new $class;
+
+        // $oauth_user_sql = db('oauthUser')->where($map)->find();
+        $oauth_user_sql = $model->where($map)->find();
         if ($oauth_user_sql) {
             dump('已经存在');
             $id                 = $oauth_user_sql['id'];
@@ -106,7 +118,7 @@ class Oauth extends Controller
             }
 
             // 保存数据
-            $status = model('oauthUser')->save($data, ['id' => $id]);
+            $status = $model->save($data, ['id' => $id]);
             if ($status) {
                 // 判断是否绑定本平台用户
                 if ($oauth_user_sql['uid']) {
@@ -139,7 +151,7 @@ class Oauth extends Controller
             unset($data['head']);
             unset($data['expires_in']);
 
-            $status = model('oauthUser')->save($data);
+            $status = $model->save($data);
             if ($status) {
                 dump('写入成功');
                 session('uid', $status);

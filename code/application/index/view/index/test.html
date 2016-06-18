@@ -18,8 +18,9 @@
 <br>
 <a href="/oauthlogin?type=sina&backurl={:getbackurl()}">微博登录</a>
 <br>
-<a href="{:url('index/oauth/logout')}">清除</a>
-
+<a href="{:url('api/user/logout')}">清除</a>
+<br>
+{:hook('oauth', array('name'=>'ddd','value'=>'value'))}
 
 <script type="text/javascript">
 $(function(){
