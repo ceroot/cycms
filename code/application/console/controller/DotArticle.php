@@ -17,7 +17,6 @@
 namespace app\console\controller;
 
 use app\console\controller\Base;
-use think\Input;
 
 class DotArticle extends Base
 {
@@ -103,7 +102,8 @@ class DotArticle extends Base
             }
 
             // 修改时对封面的处理
-            $file = Input::file('images');
+            // $file = Input::file('images');
+            $file = request()->file('cover');
             if ($file) {
                 if (!empty($one['cover'])) {
                     $path = '/data/images/' . $one['cover'];

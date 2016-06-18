@@ -17,7 +17,6 @@
 namespace app\common\model;
 
 use app\common\model\Extend;
-use think\Input;
 
 class DotArticle extends Extend
 {
@@ -42,7 +41,8 @@ class DotArticle extends Extend
         $pathTemp   = './data/temp/'; // 临时文件存放路径
 
         // 封面保存并取得路径
-        $file = Input::file('cover');
+        // $file = Input::file('cover');
+        $file = request()->file('cover');
         if ($file) {
             // 修改时先删除原有图片处理
             if ($id) {
