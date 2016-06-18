@@ -105,7 +105,7 @@ class DotArticle extends Base
             // 修改时对封面的处理
             $file = Input::file('images');
             if ($file) {
-                if (empty($one['cover'])) {
+                if (!empty($one['cover'])) {
                     $path = '/data/images/' . $one['cover'];
                     if (file_exists('.' . $path)) {
                         unlink('.' . $path);
@@ -115,10 +115,11 @@ class DotArticle extends Base
 
             $contentForm = $data['content'];
             if ($contentForm) {
+
                 $contentSql = $one['content'];
-                if (empty($contentSql)) {
+                if (!empty($contentSql)) {
                     // 对比判断并删除操作
-                    del_file($contentForm, $contentSql);
+                    $del_file = del_file($contentForm, $contentSql);
                 }
             }
 
