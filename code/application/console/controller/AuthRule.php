@@ -34,18 +34,8 @@ class AuthRule extends Base
         $this->assign('rule', $rule);
     }
 
-    protected $beforeActionList = [
-        'add_before' => ['only' => 'add'],
-    ];
-
-    protected function add_before()
-    {
-        if (input('get.pid')) {
-            $this->assign('pid', input('get.pid'));
-        }
-    }
-
     function list() {
+        cookie('__forward__', $_SERVER['REQUEST_URI']); // 记录当前列表页的cookie
         return $this->fetch();
     }
 
@@ -56,15 +46,9 @@ class AuthRule extends Base
         $status = $this->model->del($id);
 
         if ($status) {
-            // 记录日志
-            $action = strtolower(toCamel(CONTROLLER_NAME)) . '_' . ACTION_NAME;
-            action_log($action, CONTROLLER_NAME, $id, UID);
 
-            if (CONTROLLER_NAME == 'auth_rule') {
-                $this->model->updateCache(); // 更新缓存
-                $this->model->updateCacheAuthModel(); // 更新缓存
-            }
-
+            $this->model->updateCache(); // 更新缓存
+            action_log($id); // 记录日志
             return $this->success('成功');
         } else {
             return $this->error($this->model->getError());

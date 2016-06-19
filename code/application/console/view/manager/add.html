@@ -1,59 +1,90 @@
 {extend name="mould:base" /}
 {block name="title"}{/block}
 {block name="content"}
-<form action="{:url('add')}" method="post" class="cy-ajaxForm cy-form" role="form">
-    <div class="form-group form-inline">
-        <table>
-            <tr>
-                <td valign="top"><span for="group" class="pd-t-5">角色：</span></td>
-                <td style="padding-left:3px">
-                    <div class="group-area">
-                        <select name="group_id[]" class="form-control">
+<form action="{:url('update')}" method="post" class="form-horizontal cy-ajaxForm cy-form" role="form" data-validate="true">
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="name"> 角色：</label>
+        {present name="one"}
+            {notempty name="authgroup"}
+                {volist name="authgroup" id="authgroup" key="k"}
+                    <div class="col-sm-12 group-area">
+                        <select name="group_id[]" class="input-sm form-cy col-xs-10 col-sm-3 {neq name="k" value="1"}mg-t-10{/neq}">
                             {volist name='groupdata' id='list'}
-                              <option value="{$list.id}" {eq name="list.id" value="8"} selected="selected"{/eq}>{$list.title}</option>
+                              <option value="{$list.id}" {eq name="authgroup.group_id" value="$list.id" } selected="selected"{/eq}>{$list.title}</option>
                             {/volist}
-                        </select>&nbsp&nbsp&nbsp&nbsp<a href="javascript:void(0)" onclick="add_group(this)" title="添加一个">[+]</a>
+                        </select>&nbsp&nbsp&nbsp&nbsp<a href="javascript:void(0)" onclick="{eq name="k" value="1"}add_group(this){else/}del_group(this){/eq}" title="添加一个">{eq name="k" value="1"}[+]{else/}[-]{/eq}</a>
                     </div>
-                </td>
-            </tr>
-        </table>
+                {/volist}
+            {else /}
+                <div class="col-sm-12 group-area">
+                    <select name="group_id[]" class="input-sm form-cy col-xs-10 col-sm-3">
+                        {volist name='groupdata' id='list'}
+                          <option value="{$list.id}" {eq name="list.id" value="8"} selected="selected"{/eq}>{$list.title}</option>
+                        {/volist}
+                    </select>&nbsp&nbsp&nbsp&nbsp<a href="javascript:void(0)" onclick="add_group(this)" title="添加一个">[+]</a>
+                </div>
+            {/notempty}
+        {else}
+            <div class="col-sm-12 group-area">
+                <select name="group_id[]" class="input-sm form-cy col-xs-10 col-sm-3">
+                    {volist name='groupdata' id='list'}
+                      <option value="{$list.id}" {eq name="list.id" value="8"} selected="selected"{/eq}>{$list.title}</option>
+                    {/volist}
+                </select>&nbsp&nbsp&nbsp&nbsp<a href="javascript:void(0)" onclick="add_group(this)" title="添加一个">[+]</a>
+            </div>
+        {/present}
     </div>
-    <div class="form-group form-inline">
-        <span for="username" class="control-label">用户名：</span>
-        <input type="text" class="form-control" name="username" id="username" placeholder="用户名">
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="username">用户名：</label>
+        <div class="col-sm-12">
+            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="username" id="username" value="{$one.username|default=''}" placeholder="用户名">
+        </div>
     </div>
-    <div class="form-group form-inline">
-        <span for="nickname" class="control-label">用户昵称：</span>
-        <input type="text" class="form-control" name="nickname" id="nickname" placeholder="用户昵称">
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="nickname">用户昵称：</label>
+        <div class="col-sm-12">
+            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="nickname" id="nickname" value="{$one.nickname|default=''}" placeholder="用户昵称">
+        </div>
     </div>
-    <div class="form-group form-inline">
-        <span for="realname">姓名：</span>
-        <input type="text" class="form-control" name="realname" id="realname" placeholder="姓名">
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="realname">姓名：</label>
+        <div class="col-sm-12">
+            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="realname" id="realname" value="{$one.realname|default=''}" placeholder="姓名">
+        </div>
     </div>
-    <div class="form-group form-inline">
-        <span for="email">邮箱：</span>
-        <input type="text" class="form-control" name="email" id="email" placeholder="邮箱">
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="email">邮箱：</label>
+        <div class="col-sm-12">
+            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="email" id="email" value="{$one.email|default=''}" placeholder="邮箱">
+        </div>
     </div>
-    <div class="form-group form-inline">
-        <span for="password">用户密码：</span>
-        <input type="password" class="form-control" name="password" id="password" placeholder="用户密码">
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="password">用户密码：</label>
+        <div class="col-sm-12">
+            <input type="password" class="input-sm form-cy col-xs-10 col-sm-5" name="password" id="password" value="" placeholder="用户密码">
+        </div>
     </div>
-    <!-- <div class="form-group form-inline">
-        <span for="repassword">确认密码：</span>
-        <input type="password" class="form-control" name="repassword" id="repassword" placeholder="确认密码">
-    </div> -->
-    <div class="form-group form-inline">
-        <span>状态：</span>
-        <label class="radio-inline">
-            <input type="radio" name="status" id="status" value="1" checked="checked"> 正常
-        </label>
-        <label class="radio-inline">
-            <input type="radio" name="status" id="status" value="0"> 禁用
-        </label>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="repassword">确认密码：</label>
+        <div class="col-sm-12">
+            <input type="repassword" class="input-sm form-cy col-xs-10 col-sm-5" name="repassword" id="repassword" value="" placeholder="确认密码">
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="status">状态：</label>
+        <div class="col-sm-12">
+            <label class="radio-inline">
+                <input type="radio" name="status" id="status" value="1" {present name="one"}{eq name='one.status' value='1'} checked="checked"{/eq}{else /} checked="checked"{/present}> 正常
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="status" id="status" value="0" {eq name='one.status' value='0'} checked="checked"{/eq}> 禁用
+            </label>
+        </div>
     </div>
     <div class="fixed-bottom">
         <div class="bottom-area">
-            <button class="btn btn-sm btn-default">保存</button>
+            <input type="hidden" name="id" value="{$one.id|default=''}">
+            <button class="btn btn-sm btn-default btn-post">保存</button>
         </div>
     </div>
 </form>
@@ -97,7 +128,7 @@ function add_group(obj)
     html.find('select').addClass('mg-t-10');
     html.find('a').attr('onclick','del_group(this)').html('[-]');
     // html.find('select option').removeAttr('selected');
-    $(obj).parents('td').append(html);
+    $(obj).parents('.form-group').append(html);
 }
 
 function del_group(obj)

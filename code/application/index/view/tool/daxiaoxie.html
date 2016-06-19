@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>大小写转换</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="__PUBLIC__/jQuery/jquery-2.2.4.min.js"></script>
+
+</head>
+<body>
+<div class="area">
+    <textarea class="old" rows="5" style="width:80%"></textarea>
+    <br>
+    <input type="hidden" value="1" name="">
+    <button class="click">转换大写</button>
+    <hr>
+    <p style="display:none">转换结果</p>
+    <div class="show"></div>
+</div>
+<hr><hr>
+<div class="area">
+    <textarea class="old" rows="5" style="width:80%"></textarea>
+    <br>
+    <input type="hidden" value="2" name="">
+    <button class="click">转换小写</button>
+    <hr>
+    <p style="display:none">转换结果</p>
+    <div class="show"></div>
+</div>
+<script type="text/javascript">
+$(function(){
+	$('body').on('click','button.click',function(){
+		var area = $(this).closest('.area');
+		var text = area.find('.old').val();
+		var type = area.find('input').val();
+		area.find('p').hide();
+		if(!text){
+			alert('内容为空');
+			return false;
+		}
+		if(type==1){
+			text = text.toLowerCase();
+		}else{
+			text = text.toUpperCase();
+		}
+		area.find('p').show();
+		area.find('.show').text(text);
+	});
+});
+</script>
+</body>
+</html>

@@ -16,10 +16,10 @@
  */
 namespace app\console\model;
 
-use think\Model;
+use app\common\model\Extend;
 use third\Data;
 
-class AuthGroup extends Model
+class AuthGroup extends Extend
 {
     public function getRules($list)
     {

@@ -4,94 +4,129 @@
 <style type="text/css">
 form.cy-form .form-inline span{width: 140px; text-align: right; display: inline-block;}
 </style>
-<form action="{:url('add')}" method="post" class="cy-ajaxForm cy-form"  >
-	<div class="form-group form-inline">
-		<span for="name" class="control-label">规则标识：</span>
-		<input class="form-control" type="text" name="name" id="name" placeholder="规则标识" />
-	</div>
-	<div class="form-group form-inline">
-		<span for="title">规则名称：</span>
-		<input class="form-control" type="text" name="title" id="title" placeholder="规则名称" />
-	</div>
-	<div class="form-group form-inline">
-		<span for="title">父级规则：</span>
-		<select name="pid" class="form-control">
-        	<option value="0">顶级</option>
-	            {volist name='rule' id='rule'}
-	            	<option value="{$rule.id}" {notempty name="pid"}{eq name="rule.id" value="$pid" }selected="selected"{/eq}{/notempty}>{$rule._name}</option>
-	            {/volist}
-        	</select>
-	</div>
-	<div class="form-group form-inline">
-		<span for="status">状态：</span>
-        <label class="radio-inline">
-            <input type="radio" name="status" id="" value="1" checked="checked"> 正常
-        </label>
-        <label class="radio-inline">
-            <input type="radio" name="status" id="" value="0"> 禁用
-        </label>
-	</div>
-	<div class="form-group form-inline">
-		<span for="isnavshow">是否显示菜单：</span>
-        <label class="radio-inline">
-            <input type="radio" name="isnavshow" id="" value="1" checked="checked"> 显示
-        </label>
-        <label class="radio-inline">
-            <input type="radio" name="isnavshow" id="" value="0"> 隐藏
-        </label>
-	</div>
-	<div class="form-group form-inline">
-		<span for="controller">是否是控制器：</span>
-        <label class="radio-inline">
-            <input type="radio" name="controller" id="" value="1"> 是
-        </label>
-        <label class="radio-inline">
-            <input type="radio" name="controller" id="" value="0" checked="checked"> 否
-        </label>
-	</div>
-	<div class="form-group form-inline">
-		<span for="instantiation">是否需要实例化：</span>
-        <label class="radio-inline">
-            <input type="radio" name="instantiation" id="" value="1"> 是
-        </label>
-        <label class="radio-inline">
-            <input type="radio" name="instantiation" id="" value="0" checked="checked"> 否
-        </label>
-	</div>
-	<div class="form-group form-inline">
-		<span for="auth">是否需要进行权限验证：</span>
-        <label class="radio-inline">
-            <input type="radio" name="auth" id="" value="1" checked="checked"> 是
-        </label>
-        <label class="radio-inline">
-            <input type="radio" name="auth" id="" value="0"> 否
-        </label>
-	</div>
-	<div class="form-group form-inline">
-		<span for="sort">排序：</span>
-		<input class="form-control" type="text" name="sort" id="sort" value="100" placeholder="排序" />
-	</div>
-    <div class="form-group form-inline">
-        <span for="url">url地址：</span>
-        <input class="form-control" type="text" name="url" id="url" value="" placeholder="菜单url地址，选填" style="width:60%" />
+<form action="{:url('update')}" method="post" class="form-horizontal cy-ajaxForm cy-form" data-validate="true">
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="title">父级规则：</label>
+        <div class="col-sm-12">
+            <select name="pid" class="input-sm form-cy col-xs-10 col-sm-3">
+                <option value="0">顶级</option>
+                {volist name='rule' id='rule'}
+                    <option value="{$rule.id}" 
+                        {present name="one"}
+                            {neq name="one.pid" value="0"}
+                                {eq name="rule.id" value="$one.pid" } selected="selected"{/eq}
+                            {/neq}
+                        {else /}
+                            {present name="Think.get.id"}
+                                {eq name="rule.id" value="$Think.get.id"} selected="selected"{/eq}
+                            {/present}
+                        {/present}
+                    >{$rule._name}
+                    </option>
+                {/volist}
+            </select>
+        </div>
     </div>
-	<div class="form-group form-inline">
-        <span for="rule">条件：</span>
-        <textarea class="form-control" name="condition" id="condition"></textarea>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="name">规则标识：</label>
+        <div class="col-sm-12">
+            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="name" id="name" value="{$one.name|default=''}" placeholder="规则标识">
+        </div>
     </div>
-    <div class="form-group form-inline">
-        <span for="">日志记录：</span>
-        <label class="radio-inline">
-            <input type="checkbox" name="_log" id="" value="1"> 开启日志记录
-        </label>
-        （开启日志记录默认为系统选项，需要修改请到用户行为里添加或者修改）
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="title">规则名称：</label>
+        <div class="col-sm-12">
+            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="title" id="title" value="{$one.title|default=''}" placeholder="规则名称">
+        </div>
     </div>
-    <div class="log-area">
-        
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="status">状态：</label>
+        <div class="col-sm-12">
+            <label class="radio-inline">
+                <input type="radio" name="status" id="status" value="1" {present name="one"}{eq name='one.status' value='1'} checked="checked"{/eq}{else /} checked="checked"{/present}> 正常
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="status" id="status" value="0" {eq name='one.status' value='0'} checked="checked"{/eq}> 禁用
+            </label>
+        </div>
     </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="isnavshow">是否显示菜单：</label>
+        <div class="col-sm-12">
+            <label class="radio-inline">
+                <input type="radio" name="isnavshow" id="isnavshow" value="1" {present name="one"}{eq name='one.isnavshow' value='1'} checked="checked"{/eq}{else /} checked="checked"{/present}> 显示
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="isnavshow" id="isnavshow" value="0" {eq name='one.isnavshow' value='0'} checked="checked"{/eq}> 隐藏
+            </label>
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="controller">是否是控制器：</label>
+        <div class="col-sm-12">
+            <label class="radio-inline">
+                <input type="radio" name="controller" id="controller" value="1"{eq name='one.controller' value='1'} checked="checked"{/eq}> 是
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="controller" id="controller" value="0" {present name="one"}{eq name='one.controller' value='0'} checked="checked"{/eq}{else /} checked="checked"{/present}> 否
+            </label>
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="instantiation">是否需要实例化：</label>
+        <div class="col-sm-12">
+            <label class="radio-inline">
+                <input type="radio" name="instantiation" id="instantiation" value="1" {eq name='one.instantiation' value='1'} checked="checked"{/eq}> 是
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="instantiation" id="instantiation" value="0" {present name="one"}{eq name='one.instantiation' value='0'} checked="checked"{/eq}{else /} checked="checked"{/present}> 否
+            </label>
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="auth">是否需要进行权限验证：</label>
+        <div class="col-sm-12">
+            <label class="radio-inline">
+                <input type="radio" name="auth" id="auth" value="1" {present name="one"}{eq name='one.auth' value='1'} checked="checked"{/eq}{else /} checked="checked"{/present}> 是
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="auth" id="auth" value="0" {eq name='one.auth' value='0'} checked="checked"{/eq}> 否
+            </label>
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="sort">排序：</label>
+        <div class="col-sm-12">
+            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="sort" id="sort" value="{$one.sort|default='100'}" placeholder="排序">
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="url">url地址：</label>
+        <div class="col-sm-12">
+            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="url" id="url" value="{$one.url|default=''}" placeholder="url地址">
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="condition">条件：<span class="text-muted"></span></label>
+        <div class="col-sm-12">
+            <textarea class="form-cy col-xs-10 col-sm-6" name="condition" id="condition">{$one.condition|default=''}</textarea>
+        </div>
+        <div class="col-sm-12">
+            <p class="pd-t-5">这里是说明</p>
+        </div>
+    </div>
+    {notpresent name="one"}
+        <div class="form-group form-group-sm">
+            <label class="col-sm-12" for="_log">日志记录：<span class="text-muted">（开启日志记录默认为系统选项，需要修改请到用户行为里添加或者修改）</span></label>
+            <div class="col-sm-12">
+                <label style="font-weight:500"><input type="checkbox" name="_log" id="" value="1"> 开启日志记录</label>
+            </div>
+        </div>
+    {/notpresent}
     <div class="fixed-bottom">
         <div class="bottom-area">
-            <button class="btn btn-default btn-sm">保存</button>
+            <input type="hidden" name="id" value="{$one.id|default=''}">
+            <button class="btn btn-sm btn-default btn-post">保存</button>
         </div>
     </div>
 </form>
@@ -110,6 +145,5 @@ var userValidate = {
         }
     }
 };
-
 </script>
 {/block}

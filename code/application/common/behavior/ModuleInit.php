@@ -31,6 +31,14 @@ class ModuleInit
         define('CONTROLLER_NAME', request()->controller());
         define('ACTION_NAME', request()->action());
 
+        // 读取数据库中的配置并加入配置
+        $config = cache('db_config_data');
+        if (empty($config)) {
+            $config = model('config')->cache_config();
+            cache('db_config_data', $config);
+        }
+        config($config); //添加配置
+
     }
 
 }

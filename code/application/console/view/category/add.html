@@ -1,61 +1,74 @@
 {extend name="mould:base" /}
 {block name="title"}{/block}
 {block name="content"}
-<style type="text/css">
-form.cy-form .form-inline span{width: 140px; text-align: right; display: inline-block;}
-</style>
-<form action="{:url('add')}" method="post" class="cy-ajaxForm cy-form" >
-	<div class="form-group form-inline">
-		<span for="name" class="control-label">类别标识：</span>
-		<input class="form-control" type="text" name="name" id="name" placeholder="类别标识" />
-	</div>
-	<div class="form-group form-inline">
-		<span for="title">类别名称：</span>
-		<input class="form-control" type="text" name="title" id="title" placeholder="类别名称" />
-	</div>
-	<div class="form-group form-inline">
-		<span for="title">父级：</span>
-		<select name="pid" class="form-control">
-        	<option value="0">顶级</option>
-	            {volist name='category' id='category'}
-	            	<option value="{$category.id}" >{$category._name}</option>
-	            {/volist}
-        	</select>
-	</div>
-	<div class="form-group form-inline">
-		<span for="status">状态：</span>
-        <label class="radio-inline">
-            <input type="radio" name="status" id="" value="1" checked="checked"> 正常
-        </label>
-        <label class="radio-inline">
-            <input type="radio" name="status" id="" value="0"> 禁用
-        </label>
-	</div>
-	<div class="form-group form-inline">
-		<span for="show_status">是否显示菜单：</span>
-        <label class="radio-inline">
-            <input type="radio" name="show_status" id="" value="1" checked="checked"> 显示
-        </label>
-        <label class="radio-inline">
-            <input type="radio" name="show_status" id="" value="0"> 隐藏
-        </label>
-	</div>
-	<div class="form-group form-inline">
-		<span for="url：">url：</span>
-        <input class="form-control" type="text" name="url" id="url" placeholder="类别url" />
-	</div>
-    <div class="form-group form-inline">
-        <span for="sort">排序：</span>
-        <input class="form-control" type="text" name="sort" id="sort" value="100" placeholder="排序" />
+<form action="{:url('update')}" method="post" class="form-horizontal cy-ajaxForm cy-form" role="form" data-validate="true">
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="title">父级：</label>
+        <div class="col-sm-12">
+            <select name="pid" class="input-sm form-cy col-xs-10 col-sm-3">
+                <option value="0">顶级</option>
+                {volist name='category' id='category'}
+                    <option value="{$category.id}" {present name="one"}{eq name="one.pid" value="0"}{eq name="category.id" value="$one.id"} selected="selected"{/eq}{else /}{eq name="category.id" value="$one.pid"} selected="selected"{/eq}{/eq}{/present}>{$category._name}</option>
+                {/volist}
+            </select>
+        </div>
     </div>
-    <div class="form-group form-inline">
-        <span for="remark">备注：</span>
-        <textarea class="form-control" name="remark" id="remark"></textarea>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="name">类别标识：</label>
+        <div class="col-sm-12">
+            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="name" id="name" value="{$one.name|default=''}" placeholder="类别标识">
+        </div>
     </div>
-	
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="title">类别名称</label>
+        <div class="col-sm-12">
+            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="title" id="title" value="{$one.title|default=''}" placeholder="类别名称：">
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="status">状态：</label>
+        <div class="col-sm-12">
+            <label class="radio-inline">
+                <input type="radio" name="status" id="status" value="1" {present name="one"}{eq name='one.status' value='1'} checked="checked"{/eq}{else /} checked="checked"{/present}> 正常
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="status" id="status" value="0" {eq name='one.status' value='0'} checked="checked"{/eq}> 禁用
+            </label>
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="display">是否显示菜单：</label>
+        <div class="col-sm-12">
+            <label class="radio-inline">
+                <input type="radio" name="display" id="display" value="1" {present name="one"}{eq name='one.display' value='1'} checked="checked"{/eq}{else /} checked="checked"{/present}> 显示
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="display" id="display" value="0" {eq name='one.display' value='0'} checked="checked"{/eq}> 隐藏
+            </label>
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="url">url地址：</label>
+        <div class="col-sm-12">
+            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="url" id="url" value="{$one.url|default=''}" placeholder="url地址">
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="sort">排序：</label>
+        <div class="col-sm-12">
+            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="sort" id="sort" value="{$one.sort|default=''}" placeholder="排序">
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="remark">备注：<span class="text-muted"></span></label>
+        <div class="col-sm-12">
+            <textarea class="form-cy col-xs-10 col-sm-6" name="remark" id="remark">{$one.remark|default=''}</textarea>
+        </div>
+    </div>
     <div class="fixed-bottom">
         <div class="bottom-area">
-            <button class="btn btn-sm btn-default">保存</button>
+            <input type="hidden" name="id" value="{$one.id|default=''}">
+            <button class="btn btn-sm btn-default btn-post">保存</button>
         </div>
     </div>
 </form>
@@ -69,9 +82,9 @@ var userValidate = {
         }
     }, 
     messages: {
-        'name':'请填写类别标识',
+        'name':'请填写规则标识',
         'title':{
-            required:'请填写类别名称'
+            required:'请填写规则名称'
         }
     }
 };

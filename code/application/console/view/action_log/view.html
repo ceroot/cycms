@@ -1,0 +1,49 @@
+{extend name="mould:base" /}
+{block name="title"}{/block}
+{block name="content"}
+  <table class="table table-bordered table-hover">
+        <colgroup>
+	        <col width="10%">
+	        <col width="20%">
+	        <col width="10%">
+	        <col>
+        </colgroup>
+        <tbody>
+          	<tr>
+	          	<td align="right">id</td>
+	          	<td>{$one.id}</td>
+	          	<td align="right">触发ID</td>
+	            <td>{$one.action_id}</td>
+          	</tr>
+          	<tr>
+	          	<td align="right">用户</td>
+	            <td>{$one.user_id|get_realname}</td>
+          		<td align="right">状态</td>
+	          	<td>{$one.status ? '正常':'禁用'}</td>
+          	</tr>
+          	<tr>
+	          	<td align="right">操作表</td>
+	            <td>{$one.model}</td>
+          		<td align="right">数据ID</td>
+	          	<td>{$one.record_id}</td>
+          	</tr>
+          	<tr>
+	          	<td align="right">时间</td>
+	            <td>{$one.create_time|time_format}</td>
+          		<td align="right">IP</td>
+	          	<td>{$one.ip|long2ip}</td>
+          	</tr>
+          	<tr>
+          		<td align="right">日志说明</td>
+	          	<td colspan="3">{$one.remark}</td>
+          	</tr>
+        </tbody>
+	</table>
+	<div class="fixed-bottom pager-wrapper">
+		<div class="bottom-area">
+			<div class="pager">
+			    <button class="btn btn-sm btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+			</div>
+	</div>
+	</div>
+{/block}

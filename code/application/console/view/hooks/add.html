@@ -1,0 +1,87 @@
+{extend name="mould:base" /}
+{block name="title"}{/block}
+{block name="content"}
+  	<!-- 标题栏 -->
+	<div class="main-title cf">
+		<h2><present name="data">编辑<else />新增</present>钩子</h2>
+	</div>
+	<form action="{:url('updateHook')}" method="post" class="form-horizontal cy-ajaxForm cy-form" role="form" data-validate="true">
+		<div class="form-group form-group-sm">
+	        <label class="col-sm-12" for="name">钩子名称<span class="check-tips">（需要在程序中先添加钩子，否则无效）</span></label>
+	        <div class="col-sm-12">
+	            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="name" id="name" value="{$one.name}" placeholder="钩子名称">
+	        </div>
+	    </div>
+
+	    <div class="form-group form-group-sm">
+	        <label class="col-sm-12" for="description">钩子描述<span class="check-tips">（钩子的描述信息）</span></label>
+	        <div class="col-sm-12">
+	            <textarea name="description" class="form-cy col-xs-10 col-sm-6">{$one.description}</textarea>
+	        </div>
+	    </div>
+	    <div class="form-group form-group-sm">
+	        <label class="col-sm-12" for="title">钩子类型<span class="check-tips">（区分钩子的主要用途）</span></label>
+	        <div class="col-sm-12">
+	            <select name="pid" class="input-sm form-cy col-xs-10 col-sm-3">
+	                {volist name=":config('HOOKS_TYPE')" id='vo'}
+	                    <option value="{$rule.id}" 
+	                        <option value="{$key}" {eq name="one.type" value="$key"} selected{/eq}>{$vo}</option>
+	                    </option>
+	                {/volist}
+	            </select>
+	        </div>
+	    </div>
+
+		{present name="one"}
+			<div class="form-group form-group-sm">
+				<label class="col-sm-12">钩子挂载的插件排序<span class="check-tips">（拖动后保存顺序，影响同一个钩子挂载的插件执行先后顺序）</span></label>
+				<div class="col-sm-12">
+					<input type="hidden" name="addons" value="{$one.addons}" readonly>
+					{empty name="one.addons"}
+						暂无插件，无法排序
+					{else /}
+					<ul id="sortUl" class="dragsort list-inline">
+						{volist name=":explode(',',$one['addons'])" id="addons_vo"}
+							<li class="getSort"><b>&times;</b><em>{$addons_vo}</em></li>
+						{/volist}
+					</ul>
+					<script type="text/javascript">
+						$(function(){
+							$("#sortUl").dragsort({
+	                            dragSelector:'li',
+	                            placeHolderTemplate: '<li class="draging-place">&nbsp;</li>',
+	                            dragEnd:function(){
+	                            	updateVal();
+	                            }
+	                        });
+
+							$('#sortUl li b').click(function(){
+                            	$(this).parent().remove();
+                            	updateVal();
+                            });
+
+							// 更新排序后的隐藏域的值
+	                        function updateVal() {
+	                        	var sortVal = [];
+                            	$('#sortUl li').each(function(){
+                            		sortVal.push($('em',this).text());
+                            	});
+                                $("input[name='addons']").val(sortVal.join(','));
+	                        }
+						})
+					</script>
+					{/empty}
+				</div>
+			</div>
+		{/present}
+		
+		<div class="fixed-bottom">
+	        <div class="bottom-area">
+	            <input type="hidden" name="id" value="{$one.id}">
+				<button type="submit" class="btn btn-sm submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+				<button class="btn btn-sm btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+	        </div>
+	    </div>
+	</form>
+	<script type="text/javascript" src="__STATIC__/jquery.dragsort/0.5.2/jquery.dragsort-0.5.2.min.js"></script>
+{/block}

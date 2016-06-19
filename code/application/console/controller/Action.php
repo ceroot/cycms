@@ -17,7 +17,6 @@
 namespace app\console\controller;
 
 use app\console\controller\Base;
-use think\Db;
 
 class Action extends Base
 {
@@ -29,12 +28,5 @@ class Action extends Base
     {
         parent::_initialize();
 
-    }
-
-    public function log()
-    {
-        $list = Db::name('actionLog')->order('id', 'desc')->limit(10)->select();
-        $this->assign('list', $list);
-        return $this->fetch();
     }
 }

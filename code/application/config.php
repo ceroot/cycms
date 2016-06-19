@@ -13,12 +13,16 @@
 $sdk    = include CODE_PATH . 'data/config/sdk.inc.php';
 $config = [
     'url_route_on'          => true,
+
+    // 显示调试信息
+    // 'response_exit'         => false,
     'log'                   => [
         'type' => 'trace', // 支持 socket trace file
     ],
-    'cms_version'           => '0.9.6 [20160618]',
-    // 显示调试信息
-    'response_exit'         => true,
+    'cms_version'           => '0.9.7.20160619',
+
+    // 调试模式状态，true 开启，false 关闭
+    'app_debug'             => true,
 
     // 配置列表
     // 'extra_config_list'     => [],
@@ -55,14 +59,14 @@ $config = [
     ],
 
     //分页配置
-    'paginate'              => [
-        'type'      => 'bootstrap',
-        'var_page'  => 'page',
-        'path'      => '',
-        'list_rows' => 15,
-    ],
+    // 'paginate'              => [
+    //     'type'      => 'bootstrap',
+    //     'var_page'  => 'page',
+    //     'path'      => '',
+    //     'list_rows' => 15,
+    // ],
 
-    'url_domain_deploy'     => true,
+    // 'url_domain_deploy'     => true,
 
 ];
 

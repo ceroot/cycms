@@ -56,6 +56,9 @@ class AuthGroup extends Base
 
         $this->assign('list', $rulesTree);
         $this->assign('page', $page);
+
+        // 记录当前列表页的cookie
+        cookie('__forward__', $_SERVER['REQUEST_URI']);
         return $this->fetch();
     }
 

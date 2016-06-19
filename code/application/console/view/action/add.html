@@ -1,53 +1,66 @@
 {extend name="mould:base" /}
 {block name="title"}{/block}
 {block name="content"}
-
-<form action="{:url('add')}" method="post" class="cy-ajaxForm cy-form" role="form">
-    <div class="form-group form-inline">
-        <span class="title" for="name">行为标识：</span>
-        <input type="text" class="form-control input-sm" name="name" id="name" placeholder="行为标识">
+<form action="{:url('update')}" method="post" class="form-horizontal cy-ajaxForm cy-form" role="form" data-validate="true">
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="name">行为标识：</label>
+        <div class="col-sm-12">
+            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="name" id="name" value="{$one.name|default=''}" placeholder="行为标识">
+        </div>
     </div>
-    <div class="form-group form-inline">
-        <span class="title" for="title">行为名称：</span>
-        <input type="text" class="form-control" name="title" id="title" placeholder="行为名称">
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="title">行为名称：</label>
+        <div class="col-sm-12">
+            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="title" id="title" value="{$one.title|default=''}" placeholder="行为名称">
+        </div>
     </div>
-    <div class="form-group form-inline">
-        <span class="title" for="type">行为类型：</span>
-        <label class="radio-inline">
-            <input type="radio" name="type" id="" value="1" checked="checked"> 系统
-        </label>
-        <label class="radio-inline">
-            <input type="radio" name="type" id="" value="2"> 用户
-        </label>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="status">行为类型：</label>
+        <div class="col-sm-12">
+            <label class="radio-inline">
+                <input type="radio" name="type" id="" value="1" {present name="one"}{eq name='one.status' value='1'} checked="checked"{/eq}{else /} checked="checked"{/present}> 系统
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="type" id="" value="2" {eq name='one.status' value='2'} checked="checked"{/eq}> 用户
+            </label>
+        </div>
     </div>
-    <div class="form-group form-inline">
-        <span class="title" for="remark">行为描述：</span>
-        <textarea class="form-control" name="remark" id="remark"></textarea>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="remark">行为描述：<span class="text-muted"></span></label>
+        <div class="col-sm-12">
+            <textarea class="form-cy col-xs-10 col-sm-6" name="remark" id="remark">{$one.remark|default=''}</textarea>
+        </div>
     </div>
-    <div class="form-group form-inline">
-        <span class="title" for="rule">行为规则：</span>
-        <textarea class="form-control" name="rule" id="rule"></textarea>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="rule">行为规则：<span class="text-muted"></span></label>
+        <div class="col-sm-12">
+            <textarea class="form-cy col-xs-10 col-sm-6" name="rule" id="rule">{$one.rule|default=''}</textarea>
+        </div>
     </div>
-    <div class="form-group form-inline">
-        <span class="title" for="log">日志规则：</span>
-        <textarea class="form-control" name="log" id="log"></textarea>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="log">日志规则：<span class="text-muted"></span></label>
+        <div class="col-sm-12">
+            <textarea class="form-cy col-xs-10 col-sm-6" name="log" id="log">{$one.log|default=''}</textarea>
+        </div>
+        <div class="col-sm-12">
+            <p class="pd-t-5">[user|get_realname]在[time|time_format]设置了控制台菜单显示状态</p>
+        </div>
     </div>
-    <div class="form-group form-inline">
-    	<span class="title">&nbsp;</span>
-    	<p class="form-control-static">[user|get_realname]在[time|time_format]设置了控制台菜单显示状态</p>
-    </div>
-    <div class="form-group form-inline">
-        <span class="title" for="status">状态：</span>
-        <label class="radio-inline">
-            <input type="radio" name="status" id="" value="1" checked="checked"> 正常
-        </label>
-        <label class="radio-inline">
-            <input type="radio" name="status" id="" value="0"> 禁用
-        </label>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="status">状态：</label>
+        <div class="col-sm-12">
+            <label class="radio-inline">
+                <input type="radio" name="status" id="status" value="1" {present name="one"}{eq name='one.status' value='1'}checked="checked"{/eq}{else /} checked="checked"{/present}> 正常
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="status" id="status" value="0" {eq name='one.status' value='0'} checked="checked"{/eq}> 禁用
+            </label>
+        </div>
     </div>
     <div class="fixed-bottom">
         <div class="bottom-area">
-            <button class="btn btn-sm btn-default">保存</button>
+            <input type="hidden" name="id" value="{$one.id|default=''}">
+            <button class="btn btn-sm btn-default btn-post">保存</button>
         </div>
     </div>
 </form>
@@ -66,6 +79,5 @@ var userValidate = {
         }
     }
 };
-
 </script>
 {/block}

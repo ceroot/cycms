@@ -23,20 +23,23 @@
 	        	<td>{$list.id}</td>
 				<td>{$list.title}</td>
 				<td style="word-break: break-all; word-wrap:break-word;">
-					{notempty name="list.tree"}
-						{volist name="list.tree" id="vo"}
-							{$vo._name}<br>
-						{/volist}
-					{/notempty}
+					{neq name="list.id" value="1"}
+						<a href="javascript:void(0)" class="cy-view">查看</a>
+						<div style="display:none" class="view-main">
+							{notempty name="list.tree"}
+								{volist name="list.tree" id="vo"}
+									{$vo._name}<br>
+								{/volist}
+							{/notempty}
+						</div>
+					{/neq}
 				</td>
-				<td><a href="{:url('updatestatus',array('id'=>$list['id']))}" class="cy-ajax" title="快捷设置状态">{neq name="list.id" value="1"}{$list.status ? '正常' : '禁用'}{/neq}</a></td>
+				<td><a href="{:url('updatestatus?id='.$list['id'])}" class="cy-ajax" title="快捷设置状态">{neq name="list.id" value="1"}{$list.status ? '正常' : '禁用'}{/neq}</a></td>
 				<td align='center'>
 					{neq name="list.id" value="1"}
-						<a href="{:url('rule',array('id'=>$list['id']))}">权限分配</a> | 
-					{/neq}
-					<a href="{:url('edit',array('id'=>$list['id']))}">修改</a>
-					{neq name="list.id" value="1"} | 
-						<a class="cy-ajax" href="{:url('del',array('id'=>$list['id']))}" data-layer-msg="删除" data-layer-okbtn="删除" data-layer-confirm="true" title="删除">删除</a>
+						<a href="{:url('rule?id='.$list['id'])}">权限分配</a> | 
+						<a href="{:url('edit?id='.$list['id'])}">修改</a> | 
+						<a class="cy-ajax" href="{:url('del?id='.$list['id'])}" data-layer-msg="删除" data-layer-okbtn="删除" data-layer-confirm="true" title="删除">删除</a>
 					{/neq}
 				</td>
 			</tr>
@@ -51,4 +54,25 @@
 			</div>
 		</div>
 	{/notempty}
+{/block}
+{block name="script"}
+<script type="text/javascript">
+$(function(){
+	$('body').on('click','.cy-view',function(){
+		var _self = $(this);
+		var _text = _self.text();
+		_self.siblings('.view-main').slideToggle('fast',function(){
+			if(_text=='查看'){
+				_self.text('收缩');
+			}else{
+				_self.text('查看');
+			}
+		});
+
+		_self.closest('tr').siblings().find('.view-main').slideUp('fast',function(){
+			_self.closest('tr').siblings().find('.cy-view').text('查看');
+		});
+	});
+});
+</script>
 {/block}

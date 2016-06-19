@@ -243,7 +243,8 @@ function action_log($record_id = null, $action = null, $model = null, $user_id =
     }
 
     if (empty($action)) {
-        $action = strtolower(toCamel(request()->controller())) . '_' . request()->action();
+        // $action = strtolower(toCamel(request()->controller())) . '_' . request()->action();
+        $action = strtolower(request()->controller()) . '_' . request()->action();
     }
 
     // 查询行为,判断是否执行
@@ -981,4 +982,47 @@ function addons_url($url, $param = array())
     $url    = url('addons/execute', $params);
     dump($url);die;
     return U('Addons/execute', $params);
+}
+
+/**
+ * 调用系统的API接口方法（静态方法）
+ * api('User/getName','id=5'); 调用公共模块的User接口的getName方法
+ * api('Admin/User/getName','id=5');  调用Admin模块的User接口
+ * @param  string  $name 格式 [模块名]/接口名/方法名
+ * @param  array|string  $vars 参数
+ */
+function api($name, $vars = array())
+{
+    $array = explode('/', $name);
+
+    $method = array_pop($array);
+
+    $classname = array_pop($array);
+
+    $module = $array ? array_pop($array) : 'common';
+
+    $callback = '\\' . $module . '\\api\\' . $classname . 'Api::' . $method;
+
+    if (is_string($vars)) {
+        parse_str($vars, $vars);
+    }
+    dump(call_user_func_array($callback, $vars));
+    die;
+    return call_user_func_array($callback, $vars);
+}
+
+// 分析枚举类型配置值 格式 a:名称1,b:名称2
+function parse_config_attr($string)
+{
+    $array = preg_split('/[,;\r\n]+/', trim($string, ",;\r\n"));
+    if (strpos($string, ':')) {
+        $value = array();
+        foreach ($array as $val) {
+            list($k, $v) = explode(':', $val);
+            $value[$k]   = $v;
+        }
+    } else {
+        $value = $array;
+    }
+    return $value;
 }

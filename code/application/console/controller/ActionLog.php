@@ -28,14 +28,5 @@ class ActionLog extends Base
     {
         parent::_initialize();
     }
-    public function atest()
-    {
-        // $list = $this->model->paginate(10, true, [
-        //     'path' => url('atest') . '/',
-        // ]);
-        $list = $this->model->order('id', 'desc')->paginate(10);
-        // dump($list);
-        $this->assign('lists', $list);
-        return $this->fetch();
-    }
+
 }

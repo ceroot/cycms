@@ -103,15 +103,15 @@ function _init(){
         main:function(){
             // iCheck
             var checkbox = $('body').find('input[type="checkbox"]');
-            if(checkbox.length>0){
-                Wind.use('iCheck',function(){
-                    checkbox.iCheck({
-                    checkboxClass: 'icheckbox_square-blue',
-                    radioClass: 'iradio_square-blue',
-                    increaseArea: '20%' // optional
-                });
-                });
-            }
+            // if(checkbox.length>0){
+            //     Wind.use('iCheck',function(){
+            //         checkbox.iCheck({
+            //             checkboxClass: 'icheckbox_square-blue',
+            //             radioClass: 'iradio_square-blue',
+            //             increaseArea: '20%' // optional
+            //         });
+            //     });
+            // }
         	
         },
 
@@ -468,13 +468,15 @@ function _init(){
         form_ajax:function(){
             var ajaxForm = $('form.cy-ajaxForm');
             if(ajaxForm.length){
-                var validateStatus  = ajaxForm.attr('data-validate') ? ajaxForm.attr('data-validate') : true;
+                var validateStatus  = ajaxForm.attr('data-validate') ? ajaxForm.attr('data-validate') : false;
                 var args = ['ajaxForm'];
                 console.log(10);
+                console.log(validateStatus);
                 if(validateStatus==true){
                     console.log(20);
                     args = ['validate', 'ajaxForm'];
                 }
+                console.log(21);
                 Wind.use(args, function () {
                     var btn = ajaxForm.find('button.btn-post');
                     // window.UEDITOR_HOME_URL = "/statics/";

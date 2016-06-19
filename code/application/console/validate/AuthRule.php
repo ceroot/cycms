@@ -26,7 +26,7 @@ class AuthRule extends Validate
     ];
 
     protected $message = [
-        'name.require'  => '用户名必须',
+        'name.require'  => '规则标识必须',
         'name.unique'   => '规则标识已存在',
         'title.require' => '规则名称必须',
     ];

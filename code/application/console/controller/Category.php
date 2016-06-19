@@ -28,7 +28,7 @@ class Category extends Base
     public function _initialize()
     {
         parent::_initialize();
-        $category = db('Category')->select();
+        $category = db(request()->controller())->select();
         $category = Data::tree($category, 'title', 'id', 'pid');
         $this->assign('category', $category);
     }
@@ -36,20 +36,19 @@ class Category extends Base
      *
      */
     function list() {
+        cookie('__forward__', $_SERVER['REQUEST_URI']); // 记录当前列表页的cookie
         return $this->fetch();
     }
     // 更新显示状态
-    public function updateshow()
+    public function updatedisplay()
     {
-        $pk                  = $this->model->getPk();
-        $id                  = input('get.' . $pk);
-        $value               = db(CONTROLLER_NAME)->getFieldById($id, 'show_status');
-        $data['show_status'] = ($value == 1) ? 0 : 1;
-        $status              = $this->model->save($data, [$pk => $id]);
+        $pk              = $this->model->getPk();
+        $id              = input('get.' . $pk);
+        $value           = db(request()->controller())->getFieldById($id, 'display');
+        $data['display'] = ($value == 1) ? 0 : 1;
+        $status          = $this->model->save($data, [$pk => $id]);
         if ($status) {
-            // 记录日志
-            $action = ACTION_NAME . '_' . strtolower(toCamel(CONTROLLER_NAME));
-            action_log($action, CONTROLLER_NAME, $id, UID);
+            action_log($id); // 记录日志
             return $this->success('成功');
         } else {
             return $this->error('失败');

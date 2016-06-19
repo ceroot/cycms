@@ -26,15 +26,18 @@ class Action extends Extend
         return $status[$data['type']];
     }
 
+    // 这里是给添加规则时是否添加操作记录调用的
     public function add_for_rule()
     {
         if (request()->isAjax()) {
             if (input('post._log')) {
-                $name = input('post.name');
+                $name = input('post.name'); // 取得规则名称
 
-                $arr                = explode('/', $name);
-                $name               = strtolower($arr[0] . '_' . $arr[1]);
-                $title              = input('post.title');
+                $arr        = explode('/', $name);
+                $controller = toUnderline($arr[0]);
+                $name       = strtolower($controller . '_' . $arr[1]);
+                $title      = input('post.title'); // 取得规则标题
+
                 $data['title']      = $title;
                 $data['name']       = $name;
                 $data['create_uid'] = UID;

@@ -1,22 +1,27 @@
 {extend name="mould:base" /}
 {block name="title"}{/block}
 {block name="content"}
-<form action="{:url('add')}" method="post" class="cy-ajaxForm cy-form">
-    <div class="form-group form-inline">
-        <span for="title">角色名称：</span>
-        <input type="text" class="form-control" name="title" id="title" placeholder="角色名称：">
+<form action="{:url('update')}" method="post" class="form-horizontal cy-ajaxForm cy-form" data-validate="true">
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="title">角色名称：</label>
+        <div class="col-sm-12">
+            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="title" id="title" value="{$one.title|default=''}" placeholder="角色名称">
+        </div>
     </div>
-    <div class="form-group form-inline">
-        <span>状态：</span>
-        <label class="radio-inline">
-            <input type="radio" name="status" id="status" value="1" checked="checked"> 正常
-        </label>
-        <label class="radio-inline">
-            <input type="radio" name="status" id="status" value="0"> 禁用
-        </label>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="status">状态：</label>
+        <div class="col-sm-12">
+            <label class="radio-inline">
+                <input type="radio" name="status" id="status" value="1" {present name="one"}{eq name='one.status' value='1'} checked="checked"{/eq}{else /} checked="checked"{/present}> 正常
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="status" id="status" value="0" {eq name='one.status' value='0'} checked="checked"{/eq}> 禁用
+            </label>
+        </div>
     </div>
     <div class="fixed-bottom">
         <div class="bottom-area">
+            <input type="hidden" name="id" value="{$one.id|default=''}" />
             <button class="btn btn-sm btn-default">保存</button>
         </div>
     </div>
@@ -30,7 +35,7 @@ var userValidate = {
     }, 
     messages: {
         'title':{
-            required:'请填写角色名称'
+            required:'请填写规则名称'
         }
     }
 };

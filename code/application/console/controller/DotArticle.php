@@ -65,6 +65,7 @@ class DotArticle extends Base
                 return $this->model->getError();
             }
         } else {
+            $this->assign('one', null);
             return $this->fetch();
         }
     }
@@ -132,7 +133,7 @@ class DotArticle extends Base
             }
         } else {
             $this->assign('one', $one);
-            return $this->fetch();
+            return $this->fetch('add');
         }
     }
 

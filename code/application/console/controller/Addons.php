@@ -35,10 +35,34 @@ class Addons extends Base
     }
 
     /**
-     * 插件列表
+     * 插件首页
      */
     public function index()
     {
+        $this->meta_title = '插件列表';
+        $list             = model('addons')->getList();
+        // dump($list);
+        // dump($list);die;
+        // $request = (array) input('request.');
+        // $total   = $list ? count($list) : 1;
+
+        // $listRows = 10;
+        // $page     = new \Think\Page($total, $listRows, $request);
+
+        // $voList = array_slice($list, $page->firstRow, $page->listRows);
+        // $p      = $page->show();
+        $this->assign('_list', $list);
+        // $this->assign('_page', $p ? $p : '');
+        // 记录当前列表页的cookie
+        Cookie('__forward__', $_SERVER['REQUEST_URI']);
+        // $this->display();
+        return $this->fetch();
+    }
+
+    /**
+     * 插件列表
+     */
+    function list() {
         $this->meta_title = '插件列表';
         $list             = model('addons')->getList();
         // dump($list);
@@ -120,6 +144,7 @@ class Addons extends Base
         $this->meta_title       = '设置插件-' . $data->info['title'];
         $db_config              = $addon['config'];
         $addon['config']        = include $data->config_file;
+
         if ($db_config) {
             $db_config = json_decode($db_config, true);
             foreach ($addon['config'] as $key => $value) {
@@ -134,6 +159,7 @@ class Addons extends Base
                 }
             }
         }
+        // dump($addon['custom_config']);
         $this->assign('data', $addon);
         if ($addon['custom_config']) {
             $this->assign('custom_config', $this->fetch($addon['addon_path'] . $addon['custom_config']));

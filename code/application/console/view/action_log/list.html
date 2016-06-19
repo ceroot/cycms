@@ -15,7 +15,7 @@
           <tr>
           	<td>id</td>
             <td>日志备注</td>
-            <td>触发ID</td>
+            <td>数据ID</td>
             <td>状态</td>
             <td>时间</td>
             <td>IP</td>
@@ -30,7 +30,7 @@
 				<td>{$list.status ? '正常':'禁用'}</td>
 				<td>{$list.create_time|time_format}</td>
 				<td>{$list.action_ip|long2ip}</td>
-				<td align='center' ></td>
+				<td align='center'><a href="{:url('view?id='.$list['id'])}">查看详情</a></td>
 			</tr>
 		{/volist}
 	</table>

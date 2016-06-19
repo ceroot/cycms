@@ -31,13 +31,6 @@ class AuthRule extends Model
         return $status[$data['status']];
     }
 
-    // public function __construct()
-    // {
-    //     if (!cache('authrule')) {
-    //         $this->updateCache();
-    //     }
-    //     $this->cache = cache('authrule'); // 从缓存里取得规则数据
-    // }
     public function getAll($isArray = 0)
     {
         $cache = cache('authrule');
@@ -54,7 +47,6 @@ class AuthRule extends Model
      */
     public function updateCache()
     {
-        // $data = db('authRule')->order(['sort' => 'asc', 'id' => 'asc'])->select();
         $data = $this->order(['sort' => 'asc', 'id' => 'asc'])->select();
         cache('authrule', $data);
         $this->updateCacheAuthModel();
@@ -66,6 +58,7 @@ class AuthRule extends Model
     public function updateCacheAuthModel()
     {
         // 这里使用cache('authrule')来取得数据，之因为不使用 $this->cache 是有原因的，切记，以免更新缓存不成功
+        $instantiation_controller = [];
         foreach (cache('authrule') as $val) {
             $auth          = $val['auth']; // 需要进行权限验证标记
             $status        = $val['status'];
@@ -76,13 +69,22 @@ class AuthRule extends Model
                 $data['not_auth'][] = strtolower($val['name']);
             }
             // 取得不需要实例化模型的控制器名称
-            if ($controller && !$instantiation) {
-                $name                       = explode('/', $val['name']);
-                $name                       = $name[0];
-                $data['not_d_controller'][] = $name;
+            if ($controller && $instantiation) {
+
+                if (stripos($val['name'], '/')) {
+                    $name = explode('/', $val['name']);
+                    $name = $name[0];
+                } else {
+                    $name = $val['name'];
+                }
+                // $data['not_d_controller'][]         = $name;
+                $instantiation_controller[] = toUnderline($name);
+
             }
+            // dump($instantiation_controller);
+            $data['instantiation_controller'] = $instantiation_controller;
         }
-        // return $data;
+
         cache('authModel', $data);
     }
 
@@ -272,31 +274,4 @@ class AuthRule extends Model
         return $treeArray;
     }
 
-    // protected $beforeActionList = [
-    //     'first',
-    //     'second'=>  ['except'=>'hello'],
-    //     'three' =>  ['only'=>'hello,data'],
-    // ];
-    // /**
-    //  * [_after_insert 添加后置方法]
-    //  * @param  [type] $data    [description]
-    //  * @param  [type] $options [description]
-    //  * @return [type]          [description]
-    //  */
-    // public function _after_insert($data,$options)
-    // {
-    //     // 更新缓存
-    //     $this->update_cache();
-    // }
-    // /**
-    //  * [_after_update 更新后置方法]
-    //  * @param  [type] $data    [description]
-    //  * @param  [type] $options [description]
-    //  * @return [type]          [description]
-    //  */
-    // public function _after_update($data,$options)
-    // {
-    //     // 更新缓存
-    //     $this->update_cache();
-    // }
 }

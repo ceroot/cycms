@@ -27,7 +27,7 @@ class Manager extends Base
     public function _initialize()
     {
         parent::_initialize();
-        if (ACTION_NAME == 'edit') {
+        if (request()->action() == 'edit') {
             $data['password'] = md5(input('unsername') . input('password'));
         }
 
@@ -97,7 +97,7 @@ class Manager extends Base
     {
         if (request()->isAjax()) {
             $data   = input('post.');
-            $status = $this->model->validate(CONTROLLER_NAME . '.info')->save($data, ['id' => $data['id']]);
+            $status = $this->model->validate(request()->controller() . '.info')->save($data, ['id' => $data['id']]);
             if ($status === false) {
                 return $this->error($this->model->getError());
             }
@@ -137,7 +137,7 @@ class Manager extends Base
             $data['password']   = md5($username . $data['password']);
             $data['repassword'] = md5($username . $data['repassword']);
 
-            $status = $this->model->validate(CONTROLLER_NAME . '.password')->save($data, ['id' => $data['id']]);
+            $status = $this->model->validate(request()->controller() . '.password')->save($data, ['id' => $data['id']]);
             if ($status === false) {
                 return $this->error($this->model->getError());
             }

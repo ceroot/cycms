@@ -5,3 +5,16 @@ __PUBLIC__
 hello world
 <br>
 {$addons_data.name}
+
+<script type="text/javascript" src="__STATIC__/ueditor/1.4.3.2/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/ueditor/1.4.3.2/ueditor.all.min.js"></script>
+<script type="text/javascript">
+var ue = UE.getEditor('content',{
+    // pasteplain : true,
+    // fontsize   : [14]
+    zIndex:898,
+    topOffset:48,
+    // toolbarTopOffset:50,
+    maximumWords:50000
+});
+</script>

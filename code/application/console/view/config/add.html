@@ -1,0 +1,86 @@
+{extend name="mould:base" /}
+{block name="title"}{/block}
+{block name="content"}
+<form action="{:url('update')}" method="post" class="form-horizontal cy-ajaxForm cy-form" role="form" data-validate="true">
+	<div class="form-group form-group-sm">
+        <label class="col-sm-12" for="name">配置标识<span class="check-tips">（用于config函数调用，只能使用英文且不能重复）</span></label>
+        <div class="col-sm-12">
+            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="name" id="name" value="{$one.name|default=''}" placeholder="配置标识">
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="title">配置标题<span class="check-tips">（用于后台显示的配置标题）</span></label>
+        <div class="col-sm-12">
+            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="title" id="title" value="{$one.title|default=''}" placeholder="配置标题">
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="sort">排序<span class="check-tips">（用于分组显示的顺序）</span></label>
+        <div class="col-sm-12">
+            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="sort" id="title" value="{$one.sort|default=''}" placeholder="排序">
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="title">配置类型<span class="check-tips">（系统会根据不同类型解析配置值）</span></label>
+        <div class="col-sm-12">
+            <select name="type" class="input-sm form-cy col-xs-10 col-sm-3">
+                {volist name='Think.config.config_type_list' id='type'}
+                    <option value="{$key}"{present name="one"}{eq name="one.type" value="$key" } selected="selected"{/eq}{/present}>{$type}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="title">配置分组<span class="check-tips">（配置分组 用于批量设置 不分组则不会显示在系统设置中）</span></label>
+        <div class="col-sm-12">
+            <select name="group" class="input-sm form-cy col-xs-10 col-sm-3">
+            	<option value="0">不分组</option>
+                {volist name="Think.config.config_group_list" id="group"}
+					<option value="{$key}"{present name="one"}{eq name="one.group" value="$key" } selected="selected"{/eq}{/present}>{$group}</option>
+				{/volist}
+        	</select>
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="title">配置值<span class="check-tips">（配置值）</span></label>
+        <div class="col-sm-12">
+            <textarea name="value" class="input-sm form-cy col-xs-10 col-sm-5">{$one.value|default=''}</textarea>
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="title">配置项<span class="check-tips">（如果是枚举型 需要配置该项）</span></label>
+        <div class="col-sm-12">
+            <textarea name="extra" class="input-sm form-cy col-xs-10 col-sm-5">{$one.extra|default=''}</textarea>
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="title">说明<span class="check-tips">（配置详细说明）</span></label>
+        <div class="col-sm-12">
+            <textarea name="remark" class="input-sm form-cy col-xs-10 col-sm-5">{$one.remark|default=''}</textarea>
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="status">状态：<span class="check-tips">（启用|禁用开关）</span></label>
+        <div class="col-sm-12">
+            <label class="radio-inline">
+                <input type="radio" name="status" id="status" value="1" {present name="one"}{eq name='one.status' value='1'} checked="checked"{/eq}{else /} checked="checked"{/present}> 正常
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="status" id="status" value="0" {eq name='one.status' value='0'} checked="checked"{/eq}> 禁用
+            </label>
+        </div>
+    </div>
+	<div class="fixed-bottom">
+        <div class="bottom-area">
+            <input type="hidden" name="id" value="{$one.id|default=''}">
+            <button class="btn btn-sm btn-default btn-post">保 存</button>
+            <button class="btn btn-sm btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </div>
+
+
+</form>
+{/block}
+<block name="script">
+
+</block>

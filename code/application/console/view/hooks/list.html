@@ -1,0 +1,32 @@
+{extend name="mould:base" /}
+{block name="title"}{/block}
+{block name="content"}
+  	<!-- 数据列表 -->
+	<div class="data-table table-striped">
+		<table class="table table-condensed table-hover">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>名称</th>
+					<th>描述</th>
+					<th>类型</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{volist name="list" id="vo"}
+					<tr>
+						<td>{$vo.id}</td>
+						<td><a href="{:url('edit?id='.$vo['id'])}">{$vo.name}</a></td>
+						<td>{$vo.description}</td>
+						<td>{$vo.type_text}</td>
+						<td>
+							<a title="编辑" href="{:url('edit?id='.$vo['id'])}">编辑</a>
+							<a class="confirm cy-ajax" title="删除" href="{:url('delhook?id='.$vo['id'])}" data-layer-msg="删除" data-layer-okbtn="删除" title="删除" data-layer-confirm="true">删除</a>
+						</td>
+					</tr>
+				{/volist}
+			</tbody>
+		</table>        
+	</div>
+{/block}

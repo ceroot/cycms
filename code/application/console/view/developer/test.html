@@ -1,0 +1,8 @@
+{extend name="mould:base" /}
+{block name="title"}{/block}
+{block name="content"}
+  	{:hook('oauth', array('name'=>'ddd','value'=>'value'))}
+  	
+  	<textarea id="content" name="content">{$one.content}</textarea>
+  	{:hook('testEditor', array('name'=>'ddd','value'=>$one['content']))}
+{/block}

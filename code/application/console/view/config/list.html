@@ -1,0 +1,52 @@
+{extend name="mould:base" /}
+{block name="title"}{/block}
+{block name="content"}
+    <table class="table table-condensed table-hover">
+        <colgroup>
+	        <col width="60">
+	        <col width="60">
+	        <col>
+	        <col width="180">
+	        <col width="90">
+	        <col width="90">
+	        <col width="48">
+	        <col width="90">
+        </colgroup>
+        <thead>
+          <tr>
+          	<td>id</td>
+          	<td>排序</td>
+            <td>名称</td>
+            <td>标题</td>
+            <td>分组</td>
+            <td>类型</td>
+            <td>状态</td>
+            <td align='center'>管理操作</td>
+          </tr>
+        </thead>
+		{volist name='list' id='list'}
+	        <tr>
+	        	<td>{$list.id}</td>
+	        	<td>{$list.sort}</td>
+				<td>{$list.name}</td>
+				<td>{$list.title}</td>
+				<td>{$list.group|get_config_group}</td>
+				<td>{$list.type|get_config_type}</td>
+				<td><a href="{:url('updatestatus?id='.$list['id'])}" class="cy-ajax" title="快速更改状态">{$list.status? '正常' : '禁用'}</a></td>
+				<td align='center' >
+					<a href="{:url('edit?id='.$list['id'])}" title="修改">修改</a> | 
+					<a class="cy-ajax" href="{:url('del?id='.$list['id'])}" data-layer-msg="删除" data-layer-okbtn="删除" data-layer-confirm="true" title="删除">删除</a>  
+				</td>
+			</tr>
+		{/volist}
+	</table>
+	{notempty name="page"}
+		<div class="fixed-bottom pager-wrapper">
+			<div class="bottom-area">
+				<div class="pager">
+				    {$page}
+				</div>
+			</div>
+		</div>
+	{/notempty}
+{/block}

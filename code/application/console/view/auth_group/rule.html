@@ -8,7 +8,7 @@ legend label{ margin: 0; margin-right:15px; word-wrap: break-word; word-break: b
 h5{ font-family: "微软雅黑"; margin-top: 20px;}
 
 </style>
-<form action="{:url('edit',array('rule'=>1))}" method="post" class="cy-ajaxForm cy-form" data-validate="false">
+<form action="{:url('update',array('rule'=>1))}" method="post" class="cy-ajaxForm cy-form">
 	<table width="100%" class="table_form">
 	   	{volist name='rules' id='node1'}
 	        <tr>
@@ -39,7 +39,7 @@ h5{ font-family: "微软雅黑"; margin-top: 20px;}
 	<div class="fixed-bottom">
 		<div class="bottom-area">
 			<input type="hidden" name="id" value="{$field.id}" />
-		    <button class="btn btn-sm btn-default">保存</button>
+		    <button class="btn btn-sm btn-default btn-post">保存</button>
 		</div>
 	</div>
 </form>
@@ -53,7 +53,7 @@ $(function(){
 		var _value  = _self.val();
 		var _pid    = _self.attr('pid');
 		var _class  = _self.attr('class');
-	alert(1);
+
 		if(_self.is(':checked')){
 			$('[pid='+_value+']').prop('checked',true);
 			$('.'+_value).prop('checked',true);

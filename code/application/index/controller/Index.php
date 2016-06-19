@@ -62,9 +62,9 @@ class Index extends Controller
         echo '差集：';
         dump($cj);
 
-        $arr3 = [9];
+        $arr3 = [1];
         $arr4 = [1, 2, 3, 4];
-        $arr5 = array_merge($arr3, $arr4);
+        $arr5 = array_merge_recursive($arr3, $arr4);
         dump($arr5);
 
         dump(is_file('./data/images/20160614/3fabb29358443fb41ee2142b638d64d8.jpg'));
@@ -74,6 +74,8 @@ class Index extends Controller
     public function zs()
     {
         dump('zs');
+        dump(config('app_debug'));
+        dump(config('web_site_title'));
     }
 
     public function ls()
