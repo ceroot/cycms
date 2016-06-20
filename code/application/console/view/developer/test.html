@@ -2,7 +2,9 @@
 {block name="title"}{/block}
 {block name="content"}
   	{:hook('oauth', array('name'=>'ddd','value'=>'value'))}
-  	
-  	<textarea name="content">{$one.content}</textarea>
+  	<textarea name="contentd" id="contentd">ddddd</textarea>
+  	{:hook('adminArticleEdit', array('name'=>'contentd','value'=>'value'))}
+  	<textarea name="content" id="content">{$one.content}</textarea>
   	{:hook('adminArticleEdit', array('name'=>'content','value'=>'value'))}
+  	
 {/block}

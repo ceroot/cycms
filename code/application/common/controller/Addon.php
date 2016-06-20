@@ -147,9 +147,11 @@ abstract class Addon
         $map['status'] = 1;
 
         $config = model('addons')->where($map)->value('config');
-
+        // dump($config);
         if ($config) {
             $config = json_decode($config, true);
+            // dump($config);
+
         } else {
             $temp_arr = include $this->config_file;
             foreach ($temp_arr as $key => $value) {
@@ -164,8 +166,9 @@ abstract class Addon
                 }
             }
         }
-
+        // dump($name);
         $_config[$name] = $config;
+        // dump($config);
         return $config;
     }
 

@@ -19,7 +19,7 @@ $config = [
     'log'                   => [
         'type' => 'trace', // 支持 socket trace file
     ],
-    'cms_version'           => '0.9.7.20160619',
+    'cms_version'           => '0.9.7.20160621',
 
     // 调试模式状态，true 开启，false 关闭
     'app_debug'             => true,

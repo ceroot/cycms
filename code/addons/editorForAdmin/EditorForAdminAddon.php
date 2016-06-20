@@ -44,6 +44,7 @@ class EditorForAdminAddon extends Addon
      */
     public function adminArticleEdit($data)
     {
+        dump($this->getConfig());
         $this->assign('addons_data', $data);
         $this->assign('addons_config', $this->getConfig());
         $this->display('content');

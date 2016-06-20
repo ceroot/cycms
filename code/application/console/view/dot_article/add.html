@@ -49,6 +49,7 @@
             <script id="content" class="ueditor" name="content" type="text/plain">
                 {$one.content}
             </script>
+            {:hook('adminArticleEdit', array('name'=>'content','value'=>'value'))}
         </div>
     </div>
     <div class="fixed-bottom">
@@ -61,9 +62,6 @@
 <link rel="stylesheet" href="__STATIC__/bootstrap-fileinput/4.3.2/css/fileinput.min.css" />
 <script type="text/javascript" src="__STATIC__/bootstrap-fileinput/4.3.2/js/fileinput.min.js"></script>
 <script type="text/javascript" src="__STATIC__/bootstrap-fileinput/4.3.2/js/locales/zh.js"></script>
-
-<script type="text/javascript" src="__STATIC__/ueditor/1.4.3.2/ueditor.config.js"></script>
-<script type="text/javascript" src="__STATIC__/ueditor/1.4.3.2/ueditor.all.js"></script>
 <script type="text/javascript">
 var userValidate = {
     rules: {
@@ -81,25 +79,17 @@ var userValidate = {
         }
     }
 };
-
-var ue = UE.getEditor('content',{
-    // pasteplain : true,
-    // fontsize   : [14]
-    zIndex:898,
-    topOffset:48,
-    // toolbarTopOffset:50,
-    maximumWords:50000
+$(function(){
+    UE.getEditor('content').addListener('beforefullscreenchange',function(event,isFullScreen){
+        if(isFullScreen){
+            // alert('全屏');
+            $('body').find('.edui-editor').css({'top':0});
+        }else{
+            // alert('默认');
+            $('body').find('.edui-editor').css({'top':48+'px'});
+        }
+    });
 });
-
-UE.getEditor('content').addListener('beforefullscreenchange',function(event,isFullScreen){
-    if(isFullScreen){
-        // alert('全屏');
-        $('body').find('.edui-editor').css({'top':0});
-    }else{
-        // alert('默认');
-        $('body').find('.edui-editor').css({'top':48+'px'});
-    }
-})
 
 </script>
 {/block}

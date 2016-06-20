@@ -11,7 +11,10 @@
     <div class="form-group pd-r-10">
         <label class="col-sm-12" for="content">内容：</label>
         <div class="col-sm-12">
-            <textarea id="content" name="content">{$one.content|default=''}</textarea>
+            <script id="content" class="ueditor" name="content" type="text/plain">
+                {$one.content|default=''}
+            </script>
+            {:hook('adminArticleEdit', array('name'=>'content','value'=>'value'))}
         </div>
     </div>
     <div class="fixed-bottom">
@@ -21,8 +24,6 @@
         </div>
     </div>
 </form>
-<script type="text/javascript" src="__STATIC__/ueditor/1.4.3.2/ueditor.config.js"></script>
-<script type="text/javascript" src="__STATIC__/ueditor/1.4.3.2/ueditor.all.min.js"></script>
 <script type="text/javascript">
 var userValidate = {
     rules: {
@@ -38,25 +39,6 @@ var userValidate = {
         }
     }
 };
-
-var ue = UE.getEditor('content',{
-    // pasteplain : true,
-    // fontsize   : [14]
-    zIndex:898,
-    topOffset:48,
-    // toolbarTopOffset:50,
-    maximumWords:50000
-});
-
-UE.getEditor('content').addListener('beforefullscreenchange',function(event,isFullScreen){
-    if(isFullScreen){
-        // alert('全屏');
-        $('body').find('.edui-editor').css({'top':0});
-    }else{
-        // alert('默认');
-        $('body').find('.edui-editor').css({'top':48+'px'});
-    }
-})
 
 </script>
 {/block}
