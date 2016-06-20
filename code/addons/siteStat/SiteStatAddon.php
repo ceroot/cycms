@@ -42,11 +42,11 @@ class SiteStatAddon extends Addon
         $config = $this->getConfig();
         $this->assign('addons_config', $config);
         if ($config['display']) {
-            $info['user']     = M('Member')->count();
-            $info['action']   = M('ActionLog')->count();
-            $info['document'] = M('Document')->count();
-            $info['category'] = M('Category')->count();
-            $info['model']    = M('Model')->count();
+            $info['user']     = db('Member')->count();
+            $info['action']   = db('ActionLog')->count();
+            $info['document'] = 1; //db('Document')->count();
+            $info['category'] = db('Category')->count();
+            $info['model']    = 2; //db('Model')->count();
             $this->assign('info', $info);
             $this->display('info');
         }

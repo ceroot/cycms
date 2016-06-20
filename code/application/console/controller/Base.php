@@ -238,8 +238,6 @@ class Base extends Extend
                     $action_log = request()->controller() . '_edit'; // 日志记录标记
                     $record_id  = $data[$pk]; // 数据id
                 }
-
-                $msg = '修改成功';
             } else {
                 // 数据验证并保存
                 $status = $this->model->validate(true)->save($data);
@@ -249,8 +247,6 @@ class Base extends Extend
                     $action_log = request()->controller() . '_add'; // 日志记录标记
                     $record_id  = $status; // 数据id
                 }
-
-                $msg = '添加成功';
             }
             // return $status;
 
@@ -281,8 +277,8 @@ class Base extends Extend
                 }
 
                 action_log($record_id, $action_log); // 记录日志
-                $url = cookie('__forward__'); // 取得跳转url
-                return $this->success($msg, $url);
+
+                return $this->success($data[$pk] ? '修改成功' : '新增成功', cookie('__forward__'));
             } else {
                 return $this->error('操作失败');
                 // return $this->model->getError();

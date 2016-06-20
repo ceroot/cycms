@@ -1,7 +1,9 @@
-<extend name="Public/base" />
-<block name="style">
+{extend name="mould:base" /}
+{block name="title"}后台首页{/block}
+
+{block name="style"}
 	<link rel="stylesheet" href="__JS__/codemirror/codemirror.css">
-	<link rel="stylesheet" href="__JS__/codemirror/theme/{:C('codemirror_theme')}.css">
+	<link rel="stylesheet" href="__JS__/codemirror/theme/{:config('codemirror_theme')}.css">
 	<style>
 		.CodeMirror,#preview_window{
 			width:700px;
@@ -15,13 +17,13 @@
 			display: none;
 		}
 	</style>
-</block>
-<block name="body">
+{/block}
+{block name="content"}
 	<div class="main-title cf">
 		<h2>插件快速创建</h2>
 	</div>
 	<!-- 表单 -->
-	<form id="form" action="{:U('build')}" method="post" class="form-horizontal doc-modal-form">
+	<form id="form" action="{:url('build')}" method="post" class="form-horizontal doc-modal-form">
 		<div class="form-item">
 			<label class="item-label"><span class="must">*</span>标识名 <span class="check-tips">（请输入插件标识）</span></label>
 			<div class="controls">
@@ -96,9 +98,9 @@ return array(
 			<label class="item-label">实现的钩子方法</label>
 			<div class="controls">
 				<select class="select" name="hook[]" size="10" multiple required>
-					<volist name="Hooks" id="vo">
+					{volist name="hooks" id="vo"}
 						<option value="{$vo.name}" title="{$vo.description}">{$vo.name}</option>
-					</volist>
+					{/volist}
 				</select>
 			</div>
 		</div>
@@ -134,7 +136,7 @@ return array(
 			<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
 		</div>
 	</form>
-</block>
+{/block}
 
 <block name="script">
 	<script type="text/javascript" src="__JS__/codemirror/codemirror.js"></script>
@@ -175,7 +177,7 @@ return array(
 							height		  :500,
 							enterMode     :"keep",
 							tabMode       :"shift",
-							theme: "{:C('CODEMIRROR_THEME')}"
+							theme: "{:config('codemirror_theme')}"
 						};
 						var preview_window = $("#preview_window").removeClass(".loading").find("textarea");
 						var editor = CodeMirror.fromTextArea(preview_window[0], codemirror_option);
@@ -195,7 +197,7 @@ return array(
 		$('.ajax-post_custom').click(function(){
 	        var target,query,form;
 	        var target_form = $(this).attr('target-form');
-	        var check_url = '{:U('checkForm')}';
+	        var check_url = '{:url('checkForm')}';
 			$.ajax({
 			   type: "POST",
 			   url: check_url,
@@ -243,6 +245,6 @@ return array(
 	    });
 
 	    //导航高亮
-	    highlight_subnav('{:U('Addons/index')}');
+	    highlight_subnav('{:url('Addons/index')}');
 	</script>
 </block>

@@ -3,6 +3,6 @@
 {block name="content"}
   	{:hook('oauth', array('name'=>'ddd','value'=>'value'))}
   	
-  	<textarea id="content" name="content">{$one.content}</textarea>
-  	{:hook('testEditor', array('name'=>'ddd','value'=>$one['content']))}
+  	<textarea name="content">{$one.content}</textarea>
+  	{:hook('adminArticleEdit', array('name'=>'content','value'=>'value'))}
 {/block}

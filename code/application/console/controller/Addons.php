@@ -21,7 +21,6 @@ use app\console\controller\Base;
 
 class Addons extends Base
 {
-
     /**
      * [_initialize 初始化]
      * @return [type] [description]
@@ -32,6 +31,16 @@ class Addons extends Base
             '已装插件后台' => model('Addons')->getAdminList(),
         ));
         parent::_initialize();
+    }
+
+    protected $beforeActionList = [
+        'add_before' => ['only' => 'add'],
+    ];
+
+    protected function add_before()
+    {
+        $hooks = model('hooks')->field('name,description')->select();
+        $this->assign('hooks', $hooks);
     }
 
     /**
@@ -81,6 +90,112 @@ class Addons extends Base
         Cookie('__forward__', $_SERVER['REQUEST_URI']);
         // $this->display();
         return $this->fetch();
+    }
+
+    //创建向导首页
+    public function create()
+    {
+        // if (!is_writable(ONETHINK_ADDON_PATH)) {
+        //     $this->error('您没有创建目录写入权限，无法使用此功能');
+        // }
+
+        $hooks = model('hooks')->field('name,description')->select();
+        // dump($hooks);
+        $this->assign('hooks', $hooks);
+        $this->meta_title = '创建向导';
+        return $this->fetch();
+        // $this->display('create');
+    }
+
+    //预览
+    public function preview($output = true)
+    {
+        $data                   = $_POST;
+        $data['info']['status'] = (int) $data['info']['status'];
+        $extend                 = array();
+        $custom_config          = trim($data['custom_config']);
+        if ($data['has_config'] && $custom_config) {
+            $custom_config = <<<str
+
+
+        public \$custom_config = '{$custom_config}';
+str;
+            $extend[] = $custom_config;
+        }
+
+        $admin_list = trim($data['admin_list']);
+        if ($data['has_adminlist'] && $admin_list) {
+            $admin_list = <<<str
+
+
+        public \$admin_list = array(
+            {$admin_list}
+        );
+str;
+            $extend[] = $admin_list;
+        }
+
+        $custom_adminlist = trim($data['custom_adminlist']);
+        if ($data['has_adminlist'] && $custom_adminlist) {
+            $custom_adminlist = <<<str
+
+
+        public \$custom_adminlist = '{$custom_adminlist}';
+str;
+            $extend[] = $custom_adminlist;
+        }
+
+        $extend = implode('', $extend);
+        $hook   = '';
+        foreach ($data['hook'] as $value) {
+            $hook .= <<<str
+        //实现的{$value}钩子方法
+        public function {$value}(\$param){
+
+        }
+
+str;
+        }
+
+        $tpl = <<<str
+<?php
+
+namespace addons\\{$data['info']['name']};
+use app\common\controller\Addon;
+
+/**
+ * {$data['info']['title']}插件
+ * @author {$data['info']['author']}
+ */
+
+    class {$data['info']['name']}Addon extends Addon{
+
+        public \$info = array(
+            'name'=>'{$data['info']['name']}',
+            'title'=>'{$data['info']['title']}',
+            'description'=>'{$data['info']['description']}',
+            'status'=>{$data['info']['status']},
+            'author'=>'{$data['info']['author']}',
+            'version'=>'{$data['info']['version']}'
+        );{$extend}
+
+        public function install(){
+            return true;
+        }
+
+        public function uninstall(){
+            return true;
+        }
+
+{$hook}
+    }
+str;
+        if ($output) {
+            exit($tpl);
+        } else {
+            return $tpl;
+        }
+
     }
 
     /**

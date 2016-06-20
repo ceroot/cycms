@@ -44,11 +44,12 @@ class SystemInfoAddon extends Addon
         $config = $this->getConfig();
 
         if (extension_loaded('curl')) {
-            $url    = 'http://www.onethink.cn/index.php?m=home&c=check_version';
+            // $url    = 'http://www.onethink.cn/index.php?m=home&c=check_version';
+            $url    = '';
             $params = array(
-                'version' => ONETHINK_VERSION,
+                'version' => config('cms_version'),
                 'domain'  => $_SERVER['HTTP_HOST'],
-                'auth'    => sha1(C('DATA_AUTH_KEY')),
+                'auth'    => sha1(config('data_auth_key')),
             );
 
             $vars = http_build_query($params);
@@ -70,7 +71,8 @@ class SystemInfoAddon extends Addon
         }
 
         if (!empty($data) && strlen($data) < 400) {
-            $config['new_version'] = $data;
+            // $config['new_version'] = $data;
+            $config['new_version'] = 1;
         }
 
         $this->assign('addons_config', $config);
