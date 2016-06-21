@@ -355,11 +355,11 @@ class Base extends Extend
             return $this->error('参数错误');
         }
 
-        $value          = db(CONTROLLER_NAME)->getFieldById($id, 'status');
+        $value          = db(request()->controller())->getFieldById($id, 'status');
         $data['status'] = $value ? 0 : 1;
         $status         = $this->model->save($data, [$pk => $id]);
         if ($status) {
-            if (CONTROLLER_NAME == 'auth_rule') {
+            if (request()->controller() == 'auth_rule') {
                 $this->model->updateCache();
             }
             action_log($id); // 记录日志

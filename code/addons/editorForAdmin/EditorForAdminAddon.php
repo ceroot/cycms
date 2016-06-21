@@ -19,14 +19,14 @@ use app\common\controller\Addon;
 class EditorForAdminAddon extends Addon
 {
 
-    public $info = array(
+    public $info = [
         'name'        => 'EditorForAdmin',
         'title'       => '后台编辑器',
         'description' => '用于增强整站长文本的输入和显示',
         'status'      => 1,
         'author'      => 'thinkphp',
         'version'     => '0.2',
-    );
+    ];
 
     public function install()
     {
@@ -44,7 +44,7 @@ class EditorForAdminAddon extends Addon
      */
     public function adminArticleEdit($data)
     {
-        dump($this->getConfig());
+        // dump($this->getConfig());
         $this->assign('addons_data', $data);
         $this->assign('addons_config', $this->getConfig());
         $this->display('content');

@@ -15,49 +15,73 @@
  * @site      http://www.benweng.com
  */
 
-return array(
-    'editor_type'            => array(
-        'title'   => '编辑器类型:',
-        'type'    => 'select',
-        'options' => array(
-            '1' => '普通文本',
-            '2' => '富文本',
-            '4' => 'Markdown编辑器',
-        ),
-        'value'   => '1',
-    ),
-    'editor_wysiwyg'         => array(
-        'title'   => '富文本编辑器:',
-        'type'    => 'select',
-        'options' => array(
-            '1' => 'Kindeditor',
-            '2' => 'Ueditor(百度编辑器)',
-        ),
-        'value'   => 1,
-    ),
-    'editor_markdownpreview' => array(
-        'title'   => 'markdown预览:',
-        'type'    => 'radio',
-        'options' => array(
-            '1' => '开启',
-            '0' => '关闭',
-        ),
-        'value'   => '1',
-        'tip'     => '启用后，双列同步预览',
-    ),
-    'editor_height'          => array(
-        'title' => '编辑器高度:',
-        'type'  => 'text',
-        'value' => '500px',
-    ),
-    'editor_resize_type'     => array(
-        'title'   => '是否允许拖拉编辑器',
-        'type'    => 'radio',
-        'options' => array(
-            '0' => '不允许',
-            '1' => '允许',
-        ),
-        'value'   => '1',
-        'tip'     => 'ubb和markdown编辑器不支持此功能',
-    ),
-);
+return [
+    'oauth_status' => [ //配置在表单中的键名 ,这个会是config[random]
+        'title'   => '第三方登录状态:', //表单的文字
+        'type'    => 'select', //表单的类型：text、textarea、checkbox、radio、select等
+        'options' => [ //select 和radion、checkbox的子选项
+            '1' => '启用', //值=>文字
+            '0' => '禁用',
+        ],
+        'value'   => '1', //表单的默认值
+    ],
+    'group'        => [
+        'type'    => 'group',
+        'options' => [
+            'type_qq'   => [
+                'title'   => 'QQ 配置',
+                'options' => [
+                    'qq_key' => [
+                        'title' => '应用key',
+                        'type'  => 'text',
+                        'value' => '',
+                        'tip'   => 'fdsf',
+                    ],
+                    'qq_src' => [
+                        'title' => '应用key',
+                        'type'  => 'text',
+                        'value' => '',
+                        'tip'   => 'fdsf',
+                    ],
+                    'qq_on'  => [
+                        'title'   => '开关:',
+                        'type'    => 'select',
+                        'options' => [
+                            '1' => '启用',
+                            '0' => '禁用',
+                        ],
+                        'value'   => '1',
+                        'tip'     => 'dd',
+                    ],
+                ],
+            ],
+            'type_sina' => [
+                'title'   => 'SINA 配置',
+                'options' => [
+                    'sina_key' => [
+                        'title' => '应用key',
+                        'type'  => 'text',
+                        'value' => '',
+                        'tip'   => 'fdsf',
+                    ],
+                    'sina_src' => [
+                        'title' => '应用key',
+                        'type'  => 'text',
+                        'value' => '',
+                        'tip'   => 'fdsf',
+                    ],
+                    'sina_on'  => [
+                        'title'   => '开关:',
+                        'type'    => 'select',
+                        'options' => [
+                            '1' => '启用',
+                            '0' => '禁用',
+                        ],
+                        'value'   => '1',
+                        'tip'     => 'dd',
+                    ],
+                ],
+            ],
+        ],
+    ],
+];

@@ -88,7 +88,6 @@ class Addons extends Base
         // $this->assign('_page', $p ? $p : '');
         // 记录当前列表页的cookie
         Cookie('__forward__', $_SERVER['REQUEST_URI']);
-        // $this->display();
         return $this->fetch();
     }
 
@@ -242,10 +241,13 @@ str;
      */
     public function config()
     {
-        $id    = (int) input('id');
-        $addon = db('addons')->find($id);
+        $id = (int) input('id');
+        if (!$id) {
+            return $this->error('参数错误');
+        }
+        $addon = db('addons')->find($id); // 取得数据库数据
         if (!$addon) {
-            $this->error('插件未安装');
+            return $this->error('插件未安装');
         }
 
         $addon_class = get_addon_class($addon['name']);
@@ -253,32 +255,36 @@ str;
             trace("插件{$addon['name']}无法实例化,", 'ADDONS', 'ERR');
         }
 
-        $data = new $addon_class;
-        // dump($data);
-        $addon['addon_path']    = $data->addon_path;
+        $data                   = new $addon_class; // 实例化
+        $addon['addon_path']    = $data->addon_path; // 插件路径
         $addon['custom_config'] = $data->custom_config;
         $this->meta_title       = '设置插件-' . $data->info['title'];
-        $db_config              = $addon['config'];
-        $addon['config']        = include $data->config_file;
+        $db_config              = $addon['config']; // 取得用户设置配置
+        $addon['config']        = include $data->config_file; // 读取插件初始配置
 
         if ($db_config) {
             $db_config = json_decode($db_config, true);
-
             foreach ($addon['config'] as $key => $value) {
                 if ($value['type'] != 'group') {
                     $addon['config'][$key]['value'] = $db_config[$key];
+
                 } else {
                     foreach ($value['options'] as $gourp => $options) {
+                        // dump($db_config);
                         foreach ($options['options'] as $gkey => $value) {
+                            // dump($gkey);
+
                             $addon['config'][$key]['options'][$gourp]['options'][$gkey]['value'] = $db_config[$gkey];
                         }
                     }
                 }
             }
         }
-        // dump($addon['custom_config']);
         $this->assign('data', $addon);
+
         if ($addon['custom_config']) {
+            $ddd = $this->fetch($addon['addon_path'] . $addon['custom_config']);
+
             $this->assign('custom_config', $this->fetch($addon['addon_path'] . $addon['custom_config']));
         }
 

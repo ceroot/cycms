@@ -29,7 +29,7 @@ abstract class Addon
      *  )
      */
     public $info             = array();
-    public $addon_path       = '';
+    public $addon_path       = ''; // 插件路径
     public $config_file      = '';
     public $custom_config    = '';
     public $admin_list       = array();
@@ -84,19 +84,6 @@ abstract class Addon
         echo ($this->fetch($template));
     }
 
-    // *
-    //  * 模板变量赋值
-    //  * @access protected
-    //  * @param mixed $name 要显示的模板变量
-    //  * @param mixed $value 变量的值
-    //  * @return Action
-
-    final protected function assign($name, $value = '')
-    {
-        $this->view->assign($name, $value);
-        return $this;
-    }
-
     //用于显示模板的方法
     final protected function fetch($templateFile = CONTROLLER_NAME)
     {
@@ -108,6 +95,19 @@ abstract class Addon
             }
         }
         return $this->view->fetch($templateFile);
+    }
+
+    // *
+    //  * 模板变量赋值
+    //  * @access protected
+    //  * @param mixed $name 要显示的模板变量
+    //  * @param mixed $value 变量的值
+    //  * @return Action
+
+    final protected function assign($name, $value = '')
+    {
+        $this->view->assign($name, $value);
+        return $this;
     }
 
     final public function getName()

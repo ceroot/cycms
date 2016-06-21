@@ -7,38 +7,32 @@
 	<form action="{:url('saveConfig')}" method="post" class="form-horizontal cy-ajaxForm" data-validate="false">
 		{empty name="custom_config"}
 			{foreach name="data['config']" item="form" key="o_key"}
-				<div class="form-item cf">
-					<label class="item-label">
-						{$form.title|default=''}
-						{present name="form.tip"}
+				<div class="form-group form-group-sm">
+			        <label class="col-sm-12" for="name">
+			        	{$form.title|default=''}
+			        	{present name="form.tip"}
 							<span class="check-tips">{$form.tip}</span>
 						{/present}
 					</label>
-						{switch name="form.type"}
-							{case value="text"}
-							<div class="controls">
-								<input type="text" name="config[{$o_key}]" class="text input-large" value="{$form.value}">
-							</div>
-							{/case}
-							{case value="password"}
-							<div class="controls">
-								<input type="password" name="config[{$o_key}]" class="text input-large" value="{$form.value}">
-							</div>
-							{/case}
-							{case value="hidden"}
-								<input type="hidden" name="config[{$o_key}]" value="{$form.value}">
-							{/case}
-							{case value="radio"}
-							<div class="controls">
+			        <div class="col-sm-12">
+			        	{switch name="form.type"}
+			        		{case value="text"}
+								<input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="config[{$o_key}]" id="name" value="{$form.value}">
+			        		{/case}
+			        		{case value="password"}
+								<input type="password" class="input-sm form-cy col-xs-10 col-sm-5" name="config[{$o_key}]" id="name" value="{$form.value}">
+			        		{/case}
+			        		{case value="hidden"}
+								<input type="hidden" name="config[{$o_key}]" id="name" value="{$form.value}">
+			        		{/case}
+			        		{case value="radio"}
 								{foreach name="form.options" item="opt" key="opt_k"}
-									<label class="radio">
+									<label class="radio-inline">
 										<input type="radio" name="config[{$o_key}]" value="{$opt_k}" {eq name="form.value" value="$opt_k"} checked{/eq}>{$opt}
 									</label>
 								{/foreach}
-							</div>
-							{/case}
-							{case value="checkbox"}
-							<div class="controls">
+			        		{/case}
+			        		{case value="checkbox"}
 								{foreach name="form.options" item="opt" key="opt_k"}
 									<label class="checkbox">
 										<php>
@@ -47,26 +41,18 @@
 										<input type="checkbox" name="config[{$o_key}][]" value="{$opt_k}" <in name="opt_k" value="$form.value"> checked</in>>{$opt}
 									</label>
 								{/foreach}
-							</div>
-							{/case}
-							{case value="select"}
-							<div class="controls">
-								<select name="config[{$o_key}]">
+			        		{/case}
+			        		{case value="select"}
+								<select name="config[{$o_key}]" class="input-sm form-cy col-xs-10 col-sm-3">
 									{foreach name="form.options" item="opt" key="opt_k"}
 										<option value="{$opt_k}" {eq name="form.value" value="$opt_k"} selected{/eq}>{$opt}</option>
 									{/foreach}
 								</select>
-							</div>
-							{/case}
-							{case value="textarea"}
-							<div class="controls">
-								<label class="textarea input-large">
-									<textarea name="config[{$o_key}]">{$form.value}</textarea>
-								</label>
-							</div>
-							{/case}
-							{case value="picture_union"}
-								<div class="controls">
+			        		{/case}
+			        		{case value="textarea"}
+								<textarea class="textarea form-cy col-xs-10 col-sm-6" name="config[{$o_key}]">{$form.value}</textarea>
+			        		{/case}
+			        		{case value="picture_union"}
 								<input type="file" id="upload_picture_{$o_key}">
 								<input type="hidden" name="config[{$o_key}]" id="cover_id_{$o_key}" value="{$form.value}"/>
 								<div class="upload-img-box">
@@ -78,7 +64,6 @@
 										</div>
 									{/foreach}
 									{/notempty}
-								</div>
 								</div>
 								<script type="text/javascript">
 									//上传图片
@@ -131,16 +116,17 @@
 											$("#cover_id_{$o_key}").val('');
 									}
 								</script>
-							{/case}
-							{case value="group"}
-								<ul class="tab-nav nav">
+			        		{/case}
+			        		{case value="group"}
+								<ul id="myTab" class="nav nav-tabs">
 									{volist name="form.options" id="li"}
-										<li data-tab="tab{$i}" {eq name="i" value="1"}class="current"{/eq}><a href="javascript:void(0);">{$li.title}</a></li>
+										<li data-tab="tab{$i}" {eq name="i" value="1"} class="active"{/eq}><a href="#tab{$i}" data-toggle="tab">{$li.title}</a></li>
 									{/volist}
 								</ul>
-								<div class="tab-content">
+
+								<div id="myTabContent" class="tab-content">
 								{volist name="form.options" id="tab"}
-									<div id="tab{$i}" class="tab-pane {eq name="i" value="1"}in{/eq} tab{$i}">
+									<div id="tab{$i}" class="tab-pane fade {eq name="i" value="1"} in active{/eq} tab{$i}">
 										{foreach name="tab['options']" item="tab_form" key="o_tab_key"}
 										<label class="item-label">
 											{$tab_form.title|default=''}
@@ -259,10 +245,10 @@
 									</div>
 								{/volist}
 								</div>
-							{/case}
-						{/switch}
-
-					</div>
+			        		{/case}
+			        	{/switch}
+			        </div>
+			    </div>
 			{/foreach}
 		<else />
 			{present name="custom_config"}

@@ -2,13 +2,10 @@
 {block name="title"}{/block}
 {block name="content"}
   	{:hook('oauth', array('name'=>'ddd','value'=>'value'))}
-  	<textarea name="contentd" id="contentd">ddddd</textarea>
-  	{:hook('adminArticleEdit', array('name'=>'contentd','value'=>'value'))}
-  	<textarea name="content" id="content">{$one.content}</textarea>
-  	{:hook('adminArticleEdit', array('name'=>'content','value'=>'value'))}
-  	<!-- UY BEGIN -->
-<div id="uyan_frame"></div>
-<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=890409"></script>
-<!-- UY END -->
+  	<textarea name="contentd" id="contentd">这是第一个</textarea>
+  	{:hook('adminArticleEdit', ['name'=>'contentd','value'=>'value'])}
+  	<textarea name="contentf" id="contentf">这是第二个</textarea>
+  	{:hook('topicComment', ['name'=>'contentf','value'=>'value'])}
+  	
 
 {/block}
