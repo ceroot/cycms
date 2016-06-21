@@ -253,7 +253,8 @@ str;
             trace("插件{$addon['name']}无法实例化,", 'ADDONS', 'ERR');
         }
 
-        $data                   = new $addon_class;
+        $data = new $addon_class;
+        // dump($data);
         $addon['addon_path']    = $data->addon_path;
         $addon['custom_config'] = $data->custom_config;
         $this->meta_title       = '设置插件-' . $data->info['title'];
@@ -262,6 +263,7 @@ str;
 
         if ($db_config) {
             $db_config = json_decode($db_config, true);
+
             foreach ($addon['config'] as $key => $value) {
                 if ($value['type'] != 'group') {
                     $addon['config'][$key]['value'] = $db_config[$key];
