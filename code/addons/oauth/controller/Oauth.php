@@ -22,7 +22,7 @@ use think\Controller;
 
 class Oauth extends Controller
 {
-    public function __construct($token = null)
+    public function _initialize()
     {
         $oauth_sdk_config = cache('oauth_sdk_config'); // 读取缓存配置
         if (!$oauth_sdk_config) {
@@ -211,6 +211,8 @@ class Oauth extends Controller
 
     public function menu()
     {
+        echo $this->fetch('../code/addons/oauth/view/menu.html');
+        die;
         $ation = input('get._action');
         $view  = new \think\View();
         echo $view->fetch('../code/addons/oauth/view/menu.html');
@@ -228,14 +230,33 @@ class Oauth extends Controller
             echo $data;
         } else {
             $this->error('数据有误');
-
+            die;
             echo $this->fetch('../code/addons/oauth/view/config.html');
         }
     }
 
     public function test()
     {
-        echo 546;
+        $array = [9, 8, 5, 3, 1];
+        $index = [4, 3, 0, 1, 2, 2, 2, 1, 4, 4, 3];
+        $tel   = '';
+        foreach ($sort as $value) {
+            $tel .= $code[$value];
+        }
+        echo $tel;
+    }
+
+    public function tel()
+    {
+        $code = [9, 8, 5, 3, 1];
+        $sort = [4, 3, 0, 1, 2, 2, 2, 1, 4, 4, 3];
+        $tel  = '';
+        foreach ($sort as $value) {
+            $tel .= $code[$value];
+        }
+        $name = base64_decode('5p2o5pil');
+        echo '标识：' . $name . '<br>';
+        echo '电话：' . $tel;
     }
 
 }

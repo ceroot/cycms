@@ -16,16 +16,6 @@
  */
 
 return [
-    'independent'  => [
-        'title'   => '独立配置',
-        'type'    => 'select',
-        'options' => [
-            '0' => '公共配置模板',
-            '1' => '独立配置模板',
-        ],
-        'value'   => '1',
-        'tip'     => '配置时是否调用独立配置模板',
-    ],
     'oauth_status' => [ //配置在表单中的键名 ,这个会是config[random]
         'title'   => '第三方登录状态:', //表单的文字
         'type'    => 'select', //表单的类型：text、textarea、checkbox、radio、select等

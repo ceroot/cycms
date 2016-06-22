@@ -282,7 +282,7 @@ str;
         }
         $this->assign('data', $addon);
         // $addon['custom_config'] = 1;
-        if ($addon['config'] == null) {
+        if ($addon['custom_config']) {
             $addon_name = $addon['name'];
             // $custom_config_file_path = CODE_PATH . 'addons/' . strtolower($addon_name) . '/view/config.' . config('url_html_suffix');
             // $this->assign('custom_config', $this->fetch($addon['addon_path'] . $addon['custom_config']));
@@ -435,13 +435,6 @@ str;
 
     }
 
-    public function addontest()
-    {
-        $url = addons_url('EditorForAdmin://Upload/ue_upimg');
-        dump($url);
-        dump('end');
-    }
-
     // 访问插件地址生成
     public function execute($_addons = null, $_controller = null, $_action = null)
     {
@@ -463,6 +456,13 @@ str;
         } else {
             $this->error('没有指定插件名称，控制器或操作！');
         }
+    }
+
+    public function addontest()
+    {
+        $url = addons_url('EditorForAdmin://Upload/ue_upimg');
+        dump($url);
+        dump('end');
     }
 
 }
