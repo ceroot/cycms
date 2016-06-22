@@ -176,4 +176,41 @@ class Oauth extends Controller
         $this->redirect($url);
     }
 
+    public function test()
+    {
+        echo $this->fetch('../code/addons/oauth/view/menu.html');
+        // $this->dd('addons/oauth/');
+    }
+
+    protected function dd($template = '')
+    {
+        echo $template;
+        // return $template;
+    }
+
+    // // //显示方法
+    // final protected function display($template = '')
+    // {
+    //     if ($template == '') {
+    //         $template = CONTROLLER_NAME;
+    //     }
+    //     echo ($this->fetch($template));
+    // }
+
+    // //用于显示模板的方法
+    // final protected function fetch($templateFile)
+    // {
+    //     return 1;
+    //     die;
+    //     if (!is_file($templateFile)) {
+    //         $templateFile = $this->addon_path . $templateFile . '.' . config('url_html_suffix');
+    //         // dump($templateFile);die;
+    //         if (!is_file($templateFile)) {
+    //             throw new \Exception("模板不存在:$templateFile");
+    //         }
+    //     }
+    //     $this->view = \think\View::instance('think\View');
+    //     return $this->view->fetch($templateFile);
+    // }
+
 }

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>index</title>
+<!-- jQuery -->
+<script src="__PUBLIC__/jQuery/jquery-3.0.0.min.js"></script>
+<style type="text/css">
+	.text{ display: none; }
+	input {
+        /*display: none;*/
+    }
+</style>
+</head>
+<body>
+<a href="javascript:void(0)" title="点击" class="test">点击</a>
+<hr>
+{if condition="$Think.session.uid"}已经登录{/if}
+<!-- <br>
+<a href="/oauthlogin?type=qq&backurl={:getbackurl()}">qq登录</a>
+<br>
+<a href="/oauthlogin?type=weixin&backurl={:getbackurl()}">微信登录</a>
+<br>
+<a href="/oauthlogin?type=sina&backurl={:getbackurl()}">微博登录</a>
+<br>
+<a href="/oauthlogin?type=sina&backurl={:getbackurl()}">微博登录</a>
+<br>
+<a href="{:url('api/user/logout')}">清除</a>
+<br> -->
+{:hook('oauth', array('name'=>'ddd','value'=>'value'))}
+<hr>
+<div class="text">这是文字</div>
+<input id="txt" type="text" value="" data-name-11="aa"/>
+<script type="text/javascript">
+$(function(){
+	$('body').on('click', '.test', function(event) {
+		event.preventDefault();
+		var dd = $('#txt').data();
+		console.log(dd);
+		alert(dd);
+		
+	});
+});
+</script>
+</body>
+</html>
