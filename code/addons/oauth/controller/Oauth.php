@@ -17,11 +17,39 @@
 
 namespace addons\oauth\controller;
 
+use addons\oauth\ThinkSDK\ThinkOauth;
 use think\Controller;
-use third\ThinkSDK\ThinkOauth;
 
 class Oauth extends Controller
 {
+    public function __construct($token = null)
+    {
+        $oauth_sdk_config = cache('oauth_sdk_config'); // 读取缓存配置
+        if (!$oauth_sdk_config) {
+            $db_sdk_config_data = db('addons')->where('name', 'Oauth')->find();
+            if (!$db_sdk_config_data) {
+                $this->error('没有开通第三方登录');
+            }
+            if ($db_sdk_config_data['status'] == 0) {
+                $this->error('第三方登录关闭');
+            }
+
+            // 数据处理
+            $db_sdk_config = $db_sdk_config_data['config'];
+            $db_sdk_config = str_replace('{', '', $db_sdk_config);
+            $db_sdk_config = str_replace('}', '', $db_sdk_config);
+            $db_sdk_config = str_replace('"', '', $db_sdk_config);
+            $db_sdk_config = explode(',', $db_sdk_config);
+
+            $oauth_sdk_config = [];
+            foreach ($db_sdk_config as $value) {
+                $temp                       = explode(':', $value);
+                $oauth_sdk_config[$temp[0]] = $temp[1];
+            }
+        }
+        // 加入配置
+        config($oauth_sdk_config);
+    }
 
     public function index()
     {
@@ -35,10 +63,15 @@ class Oauth extends Controller
     public function login()
     {
         $type = input('type');
-        // dump($type);die;
         if (empty($type)) {
             return $this->error('参数错误');
         }
+        $oauth_status = 'think_sdk_' . strtolower($type) . '_on';
+        // 判断是否开启
+        if (!config($oauth_status)) {
+            return $this->error('没有开启');
+        }
+
         $backurl = input('get.backurl');
         if ($backurl) {
             session('backurl', $backurl);
@@ -176,41 +209,33 @@ class Oauth extends Controller
         $this->redirect($url);
     }
 
+    public function menu()
+    {
+        $ation = input('get._action');
+        $view  = new \think\View();
+        echo $view->fetch('../code/addons/oauth/view/menu.html');
+        // $dd = view('../code/addons/oauth/view/menu.html');
+        // echo $dd;
+        // return $this->fetch('../code/addons/oauth/view/menu.html');
+        // return $this->fetch(CODE_PATH . 'addons/oauth/view/menu.html');
+    }
+
+    public function config()
+    {
+        if (request()->isAjax()) {
+            $data = db('manager')->find(1);
+            $data = json_encode($data);
+            echo $data;
+        } else {
+            $this->error('数据有误');
+
+            echo $this->fetch('../code/addons/oauth/view/config.html');
+        }
+    }
+
     public function test()
     {
-        echo $this->fetch('../code/addons/oauth/view/menu.html');
-        // $this->dd('addons/oauth/');
+        echo 546;
     }
-
-    protected function dd($template = '')
-    {
-        echo $template;
-        // return $template;
-    }
-
-    // // //显示方法
-    // final protected function display($template = '')
-    // {
-    //     if ($template == '') {
-    //         $template = CONTROLLER_NAME;
-    //     }
-    //     echo ($this->fetch($template));
-    // }
-
-    // //用于显示模板的方法
-    // final protected function fetch($templateFile)
-    // {
-    //     return 1;
-    //     die;
-    //     if (!is_file($templateFile)) {
-    //         $templateFile = $this->addon_path . $templateFile . '.' . config('url_html_suffix');
-    //         // dump($templateFile);die;
-    //         if (!is_file($templateFile)) {
-    //             throw new \Exception("模板不存在:$templateFile");
-    //         }
-    //     }
-    //     $this->view = \think\View::instance('think\View');
-    //     return $this->view->fetch($templateFile);
-    // }
 
 }

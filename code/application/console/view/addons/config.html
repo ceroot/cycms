@@ -4,7 +4,7 @@
   	<div class="main-title cf">
 		<h2>插件配置 [ {$data.title} ]</h2>
 	</div>
-	<form action="{:url('saveConfig')}" method="post" class="form-horizontal cy-ajaxForm" data-validate="false">
+	<form action="{empty name="custom_config"}{:url('saveConfig')}{else /}{present name="custom_config_path"}{$custom_config_path}{/present}{/empty}" method="post" class="form-horizontal cy-ajaxForm" data-validate="false">
 		{empty name="custom_config"}
 			{foreach name="data['config']" item="form" key="o_key"}
 				<div class="form-group form-group-sm">
@@ -250,9 +250,9 @@
 			        </div>
 			    </div>
 			{/foreach}
-		<else />
+		{else /}
 			{present name="custom_config"}
-				{$custom_config}
+				{include file="../code/addons/oauth/view/config.html" /}
 			{/present}
 		{/empty}
 		<div class="fixed-bottom">

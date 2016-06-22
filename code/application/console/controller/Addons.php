@@ -281,14 +281,23 @@ str;
             }
         }
         $this->assign('data', $addon);
+        // $addon['custom_config'] = 1;
+        if ($addon['config'] == null) {
+            $addon_name = $addon['name'];
+            // $custom_config_file_path = CODE_PATH . 'addons/' . strtolower($addon_name) . '/view/config.' . config('url_html_suffix');
+            // $this->assign('custom_config', $this->fetch($addon['addon_path'] . $addon['custom_config']));
+            // $custom_config_code = file_get_contents($custom_config_file_path);
+            $custom_config_path = strtolower($addon_name) . '://' . $addon_name . '/config';
+            $custom_config_path = addons_url($custom_config_path);
+            $this->assign('custom_config_path', $custom_config_path);
+            // $this->assign('custom_config', $custom_config_code);
 
-        if ($addon['custom_config']) {
-            $ddd = $this->fetch($addon['addon_path'] . $addon['custom_config']);
+            return $this->fetch(CODE_PATH . 'addons/' . strtolower($addon_name) . '/view/config.html');
 
-            $this->assign('custom_config', $this->fetch($addon['addon_path'] . $addon['custom_config']));
+        } else {
+            return $this->fetch();
         }
 
-        return $this->fetch();
     }
 
     /**

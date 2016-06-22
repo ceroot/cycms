@@ -1,7 +1,7 @@
 <?php
 namespace addons\oauth\event;
 
-use third\ThinkSDK\ThinkOauth;
+use addons\oauth\ThinkSDK\ThinkOauth;
 
 Header('Content-Type: text/html; charset=utf-8');
 class Type

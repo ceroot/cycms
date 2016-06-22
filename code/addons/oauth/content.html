@@ -1,15 +1,22 @@
 <br><br><br><br><br>
 {if condition="$Think.session.uid"}已经登录{/if}
 <br>
-<a href="/oauthlogin?type=qq&backurl={:getbackurl()}">qq登录</a>
-<br>
-<a href="/oauthlogin?type=weixin&backurl={:getbackurl()}">微信登录</a>
-<br>
-<a href="/oauthlogin?type=sina&backurl={:getbackurl()}">微博登录</a>
-<br>
-<a href="/oauthlogin?type=sina&backurl={:getbackurl()}">微博登录</a>
-<br>
-<a href="{:url('api/user/logout')}">注销</a>
+{notempty name="addons_config.think_sdk_qq_on"}
+	<a href="/oauthlogin?type=qq&backurl={:getbackurl()}">qq登录</a>
+	<br>
+{/notempty}
+{notempty name="addons_config.think_sdk_weixin_on"}
+	<a href="/oauthlogin?type=weixin&backurl={:getbackurl()}">微信登录</a>
+	<br>
+{/notempty}
+{notempty name="addons_config.think_sdk_sina_on"}
+	<a href="/oauthlogin?type=sina&backurl={:getbackurl()}">微博登录</a>
+	<br>
+{/notempty}
+{if condition="$Think.session.uid"}
+	<a href="{:url('api/user/logout')}">注销</a>
+{/if}
+
 <br><br><br><br><br>
 
 <!-- {$addons_data.name} -->

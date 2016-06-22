@@ -980,6 +980,7 @@ function addons_url($url, $param = array())
 
     $params = array_merge($params, $param); //添加额外参数
     $url    = url('addons/execute', $params);
+    return $url;
     dump($url);die;
     return U('Addons/execute', $params);
 }
