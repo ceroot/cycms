@@ -13,6 +13,9 @@ class Index extends Controller
 
     public function test()
     {
+        return $this->fetch('../code/template/public/menu.tpl');
+        $dd = controller('addons://oauth@oauth');
+
         echo '控制器：（CONTROLLER_NAME）';
         dump(CONTROLLER_NAME);
         echo '<hr>';

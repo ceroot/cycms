@@ -178,8 +178,8 @@ class Oauth extends Controller
 
     public function test()
     {
-
-        $this->dd('addons/oauth/');
+        echo $this->fetch('../code/addons/oauth/view/menu.html');
+        // $this->dd('addons/oauth/');
     }
 
     protected function dd($template = '')
