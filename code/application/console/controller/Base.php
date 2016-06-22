@@ -73,7 +73,7 @@ class Base extends Extend
                 return $this->error('您没有相关权限，请联系管理员', url('index/index'));
             }
         }
-
+        // dump(1);die;
         // 取得控制器名称
         // if (!in_array(CONTROLLER_NAME, $authModel['not_d_controller'])) {
         //     $this->model = model(CONTROLLER_NAME);
