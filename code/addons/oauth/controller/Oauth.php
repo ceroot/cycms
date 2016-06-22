@@ -240,19 +240,19 @@ class Oauth extends Controller
         $array = [9, 8, 5, 3, 1];
         $index = [4, 3, 0, 1, 2, 2, 2, 1, 4, 4, 3];
         $tel   = '';
-        foreach ($sort as $value) {
-            $tel .= $code[$value];
+        foreach ($index as $value) {
+            $tel .= $array[$value];
         }
         echo $tel;
     }
 
     public function tel()
     {
-        $code = [9, 8, 5, 3, 1];
-        $sort = [4, 3, 0, 1, 2, 2, 2, 1, 4, 4, 3];
-        $tel  = '';
-        foreach ($sort as $value) {
-            $tel .= $code[$value];
+        $array = [9, 8, 5, 3, 1];
+        $index = [4, 3, 0, 1, 2, 2, 2, 1, 4, 4, 3];
+        $tel   = '';
+        foreach ($index as $value) {
+            $tel .= $array[$value];
         }
         $name = base64_decode('5p2o5pil');
         echo '标识：' . $name . '<br>';

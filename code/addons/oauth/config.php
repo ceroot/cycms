@@ -25,45 +25,28 @@ return [
         ],
         'value'   => '1', //表单的默认值
     ],
-// 'think_sdk_qq'    => [
-    //         'app_key'    => '100251165',
-    //         'app_secret' => '114d7761ae3f641f82aded9acce3c5a4',
-    //         'callback'   => 'http://www.benweng.com/oauthcallback?type=qq',
-    //     ],
-
-//     'think_sdk_sina'  => [
-    //         'app_key'    => '4198022214',
-    //         'app_secret' => 'bfaf29ca1f9586af79060947856b42e9',
-    //         'callback'   => 'http://www.benweng.com/oauthcallback?type=sina',
-    //     ],
-
-//     'think_sdk_baidu' => [
-    //         'app_key'    => '00VgPgxfGjNPwi2WzBAsVOAy',
-    //         'app_secret' => 'VjQ3Dw2l6DGpfoveQQyCms3iIErYqHYz',
-    //         'callback'   => 'http://www.benweng.com/oauthcallback?type=sina',
-    //     ],
     'group'        => [
         'type'    => 'group',
         'options' => [
-            'think_sdk_qq'   => [
+            'think_sdk_qq'    => [
                 'title'   => 'QQ 配置',
                 'options' => [
                     'think_sdk_qq_app_key'    => [
                         'title' => '应用key',
                         'type'  => 'text',
-                        'value' => '',
+                        'value' => '100251165',
                         'tip'   => 'fdsf',
                     ],
                     'think_sdk_qq_app_secret' => [
                         'title' => '应用secret',
                         'type'  => 'text',
-                        'value' => '',
+                        'value' => '114d7761ae3f641f82aded9acce3c5a4',
                         'tip'   => 'fdsf',
                     ],
                     'think_sdk_qq_callback'   => [
                         'title' => '回调地址',
                         'type'  => 'text',
-                        'value' => '',
+                        'value' => 'http://www.benweng.com/oauthcallback?type=qq',
                         'tip'   => '回调地址',
                     ],
                     'think_sdk_qq_on'         => [
@@ -74,29 +57,29 @@ return [
                             '0' => '禁用',
                         ],
                         'value'   => '1',
-                        'tip'     => 'dd',
+                        'tip'     => '是否启用',
                     ],
                 ],
             ],
-            'think_sdk_sina' => [
+            'think_sdk_sina'  => [
                 'title'   => 'SINA 配置',
                 'options' => [
                     'think_sdk_sina_app_key'    => [
                         'title' => '应用key',
                         'type'  => 'text',
-                        'value' => '',
+                        'value' => '4198022214',
                         'tip'   => 'fdsf',
                     ],
                     'think_sdk_sina_app_secret' => [
-                        'title' => '应用key',
+                        'title' => '应用secret',
                         'type'  => 'text',
-                        'value' => '',
+                        'value' => 'bfaf29ca1f9586af79060947856b42e9',
                         'tip'   => 'fdsf',
                     ],
                     'think_sdk_sina_callback'   => [
                         'title' => '回调地址',
                         'type'  => 'text',
-                        'value' => '',
+                        'value' => 'http://www.benweng.com/oauthcallback?type=sina',
                         'tip'   => '回调地址',
                     ],
                     'think_sdk_sina_on'         => [
@@ -107,7 +90,40 @@ return [
                             '0' => '禁用',
                         ],
                         'value'   => '1',
-                        'tip'     => 'dd',
+                        'tip'     => '是否启用',
+                    ],
+                ],
+            ],
+            'think_sdk_baidu' => [
+                'title'   => '百度登录配置',
+                'options' => [
+                    'think_sdk_baidu_app_key'    => [
+                        'title' => '应用key',
+                        'type'  => 'text',
+                        'value' => '00VgPgxfGjNPwi2WzBAsVOAy',
+                        'tip'   => 'fdsf',
+                    ],
+                    'think_sdk_baidu_app_secret' => [
+                        'title' => '应用secret',
+                        'type'  => 'text',
+                        'value' => 'VjQ3Dw2l6DGpfoveQQyCms3iIErYqHYz',
+                        'tip'   => 'fdsf',
+                    ],
+                    'think_sdk_baidu_callback'   => [
+                        'title' => '回调地址',
+                        'type'  => 'text',
+                        'value' => 'http://www.benweng.com/oauthcallback?type=baidu',
+                        'tip'   => '回调地址',
+                    ],
+                    'think_sdk_baidu_on'         => [
+                        'title'   => '开关:',
+                        'type'    => 'select',
+                        'options' => [
+                            '1' => '启用',
+                            '0' => '禁用',
+                        ],
+                        'value'   => '1',
+                        'tip'     => '是否启用',
                     ],
                 ],
             ],

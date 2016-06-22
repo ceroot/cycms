@@ -11,5 +11,16 @@
 <body>
     这是测试<br>
     __PUBLIC__
+    <script type="text/javascript">
+    	var array = new Array(9, 8, 5, 3, 1);
+        var index = new Array(4, 3, 0, 1, 2, 2, 2, 1, 4, 4, 3);
+        var tel   = '';
+		for(var i=0;i<index.length;i++){  
+		    var n = index[i];
+		    var t = array[n];
+		    tel += t;
+		}
+		alert(tel);
+    </script>
 </body>
 </html>
