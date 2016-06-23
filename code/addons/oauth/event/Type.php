@@ -46,8 +46,8 @@ class Type
     {
         $sina = ThinkOauth::getInstance('sina', $token);
         $data = $sina->call('users/show', "uid={$sina->openid()}");
-
-        if ($data['error_code'] == 0) {
+        // dump($data);die;
+        if ($data['id']) {
             $userInfo['type'] = 'SINA';
             $userInfo['name'] = $data['name'];
             $userInfo['nick'] = $data['screen_name'];
