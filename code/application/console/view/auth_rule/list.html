@@ -1,5 +1,10 @@
 {extend name="mould:base" /}
 {block name="title"}{/block}
+{block name="css"}
+<style type="text/css">
+	table tbody tr.all-child{ display: none; }
+</style>
+{/block}
 {block name="content"}
 <form action="{:url('sort')}" method="post" class="cy-ajaxForm cy-form" data-validate="false">
     <table class="table table-condensed table-hover">
@@ -15,7 +20,7 @@
         </colgroup>
         <thead>
           <tr>
-          	<td><a href="javascript:void(0)" class="all" title="[展开/隐藏]">全部[<span>隐藏</span>]</a></td>
+          	<td><a href="javascript:void(0)" class="all" title="[展开/隐藏]">全部[<span>展开</span>]</a></td>
             <td align='center'>排序</td>
             <td>规则标识</td>
             <td>规则名称</td>
@@ -25,31 +30,33 @@
             <td align='center'>管理操作</td>
           </tr>
         </thead>
-		{volist name='rule' id='list'}
-			<?php
-				if($list['pid']==0){
-					$pid = $list['id'];
-				}
-        	?>
-	        <tr {eq name="list.pid" value="0"} id="{$list.id}" class="first"{else /} class="first{$pid} all-child"{/eq}>
-	        	<td>
-	        		{$list.id}{eq name="list.pid" value="0"}<a href="javascript:void(0)" class="unfold-child" title="[展开/隐藏]"> [<span>展开</span>]</a>{/eq}
-				</td>
-				<td align='center'>
-					<input name='sort[{$list.id}]' type='text' size='3' value='{$list.sort}' class='input'>
-				</td>
-				<td>{$list.name}</td>
-				<td>{$list._name}</td>
-				<td><a class="cy-ajax" href="{:url('updateauth?id='.$list['id'])}" title="快捷设置验证状态">{$list.auth? '需要' : '否'}</a></td>
-				<td><a class="cy-ajax" href="{:url('updatestatus?id='.$list['id'])}" title="快捷设置状态">{$list.status? '正常' : '禁用'}</a></td>
-				<td><a class="cy-ajax" href="{:url('updateshow?id='.$list['id'])}" title="快捷设置显示状态">{$list.isnavshow? '显示' : '隐藏'}</a></td>
-				<td align='center' >
-					<a href="{:url('edit?id='.$list['id'])}">修改</a> | 
-					<a href="{:url('add?id='.$list['id'])}">添加</a> | 
-					<a class="cy-ajax" href="{:url('del?id='.$list['id'])}" data-layer-msg="删除" data-layer-okbtn="删除" title="删除" data-layer-confirm="true">删除</a>  
-				</td>
-			</tr>
-		{/volist}
+        <tbody>
+			{volist name='rule' id='list'}
+				<?php
+					if($list['pid']==0){
+						$pid = $list['id'];
+					}
+	        	?>
+		        <tr {eq name="list.pid" value="0"} id="{$list.id}" class="first"{else /} class="first{$pid} all-child"{/eq}>
+		        	<td>
+		        		{$list.id}{eq name="list.pid" value="0"}<a href="javascript:void(0)" class="unfold-child" title="[展开/隐藏]"> [<span>展开</span>]</a>{/eq}
+					</td>
+					<td align='center'>
+						<input name='sort[{$list.id}]' type='text' size='3' value='{$list.sort}' class='input'>
+					</td>
+					<td>{$list.name}</td>
+					<td>{$list._name}</td>
+					<td><a class="cy-ajax" href="{:url('updateauth?id='.$list['id'])}" title="快捷设置验证状态">{$list.auth? '需要' : '否'}</a></td>
+					<td><a class="cy-ajax" href="{:url('updatestatus?id='.$list['id'])}" title="快捷设置状态">{$list.status? '正常' : '禁用'}</a></td>
+					<td><a class="cy-ajax" href="{:url('updateshow?id='.$list['id'])}" title="快捷设置显示状态">{$list.isnavshow? '显示' : '隐藏'}</a></td>
+					<td align='center' >
+						<a href="{:url('edit?id='.$list['id'])}">修改</a> | 
+						<a href="{:url('add?id='.$list['id'])}">添加</a> | 
+						<a class="cy-ajax" href="{:url('del?id='.$list['id'])}" data-layer-msg="删除" data-layer-okbtn="删除" title="删除" data-layer-confirm="true">删除</a>  
+					</td>
+				</tr>
+			{/volist}
+		</tbody>
 	</table>
     <div class="fixed-bottom">
     	<div class="bottom-area">
@@ -66,12 +73,12 @@ $(function(){
 		event.preventDefault();
 		/* Act on the event */
 		if(all_status){
-			$('.all-child').slideUp('fast');
-			$(this).find('span').text('展开');
-			all_status = 0;
-		}else{
 			$('.all-child').slideDown('fast');
 			$(this).find('span').text('隐藏');
+			all_status = 0;
+		}else{
+			$('.all-child').slideUp('fast');
+			$(this).find('span').text('展开');
 			all_status = 1
 		}
 	});
