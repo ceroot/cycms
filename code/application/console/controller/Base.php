@@ -130,7 +130,11 @@ class Base extends Extend
     function list() {
         $pageLimit = input('get.limit');
         $pageLimit = isset($pageLimit) ? $pageLimit : config('paginate.list_rows'); //15; // 每页显示数目
-        $pk        = $this->model->getPk(); // 取得主键字段名
+        if (!$this->model) {
+            return $this->error('请增加控制规则', url('authRule/add'));
+        }
+
+        $pk = $this->model->getPk(); // 取得主键字段名
 
         $order = [
             $pk => 'desc',
@@ -149,7 +153,11 @@ class Base extends Extend
                 break;
         }
 
-        $list = $this->model->order($order)->paginate($pageLimit);
+        $map = [
+            // 'id' => 46,
+        ];
+
+        $list = $this->model->where($map)->order($order)->paginate($pageLimit);
         $page = $list->render();
         // 模板变量赋值
         $this->assign('list', $list);

@@ -4,7 +4,7 @@
 <form action="{:url('sort')}" method="post" class="cy-ajaxForm cy-form" data-validate="false">
     <table class="table table-condensed table-hover">
         <colgroup>
-	        <col width="60">
+	        <col width="70">
 	        <col width="55">
 	        <col width="180">
 	        <col>
@@ -15,7 +15,7 @@
         </colgroup>
         <thead>
           <tr>
-          	<td>id</td>
+          	<td><a href="javascript:void(0)" class="all" title="[展开/隐藏]">全部[<span>隐藏</span>]</a></td>
             <td align='center'>排序</td>
             <td>规则标识</td>
             <td>规则名称</td>
@@ -26,9 +26,14 @@
           </tr>
         </thead>
 		{volist name='rule' id='list'}
-	        <tr>
+			<?php
+				if($list['pid']==0){
+					$pid = $list['id'];
+				}
+        	?>
+	        <tr {eq name="list.pid" value="0"} id="{$list.id}" class="first"{else /} class="first{$pid} all-child"{/eq}>
 	        	<td>
-					{$list.id}
+	        		{$list.id}{eq name="list.pid" value="0"}<a href="javascript:void(0)" class="unfold-child" title="[展开/隐藏]"> [<span>展开</span>]</a>{/eq}
 				</td>
 				<td align='center'>
 					<input name='sort[{$list.id}]' type='text' size='3' value='{$list.sort}' class='input'>
@@ -52,9 +57,42 @@
 	    </div>
     </div>
 </form>
+{/block}
+{block name="script"}
 <script type="application/javascript">
 $(function(){
+	var all_status = 1;
+	$('body').on('click', '.all', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		if(all_status){
+			$('.all-child').slideUp('fast');
+			$(this).find('span').text('展开');
+			all_status = 0;
+		}else{
+			$('.all-child').slideDown('fast');
+			$(this).find('span').text('隐藏');
+			all_status = 1
+		}
+	});
 
+	var child_status = 1;
+	$('body').on('click', '.first .unfold-child', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		var _self = $(this);
+		var id    = _self.closest('tr').attr('id');
+		var span  = _self.find('span')
+		var text  = span.text();
+
+		$('.first'+id).slideToggle('fast',function(){
+			if(text=='展开'){
+				span.text('隐藏');
+			}else{
+				span.text('展开');
+			}
+		});
+	});;
 
 })
 </script>
