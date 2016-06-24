@@ -1,0 +1,55 @@
+{extend name="mould:base" /}
+{block name="title"}{/block}
+{block name="content"}
+  <table class="table table-condensed table-hover">
+        <colgroup>
+	        <col width="60">
+	        <col>
+	        <col width="60">
+	        <col width="90">
+	        <col width="90">
+	        <col width="40">
+	        <col width="160">
+	        <col width="90">
+	        <col width="100">
+        </colgroup>
+        <thead>
+          <tr>
+          	<td>id</td>
+            <td>名称</td>
+            <td>昵称</td>
+            <td>来自</td>
+            <td>是否关联</td>
+            <td>状态</td>
+            <td>最后登录时间</td>
+            <td>最后登录IP</td>
+            <td align='center'>管理操作</td>
+          </tr>
+        </thead>
+		{volist name='list' id='list'}
+	        <tr>
+	        	<td>{$list.id}</td>
+				<td>{$list.name}</td>
+				<td>{$list.nick}</td>
+				<td>{$list.type}</td>
+				<td>{$list.uid ? '是':'否'}</td>
+				<td>{$list.status ? '正常':'禁用'}</td>
+				<td>{$list.update_time|time_format}</td>
+				<td>{$list.update_ip|long2ip}</td>
+				<td align='center'>
+					<a href="{:url('edit?id='.$list['id'])}">修改</a> | 
+					<a class="cy-ajax" href="{:url('del?id='.$list['id'])}" data-layer-msg="删除" data-layer-okbtn="删除" title="删除" data-layer-confirm="true">删除</a> 
+				</td>
+			</tr>
+		{/volist}
+	</table>
+	{notempty name="page"}
+		<div class="fixed-bottom pager-wrapper">
+			<div class="bottom-area">
+				<div class="pager">
+				    {$page}
+				</div>
+		</div>
+		</div>
+	{/notempty}
+{/block}

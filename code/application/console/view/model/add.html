@@ -1,0 +1,86 @@
+{extend name="mould:base" /}
+{block name="title"}{/block}
+{block name="content"}
+<form action="{:url('update')}" method="post" class="form-horizontal cy-ajaxForm cy-form" role="form" data-validate="true">
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="name">模型标识：</label>
+        <div class="col-sm-12">
+            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="name" id="name" value="{$one.name|default=''}" placeholder="模型标识">
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="title">模型名称</label>
+        <div class="col-sm-12">
+            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="title" id="title" value="{$one.title|default=''}" placeholder="模型名称：">
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="title">模型类型<span>（目前只支持独立模型和文档模型）</span></label>
+        <div class="col-sm-12">
+            <select name="extend" class="input-sm form-cy col-xs-10 col-sm-3">
+                <option value="0">独立模型</option>
+                <option value="1">文档模型</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="title">引擎类型<span></span></label>
+        <div class="col-sm-12">
+            <select name="extend" class="input-sm form-cy col-xs-10 col-sm-3">
+                <option value="MyISAM">MyISAM</option>
+                <option value="InnoDB">InnoDB</option>
+                <option value="MEMORY">MEMORY</option>
+                <option value="BLACKHOLE">BLACKHOLE</option>
+                <option value="MRG_MYISAM">MRG_MYISAM</option>
+                <option value="ARCHIVE">ARCHIVE</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="title">是否需要主键<span>（选“是”则会新建默认的id字段作为主键）</span></label>
+        <div class="col-sm-12">
+            <select name="need_pd" class="input-sm form-cy col-xs-10 col-sm-3">
+                <option value="1" selected="selected">是</option>
+                <option value="0">否</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-12" for="status">状态：</label>
+        <div class="col-sm-12">
+            <label class="radio-inline">
+                <input type="radio" name="status" id="status" value="1" {present name="one"}{eq name='one.status' value='1'} checked="checked"{/eq}{else /} checked="checked"{/present}> 正常
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="status" id="status" value="0" {eq name='one.status' value='0'} checked="checked"{/eq}> 禁用
+            </label>
+        </div>
+    </div>
+    <div class="fixed-bottom">
+        <div class="bottom-area">
+            <input type="hidden" name="id" value="{$one.id|default=''}">
+            <button class="btn btn-sm btn-default btn-post">保存</button>
+        </div>
+    </div>
+</form>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+
+var userValidate = {
+    rules: {
+        'name':'required',
+        'title':{
+            required:true
+        }
+    }, 
+    messages: {
+        'name':'请填写模型标识',
+        'title':{
+            required:'请填写模型名称'
+        }
+    }
+};
+
+</script>
+{/block}

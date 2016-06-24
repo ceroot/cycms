@@ -1,0 +1,359 @@
+{extend name="mould:base" /}
+{block name="title"}{/block}
+{block name="css"}
+<style type="text/css">
+	.ul-title{
+		background: #EEEEEE;
+	    font-weight: bold;
+	    text-indent: 10px;
+	    border-bottom: 1px solid #cdcdcd;
+	    margin-bottom: 5px;
+	}
+	.cy-form ul.dragsort{
+		padding: 0 5px;
+    	overflow-y: scroll;
+    	height: 334px;
+	}
+
+	.cy-form ul.dragsort>li{
+		margin-bottom: 5px;
+	    padding: 0 6px;
+	    height: 30px;
+	    line-height: 30px;
+	    border: 1px solid #eee;
+	    background-color: #fff;
+	    overflow: hidden;
+	}
+	.cy-form ul.dragsort>li em{
+		font-style: normal;
+		
+	}
+
+	.cy-form ul.dragsort>li em label{
+		font-weight: normal;
+	}
+</style>
+{/block}
+{block name="content"}
+<form action="{:url('update')}" method="post" class="form-horizontal cy-ajaxForm cy-form" role="form" data-validate="true">
+	<ul id="myTab" class="nav nav-tabs">
+		<li data-tab="tab1" class="active"><a href="#tab1" data-toggle="tab">基 础</a></li>
+		<li data-tab="tab2"><a href="#tab2" data-toggle="tab">设 计</a></li>
+		<li data-tab="tab3"><a href="#tab3" data-toggle="tab">高 级</a></li>
+	</ul>
+	<div id="myTabContent" class="tab-content pd-t-10">
+		<div id="tab1" class="tab-pane fade in active tab1">
+			<div class="form-group form-group-sm">
+		        <label class="col-sm-12" for="name">模型标识：</label>
+		        <div class="col-sm-12">
+		            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="name" id="name" value="{$one.name|default=''}" placeholder="模型标识">
+		        </div>
+		    </div>
+		    <div class="form-group form-group-sm">
+		        <label class="col-sm-12" for="title">模型名称</label>
+		        <div class="col-sm-12">
+		            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="title" id="title" value="{$one.title|default=''}" placeholder="模型名称：">
+		        </div>
+		    </div>
+		    <div class="form-group form-group-sm">
+		        <label class="col-sm-12" for="title">模型类型<span>（目前只支持独立模型和文档模型）</span></label>
+		        <div class="col-sm-12">
+		            <select name="extend" class="input-sm form-cy col-xs-10 col-sm-3">
+		                <option value="0" {eq name="one.extend" value="0"} selected="selected"{/eq}>独立模型</option>
+		                <option value="1" {eq name="one.extend" value="1"} selected="selected"{/eq}>文档模型</option>
+		            </select>
+		        </div>
+		    </div>
+		</div>
+		<div id="tab2" class="tab-pane fade tab2">
+			<div class="form-group form-group-sm">
+				<label class="col-sm-12" for="title">字段管理<span>（只有新增了字段，该表才会真正建立）</span></label>
+				<div class="col-sm-12">
+					<div class="row">
+						<span class="ul-title col-xs-10 col-sm-3">字段列表 		[ <a href="{:url('Attribute/add?model_id='.$one['id'])}" target="_balnk">新增</a>
+						<a href="{:url('Attribute/index?model_id='.$one['id'])}" target="_balnk">管理</a> ] </span>
+					</div>
+					<div class="row">
+						<ul class="dragsort list-unstyled col-xs-10 col-sm-3">
+							{foreach name="fields" item="field" key="k"}
+								<li >
+									<em >
+										<label>
+											<input class="ids" type="checkbox" name="attribute_list[]" value="{$field['id']}" {if condition="in_array($field['id'],$one['attribute_list'])"} checked="checked"{/if} /> {$field['title']} [{$field['name']}]
+										</label>
+									</em>
+								</li>
+							{/foreach}
+						</ul>
+					</div>
+				</div>
+			</div>
+            <div class="form-group form-group-sm">
+		        <label class="col-sm-12" for="name">字段别名定义<span class="check-tips">（用于表单显示的名称）</span></label>
+		        <div class="col-sm-12">
+		            <textarea rows="6" name="attribute_alias" class="input-sm form-cy col-xs-10 col-sm-3">{$one.attribute_alias}</textarea>
+		        </div>
+		    </div>
+			<div class="form-group form-group-sm">
+		        <label class="col-sm-12" for="name">表单显示分组<span class="check-tips">（用于表单显示的分组，以及设置该模型表单排序的显示）</span></label>
+		        <div class="col-sm-12">
+		            <input type="text" class="input-sm form-cy col-xs-10 col-sm-3" name="field_group" id="field_group" value="{$one.field_group}" placeholder="表单显示分组">
+		        </div>
+		    </div>
+			<div class="form-group form-group-sm">
+				<label class="item-label">表单显示排序<span class="check-tips">（直接拖动进行排序）</span></label>
+				{volist name=":parse_field_attr($one['field_group'])" id="vo"}
+					<div class="form-item cf edit_sort edit_sort_l form_field_sort">
+						<span class="ul-title col-xs-10 col-sm-3">{$vo}</span><br>
+						<ul class="dragsort needdragsort list-unstyled col-xs-10 col-sm-3" data-group="{$key}">
+							{foreach name="fields" item="field" key="k"}
+								{if condition="(($field['group'] eq $key) or($i eq 1 and !isset($field['group']))) and ($field['is_show'] eq 1)"}
+									<li class="getSort">
+										<em data="{$field['id']}">{$field['title']} [{$field['name']}]</em>
+										<input type="hidden" name="field_sort[{$key}][]" value="{$field['id']}"/>
+									</li>
+								{/if}
+							{/foreach}
+						</ul>
+					</div>
+				{/volist}
+			</div>
+
+			<div class="form-group form-group-sm">
+		        <label class="col-sm-12" for="name">列表定义<span class="check-tips">（默认列表模板的展示规则）</span></label>
+		        <div class="col-sm-12">
+		            <textarea rows="6" name="list_grid" class="input-sm form-cy col-xs-10 col-sm-3">{$one.list_grid}</textarea>
+		        </div>
+		    </div>
+			
+			<div class="form-group form-group-sm">
+		        <label class="col-sm-12" for="search_key">默认搜索字段<span class="check-tips">（默认列表模板的默认搜索项）</span></label>
+		        <div class="col-sm-12">
+		            <input type="text" class="input-sm form-cy col-xs-10 col-sm-3" name="search_key" id="search_key" value="{$one.search_key}" placeholder="默认搜索字段">
+		        </div>
+		    </div>
+		    <div class="form-group form-group-sm">
+		        <label class="col-sm-12" for="search_list">高级搜索字段<span class="check-tips">（默认列表模板的高级搜索项）</span></label>
+		        <div class="col-sm-12">
+		            <input type="text" class="input-sm form-cy col-xs-10 col-sm-3" name="search_list" id="search_list" value="{$one.search_list}" placeholder="默认搜索字段">
+		        </div>
+		    </div>
+		</div>
+		<div id="tab3" class="tab-pane fade tab3">
+			<div class="form-group form-group-sm">
+		        <label class="col-sm-12" for="template_list">列表模板</label>
+		        <div class="col-sm-12">
+		            <input type="text" class="input-sm form-cy col-xs-10 col-sm-6" name="template_list" id="template_list" value="{$one.template_list}" placeholder="列表模板">
+		        </div>
+		    </div>
+		    <div class="form-group form-group-sm">
+		        <label class="col-sm-12" for="template_add">新增模板</label>
+		        <div class="col-sm-12">
+		            <input type="text" class="input-sm form-cy col-xs-10 col-sm-6" name="template_add" id="template_add" value="{$one.template_add}" placeholder="新增模板">
+		        </div>
+		    </div>
+		    <div class="form-group form-group-sm">
+		        <label class="col-sm-12" for="template_edit">编辑模板</label>
+		        <div class="col-sm-12">
+		            <input type="text" class="input-sm form-cy col-xs-10 col-sm-6" name="template_edit" id="template_edit" value="{$one.template_edit}" placeholder="编辑模板">
+		        </div>
+		    </div>
+		    <div class="form-group form-group-sm">
+		        <label class="col-sm-12" for="list_row">列表数据大小</label>
+		        <div class="col-sm-12">
+		            <input type="text" class="input-sm form-cy col-xs-10 col-sm-6" name="list_row" id="list_row" value="{$one.list_row}" placeholder="列表数据大小">
+		        </div>
+		    </div>
+
+		</div>
+	</div>
+    <div class="fixed-bottom">
+        <div class="bottom-area">
+            <input type="hidden" name="id" value="{$one.id|default=''}">
+            <button class="btn btn-sm btn-default btn-post">保存</button>
+        </div>
+    </div>
+</form>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/jquery.dragsort/0.5.2/jquery.dragsort-0.5.2.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+
+//拖曳插件初始化
+$(function(){
+	var userValidate = {
+	    rules: {
+	        'name':'required',
+	        'title':{
+	            required:true
+	        }
+	    }, 
+	    messages: {
+	        'name':'请填写模型标识',
+	        'title':{
+	            required:'请填写模型名称'
+	        }
+	    }
+	};
+
+	$(".needdragsort").dragsort({
+	     dragSelector:'li',
+	     placeHolderTemplate: '<li class="draging-place">&nbsp;</li>',
+	     dragBetween:true,	//允许拖动到任意地方
+	     dragEnd:function(){
+	    	 var self = $(this);
+	    	 self.find('input').attr('name', 'field_sort[' + self.closest('ul').data('group') + '][]');
+	     }
+	 });
+})
+</script>
+{/block}
+
+	<!-- 标签页导航 -->
+	<div class="tab-wrap">
+		<div class="tab-content">
+			<!-- 表单 -->
+			<form id="form" action="{:U('update')}" method="post" class="form-horizontal doc-modal-form">
+				<!-- 基础 -->
+				<div id="tab1" class="tab-pane in tab1">
+					<div class="form-item cf">
+						<label class="item-label">模型标识<span class="check-tips">（请输入文档模型标识）</span></label>
+						<div class="controls">
+							<input type="text" class="text " name="name" value="{$info.name}">
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">模型名称<span class="check-tips">（请输入模型的名称）</span></label>
+						<div class="controls">
+							<input type="text" class="text " name="title" value="{$info.title}">
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">模型类型<span class="check-tips">（目前只支持独立模型和文档模型）</span></label>
+						<div class="controls">
+							<select name="extend">
+								<option value="0">独立模型</option>
+								<option value="1">文档模型</option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div id="tab2" class="tab-pane tab2">
+					<div class="form-item cf">
+						<label class="item-label">字段管理<span class="check-tips">（只有新增了字段，该表才会真正建立）</span></label>
+
+						<div class="controls">
+						<div class="form-item cf edit_sort edit_sort_l form_field_sort">
+							<span>字段列表 		[ <a href="{:U('Attribute/add?model_id='.$info['id'])}" target="_balnk">新增</a>
+							<a href="{:U('Attribute/index?model_id='.$info['id'])}" target="_balnk">管理</a> ] </span>
+							<ul class="dragsort">
+								<foreach name="fields" item="field" key="k">
+										<li >
+											<em ><input class="ids" type="checkbox" name="attribute_list[]" value="{$field['id']}" <if condition="in_array($field['id'],$info['attribute_list'])">checked="checked"</if> /> {$field['title']} [{$field['name']}]</em>
+										</li>
+								</foreach>
+							</ul>
+						</div>
+
+						</div>
+					</div>
+                    <div class="form-item cf">
+                        <label class="item-label">字段别名定义<span class="check-tips">（用于表单显示的名称）</span></label>
+                        <div class="controls">
+                            <label class="textarea input-large">
+                                <textarea name="attribute_alias">{$info.attribute_alias}</textarea>
+                            </label>
+                        </div>
+                    </div>
+					<div class="form-item cf">
+						<label class="item-label">表单显示分组<span class="check-tips">（用于表单显示的分组，以及设置该模型表单排序的显示）</span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="field_group" value="{$info.field_group}">
+						</div>
+					</div>
+					<div class="form-item cf">
+					<label class="item-label">表单显示排序<span class="check-tips">（直接拖动进行排序）</span></label>
+					{volist name=":parse_field_attr($info['field_group'])" id="vo"}
+						<div class="form-item cf edit_sort edit_sort_l form_field_sort">
+							<span>{$vo}</span>
+							<ul class="dragsort needdragsort" data-group="{$key}">
+								<foreach name="fields" item="field" key="k">
+									<if condition="(($field['group'] eq $key) or($i eq 1 and !isset($field['group']))) and ($field['is_show'] eq 1)">
+										<li class="getSort">
+											<em data="{$field['id']}">{$field['title']} [{$field['name']}]</em>
+											<input type="hidden" name="field_sort[{$key}][]" value="{$field['id']}"/>
+										</li>
+									</if>
+								</foreach>
+							</ul>
+						</div>
+					{/volist}
+					</div>
+
+					<div class="form-item cf">
+						<label class="item-label">列表定义<span class="check-tips">（默认列表模板的展示规则）</span></label>
+						<div class="controls">
+							<label class="textarea input-large">
+								<textarea name="list_grid">{$info.list_grid}</textarea>
+							</label>
+						</div>
+					</div>
+
+					<div class="form-item cf">
+						<label class="item-label">默认搜索字段<span class="check-tips">（默认列表模板的默认搜索项）</span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="search_key" value="{$info.search_key}">
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">高级搜索字段<span class="check-tips">（默认列表模板的高级搜索项）</span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="search_list" value="{$info.search_list}">
+						</div>
+					</div>
+				</div>
+
+				<!-- 高级 -->
+				<div id="tab3" class="tab-pane tab3">
+					<div class="form-item cf">
+						<label class="item-label">列表模板<span class="check-tips">（自定义的列表模板，放在Application\Admin\View\Think下，不写则使用默认模板）</span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="template_list" value="{$info.template_list}">
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">新增模板<span class="check-tips">（自定义的新增模板，放在Application\Admin\View\Think下，不写则使用默认模板）</span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="template_add" value="{$info.template_add}">
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">编辑模板<span class="check-tips">（自定义的编辑模板，放在Application\Admin\View\Think下，不写则使用默认模板）</span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="template_edit" value="{$info.template_edit}">
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">列表数据大小<span class="check-tips">（默认列表模板的分页属性）</span></label>
+						<div class="controls">
+							<input type="text" class="text input-small" name="list_row" value="{$info.list_row}">
+						</div>
+					</div>
+				</div>
+
+				<!-- 按钮 -->
+				<div class="form-item cf">
+					<label class="item-label"></label>
+					<div class="controls edit_sort_btn">
+						<input type="hidden" name="id" value="{$info['id']}"/>
+						<button class="btn submit-btn ajax-post no-refresh" type="submit" target-form="form-horizontal">确 定</button>
+						<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+
+
