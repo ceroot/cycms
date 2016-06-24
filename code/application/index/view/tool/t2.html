@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>大小写转换</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<style type="text/css">
+	.loading{ position: fixed; height: 100px; width: 100%; background: #000000; display: none; }
+</style>
+<script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="__PUBLIC__/jquery.pjax/1.9.6/jquery.pjax.js"></script>
+
+</head>
+<body>
+<div id="loading" class="loading"></div>
+<div class="area" id="container">
+    这是t2
+<div class="area">
+<a href="{:url('t1')}" target="_blank">点击</a>
+</div>
+</div>
+<div>这是不变的2</div>
+<script type="text/javascript">
+$(function(){
+	//$.pjax('a', '#container', {fragment:'#container', timeout:8000});
+	$.pjax({
+        selector: 'a',
+        container: '#container', //内容替换的容器
+        show: 'fade',  //展现的动画，支持默认和fade, 可以自定义动画方式，这里为自定义的function即可。
+        cache: true,  //是否使用缓存
+        storage: true,  //是否使用本地存储
+        titleSuffix: '', //标题后缀
+        filter: function(){},
+        callback: function(){
+        	console.log(2);
+        }
+    });
+
+    $('#container').bind('pjax.start', function(){
+        $('#loading').show();
+    })
+});
+</script>
+</body>
+</html>

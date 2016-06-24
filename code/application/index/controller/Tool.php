@@ -26,4 +26,15 @@ class Tool extends Controller
     {
         return $this->fetch();
     }
+
+    public function t1()
+    {
+        return $this->fetch();
+    }
+
+    public function t2()
+    {
+        return $this->fetch();
+    }
+
 }

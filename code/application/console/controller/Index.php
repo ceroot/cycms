@@ -19,8 +19,6 @@ namespace app\console\controller;
 
 use app\console\controller\Base;
 
-// use think\Controller;
-
 class Index extends Base
 {
     public function index()
