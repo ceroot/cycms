@@ -1,0 +1,39 @@
+{extend name="mould:base" /}
+{block name="title"}{/block}
+{block name="content"}
+	<table class="table table-condensed table-hover">
+	    <!-- 表头 -->
+	    <thead>
+	        <tr>
+	            <th width="20" class="row-selected row-selected">
+	                <input class="check-all" type="checkbox">
+	            </th>
+	            {volist name="list_grids" id="field"}
+	                <th {eq name="key" value="0"} width="40" {/eq}>{$field.title}</th>
+	            {/volist}
+	        </tr>
+	    </thead>
+
+	    <!-- 列表 -->
+	    <tbody>
+	        {volist name="list" id="data"}
+	            <tr>
+	                <td><input class="ids" type="checkbox" value="{$data['id']}" name="ids[]"></td>
+	                {volist name="list_grids" id="grid"}
+	                    <td>{:get_list_field($data,$grid)}</td>
+	                {/volist}
+	            </tr>
+	        {/volist}
+	    </tbody>
+	</table>
+
+	{notempty name="page"}
+		<div class="fixed-bottom pager-wrapper">
+			<div class="bottom-area">
+				<div class="pager">
+				    {$page}
+				</div>
+		</div>
+		</div>
+	{/notempty}
+{/block}

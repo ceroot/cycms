@@ -16,8 +16,6 @@
  */
 namespace app\common\model;
 
-use app\common\model\Extend;
-
 class Model extends Extend
 {
 

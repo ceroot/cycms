@@ -1,0 +1,205 @@
+{extend name="mould:base" /}
+{block name="title"}{/block}
+{block name="content"}
+  	<!-- 标题栏 -->
+	<form action="{:url('update')}" method="post" class="form-horizontal cy-ajaxForm cy-form" role="form" data-validate="true">
+		<ul id="myTab" class="nav nav-tabs">
+			<li data-tab="tab1" class="active"><a href="#tab1" data-toggle="tab">基 础</a></li>
+			<li data-tab="tab2"><a href="#tab2" data-toggle="tab">高 级</a></li>
+		</ul>
+		<!-- 基础 -->
+		<div id="myTabContent" class="tab-content pd-t-10">
+			<div id="tab1" class="tab-pane fade in active tab1">
+				<div class="form-group form-group-sm">
+			        <label class="col-sm-12" for="name">字段名<span class="check-tips">（请输入字段名 英文字母开头，长度不超过30）</span></label>
+			        <div class="col-sm-12">
+			            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="name" id="name" value="{$one.name|default=''}" placeholder="字段名">
+			        </div>
+			    </div>
+			    <div class="form-group form-group-sm">
+			        <label class="col-sm-12" for="title">字段标题<span class="check-tips">（请输入字段标题，用于表单显示）</span></label>
+			        <div class="col-sm-12">
+			            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="title" id="title" value="{$one.title|default=''}" placeholder="字段标题">
+			        </div>
+			    </div>
+			    <div class="form-group form-group-sm">
+			        <label class="col-sm-12" for="title">字段类型<span>（用于表单中的展示方式）</span></label>
+			        <div class="col-sm-12">
+			            <select name="type" class="input-sm form-cy col-xs-10 col-sm-3">
+			                <option value="">----请选择----</option>
+							{volist name=":get_attribute_type()" id="type"}
+								<option value="{$key}" rule="{$type[1]}" {present name="one"}{eq name="one['type']" value="$key" } selected="selected" {/eq}{/present}>{$type[0]}</option>
+							{/volist}
+			            </select>
+			        </div>
+			    </div>
+			    <div class="form-group form-group-sm">
+			        <label class="col-sm-12" for="field">字段定义<span class="check-tips">（字段属性的sql表示）</span></label>
+			        <div class="col-sm-12">
+			            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="field" id="field" value="{$one.field|default=''}" placeholder="字段定义">
+			        </div>
+			    </div>
+			    <div class="form-group form-group-sm">
+			        <label class="col-sm-12" for="extra">参数<span class="check-tips">（布尔、枚举、多选字段类型的定义数据）</span></label>
+			        <div class="col-sm-12">
+			            <textarea rows="5" class="input-sm form-cy col-xs-10 col-sm-5" name="extra">{$one.extra}</textarea>
+			        </div>
+			    </div>
+			    <div class="form-group form-group-sm">
+			        <label class="col-sm-12" for="value">默认值<span class="check-tips">（字段的默认值）</span></label>
+			        <div class="col-sm-12">
+			            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="value" id="value" value="{$one.value|default=''}" placeholder="默认值">
+			        </div>
+			    </div>
+			    <div class="form-group form-group-sm">
+			        <label class="col-sm-12" for="remark">字段备注<span class="check-tips">(用于表单中的提示)</span></label>
+			        <div class="col-sm-12">
+			            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="remark" id="remark" value="{$one.remark|default=''}" placeholder="字段备注">
+			        </div>
+			    </div>
+			    <div class="form-group form-group-sm">
+			        <label class="col-sm-12" for="title">是否显示<span class="check-tips">（是否显示在表单中）</span></label>
+			        <div class="col-sm-12">
+			            <select name="is_show" class="input-sm form-cy col-xs-10 col-sm-3">
+			                <option value="1"{present name="one"}{eq name="one['is_show']" value="1"} selected="selected"{/eq}{else /} selected="selected"{/present}>始终显示</option>
+							<option value="2"{present name="one"}{eq name="one['is_show']" value="1"} selected="selected"{/eq}{/present}>新增显示</option>
+							<option value="3"{present name="one"}{eq name="one['is_show']" value="1"} selected="selected"{/eq}{/present}>编辑显示</option>
+							<option value="0">不显示</option>
+			            </select>
+			        </div>
+			    </div>
+			    <div class="form-group form-group-sm">
+			        <label class="col-sm-12" for="title">列表显示<span class="check-tips">（列表默认是否显示）</span></label>
+			        <div class="col-sm-12">
+			            <select name="list_show" class="input-sm form-cy col-xs-10 col-sm-3">
+			                <option value="0"{present name="one"}{eq name="one['list_show']" value="0"} selected="selected"{/eq}{else /} selected="selected"{/present}>否</option>
+							<option value="1"{present name="one"}{eq name="one['list_show']" value="1"} selected="selected"{/eq}{/present}>是</option>
+			            </select>
+			        </div>
+			    </div>
+			    <div class="form-group form-group-sm">
+			        <label class="col-sm-12" for="title">是否必填<span class="check-tips">（用于自动验证）</span></label>
+			        <div class="col-sm-12">
+			            <select name="is_must" class="input-sm form-cy col-xs-10 col-sm-3">
+			                <option value="0"{present name="one"}{eq name="one['is_must']" value="0"} selected="selected"{/eq}{else /} selected="selected"{/present}>否</option>
+							<option value="1"{present name="one"}{eq name="one['is_must']" value="1"} selected="selected"{/eq}{/present}>是</option>
+			            </select>
+			        </div>
+			    </div>
+			</div>
+			<!-- 高级 -->
+			<div id="tab2" class="tab-pane fade tab2">
+				<div class="form-group form-group-sm">
+			        <label class="col-sm-12" for="validate_type">验证方式<span class="check-tips"></span></label>
+			        <div class="col-sm-12">
+			            <select name="validate_type" class="input-sm form-cy col-xs-10 col-sm-3">
+			                <option value="regex" {present name="one"}{eq name="one['validate_type']" value="regex"} selected="selected"{/eq}{/present}>正则验证</option>
+							<option value="function" {present name="one"}{eq name="one['validate_type']" value="function"} selected="selected"{/eq}{/present}>函数验证</option>
+							<option value="unique" {present name="one"}{eq name="one['validate_type']" value="unique"} selected="selected"{/eq}{/present}>唯一验证</option>
+							<option value="length" {present name="one"}{eq name="one['validate_type']" value="length"} selected="selected"{/eq}{/present}>长度验证</option>
+                            <option value="in" {present name="one"}{eq name="one['validate_type']" value="in"} selected="selected"{/eq}{/present}>验证在范围内</option>
+                            <option value="notin" {present name="one"}{eq name="one['validate_type']" value="notin"} selected="selected"{/eq}{/present}>验证不在范围内</option>
+                            <option value="between" {present name="one"}{eq name="one['validate_type']" value="between"} selected="selected"{/eq}{/present}>区间验证</option>
+                            <option value="notbetween" {present name="one"}{eq name="one['validate_type']" value="notbetween"} selected="selected"{/eq}{/present}>不在区间验证</option>
+			            </select>
+			        </div>
+			    </div>
+			    <div class="form-group form-group-sm">
+			        <label class="col-sm-12" for="validate_rule">验证规则<span class="check-tips">（根据验证方式定义相关验证规则）</span></label>
+			        <div class="col-sm-12">
+			            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="validate_rule" id="validate_rule" value="{$one.validate_rule|default=''}" placeholder="验证规则">
+			        </div>
+			    </div>
+			    <div class="form-group form-group-sm">
+			        <label class="col-sm-12" for="error_info">出错提示<span class="check-tips"></span></label>
+			        <div class="col-sm-12">
+			            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="error_info" id="error_info" value="{$one.error_info|default=''}" placeholder="出错提示">
+			        </div>
+			    </div>
+			    <div class="form-group form-group-sm">
+			        <label class="col-sm-12" for="validate_time">验证时间<span class="check-tips"></span></label>
+			        <div class="col-sm-12">
+			            <select name="validate_time" class="input-sm form-cy col-xs-10 col-sm-3">
+			                <option value="3" {present name="one"}{eq name="one['validate_time']" value="3"} selected="selected"{/eq}{/present}>始 终</option>
+							<option value="1" {present name="one"}{eq name="one['validate_time']" value="1"} selected="selected"{/eq}{/present}>新 增</option>
+							<option value="2" {present name="one"}{eq name="one['validate_time']" value="2"} selected="selected"{/eq}{/present}>编 辑</option>
+			            </select>
+			        </div>
+			    </div>
+			    <div class="form-group form-group-sm">
+			        <label class="col-sm-12" for="auto_type">自动完成方式<span class="check-tips"></span></label>
+			        <div class="col-sm-12">
+			            <select name="auto_type" class="input-sm form-cy col-xs-10 col-sm-3">
+			                <option value="function" {present name="one"}{eq name="one['auto_type']" value="function"} selected="selected"{/eq}{/present}>函数</option>
+							<option value="field" {present name="one"}{eq name="one['auto_type']" value="field"} selected="selected"{/eq}{/present}>字段</option>
+							<option value="string" {present name="one"}{eq name="one['auto_type']" value="string"} selected="selected"{/eq}{/present}>字符串</option>
+			            </select>
+			        </div>
+			    </div>
+			    <div class="form-group form-group-sm">
+			        <label class="col-sm-12" for="auto_rule">自动完成规则<span class="check-tips">（根据完成方式订阅相关规则）</span></label>
+			        <div class="col-sm-12">
+			            <input type="text" class="input-sm form-cy col-xs-10 col-sm-5" name="auto_rule" id="auto_rule" value="{$one.auto_rule|default=''}" placeholder="自动完成规则">
+			        </div>
+			    </div>
+			    <div class="form-group form-group-sm">
+			        <label class="col-sm-12" for="auto_time">自动完成时间<span class="check-tips"></span></label>
+			        <div class="col-sm-12">
+			            <select name="auto_time" class="input-sm form-cy col-xs-10 col-sm-3">
+			                <option value="3" {present name="one"}{eq name="one['auto_time']" value="3"} selected="selected"{/eq}{/present}>始 终</option>
+							<option value="1" {present name="one"}{eq name="one['auto_time']" value="1"} selected="selected"{/eq}{/present}>新 增</option>
+							<option value="2" {present name="one"}{eq name="one['auto_time']" value="2"} selected="selected"{/eq}{/present}>编 辑</option>
+			            </select>
+			        </div>
+			    </div>
+			</div>
+		</div>
+		
+		<div class="fixed-bottom">
+	        <div class="bottom-area">
+	            <input type="hidden" name="id" value="{$one['id']}"/>
+				<input type="hidden" name="model_id" value="{present name="one"}{$one['model_id']}{else /}{$Think.get.model_id}{/present}"/>
+				<button type="submit" class="btn btn-sm submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+				<button class="btn btn-sm btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+	        </div>
+	    </div>
+	</form>	
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/jquery.dragsort/0.5.2/jquery.dragsort-0.5.2.min.js"></script>
+{/block}
+	<!-- 标签页导航 -->
+	<div class="tab-wrap">
+		<div class="tab-content">
+			<!-- 表单 -->
+			<form id="form" action="{:U('update')}" method="post" class="form-horizontal doc-modal-form">
+				<!-- 基础 -->
+				<div id="tab1" class="tab-pane in tab1">
+					
+                </div>
+                <div id="tab2" class="tab-pane tab2">
+					<div class="form-item cf">
+						<label class="item-label">自动完成时间<span class="check-tips"></span></label>
+						<div class="controls">
+							<select name="auto_time">
+								<option value="3">始 终</option>
+								<option value="1">新 增</option>
+								<option value="2">编 辑</option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<!-- 按钮 -->
+				<div class="form-item cf">
+					<label class="item-label"></label>
+					<div class="controls edit_sort_btn">
+						<input type="hidden" name="id" value="{$info['id']}"/>
+						<input type="hidden" name="model_id" value="{$info['model_id']}"/>
+						<button class="btn submit-btn ajax-post no-refresh" type="submit" target-form="form-horizontal">确 定</button>
+						<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>

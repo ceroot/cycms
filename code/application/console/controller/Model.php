@@ -16,8 +16,6 @@
  */
 namespace app\console\controller;
 
-use app\console\controller\Base;
-
 class Model extends Base
 {
 
@@ -28,6 +26,15 @@ class Model extends Base
     public function _initialize()
     {
         parent::_initialize();
+    }
+
+    protected $beforeActionList = [
+        'before_update' => ['only' => 'update'],
+    ];
+
+    protected function before_update()
+    {
+        // $data['attribute_list'] = '';
     }
 
     public function edit()
@@ -46,7 +53,7 @@ class Model extends Base
         $data['attribute_list'] = $attribute_list;
         // $data['attribute_list'] = empty($data['attribute_list']) ? '' : explode(",", $data['attribute_list']);
         $fields = db('Attribute')->where(array('model_id' => $data['id']))->column('id,name,title,is_show');
-
+        // dump($fields);die;
         $fields = empty($fields) ? array() : $fields;
         // 是否继承了其他模型
         if ($data['extend'] != 0) {
@@ -57,7 +64,7 @@ class Model extends Base
         // 梳理属性的可见性
         foreach ($fields as $key => $field) {
             if (!empty($data['attribute_list']) && !in_array($field['id'], $data['attribute_list'])) {
-                $fields[$key]['is_show'] = 0;
+                // $fields[$key]['is_show'] = 0;
             }
         }
 
@@ -72,12 +79,14 @@ class Model extends Base
                 foreach ($ids as $key => $value) {
                     $fields[$value]['group'] = $group;
                     $fields[$value]['sort']  = $key;
+                    // dump($fields);
                 }
+
             }
         }
         // dump($fields);die;
         // 模型字段列表排序
-        // $fields = list_sort_by($fields, "sort");
+        $fields = list_sort_by($fields, "sort");
         // dump($data);
         // dump($fields);
         // die;

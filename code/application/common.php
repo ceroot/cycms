@@ -885,9 +885,7 @@ function list_sort_by($list, $field, $sortby = 'asc')
     if (is_array($list)) {
         $refer = $resultSet = array();
         foreach ($list as $i => $data) {
-            // $refer[$i] = &$data[$field];
-            $refer[$i] = $data[$field];
-
+            $refer[$i] = &$data[$field];
         }
 
         switch ($sortby) {
@@ -902,8 +900,7 @@ function list_sort_by($list, $field, $sortby = 'asc')
                 break;
         }
         foreach ($refer as $key => $val) {
-            // $resultSet[] = &$list[$key];
-            $resultSet[] = $list[$key];
+            $resultSet[] = &$list[$key];
         }
 
         return $resultSet;
@@ -1038,7 +1035,7 @@ function parse_field_attr($string)
         return eval('return ' . substr($string, 1) . ';');
     } elseif (0 === strpos($string, '[')) {
         // 支持读取配置参数（必须是数组类型）
-        return C(substr($string, 1, -1));
+        return config(substr($string, 1, -1));
     }
 
     $array = preg_split('/[,;\r\n]+/', trim($string, ",;\r\n"));

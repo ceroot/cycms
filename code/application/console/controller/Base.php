@@ -28,6 +28,7 @@ class Base extends Extend
      */
     public function _initialize()
     {
+        // dump($map);die;
         // 定义UID
         define('UID', session('userid'));
 
@@ -140,24 +141,26 @@ class Base extends Extend
             $pk => 'desc',
         ];
 
-        // 排序
+        $map = [];
+
+        // 各种条件
         switch (request()->controller()) {
             case 'config':
                 $order = [
                     'group' => 'desc',
                 ];
                 break;
-
+            case 'attribute':
+                $model_id        = input('get.model_id');
+                $map['model_id'] = $model_id;
+                break;
             default:
                 # code...
                 break;
         }
 
-        $map = [
-            // 'id' => 46,
-        ];
-
         $list = $this->model->where($map)->order($order)->paginate($pageLimit);
+        // dump($list);die;
         $page = $list->render();
         // 模板变量赋值
         $this->assign('list', $list);
@@ -202,34 +205,52 @@ class Base extends Extend
     {
         if (request()->isAjax()) {
             $data = input('post.');
+            // $sort = $data['field_sort'];
+            // $sort = json_encode($sort);
             // return $data;
             $pk = $this->model->getPk();
 
             // 判断是新增还是更新，如果有键值就是更新，如果没有键值就是新增
             if ($data[$pk]) {
                 // 角色分配的时候对数据的处理
-                if (request()->controller() == 'auth_group') {
-                    $rulesdata = input('post.rules/a');
-                    if ($rulesdata) {
-                        $data['rules'] = implode(',', $rulesdata);
-                        session('log_text', '修改了权限');
-                    } else {
-                        session('log_text', '编辑了角色');
-                    }
-                }
-
-                // 管理员修改时对密码的处理
-                if (request()->controller() == 'manager') {
-                    if (empty($data['password'])) {
-                        unset($data['password']);
-                    } else {
-                        if (strlen($data['password']) < 6) {
-                            return $this->error('密码长度不够');
+                switch (request()->controller()) {
+                    case 'auth_group':
+                        $rulesdata = input('post.rules/a');
+                        if ($rulesdata) {
+                            $data['rules'] = implode(',', $rulesdata);
+                            session('log_text', '修改了权限');
+                        } else {
+                            session('log_text', '编辑了角色');
                         }
-                        $data['password'] = md5($data['username'] . $data['password']);
-                    }
+                        break;
+                    case 'manager': // 管理员修改时对密码的处理
+                        if (empty($data['password'])) {
+                            unset($data['password']);
+                        } else {
+                            if (strlen($data['password']) < 6) {
+                                return $this->error('密码长度不够');
+                            }
+                            $data['password'] = md5($data['username'] . $data['password']);
+                        }
+                        break;
+                    case 'model':
+                        if (input('post.field_sort/a')) {
+                            $data['field_sort'] = json_encode($data['field_sort']);
+                        }
+                        if (input('post.attribute_list/a')) {
+                            $data['attribute_list'] = arr2str($data['attribute_list']);
+                        } else {
+                            $data['attribute_list'] = '';
+                        }
+                        break;
+                    case '':
+                        # code...
+                        break;
+                    default:
+                        # code...
+                        break;
                 }
-
+                // return $data;
                 // 验证状态设置
                 $validate = request()->controller() . '.edit';
                 if (input('get.rule')) {
@@ -263,25 +284,28 @@ class Base extends Extend
                 return $this->error($this->model->getError());
             }
 
-            // return $action_log;
             // 是否成功返回
             if ($status) {
-                // 更新规则缓存
-                if (request()->controller() == 'auth_rule') {
-                    $this->model->updateCache();
-                    // 新增时是否添加日志记录标记
-                    if (!$data[$pk]) {
-                        model('action')->add_for_rule();
-                    }
-                }
-
-                // 管理员操作时的操作
-                if (request()->controller() == 'manager') {
-                    model('AuthGroupAccess')->saveData($record_id);
-                }
-
-                if (request()->controller() == 'config') {
-                    cache('db_config_data', null);
+                switch (request()->controller()) {
+                    case 'auth_rule': // 更新规则缓存
+                        $this->model->updateCache();
+                        // 新增时是否添加日志记录标记
+                        if (!$data[$pk]) {
+                            model('action')->add_for_rule();
+                        }
+                        break;
+                    case 'manager': // 管理员操作时的操作
+                        model('AuthGroupAccess')->saveData($record_id);
+                        break;
+                    case 'config': // 清空配置数据缓存
+                        cache('db_config_data', null);
+                        break;
+                    case 'model': // 清除模型缓存数据
+                        cache('document_model_list', null);
+                        break;
+                    default:
+                        # code...
+                        break;
                 }
 
                 action_log($record_id, $action_log); // 记录日志

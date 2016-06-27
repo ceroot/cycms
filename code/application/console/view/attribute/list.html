@@ -1,0 +1,43 @@
+{extend name="mould:base" /}
+{block name="title"}{/block}
+{block name="content"}
+  <table class="table table-condensed table-hover">
+        <colgroup>
+	        <col width="60">
+	        <col>
+	        <col width="120">
+	        <col width="90">
+	        <col width="100">
+        </colgroup>
+        <thead>
+          <tr>
+          	<td>编号</td>
+            <td>字段</td>
+            <td>名称</td>
+            <td>数据类型</td>
+            <td align='center'>管理操作</td>
+          </tr>
+        </thead>
+		{volist name='list' id='list'}
+	        <tr>
+	        	<td>{$list.id}</td>
+				<td>{$list.name}</td>
+				<td>{$list.title}</td>
+				<td>{$list.type|get_attribute_type}</td>
+				<td align='center'>
+					<a href="{:url('edit?id='.$list['id'])}">修改</a> | 
+					<a class="cy-ajax" href="{:url('del?id='.$list['id'])}" data-layer-msg="删除" data-layer-okbtn="删除" title="删除" data-layer-confirm="true">删除</a> 
+				</td>
+			</tr>
+		{/volist}
+	</table>
+	{notempty name="page"}
+		<div class="fixed-bottom pager-wrapper">
+			<div class="bottom-area">
+				<div class="pager">
+				    {$page}
+				</div>
+		</div>
+		</div>
+	{/notempty}
+{/block}
