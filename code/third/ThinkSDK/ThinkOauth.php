@@ -189,7 +189,7 @@ abstract class ThinkOauth
         $data = $this->http($this->GetAccessTokenURL, $params, 'POST');
 
         $this->Token = $this->parseToken($data, $extend);
-        dump($this->Token);
+
         return $this->Token;
     }
 
