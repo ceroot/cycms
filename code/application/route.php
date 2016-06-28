@@ -37,6 +37,8 @@ return [
     'oauthlogin'        => ['api/oauth/execute?_addons=oauth&_controller=Oauth&_action=login', []],
     'oauthcallback'     => ['api/oauth/execute?_addons=oauth&_controller=Oauth&_action=callback', []],
 
+    'weixin'            => ['weixin/index/index', []],
+
     '__domain__'        => [
         'www.gylbgg.com'   => 'dot',
         'gylb.benweng.com' => 'dot',

@@ -16,15 +16,15 @@ return [
     // 数据库连接DSN配置
     'dsn'            => '',
     // 服务器地址
-    'hostname'       => '127.0.0.1',
+    'hostname'       => '5703b37f4676f.sh.cdb.myqcloud.com', //5703b37f4676f.sh.cdb.myqcloud.com:7600
     // 数据库名
-    'database'       => 'think5',
+    'database'       => 'developer',
     // 数据库用户名
-    'username'       => 'root',
+    'username'       => 'benweng',
     // 数据库密码
-    'password'       => 'root',
+    'password'       => 'chun@!21',
     // 数据库连接端口
-    'hostport'       => '',
+    'hostport'       => '7600',
     // 数据库连接参数
     'params'         => [],
     // 数据库编码默认采用utf8
