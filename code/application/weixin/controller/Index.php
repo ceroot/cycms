@@ -17,6 +17,7 @@
 namespace app\weixin\controller;
 
 use app\common\controller\Extend;
+use third\wechat\Wechat;
 
 class Index extends Extend
 {
@@ -27,6 +28,28 @@ class Index extends Extend
      */
     public function index($id = '')
     {
+
+        if (!$this->checkSignature()) {
+            return $this->error('验证不通过');
+        }
+
+        if (request()->isGet()) {
+            $echoStr = input('get.echostr'); // 开发修改配置时用到
+            if ($echoStr) {
+                return $echoStr;
+                exit;
+            }
+            exit($_GET['echostr']);
+            // return input('get.echostr');
+        } else {
+
+            $this->responseMsg();
+            $xml  = file_get_contents("php://input");
+            $data = self::xml2data($xml);
+            // self::$token = $token;
+            // $this->init();
+        }
+        die;
         // $dd = input('get.timestamp'); //['timestamp'];
         // dump($dd);
         //调试
@@ -37,7 +60,7 @@ class Index extends Extend
             $crypt = 'dkYGTNzvKylvMTgY1aK9hNa5aWH43cnlxgTrMr9R3ds'; //消息加密KEY（EncodingAESKey）
 
             /* 加载微信SDK */
-            $wechat = new \third\wechat\Wechat($token, $appid, $crypt);
+            $wechat = new Wechat($token, $appid, $crypt);
 
             /* 获取请求信息 */
             $data = $wechat->request();
@@ -93,6 +116,86 @@ class Index extends Extend
             file_put_contents('./error.json', json_encode($e->getMessage()));
         }
 
+    }
+
+    private function checkSignature()
+    {
+        $signature = $_GET["signature"];
+        $timestamp = $_GET["timestamp"];
+        $nonce     = $_GET["nonce"];
+        $token     = 'benweng';
+        $tmpArr    = array($token, $timestamp, $nonce);
+        sort($tmpArr, SORT_STRING);
+        $tmpStr = implode($tmpArr);
+        $tmpStr = sha1($tmpStr);
+        if ($tmpStr == $signature) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function responseMsg()
+    {
+        //get post data, May be due to the different environments
+        $postStr = file_get_contents("php://input");
+        // $timestamp = input('get.timestamp');
+        // $nonce     = input('get.nonce');
+        //extract post data
+        if (!empty($postStr)) {
+
+            /* libxml_disable_entity_loader is to prevent XML eXternal Entity Injection,
+            the best way is to check the validity of xml by yourself */
+            libxml_disable_entity_loader(true);
+            $postObj      = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+            $fromUsername = $postObj->FromUserName;
+            $toUsername   = $postObj->ToUserName;
+            $keyword      = trim($postObj->Content);
+            $time         = time();
+            $textTpl      = "<xml>
+                            <ToUserName><![CDATA[%s]]></ToUserName>
+                            <FromUserName><![CDATA[%s]]></FromUserName>
+                            <CreateTime>%s</CreateTime>
+                            <MsgType><![CDATA[%s]]></MsgType>
+                            <Content><![CDATA[%s]]></Content>
+                            <FuncFlag>0</FuncFlag>
+                            </xml>";
+            if (!empty($keyword)) {
+                switch ($postObj->MsgType) {
+                    case 'text':
+                        switch ($keyword) {
+                            case '1':
+                                $msgType    = "text";
+                                $contentStr = '这是1';
+                                $resultStr  = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                                echo $resultStr;
+                                break;
+
+                            default:
+                                $msgType    = "text";
+                                $contentStr = $keyword;
+                                $resultStr  = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                                echo $resultStr;
+                                break;
+                        }
+
+                        break;
+                    case 'event':
+                        echo '这是点击';
+                        break;
+                    default:
+                        # code...
+                        break;
+                }
+
+            } else {
+                echo "Input something...";
+            }
+
+        } else {
+            echo "is empty";
+            exit;
+        }
     }
 
     /**
@@ -242,5 +345,26 @@ class Index extends Extend
         }
 
         return $media['media_id'];
+    }
+
+    /**
+     * XML数据解码
+     * @param  string $xml 原始XML字符串
+     * @return array       解码后的数组
+     */
+    protected static function xml2data($xml)
+    {
+        $xml = new \SimpleXMLElement($xml);
+
+        if (!$xml) {
+            throw new \Exception('非法XXML');
+        }
+
+        $data = array();
+        foreach ($xml as $key => $value) {
+            $data[$key] = strval($value);
+        }
+
+        return $data;
     }
 }

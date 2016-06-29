@@ -314,6 +314,24 @@ class Wechat
      */
     protected static function auth($token)
     {
+        // $signature = $_GET["signature"];
+        // $timestamp = $_GET["timestamp"];
+        // $nonce     = $_GET["nonce"];
+        $signature = input("signature");
+        $timestamp = input("timestamp");
+        $nonce     = input("nonce");
+        $token     = 'benweng';
+        $tmpArr    = array($token, $timestamp, $nonce);
+
+        sort($tmpArr, SORT_STRING);
+        $tmpStr = implode($tmpArr);
+        $tmpStr = sha1($tmpStr);
+        if ($tmpStr == $signature) {
+            return true;
+        } else {
+            return false;
+        }
+
         /* 获取数据 */
         $timestamp = input('get.timestamp');
         $nonce     = input('get.nonce');
