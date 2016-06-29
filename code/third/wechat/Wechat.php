@@ -11,8 +11,6 @@
 
 namespace third\wechat;
 
-//支持在非ThinkPHP环境下使用
-
 class Wechat
 {
     /**
@@ -63,11 +61,24 @@ class Wechat
      */
     private static $encodingAESKey = '';
 
-    public function __construct($token, $appid = '', $key = '')
+    /**
+     * 是否使用安全模式
+     * @var boolean
+     */
+    private static $msgSafeMode = false;
+
+    /**
+     * 构造方法，用于实例化微信SDK
+     * 自动回复消息时实例化该SDK
+     * @param string $token 微信后台填写的TOKEN
+     * @param string $appid 微信APPID (安全模式和兼容模式有效)
+     * @param string $key   消息加密KEY (EncodingAESKey)
+     */
+    public function __construct($token, $appId = '', $key = '')
     {
         //TOKEN验证
         if ($token) {
-            if (!$this->checkSignature()) {
+            if (!$this->checkSignature($token)) {
                 // return $this->error('验证不通过');
                 exit;
             }
@@ -86,18 +97,46 @@ class Wechat
         }
     }
 
+    // 初始化
     public function int()
     {
-        $postStr = file_get_contents("php://input");
-        $xml     = file_get_contents("php://input");
-
-        libxml_disable_entity_loader(true);
-        $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-
+        // $postStr = file_get_contents("php://input");
+        // libxml_disable_entity_loader(true);
+        // $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
         // $this->data = $postObj;
+
+        $xml = file_get_contents("php://input");
+
+        // $this->token = $token;
         $this->data = self::xml2data($xml);
     }
 
+    /**
+     * 对数据进行签名认证，确保是微信发送的数据
+     * @param  string $token 微信开放平台设置的TOKEN
+     * @return boolean       true-签名正确，false-签名错误
+     */
+    private function checkSignature($token)
+    {
+        $signature = $_GET["signature"];
+        $timestamp = $_GET["timestamp"];
+        $nonce     = $_GET["nonce"];
+        // $token     = 'benweng';
+        $tmpArr = array($token, $timestamp, $nonce);
+        sort($tmpArr, SORT_STRING);
+        $tmpStr = implode($tmpArr);
+        $tmpStr = sha1($tmpStr);
+        if ($tmpStr == $signature) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 获取微信推送的数据
+     * @return array 转换为数组后的数据
+     */
     public function request()
     {
         return $this->data;
@@ -112,23 +151,16 @@ class Wechat
     {
         /* 基础数据 */
         $data = array(
-            // 'ToUserName'   => 'o-ynbjtFjSx1lTrKQl8FzqpD0Xdc',
-            // 'FromUserName' => 'gh_24b1a21d8197',
-            // 'ToUserName'   => $this->data->FromUserName,
-            // 'FromUserName' => $this->data->ToUserName,
             'ToUserName'   => $this->data['FromUserName'],
             'FromUserName' => $this->data['ToUserName'],
             'CreateTime'   => time(),
             'MsgType'      => $type,
-            // 'Content'      => $content,
-            // 'FuncFlag'     => 0,
         );
 
         /* 按类型添加额外数据 */
-        // $content = call_user_func(array(self, $type), $content);
-        // $content = $this::$type($content);
-        $wechat  = new Wechat('benweng');
-        $content = call_user_func(array($wechat, $type), $content);
+        // $content = call_user_func(array(self, $type), $content); //
+        // $wechat  = new Wechat(1);
+        $content = call_user_func(array($this, $type), $content);
         if ($type == self::MSG_TYPE_TEXT || $type == self::MSG_TYPE_NEWS) {
             $data = array_merge($data, $content);
         } else {
@@ -138,8 +170,8 @@ class Wechat
         /* 转换数据为XML */
         $xml = new \SimpleXMLElement('<xml></xml>');
         $this->data2xml($xml, $data);
-        $ddd = $xml->asXML();
-        echo $ddd;
+        $resultStr = $xml->asXML();
+        echo $resultStr;
         die;
         $textTpl = '<?xml version="1.0"?>
                     <xml>
@@ -150,21 +182,13 @@ class Wechat
                     <Content><![CDATA[%s]]></Content>
                     <FuncFlag>0</FuncFlag>
                     </xml>';
-        // $textTpl      = $xml->asXML();
-        // $fromUsername = $this->data->FromUserName;
-        // $toUsername   = $this->data->ToUserName;
         $fromUsername = $this->data['FromUserName'];
         $toUsername   = $this->data['ToUserName'];
         $time         = time();
         $msgType      = "text";
-        $contentStr   = $fromUsername . '|' . $toUsername;
+        $contentStr   = self::$token; //$fromUsername . '|' . $toUsername;
         $resultStr    = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
         echo $resultStr;
-        // $xml = new \SimpleXMLElement('<xml></xml>');
-        // $this->data2xml($xml, $redata);
-        // // echo $xml->asXML();
-        // $resultStr = $xml->asXML();
-        // echo $resultStr;
     }
 
     /**
@@ -407,28 +431,6 @@ class Wechat
         $sign = array(self::$token, $timestamp, $nonce, $encrypt);
         sort($sign, SORT_STRING);
         return sha1(implode($sign));
-    }
-
-    /**
-     * 对数据进行签名认证，确保是微信发送的数据
-     * @param  string $token 微信开放平台设置的TOKEN
-     * @return boolean       true-签名正确，false-签名错误
-     */
-    private function checkSignature()
-    {
-        $signature = $_GET["signature"];
-        $timestamp = $_GET["timestamp"];
-        $nonce     = $_GET["nonce"];
-        $token     = 'benweng';
-        $tmpArr    = array($token, $timestamp, $nonce);
-        sort($tmpArr, SORT_STRING);
-        $tmpStr = implode($tmpArr);
-        $tmpStr = sha1($tmpStr);
-        if ($tmpStr == $signature) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     /**
