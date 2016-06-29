@@ -159,4 +159,97 @@ class Index extends Controller
         curl_close($ch);
         // return $access_token;
     }
+
+    /**
+     * 数据XML编码
+     * @param  object $xml  XML对象
+     * @param  mixed  $data 数据
+     * @param  string $item 数字索引时的节点名称
+     * @return string
+     */
+    protected static function data2xml($xml, $data, $item = 'item')
+    {
+        foreach ($data as $key => $value) {
+            /* 指定默认的数字key */
+            is_numeric($key) && $key = $item;
+
+            /* 添加子元素 */
+            if (is_array($value) || is_object($value)) {
+                $child = $xml->addChild($key);
+                self::data2xml($child, $value, $item);
+            } else {
+                if (is_numeric($value)) {
+                    $child = $xml->addChild($key, $value);
+                } else {
+                    $child = $xml->addChild($key);
+                    $node  = dom_import_simplexml($child);
+                    $cdata = $node->ownerDocument->createCDATASection($value);
+                    $node->appendChild($cdata);
+                }
+            }
+        }
+    }
+
+    /**
+     * XML数据解码
+     * @param  string $xml 原始XML字符串
+     * @return array       解码后的数组
+     */
+    protected static function xml2data($xml)
+    {
+        $xml = new \SimpleXMLElement($xml);
+
+        if (!$xml) {
+            throw new \Exception('非法XXML');
+        }
+
+        $data = array();
+        foreach ($xml as $key => $value) {
+            $data[$key] = strval($value);
+        }
+
+        return $data;
+    }
+
+    public function test2()
+    {
+        $redata = array(
+            'ToUserName'   => 'y',
+            'FromUserName' => 'c',
+            'CreateTime'   => time(),
+            'MsgType'      => 'text',
+            'Content'      => 'c',
+            'FuncFlag'     => 0,
+        );
+
+        /* 转换数据为XML */
+        $xml = new \SimpleXMLElement('<xml></xml>');
+        $this->data2xml($xml, $redata);
+        $dd = $xml->asXML();
+        dump($dd);
+    }
+
+    public function test3()
+    {
+        $str = "<xml><ToUserName><![CDATA[y]]></ToUserName><FromUserName><![CDATA[c]]></FromUserName><CreateTime>1467182425</CreateTime><MsgType><![CDATA[t]]></MsgType></xml>";
+        $dd  = $this->xml2data($str);
+
+        dump($dd);
+    }
+
+    public function test4()
+    {
+        $type    = 'text';
+        $content = '这是文字';
+        $content = call_user_func(array(self, $type), $content);
+        dump($content);
+    }
+
+    public function test5()
+    {
+        $dd = new \third\Yctest('dd');
+        $df = $dd->sayHello('这是加进来的'); //$content
+        //
+        dump($df);
+    }
 }

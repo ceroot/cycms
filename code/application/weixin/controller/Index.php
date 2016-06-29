@@ -28,6 +28,69 @@ class Index extends Extend
      */
     public function index($id = '')
     {
+        $appid = 'wxd5e8db24ff394381'; //AppID(应用ID)
+        $token = 'benweng'; //微信后台填写的TOKEN
+        $crypt = 'dkYGTNzvKylvMTgY1aK9hNa5aWH43cnlxgTrMr9R3ds'; //消息加密KEY（EncodingAESKey）
+
+        /* 加载微信SDK */
+        $wechat = new Wechat($token, $appid, $crypt);
+
+        /* 获取请求信息 */
+        $data = $wechat->request();
+        $this->demo($wechat, $data);
+
+        die;
+        $wechat->replyText('欢迎访问麦当苗儿公众平台，这是文本回复的内容！');
+
+        /* 获取请求信息 */
+        $data = $wechat->request();
+
+        $fromUsername = $data->FromUserName;
+        $toUsername   = $data->ToUserName;
+        $keyword      = trim($data->Content);
+        $time         = time();
+        $MsgType      = $data->MsgType;
+        $textTpl      = "<xml>
+                            <ToUserName><![CDATA[%s]]></ToUserName>
+                            <FromUserName><![CDATA[%s]]></FromUserName>
+                            <CreateTime>%s</CreateTime>
+                            <MsgType><![CDATA[%s]]></MsgType>
+                            <Content><![CDATA[%s]]></Content>
+                            <FuncFlag>0</FuncFlag>
+                            </xml>";
+        if (!empty($keyword)) {
+            switch ($data->MsgType) {
+                case 'text':
+                    switch ($keyword) {
+                        case '1':
+                            $msgType    = "text";
+                            $contentStr = '这是1';
+                            $resultStr  = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                            echo $resultStr;
+                            break;
+
+                        default:
+                            $msgType    = "text";
+                            $contentStr = $keyword;
+                            $resultStr  = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                            echo $resultStr;
+                            break;
+                    }
+
+                    break;
+                case 'event':
+                    echo '这是点击';
+                    break;
+                default:
+                    # code...
+                    break;
+            }
+
+        } else {
+            echo "Input something...";
+        }
+
+        die;
 
         if (!$this->checkSignature()) {
             return $this->error('验证不通过');
@@ -44,10 +107,6 @@ class Index extends Extend
         } else {
 
             $this->responseMsg();
-            $xml  = file_get_contents("php://input");
-            $data = self::xml2data($xml);
-            // self::$token = $token;
-            // $this->init();
         }
         die;
         // $dd = input('get.timestamp'); //['timestamp'];
@@ -209,7 +268,7 @@ class Index extends Extend
             case Wechat::MSG_TYPE_EVENT:
                 switch ($data['Event']) {
                     case Wechat::MSG_EVENT_SUBSCRIBE:
-                        $wechat->replyText('欢迎您关注麦当苗儿公众平台！回复“文本”，“图片”，“语音”，“视频”，“音乐”，“图文”，“多图文”查看相应的信息！');
+                        $wechat->replyText('欢迎您关注笨网网公众平台！回复“文本”，“图片”，“语音”，“视频”，“音乐”，“图文”，“多图文”查看相应的信息！');
                         break;
 
                     case Wechat::MSG_EVENT_UNSUBSCRIBE:
@@ -217,7 +276,7 @@ class Index extends Extend
                         break;
 
                     default:
-                        $wechat->replyText("欢迎访问麦当苗儿公众平台！您的事件类型：{$data['Event']}，EventKey：{$data['EventKey']}");
+                        $wechat->replyText("欢迎访问笨网网公众平台！您的事件类型：{$data['Event']}，EventKey：{$data['EventKey']}");
                         break;
                 }
                 break;
@@ -225,7 +284,7 @@ class Index extends Extend
             case Wechat::MSG_TYPE_TEXT:
                 switch ($data['Content']) {
                     case '文本':
-                        $wechat->replyText('欢迎访问麦当苗儿公众平台，这是文本回复的内容！');
+                        $wechat->replyText('欢迎访问笨网网公众平台，这是文本回复的内容！');
                         break;
 
                     case '图片':
@@ -279,7 +338,7 @@ class Index extends Extend
                         break;
 
                     default:
-                        $wechat->replyText("欢迎访问麦当苗儿公众平台！您输入的内容是：{$data['Content']}");
+                        $wechat->replyText("欢迎访问笨网网公众平台！您输入的内容是：{$data['Content']}");
                         break;
                 }
                 break;
@@ -347,24 +406,4 @@ class Index extends Extend
         return $media['media_id'];
     }
 
-    /**
-     * XML数据解码
-     * @param  string $xml 原始XML字符串
-     * @return array       解码后的数组
-     */
-    protected static function xml2data($xml)
-    {
-        $xml = new \SimpleXMLElement($xml);
-
-        if (!$xml) {
-            throw new \Exception('非法XXML');
-        }
-
-        $data = array();
-        foreach ($xml as $key => $value) {
-            $data[$key] = strval($value);
-        }
-
-        return $data;
-    }
 }

@@ -1,13 +1,21 @@
 <?php
 namespace third;
 
-class Yctest{
-	
-	static public function sayHello()
-	{
-		return 'sayHello';
-	}
+class Yctest
+{
+    public function __construct($content)
+    {
 
+    }
+
+    public static function sayHello($content)
+    {
+        $person = new Yctest('d');
+
+        // call_user_func_array(array($person, 'talk'), array('hello'));
+        $content = call_user_func(array($person, 'rm'), $content);
+        return $content;
+    }
 
     /**
      * 删除缓存
@@ -15,10 +23,9 @@ class Yctest{
      * @param string $name 缓存变量名
      * @return boolean
      */
-    static public function rm()
+    public static function rm($content)
     {
-        return 6541;
+        return '这是处理后的结果' . $content;
     }
 
-    
 }
