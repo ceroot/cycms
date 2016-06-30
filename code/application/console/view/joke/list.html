@@ -1,0 +1,40 @@
+{extend name="mould:base" /}
+{block name="title"}{/block}
+{block name="content"}
+  <table class="table table-condensed table-hover">
+        <colgroup>
+	        <col width="60">
+	        <col width="60">
+	        <col>
+	        <col width="90">
+	        <col width="100">
+        </colgroup>
+        <thead>
+          <tr>
+          	<td>id</td>
+            <td>名称</td>
+            <td>昵称</td>
+            <td>来自</td>
+            <td align='center'>管理操作</td>
+          </tr>
+        </thead>
+		{volist name='list' id='list'}
+	        <tr>
+	        	<td>{$list.id}</td>
+				<td>{$list.title}</td>
+				<td>{$list.content}</td>
+				<td>{$list.type}</td>
+				<td align='center'><a href="{:url('view?id='.$list['id'])}">查看详情</a></td>
+			</tr>
+		{/volist}
+	</table>
+	{notempty name="page"}
+		<div class="fixed-bottom pager-wrapper">
+			<div class="bottom-area">
+				<div class="pager">
+				    {$page}
+				</div>
+		</div>
+		</div>
+	{/notempty}
+{/block}
