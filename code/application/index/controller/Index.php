@@ -285,4 +285,14 @@ class Index extends Controller
 
         dump(json_decode($res));
     }
+
+    public function test9()
+    {
+        $id = rand(1, 15);
+        dump($id);
+        $count = db('joke')->count();
+        dump($count);
+        $data = db('joke')->where('title', '兄弟合买靴')->select();
+        dump($data);
+    }
 }

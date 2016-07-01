@@ -228,6 +228,13 @@ class Index extends Extend
                             $keyword = $data['Content'];
                             $keyword = trim(substr($keyword, 6, strlen($keyword) - 6));
                             $content = $this->fanyi($keyword);
+                        } elseif (substr($data['Content'], 0, 6) == '笑话') {
+                            $keyword = $data['Content'];
+                            $content = $this->getJoke($keyword);
+                        } elseif (substr($data['Content'], 0, 9) == '身份证') {
+                            $keyword = $data['Content'];
+                            $idCard  = trim(substr($keyword, 9, strlen($keyword) - 9));
+                            $content = $this->getIdCardInfo($idCard);
                         } elseif ($data['Content'] == 'help' || $data['Content'] == 'HELP' || $data['Content'] == 'h' || $data['Content'] == 'H' || $data['Content'] == '帮助' || $data['Content'] == 'more' || $data['Content'] == 'MORE' || $data['Content'] == 'm' || $data['Content'] == 'M' || $data['Content'] == '更多') {
                             $contentStr = "使用帮助：\n";
                             $contentStr .= "1.输入“天气+地区”进行天气查询，如“天气贵阳”\n";
@@ -241,13 +248,10 @@ class Index extends Extend
                             $contentStr .= "H.输入“h”或“help”或“帮助”，可以得到使用帮助，试试吧^~^";
 
                             $content = $contentStr;
-                        } elseif (substr($data['Content'], 0, 9) == '身份证') {
-                            $keyword = $data['Content'];
-                            $idCard  = trim(substr($keyword, 9, strlen($keyword) - 9));
-                            // $content = $idCard;
-                            $content = $this->getIdCardInfo($idCard);
                         } else {
-                            $content = "欢迎访问笨翁网公众平台！您输入的内容是：{$data['Content']}";
+                            // $content = "欢迎访问笨翁网公众平台！您输入的内容是：{$data['Content']}";
+
+                            $content = $this->getJoke(1);
                         }
                         $wechat->replyText($content);
                         break;
@@ -351,6 +355,15 @@ class Index extends Extend
         $redata .= '性别：' . $sex;
         return $redata;
         // dump(json_decode($res));
+    }
+
+    private function getJoke($keyword)
+    {
+        $db    = db('joke');
+        $count = db('joke')->count();
+        $id    = rand(1, $count);
+        $data  = db('joke')->where('id', $id)->value('content');
+        return $data;
     }
 
     /**
