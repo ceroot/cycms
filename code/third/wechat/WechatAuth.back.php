@@ -191,7 +191,6 @@ class WechatAuth
      */
     public function materialAddMaterial($filename, $type, $description = '')
     {
-
         $filename = realpath($filename);
         if (!$filename) {
             throw new \Exception('资源路径错误！');
@@ -212,7 +211,6 @@ class WechatAuth
             }
             $data['description'] = $description;
         }
-
         return $this->api('material/add_material', $data, 'POST', '', false);
     }
 
@@ -517,7 +515,6 @@ class WechatAuth
      */
     protected function api($name, $data = '', $method = 'POST', $param = '', $json = true)
     {
-
         $params = array('access_token' => $this->accessToken);
 
         if (!empty($param) && is_array($param)) {
@@ -534,6 +531,7 @@ class WechatAuth
         }
 
         $data = self::http($url, $params, $data, $method);
+
         return json_decode($data, true);
     }
 
@@ -573,14 +571,14 @@ class WechatAuth
         /* 初始化并执行curl请求 */
         $ch = curl_init();
         curl_setopt_array($ch, $opts);
-        $data = curl_exec($ch);
-        // $error = curl_error($ch);
+        $data  = curl_exec($ch);
+        $error = curl_error($ch);
         curl_close($ch);
-        // return $data;
-        // //发生错误，抛出异常
-        // if ($error) {
-        //     throw new \Exception('请求发生错误：' . $error);
-        // }
+
+        //发生错误，抛出异常
+        if ($error) {
+            throw new \Exception('请求发生错误：' . $error);
+        }
 
         return $data;
     }

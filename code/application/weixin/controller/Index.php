@@ -33,10 +33,10 @@ class Index extends Extend
         //调试
         try {
 
-            $appid  = 'wxd5e8db24ff394381'; // AppID(应用ID)
-            $token  = 'benweng'; // 微信后台填写的TOKEN
-            $crypt  = 'dkYGTNzvKylvMTgY1aK9hNa5aWH43cnlxgTrMr9R3ds'; // 消息加密KEY（EncodingAESKey）
-            $secret = 'ad7ee26884853794b050861c4032a44d'; // 微信secret
+            $appid     = 'wxd5e8db24ff394381'; // AppID(应用ID)
+            $appsecret = 'ad7ee26884853794b050861c4032a44d'; // 微信secret
+            $token     = 'benweng'; // 微信后台填写的TOKEN
+            $crypt     = 'dkYGTNzvKylvMTgY1aK9hNa5aWH43cnlxgTrMr9R3ds'; // 消息加密KEY（EncodingAESKey）
 
             /* 加载微信SDK */
             $wechat = new Wechat($token, $appid, $crypt);
@@ -50,7 +50,7 @@ class Index extends Extend
             //         array('type' => 'click', 'name' => 'option3', 'key' => 'center_intro'),
             //     )),
             // );
-            // $wechat = new WechatAuth($appid, $secret);
+            // $wechat = new WechatAuth($appid, $appsecret);
             // $WechatAuth->menuCreate($newmenu);
             // $WechatAuth->menuGet();
 
@@ -117,11 +117,23 @@ class Index extends Extend
      */
     private function demo($wechat, $data)
     {
+
         switch ($data['MsgType']) {
             case Wechat::MSG_TYPE_EVENT:
                 switch ($data['Event']) {
                     case Wechat::MSG_EVENT_SUBSCRIBE:
-                        $wechat->replyText('欢迎您关注笨网网公众平台！回复“文本”，“图片”，“语音”，“视频”，“音乐”，“图文”，“多图文”查看相应的信息！');
+                        $contentStr = "欢迎关注笨翁网公众平台，该公众平台有以下几种功能：\n\n";
+                        $contentStr .= "1.输入“天气+地区”进行天气查询，如“天气贵阳”\n";
+                        $contentStr .= "2.输入“翻译+内容”进行翻译，如“翻译你好”\n";
+                        $contentStr .= "3.输入“身份证+身份号”进行查身份证相关信息，如“身份证420984198704207896”\n";
+                        // $contentStr .= "3.输入“火车+发站+到站+月-天”进行查票，如“火车+贵阳+北京+08-21”\n";
+                        //$contentStr.= "3.输入“城市+起点+终点”进行公交查询，如“石家庄+火车站+宫家庄”\n";
+                        //$contentStr.= "4.输入“@任何内容”跟小贱鸡聊天，如“@小贱鸡”\n";
+                        //$contentStr.= "5.微信发送您的地理位置进行天气查询，您可以试一试\n";
+                        $contentStr .= "H.输入“h”或“help”或“帮助”，可以得到使用帮助，试试吧^~^\n\n";
+                        $contentStr .= "提示：回复相关数据进行操作*！@";
+                        // $wechat->replyText('欢迎您关注笨网网公众平台！回复“文本”，“图片”，“语音”，“视频”，“音乐”，“图文”，“多图文”查看相应的信息！');
+                        $wechat->replyText($contentStr);
                         break;
 
                     case Wechat::MSG_EVENT_UNSUBSCRIBE:
@@ -129,7 +141,7 @@ class Index extends Extend
                         break;
 
                     default:
-                        $wechat->replyText("欢迎访问笨网网公众平台！您的事件类型：{$data['Event']}，EventKey：{$data['EventKey']}");
+                        $wechat->replyText("欢迎访问笨翁网公众平台！您的事件类型：{$data['Event']}，EventKey：{$data['EventKey']}");
                         break;
                 }
                 break;
@@ -141,8 +153,8 @@ class Index extends Extend
                         break;
 
                     case '图片':
-                        //$media_id = $this->upload('image');
-                        $media_id = '1J03FqvqN_jWX6xe8F-VJr7QHVTQsJBS6x4uwKuzyLE';
+                        $media_id = $this->upload('image');
+                        // $media_id = '1J03FqvqN_jWX6xe8F-VJr7QHVTQsJBS6x4uwKuzyLE';
                         $wechat->replyImage($media_id);
                         break;
 
@@ -189,9 +201,55 @@ class Index extends Extend
 
                         $wechat->replyNews($news, $news, $news, $news, $news);
                         break;
+                    case '1':
+                        $appid     = 'wxd5e8db24ff394381'; // AppID(应用ID)
+                        $appsecret = 'ad7ee26884853794b050861c4032a44d'; // 微信secret
+                        $auth      = new WechatAuth($appid, $appsecret);
+                        $token     = $auth->getAccessToken();
+                        // $token = $auth->test();
+                        $wechat->replyText($token);
+                        $filename = './images/boxed-bg.jpg';
 
+                        $type  = 'image';
+                        $media = $auth->materialAddMaterial($filename, $type);
+                        $wechat->replyText($media);
+                        $dd = $media['media_id'];
+
+                        break;
                     default:
-                        $wechat->replyText("欢迎访问笨网网公众平台！您输入的内容是：{$data['Content']}");
+
+                        if (substr($data['Content'], 0, 6) == '天气' || substr($data['Content'], 0, 2) == 'tq' || substr($data['Content'], 0, 6) == 'tianqi') {
+                            $keyword  = $data['Content'];
+                            $cityname = trim(substr($keyword, 6, strlen($keyword) - 6));
+                            $bdak     = '5f13fb033233c5fc781b12a2d54d7ce4';
+
+                            $content = $this->getWeather($cityname, $bdak);
+                        } elseif (substr($data['Content'], 0, 6) == '翻译') {
+                            $keyword = $data['Content'];
+                            $keyword = trim(substr($keyword, 6, strlen($keyword) - 6));
+                            $content = $this->fanyi($keyword);
+                        } elseif ($data['Content'] == 'help' || $data['Content'] == 'HELP' || $data['Content'] == 'h' || $data['Content'] == 'H' || $data['Content'] == '帮助' || $data['Content'] == 'more' || $data['Content'] == 'MORE' || $data['Content'] == 'm' || $data['Content'] == 'M' || $data['Content'] == '更多') {
+                            $contentStr = "使用帮助：\n";
+                            $contentStr .= "1.输入“天气+地区”进行天气查询，如“天气贵阳”\n";
+                            $contentStr .= "2.输入“翻译+内容”进行翻译，如“翻译你好”\n";
+                            $contentStr .= "3.输入“身份证+身份号”进行查身份证相关信息，如“身份证420984198704207896”\n";
+                            //$contentStr .= "3.输入“火车+发站+到站+月-天”进行查票，如“火车+贵阳+北京+08-21”\n";
+                            //$contentStr   .= "3.输入“城市+起点+终点”进行公交查询，如“石家庄+火车站+宫家庄”\n";
+                            //$contentStr   .= "4.输入“@任何内容”跟小贱鸡聊天，如“@小贱鸡”\n";
+                            //$contentStr   .= "5.微信发送您的地理位置进行天气查询，您可以试一试\n";
+                            $contentStr .= "M.输入“m”或“more”或“更多”，可以得到更多内容，试试吧^~^\n";
+                            $contentStr .= "H.输入“h”或“help”或“帮助”，可以得到使用帮助，试试吧^~^";
+
+                            $content = $contentStr;
+                        } elseif (substr($data['Content'], 0, 9) == '身份证') {
+                            $keyword = $data['Content'];
+                            $idCard  = trim(substr($keyword, 9, strlen($keyword) - 9));
+                            // $content = $idCard;
+                            $content = $this->getIdCardInfo($idCard);
+                        } else {
+                            $content = "欢迎访问笨翁网公众平台！您输入的内容是：{$data['Content']}";
+                        }
+                        $wechat->replyText($content);
                         break;
                 }
                 break;
@@ -202,6 +260,99 @@ class Index extends Extend
         }
     }
 
+    private function getWeather($cityname, $bdak)
+    {
+        $url = "http://api.map.baidu.com/telematics/v2/weather?location={$cityname}&ak={$bdak}";
+        $fa  = file_get_contents($url);
+        $f   = simplexml_load_string($fa);
+        if ($f->status == 'success') {
+            $city = $f->currentCity;
+            $da1  = $f->results->result[0]->date;
+            $da2  = $f->results->result[1]->date;
+            $da3  = $f->results->result[2]->date;
+            $da4  = $f->results->result[3]->date;
+            $w1   = $f->results->result[0]->weather;
+            $w2   = $f->results->result[1]->weather;
+            $w3   = $f->results->result[2]->weather;
+            $w4   = $f->results->result[3]->weather;
+            $p1   = $f->results->result[0]->wind;
+            $p2   = $f->results->result[1]->wind;
+            $p3   = $f->results->result[2]->wind;
+            $p4   = $f->results->result[3]->wind;
+            $q1   = $f->results->result[0]->temperature;
+            $q2   = $f->results->result[1]->temperature;
+            $q3   = $f->results->result[2]->temperature;
+            $q4   = $f->results->result[3]->temperature;
+            if ($da1 == "") {
+                $msg = "您要查询的“" . $cityname . "”没有查询到相关天气数据，请检查地址是否正确再进行查询！";
+            } else {
+                $d1  = $da1 . "\r\n" . $w1 . $p1 . $q1 . "\r\n";
+                $d2  = $da2 . "\r\n" . $w2 . $p2 . $q2 . "\r\n";
+                $d3  = $da3 . "\r\n" . $w3 . $p3 . $q3 . "\r\n";
+                $d4  = $da4 . "\r\n" . $w4 . $p4 . $q4;
+                $msg = $cityname . "未来四天天气：\r\n" . $d1 . $d2 . $d3 . $d4;
+            }
+        } else {
+            $msg = '没有查询到相关数据';
+        }
+        return $msg;
+    }
+
+    private function fanyi($keyword)
+    {
+        $result = translate($keyword, 'auto', 'en');
+        $result = $result['trans_result'][0]['dst'];
+        return $result;
+        // $baidu_apikey = '6AajKGB9NtytEpBWHO3sH7gl';
+        // $tranurl      = "http://openapi.baidu.com/public/2.0/bmt/translate?client_id=" . $baidu_apikey . "&q={$keyword}&from=auto&to=auto"; //百度翻译地址
+        // $transtr      = file_get_contents($tranurl); //读入文件
+        // $transon      = json_decode($transtr); //json解析
+        // $contentStr   = $transon->trans_result[0]->dst; //读取翻译内容
+        // return $contentStr;
+    }
+
+    private function getIdCardInfo($idCard)
+    {
+        $ch = curl_init();
+        // $url    = 'http://apis.baidu.com/apistore/idservice/id?id=420984198704207896';
+        $url    = 'http://apis.baidu.com/apistore/idservice/id?id=' . $idCard;
+        $header = array(
+            'apikey: 2bcf4474ed281885e1049db326c4b0b9',
+        );
+        // 添加apikey到header
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // 执行HTTP请求
+        curl_setopt($ch, CURLOPT_URL, $url);
+        $res = curl_exec($ch);
+        $res = json_decode($res);
+
+        if ($res->errNum == '-1') {
+            return $res->retMsg;
+        }
+
+        $res = $res->retData;
+
+        switch ($res->sex) {
+            case 'M':
+                $sex = '男';
+                break;
+            case 'F':
+                $sex = '女';
+                break;
+            default:
+                $sex = '未知'; // 未知是N
+                break;
+        }
+
+        $redata = '身份证号：' . $idCard . "\r\n";
+        $redata .= '来自：' . $res->address . "\r\n";
+        $redata .= '出生日期：' . $res->birthday . "\r\n";
+        $redata .= '性别：' . $sex;
+        return $redata;
+        // dump(json_decode($res));
+    }
+
     /**
      * 资源文件上传方法
      * @param  string $type 上传的资源类型
@@ -209,8 +360,8 @@ class Index extends Extend
      */
     private function upload($type)
     {
-        $appid     = 'wx58aebef2023e68cd';
-        $appsecret = 'bf818ec2fb49c20a478bbefe9dc88c60';
+        $appid     = 'wxd5e8db24ff394381';
+        $appsecret = 'ad7ee26884853794b050861c4032a44d';
 
         $token = session("token");
 
@@ -226,23 +377,23 @@ class Index extends Extend
 
         switch ($type) {
             case 'image':
-                $filename = './Public/image.jpg';
+                $filename = './images/boxed-bg.jpg';
                 $media    = $auth->materialAddMaterial($filename, $type);
                 break;
 
             case 'voice':
-                $filename = './Public/voice.mp3';
+                $filename = './public/voice.mp3';
                 $media    = $auth->materialAddMaterial($filename, $type);
                 break;
 
             case 'video':
-                $filename    = './Public/video.mp4';
+                $filename    = './public/video.mp4';
                 $discription = array('title' => '视频标题', 'introduction' => '视频描述');
                 $media       = $auth->materialAddMaterial($filename, $type, $discription);
                 break;
 
             case 'thumb':
-                $filename = './Public/music.jpg';
+                $filename = './public/music.jpg';
                 $media    = $auth->materialAddMaterial($filename, $type);
                 break;
 
