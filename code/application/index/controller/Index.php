@@ -252,47 +252,4 @@ class Index extends Controller
         //
         dump($df);
     }
-
-    public function test6()
-    {
-        $json = '{"access_token":"E1GumOfRqQ6P5VG7RgT-gIyaCndlrWo6cgOT2pBu60T_vgKY0gvEYXakiwUXBTpKZ9Nyx00aXI_3pDtebtzL2PPRVMNoaWUyz85aWd_sKuGPk9jrSpiHMEqyITStrB80XQJjAAAIBU","expires_in":7200}';
-        $data = json_decode($json, true);
-        dump(is_object($data));
-        dump($data);
-    }
-
-    public function test7()
-    {
-        // $dd = translate($query, $from, $to);
-        $result = translate('火车', 'auto', 'en');
-        $result = $result['trans_result'][0]['dst'];
-        dump($result);
-    }
-
-    public function test8()
-    {
-        $ch     = curl_init();
-        $url    = 'http://apis.baidu.com/apistore/idservice/id?id=522622198206051213';
-        $header = array(
-            'apikey: 2bcf4474ed281885e1049db326c4b0b9',
-        );
-        // 添加apikey到header
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        // 执行HTTP请求
-        curl_setopt($ch, CURLOPT_URL, $url);
-        $res = curl_exec($ch);
-
-        dump(json_decode($res));
-    }
-
-    public function test9()
-    {
-        $id = rand(1, 15);
-        dump($id);
-        $count = db('joke')->count();
-        dump($count);
-        $data = db('joke')->where('title', '兄弟合买靴')->select();
-        dump($data);
-    }
 }
