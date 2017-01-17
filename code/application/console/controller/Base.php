@@ -89,7 +89,7 @@ class Base extends Extend
             $this->model = model(CONTROLLER_NAME);
 
             $this->pk = $this->model->getPk(); // 取得主键字段名
-            //$id = input('get.' . $pk);
+            //$id = input('get.' . $this->pk);
             $this->id = input($this->pk);
         }
 
@@ -183,6 +183,7 @@ class Base extends Extend
      */
     public function add()
     {
+        //dump(request()->controller());die;
         $this->assign('one', null);
         return $this->fetch();
     }
@@ -209,17 +210,17 @@ class Base extends Extend
     public function update($action_log = null)
     {
         if (request()->isAjax()) {
-            $data = input('post.');
+            $data = input('param.');
             // $sort = $data['field_sort'];
             // $sort = json_encode($sort);
-            // return $data;
+            //return $data;
 
             // 判断是新增还是更新，如果有键值就是更新，如果没有键值就是新增
-            if ($data[$pk]) {
+            if ($data[$this->pk]) {
                 // 角色分配的时候对数据的处理
                 switch (request()->controller()) {
                     case 'auth_group':
-                        $rulesdata = input('post.rules/a');
+                        $rulesdata = input('param.rules/a');
                         if ($rulesdata) {
                             $data['rules'] = implode(',', $rulesdata);
                             session('log_text', '修改了权限');
@@ -238,10 +239,10 @@ class Base extends Extend
                         }
                         break;
                     case 'model':
-                        if (input('post.field_sort/a')) {
+                        if (input('param.field_sort/a')) {
                             $data['field_sort'] = json_encode($data['field_sort']);
                         }
-                        if (input('post.attribute_list/a')) {
+                        if (input('param.attribute_list/a')) {
                             $data['attribute_list'] = arr2str($data['attribute_list']);
                         } else {
                             $data['attribute_list'] = '';
@@ -257,8 +258,8 @@ class Base extends Extend
                 // return $data;
                 // 验证状态设置
                 $validate = request()->controller() . '.edit';
-                if (input('get.rule')) {
-                    if (input('get.rule') == 1) {
+                if (input('param.rule')) {
+                    if (input('param.rule') == 1) {
                         $validate = false;
                     }
                 }
@@ -291,10 +292,10 @@ class Base extends Extend
             // 是否成功返回
             if ($status) {
                 switch (request()->controller()) {
-                    case 'auth_rule': // 更新规则缓存
+                    case 'AuthRule': // 更新规则缓存
                         $this->model->updateCache();
                         // 新增时是否添加日志记录标记
-                        if (!$data[$pk]) {
+                        if (!$data[$this->pk]) {
                             model('action')->add_for_rule();
                         }
                         break;
@@ -314,7 +315,7 @@ class Base extends Extend
 
                 action_log($record_id, $action_log); // 记录日志
 
-                return $this->success($data[$pk] ? '修改成功' : '新增成功', cookie('__forward__'));
+                return $this->success($data[$this->pk] ? '修改成功' : '新增成功', cookie('__forward__'));
             } else {
                 return $this->error('操作失败');
                 // return $this->model->getError();
@@ -397,6 +398,19 @@ class Base extends Extend
         } else {
             return $this->error('操作失败');
             // return $this->model->getError();
+        }
+    }
+
+    /**
+     * @name   set         [通用设置]
+     * @author SpringYang <ceroot@163.com>
+     */
+    public function set()
+    {
+        if (request()->isAjax()) {
+
+        } else {
+            return $this->fetch();
         }
     }
 

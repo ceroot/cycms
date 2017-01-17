@@ -7,36 +7,18 @@
 // | Authors: SpringYang [ceroot@163.com]                                 |
 // +----------------------------------------------------------------------+
 /**
- * @filename  Auth.php[权限控制器]
+ * @filename  WebLog.php[网站日志表模型]
  * @authors   SpringYang
  * @email     ceroot@163.com
  * @QQ        525566309
- * @date      2016-04-21 17:35:12
+ * @date      2017-01-17 16:47:42
  * @site      http://www.benweng.com
  */
-namespace app\console\controller;
+namespace app\console\model;
 
-use think\Controller;
+use app\common\model\Extend;
 
-class Auth extends Controller
+class WebLog extends Extend
 {
-    public $model;
-
-    /**
-     * [_initialize 初始化]
-     * @return [type] [description]
-     */
-    public function _initialize()
-    {
-        // echo 'init<br/>';
-        // return '测试';
-        $this->model = model('manager');
-
-    }
-
-    public function dd_dd()
-    {
-
-    }
 
 }

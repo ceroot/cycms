@@ -31,6 +31,7 @@ class AuthRule extends Base
         parent::_initialize();
 
         $rule = $this->model->getAll();
+        // dump($rule);
         $this->assign('rule', $rule);
     }
 
