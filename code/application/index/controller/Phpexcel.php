@@ -17,7 +17,8 @@
 namespace app\index\controller;
 
 use think\Controller;
-use third\PHPExcel\PHPExcel;
+
+//use third\PHPExcel\PHPExcel;
 
 class Phpexcel extends Controller
 {

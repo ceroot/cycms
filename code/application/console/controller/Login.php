@@ -38,6 +38,7 @@ class Login extends Extend
         if (request()->isAjax()) {
 
             if ($user = $this->model->validateLogin()) {
+                //return 1;
                 // 设置登录错误记录的session为0
                 session('error_num', 0);
                 // 设置session
