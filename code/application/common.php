@@ -72,6 +72,22 @@ function get_files_controllers($module)
     return $arr;
 }
 
+/**
+ * 获取当前request参数数组,去除值为空
+ * @return array
+ */
+function get_query()
+{
+    $param = request()->except(['s']);
+    $rst   = array();
+    foreach ($param as $k => $v) {
+        if (!empty($v)) {
+            $rst[$k] = $v;
+        }
+    }
+    return $rst;
+}
+
 // 函数make_dir()建立目录。判断要保存的图片文件目录是否存在，如果不存在则创建目录，并且将目录设置为可写权限。
 /*
  * 参数:
