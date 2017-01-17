@@ -29,24 +29,23 @@ class Index extends Base
 
     public function yctest()
     {
+        dump(14);die;
+        //dump(request()->module());
+        //dump(1);
         $controllers = array();
         $actions     = array();
         $modules     = ['index', 'console'];
         foreach ($modules as $module) {
-            $arr = cache('controllers_' . $module);
-            if (empty($arr)) {
-                $arr = \ReadClass::readDir(APP_PATH . $module . DS . 'controller');
-                cache('controllers_' . $module, $arr);
-            }
+            $arr = get_files_controllers($module);
 
             foreach ($arr as $key => $v) {
                 $controllers[$module][]        = $module . '/' . $key;
                 $actions[$module . '/' . $key] = array_map('array_shift', $v['method']);
             }
         }
-
-        dump($controllers);
-        dump($actions);
+        dump(cache('controllers_' . $module));
+        // dump($controllers);
+        // dump($actions);
     }
 
     public function index2()

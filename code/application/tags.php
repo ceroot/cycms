@@ -20,7 +20,6 @@ return [
     // 应用初始化
     'app_init'     => [
         'app\\common\\behavior\\AppInit',
-        //'app\\common\\behavior\\WebLog',
     ],
 
     // 应用开始

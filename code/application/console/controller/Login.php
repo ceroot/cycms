@@ -103,7 +103,7 @@ class Login extends Extend
             $this->redirect('console/login/index');
         }
 
-        $this->model->delSession(); // 删除 session
+        $this->model->clearSession(); // 清除 session
 
         action_log($mid, 'console_logout', 'manager', $mid); // 记录退出日志
 

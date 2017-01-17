@@ -127,11 +127,6 @@ class Manager extends Model
         }
 
         // 验证码是否相等
-        // if ($error_num > 3 && !verifyCheck($code)) {
-        //     $this->error = '验证码输入错误';
-        //     return false;
-        // }
-        // $error_num = 4;
         if ($error_num > 3 && !captcha_check($code)) {
             $this->error = '验证码输入错误';
             return false;
@@ -145,7 +140,8 @@ class Manager extends Model
             return false;
         }
 
-        if ($user['password'] != md5($username . $password)) {
+        // 验证密码
+        if ($user['password'] != encrypt_password($password, $user['hash'])) {
             $this->error = '密码错误';
             session('error_num', $error_num + 1);
             return false;
@@ -178,10 +174,10 @@ class Manager extends Model
     }
 
     /**
-     * [delSession 删除 session]
+     * [clearSession 清除 session]
      * @param
      */
-    public function delSession()
+    public function clearSession()
     {
         session('userid', null);
         session('username', null);

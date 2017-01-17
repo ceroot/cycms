@@ -43,7 +43,7 @@ class Base extends Extend
 
         // 锁定判断
         if ($manager['status'] == 0) {
-            model('manager')->delSession(); // 删除 session
+            model('manager')->clearSession(); // 清除 session
             $redirecturl = url('console/login/index') . '?backurl=' . getbackurl();
             $this->error('账号被锁定，请联系管理员', $redirecturl);
             exit;

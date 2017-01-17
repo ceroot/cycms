@@ -36,7 +36,7 @@ class AppInit
     private function initialization()
     {
 
-        define('NOW_TIME', $_SERVER['REQUEST_TIME']);
+        //define('NOW_TIME', $_SERVER['REQUEST_TIME']);
 
     }
 
