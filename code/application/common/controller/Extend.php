@@ -5,6 +5,14 @@ use think\Controller;
 
 class Extend extends Controller
 {
+    /**
+     * @name   _initialize          [初始化]
+     * @author SpringYang <ceroot@163.com>
+     */
+    public function _initialize()
+    {
+
+    }
 
     public function verify()
     {

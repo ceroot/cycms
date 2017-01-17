@@ -167,7 +167,7 @@ class Manager extends Model
     }
 
     /**
-     * [set_session set_session]
+     * [set_session 设置 session]
      * @param [type] $user [description]
      */
     public function setSession($user)
@@ -175,6 +175,17 @@ class Manager extends Model
         session('userid', $user['id']);
         session('username', $user['username']);
         session('nickname', $user['nickname']);
+    }
+
+    /**
+     * [delSession 删除 session]
+     * @param
+     */
+    public function delSession()
+    {
+        session('userid', null);
+        session('username', null);
+        session('nickname', null);
     }
 
     /**

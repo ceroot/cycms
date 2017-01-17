@@ -8,23 +8,22 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-// $Id$
 
 return [
     // 数据库类型
     'type'           => 'mysql',
-    // 数据库连接DSN配置
-    'dsn'            => '',
     // 服务器地址
-    'hostname'       => '5703b37f4676f.sh.cdb.myqcloud.com', //5703b37f4676f.sh.cdb.myqcloud.com:7600
+    'hostname'       => '127.0.0.1',
     // 数据库名
-    'database'       => 'developer',
-    // 数据库用户名
-    'username'       => 'benweng',
-    // 数据库密码
-    'password'       => 'chun@!21',
-    // 数据库连接端口
-    'hostport'       => '7600',
+    'database'       => 'think5',
+    // 用户名
+    'username'       => 'root',
+    // 密码
+    'password'       => 'root',
+    // 端口
+    'hostport'       => '',
+    // 连接dsn
+    'dsn'            => '',
     // 数据库连接参数
     'params'         => [],
     // 数据库编码默认采用utf8
@@ -41,8 +40,12 @@ return [
     'master_num'     => 1,
     // 指定从服务器序号
     'slave_no'       => '',
-    // 开启自动写入时间戳字段
-    'auto_timestamp' => true,
     // 是否严格检查字段是否存在
-    'fields_strict'  => false,
+    'fields_strict'  => true,
+    // 数据集返回类型 array 数组 collection Collection对象
+    'resultset_type' => 'array',
+    // 是否自动写入时间戳字段
+    'auto_timestamp' => false,
+    // 是否需要进行SQL性能分析
+    'sql_explain'    => false,
 ];

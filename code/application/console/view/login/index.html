@@ -55,7 +55,7 @@
     <!-- /.login-logo -->
     <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>
-        <form action="{:url('index')}" method="post">
+        <form action="" method="post">
             <div class="input-area">
                 <div class="form-group has-feedback">
                     <input type="text" name="username" class="form-control" placeholder="用户名/邮箱">
@@ -96,192 +96,16 @@
 <div class="text-center copyright">Copyright ©2016 <a href="http://www.benweng.com" target="_blank" title="笨翁造型">BENWENG.COM</a></div>
 <!-- /.login-box -->
 <!-- jQuery 2.2.0 -->
-<script src="__PUBLIC__/jQuery/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/jQuery/jQuery-2.2.0.min.js"></script>
 <!-- Bootstrap 3.3.5 -->
-<script src="__PUBLIC__/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <!-- iCheck -->
-<script src="__PUBLIC__/iCheck/icheck.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/iCheck/icheck.min.js"></script>
 <!-- layer -->
-<script src="__PUBLIC__/layer/2.2/layer.js"></script>
-<script>
-$(function () {
-    var storage     = window.localStorage;  // html5 本地存储对象
-    var username    = $('input[name="username"]');
-    var password    = $('#password');
-    var remember    = $('#remember');
-    var button      = $('button');
-    var verifyArea  = $('.verify-area');
-    
-    // 本地存储数据判断[html5/cookie]
-    if(storage){
-        if(storage.getItem('username')){
-            username.val(storage.getItem('username'));
-            password.focus();
-            remember.prop('checked',true);
-        }else{
-            username.focus();
-        }
-
-        if(storage.getItem('error_num')){
-            if(storage.getItem('error_num')>3){
-                verifyArea.show();
-            }
-        }
-    }else{
-        if($.cookie(COOKIE_NAME)){
-            username.val($.cookie(COOKIE_NAME));
-            password.focus();
-            remember.prop('checked',true);
-        }else{
-            username.focus();
-        }
-
-        if($.cookie(COOKIE_ERROR)>3){
-            verifyArea.show();
-        }
-    }
-
-    // checkbox样式
-    $('input').iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue',
-        increaseArea: '20%' // optional
-    });
-    
-    // 密码框失焦检查是否显示验证码
-    $('body').on('blur', '#password', function(event) {
-        event.preventDefault();
-        $.ajax({
-            url: '{:url("showverify")}',
-            type: 'POST',
-            dataType: 'json',
-        })
-        .done(function(data) {
-            if(data==1){
-                verifyArea.show();
-            }
-        });
-    });
-
-    // 登录提交
-    $('body').on('click', 'button[type="submit"]', function(event) {
-        event.preventDefault();
-        var _form     = $('form');
-        var issubmit  = true;
-
-        _form.find('.input-area .form-group:visible').each(function(index, el) {
-            var input  = $(this).find('input');
-            if(!input.val()){
-                input.css('border','1px #ff0000 solid');
-                if(issubmit){
-                    input.focus();
-                }
-                issubmit  = false;
-            }else{
-                input.removeAttr('style');
-            }
-        });
-
-        if(!issubmit){
-            layer.msg('请填写必填项',function(){});
-            return false;
-        }
-
-        var loading = layer.load();
-        if (remember.prop('checked')==true) {
-            if(storage){
-                storage.setItem('username',username.val());
-            }else{
-                $.cookie(COOKIE_NAME,username.val(), { path: '/', expires: 15 });
-            }
-        }else{
-            if(storage){
-                storage.removeItem('username');
-            }else{
-                $.cookie(COOKIE_NAME, null, { path: '/' });  //删除cookie
-            }
-        }
-        
-        button.prop('disabled',true).text('登录中…');
-        $.ajax({
-            url: '{:url('index')}',
-            type: 'POST',
-            dataType: 'json',
-            data: _form.serialize(),
-        })
-        .done(function(data) {
-            console.log(data);
-            if(data.status==1){
-                layer.msg(data.info);
-                layer.close(loading);
-                if(getQueryString('backurl')){
-                    var jumpurl  = getQueryString('backurl');
-                }else{
-                    var jumpurl  = data.url;
-                }
-                console.log(jumpurl);
-                window.location.href = jumpurl;
-            }else{
-                layer.msg(data.info,function(){});
-                layer.close(loading);
-                button.prop('disabled',false).text('登录');
-                // console.log('登录');
-            }
-
-            if(storage){
-                storage.setItem('error_num',data.error_num);
-            }else{
-                $.cookie(COOKIE_ERROR,data.error_num, { path: '/', expires: 15 });
-            }
-
-            if(data.show_code==1){
-                verifyArea.show();
-                changeCode();
-            }else{
-                verifyArea.hide();
-            }
-        })
-        .fail(function() {
-            layer.close(loading);
-            console.log('fail');
-            button.prop('disabled',false).text('登录');
-        })
-        .always(function() {
-            console.log("complete");
-        });
-        
-        return false;
-    });
-    
-    // 点击切换验证码
-    $('body').on('click', '.captcha-area img', function(event) {
-        event.preventDefault();
-        changeCode();
-    });
-
-});
-
-// 取得时间函数
-function genTimestamp(){
-    var time = new Date();
-    return time.getTime();
-}
-
-// 切换验证码函数
-function changeCode(){
-    var url  = '{:captcha_src()}';
-    $('.captcha-area img').attr('src',url + '?t='+genTimestamp());
-}
-
-// 取得 url 参数
-function getQueryString(name)
-{
-    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-    var r = window.location.search.substr(1).match(reg);
-    if(r!=null)return  unescape(r[2]); return null;
-}
-
-
+<script type="text/javascript" src="__PUBLIC__/layer/2.2/layer.js"></script>
+<script type="text/javascript" src="__JS__/cy.login.js"></script>
+<script type="text/javascript">
+    var showverifyUrl = '{:url("showverify")}';
 </script>
 </body>
 </html>

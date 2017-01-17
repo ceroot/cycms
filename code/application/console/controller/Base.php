@@ -20,15 +20,16 @@ use app\common\controller\Extend;
 
 class Base extends Extend
 {
-
     protected $model;
+    protected $pk;
+    protected $id;
     /**
      * @name   _initialize          [初始化]
      * @author SpringYang <ceroot@163.com>
      */
     public function _initialize()
     {
-        // dump($map);die;
+        parent::_initialize();
         // 定义UID
         define('UID', session('userid'));
 
@@ -42,6 +43,7 @@ class Base extends Extend
 
         // 锁定判断
         if ($manager['status'] == 0) {
+            model('manager')->delSession(); // 删除 session
             $redirecturl = url('console/login/index') . '?backurl=' . getbackurl();
             $this->error('账号被锁定，请联系管理员', $redirecturl);
             exit;
@@ -80,8 +82,15 @@ class Base extends Extend
         //     $this->model = model(CONTROLLER_NAME);
         // }
         // dump($authModel['instantiation_controller']);die;
-        if (in_array(CONTROLLER_NAME, $authModel['instantiation_controller'])) {
+        // dump(toCamel(CONTROLLER_NAME));
+        // dump($authModel);
+        // die;
+        if (in_array(strtolower(toUnderline(CONTROLLER_NAME)), $authModel['instantiation_controller'])) {
             $this->model = model(CONTROLLER_NAME);
+
+            $this->pk = $this->model->getPk(); // 取得主键字段名
+            //$id = input('get.' . $pk);
+            $this->id = input($this->pk);
         }
 
         // 读取数据库中的配置[这里放置到行为里了]
@@ -119,7 +128,7 @@ class Base extends Extend
      */
     public function index()
     {
-        return $this->fetch();
+        return $this->fetch('common/index');
     }
 
     /**
@@ -135,10 +144,8 @@ class Base extends Extend
             return $this->error('请增加控制规则', url('authRule/add'));
         }
 
-        $pk = $this->model->getPk(); // 取得主键字段名
-
         $order = [
-            $pk => 'desc',
+            $this->pk => 'desc',
         ];
 
         $map = [];
@@ -186,12 +193,10 @@ class Base extends Extend
      */
     public function edit()
     {
-        $pk = $this->model->getPk();
-        $id = input('get.' . $pk);
-        if (!$id) {
+        if (!$this->id) {
             return $this->error('参数错误');
         } else {
-            $one = db(request()->controller())->find($id);
+            $one = db(request()->controller())->find($this->id);
             $this->assign('one', $one);
             return $this->fetch('add');
         }
@@ -208,7 +213,6 @@ class Base extends Extend
             // $sort = $data['field_sort'];
             // $sort = json_encode($sort);
             // return $data;
-            $pk = $this->model->getPk();
 
             // 判断是新增还是更新，如果有键值就是更新，如果没有键值就是新增
             if ($data[$pk]) {
@@ -260,12 +264,12 @@ class Base extends Extend
                 }
 
                 // 数据验证并保存
-                $status = $this->model->validate($validate)->save($data, [$pk => $data[$pk]]);
+                $status = $this->model->validate($validate)->save($data, [$this->pk => $data[$this->pk]]);
 
                 // 取得日志标记
                 if (is_null($action_log)) {
                     $action_log = request()->controller() . '_edit'; // 日志记录标记
-                    $record_id  = $data[$pk]; // 数据id
+                    $record_id  = $data[$this->pk]; // 数据id
                 }
             } else {
                 // 数据验证并保存
@@ -327,16 +331,14 @@ class Base extends Extend
      */
     public function view()
     {
-        $pk = $this->model->getPk();
-        $id = input($pk);
-        if (!$id) {
+        if (!$this->id) {
             return $this->error('参数错误');
         }
 
         if (request()->isAjax()) {
 
         } else {
-            $one = $this->model->find($id);
+            $one = $this->model->find($this->id);
             $this->assign('one', $one);
             return $this->fetch();
         }
@@ -349,23 +351,21 @@ class Base extends Extend
      */
     public function del()
     {
-        $pk     = $this->model->getPk();
-        $id     = input('get.' . $pk);
-        $status = db(CONTROLLER_NAME)->delete($id);
+        $status = db(CONTROLLER_NAME)->delete($this->id);
 
         if ($status) {
             if (CONTROLLER_NAME == 'manager') {
-                model('authGroupAccess')->delDataByUid($id);
+                model('authGroupAccess')->delDataByUid($this->id);
             }
 
             if (CONTROLLER_NAME == 'auth_group') {
-                model('authGroupAccess')->delDataByGid($id);
+                model('authGroupAccess')->delDataByGid($this->id);
             }
 
             if (CONTROLLER_NAME == 'auth_rule') {
                 $this->model->updateCache();
             }
-            action_log($id); // 记录日志
+            action_log($this->id); // 记录日志
             return $this->success('成功');
         } else {
             return $this->error('失败');
@@ -380,21 +380,18 @@ class Base extends Extend
      */
     public function updatestatus()
     {
-        $pk = $this->model->getPk();
-        $id = input('get.' . $pk);
-
-        if (!$id) {
+        if (!$this->id) {
             return $this->error('参数错误');
         }
 
-        $value          = db(request()->controller())->getFieldById($id, 'status');
+        $value          = db(request()->controller())->getFieldById($this->id, 'status');
         $data['status'] = $value ? 0 : 1;
-        $status         = $this->model->save($data, [$pk => $id]);
+        $status         = $this->model->save($data, [$this->pk => $this->id]);
         if ($status) {
             if (request()->controller() == 'auth_rule') {
                 $this->model->updateCache();
             }
-            action_log($id); // 记录日志
+            action_log($this->id); // 记录日志
 
             return $this->success('操作成功');
         } else {

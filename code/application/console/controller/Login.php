@@ -16,9 +16,9 @@
  */
 namespace app\console\controller;
 
-use think\Controller;
+use app\common\controller\Extend;
 
-class Login extends Controller
+class Login extends Extend
 {
     public $model;
 
@@ -27,6 +27,8 @@ class Login extends Controller
      */
     public function _initialize()
     {
+        //echo 'init<br/>';
+        parent::_initialize();
         $this->model = model('manager');
     }
 
@@ -34,6 +36,7 @@ class Login extends Controller
     public function index()
     {
         if (request()->isAjax()) {
+
             if ($user = $this->model->validateLogin()) {
                 // 设置登录错误记录的session为0
                 session('error_num', 0);
@@ -56,11 +59,39 @@ class Login extends Controller
             }
             return $redata;
         } else {
-            if (session('userid')) {
-                $this->redirect(input('get.backurl'));
-            }
-            return $this->fetch();
+            // if (session('userid')) {
+            //     $this->redirect(input('get.backurl'));
+            // }
+            return view();
         }
+    }
+
+    public function yctest()
+    {
+        $controllers = array();
+        $actions     = array();
+        $modules     = ['index', 'console'];
+        foreach ($modules as $module) {
+            $arr = cache('controllers_' . $module);
+            if (empty($arr)) {
+                $arr = \ReadClass::readDir(APP_PATH . $module . DS . 'controller');
+                cache('controllers' . '_' . $module, $arr);
+            }
+            foreach ($arr as $key => $v) {
+                $controllers[$module][]        = $module . '/' . $key;
+                $actions[$module . '/' . $key] = array_map('array_shift', $v['method']);
+            }
+        }
+
+        dump($controllers);
+    }
+
+    public function test()
+    {
+        if (request()->isAjax()) {
+            return 1;
+        }
+
     }
 
     // 退出方法
@@ -71,11 +102,9 @@ class Login extends Controller
             $this->redirect('console/login/index');
         }
 
-        session('userid', null);
-        session('username', null);
-        session('nickname', null);
+        $this->model->delSession(); // 删除 session
 
-        action_log($mid, 'console_logout', 'manager', $mid);
+        action_log($mid, 'console_logout', 'manager', $mid); // 记录退出日志
 
         $backurl = input('get.backurl');
         $backurl = str_replace('/', '%2F', $backurl);

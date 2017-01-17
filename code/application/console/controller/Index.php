@@ -27,6 +27,28 @@ class Index extends Base
         return $this->fetch();
     }
 
+    public function yctest()
+    {
+        $controllers = array();
+        $actions     = array();
+        $modules     = ['index', 'console'];
+        foreach ($modules as $module) {
+            $arr = cache('controllers_' . $module);
+            if (empty($arr)) {
+                $arr = \ReadClass::readDir(APP_PATH . $module . DS . 'controller');
+                cache('controllers_' . $module, $arr);
+            }
+
+            foreach ($arr as $key => $v) {
+                $controllers[$module][]        = $module . '/' . $key;
+                $actions[$module . '/' . $key] = array_map('array_shift', $v['method']);
+            }
+        }
+
+        dump($controllers);
+        dump($actions);
+    }
+
     public function index2()
     {
         return $this->fetch();

@@ -41,14 +41,12 @@ class AuthRule extends Base
 
     public function del()
     {
-        $id = input('get.id');
-
-        $status = $this->model->del($id);
+        $status = $this->model->del($this->id);
 
         if ($status) {
 
             $this->model->updateCache(); // 更新缓存
-            action_log($id); // 记录日志
+            action_log($this->id); // 记录日志
             return $this->success('成功');
         } else {
             return $this->error($this->model->getError());
@@ -81,19 +79,17 @@ class AuthRule extends Base
      */
     protected function updatefield($field)
     {
-        $pk     = $this->model->getPk();
-        $id     = input('get.' . $pk);
-        $status = db(CONTROLLER_NAME)->getFieldById($id, $field);
+        $status = db(CONTROLLER_NAME)->getFieldById($this->id, $field);
 
         $data[$field] = ($status == 1) ? 0 : 1;
 
-        $status = $this->model->save($data, [$pk => $id]);
+        $status = $this->model->save($data, [$this->pk => $this->id]);
 
         if ($status) {
             $this->model->updateCache(); // 更新缓存
             $this->model->updateCacheAuthModel(); // 更新缓存
 
-            action_log($id); // 记录日志
+            action_log($this->id); // 记录日志
             return $this->success('成功');
         } else {
             return $this->error('失败');

@@ -12,8 +12,10 @@
 
 return [
     '__pattern__'       => [
-        'name' => '\w+',
-        'id'   => '\d+',
+        'name'  => '\w+',
+        'id'    => '\d+',
+        'year'  => '\d{4}',
+        'month' => '\d{2}',
     ],
     // '[hello]'     => [
     //     ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
@@ -40,8 +42,8 @@ return [
     'weixin'            => ['weixin/index/index', []],
 
     '__domain__'        => [
-        // 'www.gylbgg.com' => 'dot',
-        // 'gylb.benweng.com' => 'dot',
+        'www.gylbgg.com'   => 'dot',
+        'gylb.benweng.com' => 'dot',
         // 泛域名规则建议在最后定义
         // '*.user'         => 'user',
         // '*'              => 'book',
