@@ -7,13 +7,13 @@
 <!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <!-- Bootstrap 3.3.5 -->
-<link rel="stylesheet" href="__PUBLIC__/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="__STATICS__/bootstrap/3.3.6/css/bootstrap.min.css">
 <!-- Font Awesome -->
-<link rel="stylesheet" href="__PUBLIC__/font-awesome/4.6.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="__STATICS__/font-awesome/4.6.0/css/font-awesome.min.css">
 <!-- Ionicons -->
-<link rel="stylesheet" href="__PUBLIC__/ionicons/2.0.1/css/ionicons.min.css">
+<link rel="stylesheet" href="__STATICS__/ionicons/2.0.1/css/ionicons.min.css">
 <!-- iCheck -->
-<link rel="stylesheet" href="__PUBLIC__/iCheck/square/blue.css">
+<link rel="stylesheet" href="__STATICS__/iCheck/square/blue.css">
 <link rel="stylesheet" href="//cdn.bootcss.com/pace/1.0.2/themes/orange/pace-theme-flash.css">
 <!-- Theme style -->
 <link rel="stylesheet" href="__CSS__/cy.base.css">
@@ -81,16 +81,64 @@
 <div class="text-center copyright">Copyright ©2017 <a href="http://www.benweng.com" target="_blank" title="笨翁造型">BENWENG.COM</a></div>
 <!-- /.login-box -->
 <!-- jQuery 2.2.0 -->
-<script type="text/javascript" src="__PUBLIC__/jQuery/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript" src="__STATICS__/jQuery/jQuery-2.2.0.min.js"></script>
 <!-- Bootstrap 3.3.5 -->
-<script type="text/javascript" src="__PUBLIC__/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__STATICS__/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <!-- iCheck -->
-<script type="text/javascript" src="__PUBLIC__/iCheck/icheck.min.js"></script>
+<script type="text/javascript" src="__STATICS__/iCheck/icheck.min.js"></script>
 <!-- layer -->
-<script type="text/javascript" src="__PUBLIC__/layer/2.2/layer.js"></script>
+<script type="text/javascript" src="__STATICS__/layer/2.2/layer.js"></script>
 <script type="text/javascript" src="__JS__/cy.login.js"></script>
 <script type="text/javascript">
     var showverifyUrl = '{:url("showverify")}';
+    function RGB2Sixteen() {
+        hexcode = "#";
+        for (x = 0; x < 3; x++) {
+            var n = $('#r1e'+x).val();
+            if (n == "") n = "0";
+            if (parseInt(n) != n){ 
+              $("#w").text("请输入数字！");
+              return false;
+            }
+            if (n < 0 || n > 255){
+              $("#w").html("数字在0-255之间！");
+              return false;
+           }
+            var c = "0123456789abcdef";
+            var b = "";
+            var a = n % 16;
+            b = c.substr(a, 1);
+            a = (n - a) / 16;
+            hexcode += c.substr(a, 1) + b
+        }
+         $("#bgcolor").css("background",hexcode);
+         $("#w").text(hexcode);
+    }
+    //Sixteen2RGB();
+    function Sixteen2RGB() {;
+        var a =  'd2d6de';//$('#rgb').val();
+        if (a.substr(0, 1) == "#"){
+          a = a.substring(1);
+        }
+        if (a.length != 6){
+              $("#z").html("请输入正确的颜色编码！");
+              return false;
+           } 
+       //$("#zbgcolor").css("background", "#" + a);
+        a = a.toLowerCase();
+        b = new Array();
+        for (x = 0; x < 3; x++) {
+            b[0] = a.substr(x * 2, 2);
+            b[3] = "0123456789abcdef";
+            b[1] = b[0].substr(0, 1);
+            b[2] = b[0].substr(1, 1);
+            b[20 + x] = b[3].indexOf(b[1]) * 16 + b[3].indexOf(b[2])
+        }
+        var rgb = b[20] + "," + b[21] + "," + b[22];
+        alert(rgb);
+        //$("#z").text(b[20] + "," + b[21] + "," + b[22]);
+
+    }
 </script>
 </body>
 </html>
