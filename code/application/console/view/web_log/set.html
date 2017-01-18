@@ -1,7 +1,7 @@
 {extend name="mould:base" /}
 {block name="title"}{/block}
 {block name="css"}
-<link rel="stylesheet" href="__PUBLIC__/bootstrap-select/1.12.1/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="__STATICS__/bootstrap-select/1.12.1/css/bootstrap-select.min.css">
 {/block}
 {block name="content"}
 	<div class="page-content">
@@ -98,8 +98,8 @@
 	</div><!-- /.page-content -->
 {/block}
 {block name="script"}
-<script type="text/javascript" src="__PUBLIC__/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
-<script type="text/javascript" src="__PUBLIC__/bootstrap-select/1.12.1/js/i18n/defaults-zh_CN.min.js"></script>
+<script type="text/javascript" src="__STATICS__/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="__STATICS__/bootstrap-select/1.12.1/js/i18n/defaults-zh_CN.min.js"></script>
 <script type="text/javascript">
 $(function(){
 	$('#selectmodule').selectpicker('val',"{$web_log.not_log_module}".split(','));

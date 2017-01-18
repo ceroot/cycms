@@ -1,5 +1,172 @@
 {extend name="mould:base" /}
-{block name="title"}后台首页{/block}
+{block name="title"}{/block}
+{block name="author"}{$second.title}{/block}
+{block name="keywords"}{$second.title}{/block}
+{block name="description"}{$second.title}{/block}
+{block name="css"}
+<style type="text/css">
+	.commonindex{ padding-top: 20px; }
+	.commonindex a{ margin-right: 10px }
+	.commonindex a:hover{}
+	
+
+
+.cy-switch + .lbl {
+	background-color: #FFF;
+	display: inline-block;
+	position: relative;
+	background: #F7836D;
+	width: 65px;
+	height: 24px;
+	box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1), 0 0 10px rgba(245, 146, 146, 0.4);
+}
+
+.cy-switch + .lbl:before {
+	content: 'III';
+	position: absolute;
+	background: #FFF;
+	top: 2px;
+	z-index: 99999;
+	left: 2px;
+	width: 20px;
+	color: #939393;
+	height: 20px;
+	line-height: 20px;
+	font-weight: bold;
+	font-size: 14px;
+	box-shadow: 0 0 1px rgba(0,0,0,0.6);
+	text-align: center;
+	-webkit-transition: all .25s ease;
+	-o-transition: all .25s ease;
+	transition: all .25s ease
+}
+
+.cy-switch + .lbl:after {
+	content: 'OFF';
+	position: absolute;
+	top: 2px;
+	font-size: 1.2em;
+	color: white;
+	font-weight: bold;
+	left: 30px;
+	line-height: 20px;
+	-webkit-transition: all .25s ease;
+	-o-transition: all .25s ease;
+	transition: all .25s ease
+}
+
+.cy-switch:checked + .lbl {
+	background: #67A5DF;
+	box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1), 0 0 10px rgba(146, 196, 245, 0.4);
+}
+
+.cy-switch:checked + .lbl:after {
+	content: 'ON';
+	left: 6px;
+}
+
+.cy-switch:checked + .lbl:before {
+	content: 'III';
+	position: absolute;
+	z-index: 99999;
+	left: 43px;
+}
+
+
+
+
+
+
+input[type="checkbox"] {
+	display: none;
+}
+
+input[type="checkbox"] + label {
+	cursor: pointer;
+	font-size: 1em;
+}
+
+
+
+[id^="checkbox-11-"] + label {
+	background-color: #FFF;
+	display: inline-block;
+	position: relative;
+	background: #F7836D;
+	width: 65px;
+	height: 24px;
+	box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1), 0 0 10px rgba(245, 146, 146, 0.4);
+}
+
+[id^="checkbox-11-"] + label:before {
+	content: 'III';
+	position: absolute;
+	background: #FFF;
+	top: 2px;
+	z-index: 99999;
+	left: 2px;
+	width: 20px;
+	color: #939393;
+	height: 20px;
+	line-height: 20px;
+	font-weight: bold;
+	font-size: 14px;
+	box-shadow: 0 0 1px rgba(0,0,0,0.6);
+	text-align: center;
+	-webkit-transition: all .25s ease;
+	-o-transition: all .25s ease;
+	transition: all .25s ease
+}
+
+[id^="checkbox-11-"] + label:after {
+	content: 'OFF';
+	position: absolute;
+	top: 2px;
+	font-size: 1.2em;
+	color: white;
+	font-weight: bold;
+	left: 30px;
+	line-height: 20px;
+	-webkit-transition: all .25s ease;
+	-o-transition: all .25s ease;
+	transition: all .25s ease
+}
+
+[id^="checkbox-11-"]:checked + label {
+	background: #67A5DF;
+	box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1), 0 0 10px rgba(146, 196, 245, 0.4);
+}
+
+[id^="checkbox-11-"]:checked + label:after {
+	content: 'ON';
+	left: 6px;
+}
+
+[id^="checkbox-11-"]:checked + label:before {
+	content: 'III';
+	position: absolute;
+	z-index: 99999;
+	left: 43px;
+}
+
+</style>
+{/block}
 {block name="content"}
-  common/index
+	<div class="commonindex">
+	{volist name="commonindex" id="commonindex"}
+        {if condition="$commonindex.isnavshow"}
+            <a class="btn btn-info" {if condition="$commonindex.active"}class="active"{/if} href="{$commonindex.url}" title="{$commonindex.title}">{$commonindex.title}</a>
+        {/if}
+    {/volist}
+    </div>
+	<div style="padding: 50px">
+		<input type="checkbox" class="cy-switch" /><label class="lbl"></label>
+	</div>
+	<div>
+		<input type="checkbox" id="checkbox-11-1" /><label for="checkbox-11-1"></label>
+	</div>
+
+
+
+
 {/block}

@@ -103,12 +103,14 @@ class Base extends Extend
         // config($config); //添加配置
 
         // 菜单输出
-        $menu = model('AuthRule')->consoleMenu();
-        $this->assign('menu', $menu); // 一级菜单输出
-        $this->assign('second', $menu['second']); // 二级菜单输出
-        $this->assign('title', $menu['showtitle']); // 标题输出
-        $this->assign('bread', $menu['bread']); // 面包输出
+        $this->menu = model('AuthRule')->consoleMenu();
+
+        $this->assign('menu', $this->menu); // 一级菜单输出
+        $this->assign('second', $this->menu['second']); // 二级菜单输出
+        $this->assign('title', $this->menu['showtitle']); // 标题输出
+        $this->assign('bread', $this->menu['bread']); // 面包输出
         $this->assign('manager', $manager); // 管理员信息输出
+        $this->assign('dd', 123456);
     }
 
     /**
@@ -128,6 +130,7 @@ class Base extends Extend
      */
     public function index()
     {
+        $this->assign('commonindex', $this->menu['second']['data']); // 二级菜单输出
         return $this->fetch('common/index');
     }
 

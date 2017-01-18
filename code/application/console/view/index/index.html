@@ -1,9 +1,14 @@
 {extend name="mould:base" /}
 {block name="title"}后台首页{/block}
+{block name="author"}这是作者{/block}
+{block name="keywords"}这是关键字{/block}
+{block name="description"}这是说明{/block}
 {block name="content"}
     
     {:hook('AdminIndex')}
     <div id="main" style="width: 600px;height:400px;"></div>
+{/block}
+{block name="script"}
 <script type="text/javascript">
 $(function(){
     Wind.use('echarts', function () {
