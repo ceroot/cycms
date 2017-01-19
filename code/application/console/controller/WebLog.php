@@ -86,7 +86,7 @@ class WebLog extends Base
         }
     }
 
-    public function set()
+    public function seting()
     {
         $web_log = config('web_log');
         //模块
