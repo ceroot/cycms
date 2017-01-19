@@ -1,7 +1,7 @@
 {extend name="mould:base" /}
 {block name="title"}{/block}
 {block name="css"}
-<link rel="stylesheet" href="__STATICS__/bootstrap-select/1.12.1/css/bootstrap-select.min.css">
+<link rel="stylesheet" type="text/css" href="__STATICS__/bootstrap-select/1.12.1/css/bootstrap-select.min.css">
 {/block}
 {block name="content"}
 	<div class="page-content">
@@ -12,7 +12,7 @@
 					<div class="form-group">
 						<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 是否开启操作日志：</label>
 						<div class="col-sm-9" style="padding-top:5px;">
-							<input name="weblog_on" id="weblog_on" {if condition="$web_log.weblog_on"}checked{/if} value="1" class="ace ace-switch ace-switch-4 btn-flat" type="checkbox" />
+							<input name="weblog_on" id="weblog_on" {if condition="$web_log.weblog_on"}checked{/if} value="1" class="cy-switch" type="checkbox" />
 							<span class="lbl"></span>
 						</div>
 					</div>					

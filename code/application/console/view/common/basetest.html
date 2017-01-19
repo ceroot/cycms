@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<!-- iCheck -->
+<link rel="stylesheet" type="text/css" href="__STATICS__/iCheck/square/blue.css">
+<!-- jQuery 2.2.0 -->
+<script type="text/javascript" src="__STATICS__/jQuery/jQuery-2.2.0.min.js"></script>
+<!-- iCheck -->
+<script type="text/javascript" src="__STATICS__/iCheck/icheck.js"></script>
+<script type="text/javascript">
+	$(function(){
+		// checkbox样式
+    $('input').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue',
+        increaseArea: '20%' // optional
+    });
+	});
+</script>
+</head>
+<body>
+<div class="checkbox icheck">
+    <label>
+        <input type="checkbox" id="remember"> 记住用户名
+    </label>
+</div>
+
+<label for="baz[1]">Bar</label>
+<div class="iradio checked"><input type="radio" name="quux[2]" id="baz[1]" checked></div>
+</body>
+</html>

@@ -15,18 +15,18 @@ h5{ font-family: "微软雅黑"; margin-top: 20px;}
 		        <td>
 		            <h5>
 		            	<label>
-		            		<input pid='0' type="checkbox" value="{$node1.id}" id='node{$node1.id}' name="rules[]" {in name='node1.id' value='$field["rules"]'}checked = 'checked' {/in} /> {$node1.title}
+		            		<input class="iCheck" pid='0' type="checkbox" value="{$node1.id}" id='node{$node1.id}' name="rules[]" {in name='node1.id' value='$field["rules"]'}checked = 'checked' {/in} /> {$node1.title}
 		            	</label>
 		            </h5>
 		            {volist name='node1._data' id='node2'}
 			        	<fieldset>
 			                <legend>
-			                	<label><input pid='{$node1.id}' type="checkbox" value="{$node2.id}"  id='node{$node2.id}' name="rules[]" {in name='node2.id' value='$field["rules"]'}checked = 'checked' {/in}/> {$node2.title}</label>
+			                	<label><input class="iCheck" pid='{$node1.id}' type="checkbox" value="{$node2.id}"  id='node{$node2.id}' name="rules[]" {in name='node2.id' value='$field["rules"]'}checked = 'checked' {/in}/> {$node2.title}</label>
 			                </legend>
 			                <div class="" style="padding-left: 10px;">
 			                	{volist name='node2._data' id='node3'}
 			                        <label>
-			                        	<input pid='{$node1.id}' type="checkbox" value="{$node3.id}" class='{$node2.id}' name="rules[]" {in name='node3.id' value='$field["rules"]'}checked = 'checked' {/in}/> {$node3.title}
+			                        	<input class="iCheck" pid='{$node1.id}' type="checkbox" value="{$node3.id}" class='{$node2.id}' name="rules[]" {in name='node3.id' value='$field["rules"]'}checked = 'checked' {/in}/> {$node3.title}
 			                        </label>
 			    				{/volist}
 			    			</div>

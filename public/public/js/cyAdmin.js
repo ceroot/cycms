@@ -43,7 +43,35 @@ $(function(){
         }
     }
     
-    
+    // 选择框变形
+    $('body').on('click', '.lbl', function(event) {
+        event.preventDefault();
+        /* Act on the event */
+        var _checkbox = $(this).prev();
+        if(_checkbox.is(':checked')){
+            _checkbox.prop('checked',false);
+        }else{
+            _checkbox.prop('checked',true);
+        }
+    });
+
+    // checkbox样式
+    var args = ['iCheck'];
+    Wind.use(args, function () {
+        $('input.iCheck[type="checkbox"]').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        });
+
+        $('input.iCheck[type="radio"]').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        });
+    });
+
+
     $("#file0").change(function(){
 		var objUrl = getObjectURL(this.files[0]) ;
 		

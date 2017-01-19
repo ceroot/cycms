@@ -39,6 +39,7 @@
 	        	?>
 		        <tr {eq name="list.pid" value="0"} id="{$list.id}" class="first"{else /} class="first{$pid} all-child"{/eq}>
 		        	<td>
+		        		{neq name="list.pid" value="0"}&nbsp;&nbsp;&nbsp;&nbsp;|-{/neq}
 		        		{$list.id}{eq name="list.pid" value="0"}<a href="javascript:void(0)" class="unfold-child" title="[展开/隐藏]"> [<span>展开</span>]</a>{/eq}
 					</td>
 					<td align='center'>
@@ -50,9 +51,9 @@
 					<td><a class="cy-ajax" href="{:url('updatestatus?id='.$list['id'])}" title="快捷设置状态">{$list.status? '正常' : '禁用'}</a></td>
 					<td><a class="cy-ajax" href="{:url('updateshow?id='.$list['id'])}" title="快捷设置显示状态">{$list.isnavshow? '显示' : '隐藏'}</a></td>
 					<td align='center' >
-						<a href="{:url('edit?id='.$list['id'])}">修改</a> | 
-						<a href="{:url('add?id='.$list['id'])}">添加</a> | 
-						<a class="cy-ajax" href="{:url('del?id='.$list['id'])}" data-layer-msg="删除" data-layer-okbtn="删除" title="删除" data-layer-confirm="true">删除</a>  
+						<a href="{:url('edit?id='.$list['id'])}" title="修改"><i class="fa fa-pencil"></i></a> | 
+						<a href="{:url('add?id='.$list['id'])}" title="添加子类"><i class="fa fa-plus-circle"></i></a> | 
+						<a class="cy-ajax" href="{:url('del?id='.$list['id'])}" data-layer-msg="删除" data-layer-okbtn="删除" title="删除" data-layer-confirm="true" title="删除"><i class="fa fa-trash-o warning"></i></a>  
 					</td>
 				</tr>
 			{/volist}
