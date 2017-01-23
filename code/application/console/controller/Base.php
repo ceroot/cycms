@@ -219,19 +219,18 @@ class Base extends Extend
      */
     public function update($action_log = null)
     {
+
         if (request()->isAjax()) {
             $data   = input('param.');
             $has_id = array_key_exists($this->pk, $data); // 判断是否存在 ID 键
-            // $sort = $data['field_sort'];
-            // $sort = json_encode($sort);
             // return $data;
 
             // 判断是新增还是更新，如果有键值就是更新，如果没有键值就是新增
-            // if (in_array($data,[$this->pk])) {
             if ($has_id) {
-                // 角色分配的时候对数据的处理
+
+                // 各种模式下对数据的处理
                 switch (request()->controller()) {
-                    case 'auth_group':
+                    case 'AuthGroup':
                         $rulesdata = input('param.rules/a');
                         if ($rulesdata) {
                             $data['rules'] = implode(',', $rulesdata);
@@ -240,17 +239,19 @@ class Base extends Extend
                             session('log_text', '编辑了角色');
                         }
                         break;
-                    case 'manager': // 管理员修改时对密码的处理
+                    case 'Manager': // 管理员修改时对密码的处理
                         if (empty($data['password'])) {
                             unset($data['password']);
                         } else {
-                            if (strlen($data['password']) < 6) {
-                                return $this->error('密码长度不够');
-                            }
-                            $data['password'] = md5($data['username'] . $data['password']);
+                            // if (strlen($data['password']) < 6) {
+                            //     return $this->error('密码长度不够111');
+                            // }
+                            //$data['password'] = md5($data['username'] . $data['password']);
+                            $data['hash']     = getrandom(8, 2);
+                            $data['password'] = encrypt_password($data['password'], $data['hash']);
                         }
                         break;
-                    case 'model':
+                    case 'Model':
                         if (input('param.field_sort/a')) {
                             $data['field_sort'] = json_encode($data['field_sort']);
                         }
@@ -270,6 +271,7 @@ class Base extends Extend
                 // return $data;
                 // 验证状态设置
                 $validate = request()->controller() . '.edit';
+                // $validate = 'edit';
                 if (input('param.rule')) {
                     if (input('param.rule') == 1) {
                         $validate = false;
@@ -278,6 +280,7 @@ class Base extends Extend
 
                 // 数据验证并保存
                 $status = $this->model->validate($validate)->save($data, [$this->pk => $data[$this->pk]]);
+                //return $status;
 
                 // 取得日志标记
                 if (is_null($action_log)) {
@@ -287,15 +290,20 @@ class Base extends Extend
             } else {
 
                 // 数据验证并保存
+
+                // $status = $this->model->validate(true)->save($data);
                 $status = $this->model->validate(true)->save($data);
+                // return $status;
 
                 // 取得日志标记
                 if (is_null($action_log)) {
                     $action_log = request()->controller() . '_add'; // 日志记录标记
-                    $record_id  = $status; // 数据id
+                    $update_pk  = $this->pk;
+                    $record_id  = $this->model->$update_pk; //$status; // 数据id
                 }
             }
             // return $status;
+            // return $action_log;
 
             // 数据验证不通过返回提示
             if ($status === false) {
@@ -312,13 +320,13 @@ class Base extends Extend
                             model('action')->add_for_rule();
                         }
                         break;
-                    case 'manager': // 管理员操作时的操作
+                    case 'Manager': // 管理员操作时的操作
                         model('AuthGroupAccess')->saveData($record_id);
                         break;
-                    case 'config': // 清空配置数据缓存
+                    case 'Config': // 清空配置数据缓存
                         cache('db_config_data', null);
                         break;
-                    case 'model': // 清除模型缓存数据
+                    case 'Model': // 清除模型缓存数据
                         cache('document_model_list', null);
                         break;
                     default:
@@ -336,6 +344,14 @@ class Base extends Extend
         } else {
             return $this->error('数据有误');
         }
+    }
+
+    // 测试使用
+    public function updatedo()
+    {
+        $data   = input('param.');
+        $has_id = array_key_exists($this->pk, $data); // 判断是否存在 ID 键
+        $status = $this->model->validate(true)->save($data);
     }
 
     // 查看详情
@@ -365,18 +381,18 @@ class Base extends Extend
      */
     public function del()
     {
-        $status = db(CONTROLLER_NAME)->delete($this->id);
+        $status = db(request()->controller())->delete($this->id);
 
         if ($status) {
-            if (CONTROLLER_NAME == 'manager') {
+            if (request()->controller() == 'Manager') {
                 model('authGroupAccess')->delDataByUid($this->id);
             }
 
-            if (CONTROLLER_NAME == 'auth_group') {
+            if (request()->controller() == 'AuthGroup') {
                 model('authGroupAccess')->delDataByGid($this->id);
             }
 
-            if (CONTROLLER_NAME == 'auth_rule') {
+            if (request()->controller() == 'AuthRule') {
                 $this->model->updateCache();
             }
             action_log($this->id); // 记录日志
@@ -418,7 +434,7 @@ class Base extends Extend
      * @name   set         [通用设置]
      * @author SpringYang <ceroot@163.com>
      */
-    public function set()
+    public function seting()
     {
         if (request()->isAjax()) {
 

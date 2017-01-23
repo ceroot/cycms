@@ -31,11 +31,26 @@ class Manager extends Base
             $data['password'] = md5(input('unsername') . input('password'));
         }
 
-        $groupdata = db('authGroup')->select();
-        $this->assign('groupdata', $groupdata);
-        $authgroup = db('AuthGroupAccess')->where('uid', input('get.id'))->select();
-        $this->assign('authgroup', $authgroup);
+        $groupdata    = db('authGroup')->where('status', 1)->field('id,title,status,describe')->select();
+        $authgroup    = db('AuthGroupAccess')->where('uid', input('param.id'))->select();
+        $newgroupdata = [];
+        foreach ($groupdata as $key => $value) {
+            $value['select'] = 0;
+            foreach ($authgroup as $k => $v) {
+                if ($value['id'] == $v['group_id']) {
+                    $value['select'] = 1;
+                }
+            }
+            $newgroupdata[] = $value;
+        }
+        $this->assign('newgroupdata', $newgroupdata);
+        // dump($newgroupdata);
+        // die;
+        // $this->assign('groupdata', $groupdata);
+        // $this->assign('authgroup', $authgroup);
+
         // dump($authgroup);
+        // dump($groupdata);
         // die;
 
     }
@@ -134,8 +149,8 @@ class Manager extends Base
             $data     = input('post.');
             $username = $this->model->getFieldById($data['id'], 'username');
 
-            $data['password']   = md5($username . $data['password']);
-            $data['repassword'] = md5($username . $data['repassword']);
+            $data['password']   = encrypt_password($data['password'], $data['hash']);
+            $data['repassword'] = encrypt_password($data['password_confirm'], $data['hash']);
 
             $status = $this->model->validate(request()->controller() . '.password')->save($data, ['id' => $data['id']]);
             if ($status === false) {

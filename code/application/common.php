@@ -546,7 +546,7 @@ function getbackurl()
 /**
  * 随机数函数
  * @param  string    $length     [长度]
- * @param  int       $numeric    [类型 0为数字，1为全部，2为大写，3为小写，4为数字加小写，5为uniqid()]
+ * @param  int       $numeric    [类型 0为数字，1为全部，2为大小写，3为数字加大写，4为数字加小写，5为大写，6为小写，7为uniqid()]
  * @return string    $hash       [返回数字]
  * @author SpringYang <ceroot@163.com>
  */
@@ -570,14 +570,14 @@ function getrandom($length = 6, $numeric = 0)
             }
             break;
         case 2:
-            $chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+            $chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz';
             $max   = strlen($chars) - 1;
             for ($i = 0; $i < $length; $i++) {
                 $hash .= $chars[mt_rand(0, $max)];
             }
             break;
         case 3:
-            $chars = 'abcdefghjkmnpqrstuvwxyz';
+            $chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
             $max   = strlen($chars) - 1;
             for ($i = 0; $i < $length; $i++) {
                 $hash .= $chars[mt_rand(0, $max)];
@@ -590,6 +590,20 @@ function getrandom($length = 6, $numeric = 0)
                 $hash .= $chars[mt_rand(0, $max)];
             }
         case 5:
+            $chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+            $max   = strlen($chars) - 1;
+            for ($i = 0; $i < $length; $i++) {
+                $hash .= $chars[mt_rand(0, $max)];
+            }
+            break;
+        case 6:
+            $chars = 'abcdefghjkmnpqrstuvwxyz';
+            $max   = strlen($chars) - 1;
+            for ($i = 0; $i < $length; $i++) {
+                $hash .= $chars[mt_rand(0, $max)];
+            }
+            break;
+        case 7:
             $uniqid = implode(null, array_map('ord', str_split(md5(uniqid()), 1)));
             $max    = strlen($uniqid) - 1;
             for ($i = 0; $i < $length; $i++) {

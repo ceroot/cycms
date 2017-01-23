@@ -7,37 +7,25 @@
 <form action="{:url('update')}" method="post" class="form-horizontal cy-ajaxForm cy-form" role="form" data-validate="true">
     <div class="form-group form-group-sm">
         <label class="col-sm-12" for="name"> 角色：</label>
-        {present name="one"}
-            {notempty name="authgroup"}
-                {volist name="authgroup" id="authgroup" key="k"}
-                    <div class="col-sm-12 group-area">
-                        <select name="group_id[]" class="selectpicker {neq name="k" value="1"}mg-t-10{/neq}" multiple>
-                            {volist name='groupdata' id='list'}
-                              <option value="{$list.id}" {eq name="authgroup.group_id" value="$list.id" } selected="selected"{/eq}>{$list.title}</option>
-                            {/volist}
-                        </select>
-                    </div>
-                {/volist}
-            {else /}
-                <div class="col-sm-12 group-area">
-                    <select name="group_id[]" class="selectpicker" multiple>
-                        {volist name='groupdata' id='list'}
-                          <option value="{$list.id}" {eq name="list.id" value="8"} selected="selected"{/eq}>{$list.title}</option>
+        <div class="col-sm-12 group-area">
+            {present name="one"}
+                {notempty name="newgroupdata"}
+                    <select name="group_id[]" class="selectpicker" multiple data-selected-text-format="count > 5">
+                        {volist name='newgroupdata' id='list'}
+                          <option value="{$list.id}" {eq name="1" value="$list.select" } selected="selected"{/eq}>{$list.title}</option>
                         {/volist}
                     </select>
-                </div>
-            {/notempty}
-        {else}
-            <div class="col-sm-12 group-area">
-                <select name="group_id[]" class="selectpicker" multiple>
-                    {volist name='groupdata' id='list'}
+                {else /}
+                    <span>数据有误</span>
+                {/notempty}
+            {else}
+                <select name="group_id[]" class="selectpicker" multiple data-selected-text-format="count > 5">
+                    {volist name='newgroupdata' id='list'}
                       <option value="{$list.id}" {eq name="list.id" value="8"} selected="selected"{/eq}>{$list.title}</option>
                     {/volist}
-                    <option value="21" selected="selected">test2</option>
-                    <option value="22" selected="selected">test2</option>
                 </select>
-            </div>
-        {/present}
+            {/present}
+        </div>
     </div>
     <div class="form-group form-group-sm">
         <label class="col-sm-12" for="username">用户名：</label>
@@ -72,7 +60,7 @@
     <div class="form-group form-group-sm">
         <label class="col-sm-12" for="repassword">确认密码：</label>
         <div class="col-sm-12">
-            <input type="repassword" class="input-sm form-cy col-xs-10 col-sm-5" name="repassword" id="repassword" value="" placeholder="确认密码">
+            <input type="password" class="input-sm form-cy col-xs-10 col-sm-5" name="password_confirm" id="repassword" value="" placeholder="确认密码">
         </div>
     </div>
     <div class="form-group form-group-sm">
@@ -88,7 +76,9 @@
     </div>
     <div class="fixed-bottom">
         <div class="bottom-area">
-            <input type="hidden" name="id" value="{$one.id|default=''}">
+            {present name="one"}
+                <input type="hidden" name="id" value="{$one.id|default=''}">
+            {/present}  
             <button class="btn btn-sm btn-default btn-post">保存</button>
         </div>
     </div>
@@ -97,10 +87,7 @@
 {block name="script"}
 
 <script type="text/javascript">
-$(function()){
-    //$('#selectmodule').selectpicker();
-    //$('.selectpicker').selectpicker('val',"ddd,kskks".split(','));
-}):
+
 var userValidate = {
     rules: {
         'username':{

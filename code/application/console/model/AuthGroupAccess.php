@@ -26,9 +26,9 @@ class AuthGroupAccess extends Model
      */
     public function saveData($uid)
     {
-        $this->delDataByUid($uid);
+        $this->delDataByUid($uid); // 先删除原有的
 
-        $group_id = input('post.group_id/a');
+        $group_id = input('param.group_id/a');
         $group_id = array_unique($group_id);
         $data     = array();
         foreach ($group_id as $value) {

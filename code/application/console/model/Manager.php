@@ -40,7 +40,8 @@ class Manager extends Model
     public function setCreateUidAttr($value, $data)
     {
         if (input('password')) {
-            $this->data['password'] = md5(input('username') . input('password'));
+            //$this->data['password'] = md5(input('username') . input('password'));
+            $this->data['password'] = encrypt_password(input('password'), getrandom(8, 2));
         }
 
         return UID;
