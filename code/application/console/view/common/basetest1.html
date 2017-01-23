@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<link rel="stylesheet" href="http://127.0.0.1:82/statics/bootstrap/3.3.6/css/bootstrap.css">
+
+<script src="http://127.0.0.1:82/statics/jQuery/jquery-2.2.4.min.js"></script>
+<script src="http://127.0.0.1:82/statics/bootstrap/3.3.6/js/bootstrap.js"></script>
+<script type="text/javascript" src="__JS__/wind.js"></script>
+
+
+
+</head>
+<body>
+	<div>
+		<select class="selectpicker">
+			<option>Mustard</option>
+			<option>Ketchup</option>
+			<option>Relish</option>
+		</select>
+	</div>
+	<select class="selectpicker test">
+  <optgroup label="Picnic">
+    <option>Mustard</option>
+    <option>Ketchup</option>
+    <option>Relish</option>
+  </optgroup>
+  <optgroup label="Camping">
+    <option>Tent</option>
+    <option>Flashlight</option>
+    <option>Toilet Paper</option>
+  </optgroup>
+</select>
+</body>
+<script type="text/javascript">
+	$(function(){
+		var args = ['selectpicker'];
+	    Wind.use(args, function () {
+	        $('.selectpicker').selectpicker({
+			  	style: 'btn-info',
+			  	size: 4
+			});
+	    });
+
+		
+	});
+</script>
+</html>

@@ -15,19 +15,43 @@
 {/block}
 {block name="content"}
 	<div class="commonindex">
-	{volist name="commonindex" id="commonindex"}
-        {if condition="$commonindex.isnavshow"}
-            <a class="btn btn-info" {if condition="$commonindex.active"}class="active"{/if} href="{$commonindex.url}" title="{$commonindex.title}">{$commonindex.title}</a>
-        {/if}
-    {/volist}
+	
     </div>
 	<div>
 	    <label>
 	        <input type="checkbox" class="iCheck" id="remember"> 记住用户名
 	    </label>
 	</div>
+	<div>
+		<select class="selectpicker">
+			<option>Mustard</option>
+			<option>Ketchup</option>
+			<option>Relish</option>
+		</select>
+	</div>
 
 
 
 
+{/block}
+{block}
+<script src="http://127.0.0.1:82/statics/jQuery/jquery-2.2.4.min.js"></script>
+<script src="http://127.0.0.1:82/statics/bootstrap/3.3.6/js/bootstrap.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/i18n/defaults-*.min.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		$('.selectpicker').selectpicker({
+		  	style: 'btn-info',
+		  	size: 4
+		});
+	});
+</script>
 {/block}

@@ -121,7 +121,14 @@ class Base extends Extend
      */
     public function basetest()
     {
+        $this->assign('commonindex', $this->menu['second']['data']); // 二级菜单输出
         return $this->fetch('common/basetest');
+    }
+
+    public function basetest1()
+    {
+        $this->assign('commonindex', $this->menu['second']['data']); // 二级菜单输出
+        return $this->fetch('common/basetest1');
     }
 
     /**

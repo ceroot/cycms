@@ -11,29 +11,31 @@
             {notempty name="authgroup"}
                 {volist name="authgroup" id="authgroup" key="k"}
                     <div class="col-sm-12 group-area">
-                        <select name="group_id[]" class="input-sm form-cy col-xs-10 col-sm-3 selectpicker {neq name="k" value="1"}mg-t-10{/neq}" multiple>
+                        <select name="group_id[]" class="selectpicker {neq name="k" value="1"}mg-t-10{/neq}" multiple>
                             {volist name='groupdata' id='list'}
                               <option value="{$list.id}" {eq name="authgroup.group_id" value="$list.id" } selected="selected"{/eq}>{$list.title}</option>
                             {/volist}
-                        </select>&nbsp&nbsp&nbsp&nbsp<a href="javascript:void(0)" onclick="{eq name="k" value="1"}add_group(this){else/}del_group(this){/eq}" title="添加一个">{eq name="k" value="1"}[+]{else/}[-]{/eq}</a>
+                        </select>
                     </div>
                 {/volist}
             {else /}
                 <div class="col-sm-12 group-area">
-                    <select name="group_id[]" class="input-sm form-cy col-xs-10 col-sm-3 selectpicker">
+                    <select name="group_id[]" class="selectpicker" multiple>
                         {volist name='groupdata' id='list'}
                           <option value="{$list.id}" {eq name="list.id" value="8"} selected="selected"{/eq}>{$list.title}</option>
                         {/volist}
-                    </select>&nbsp&nbsp&nbsp&nbsp<a href="javascript:void(0)" onclick="add_group(this)" title="添加一个">[+]</a>
+                    </select>
                 </div>
             {/notempty}
         {else}
             <div class="col-sm-12 group-area">
-                <select name="group_id[]" class="input-sm form-cy col-xs-10 col-sm-3 selectpicker">
+                <select name="group_id[]" class="selectpicker" multiple>
                     {volist name='groupdata' id='list'}
                       <option value="{$list.id}" {eq name="list.id" value="8"} selected="selected"{/eq}>{$list.title}</option>
                     {/volist}
-                </select>&nbsp&nbsp&nbsp&nbsp<a href="javascript:void(0)" onclick="add_group(this)" title="添加一个">[+]</a>
+                    <option value="21" selected="selected">test2</option>
+                    <option value="22" selected="selected">test2</option>
+                </select>
             </div>
         {/present}
     </div>
@@ -97,6 +99,7 @@
 <script type="text/javascript">
 $(function()){
     //$('#selectmodule').selectpicker();
+    //$('.selectpicker').selectpicker('val',"ddd,kskks".split(','));
 }):
 var userValidate = {
     rules: {

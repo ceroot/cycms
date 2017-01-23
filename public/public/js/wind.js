@@ -728,7 +728,7 @@ Wind.ready(function() {
 			datePicker	: 'datePicker/style',
             treeTable   : 'treeTable/treeTable',
 			zTree       : 'zTree/zTreeStyle/zTreeStyle',
-            selectpicker: 'bootstrap-select/1.12.1/css/bootstrap-select.min'
+            selectpicker: 'bootstrap-select/1.12.1/css/bootstrap-select.min',
 		};
 		
     // js
@@ -738,13 +738,10 @@ Wind.ready(function() {
 	for(var i in alias) {
 		if (alias.hasOwnProperty(i)) {
             var obj  = alias[i];
-            // console.log(alias[i]);
             if(typeof obj == 'object'){
-                // console.log(alias[i]);
                 for(var n in obj){
 
                     if(obj.hasOwnProperty(n)){
-                        // console.log(obj[n]);
                         obj[n] = root + obj[n] +'.js?v=' + ver;
                     }
                 }
@@ -761,15 +758,14 @@ Wind.ready(function() {
 		if (alias_css.hasOwnProperty(i)) {
 			alias_css[i] = root + alias_css[i] +'.css?v=' + ver;
 		}
-        // console.log(alias_css[i]);
 	}
 
 	//css loader
 	win.Wind = win.Wind || {};
     //!TODO old webkit and old firefox does not support
-	Wind.css = function(newalias/*newalias or path*/,callback) {
-		var url = alias_css[newalias];// ? alias_css[newalias] : newalias
-        // console.log(url);
+	Wind.css = function(newaliasss/*newalias or path*/,callback) {
+		var url = alias_css[newaliasss];// ? alias_css[newalias] : newalias  
+        //console.log(newaliasss);
         if(!url){
             return false;
         }
@@ -791,6 +787,7 @@ Wind.ready(function() {
 	Wind.use = function() {
 		var args = arguments,len = args.length;
         var newargs = [];
+        //console.log(args);
         for( var i = 0;i < len;i++ ) {
             if(Object.prototype.toString.call(args[i]) === '[object Array]'){
                 for (var n = 0; n < args[i].length; n++) {
@@ -800,8 +797,6 @@ Wind.ready(function() {
                 newargs.push(args[i]);
             }
         }
-
-        // console.log(newargs);
 
         // 与别名列表对比取出需要的文件
         // 处理别名列表和子对象的操作
@@ -814,7 +809,7 @@ Wind.ready(function() {
                     for(var n in obj){
                         if(obj.hasOwnProperty(n)){
                             useargs.push(obj[n]);
-                            Wind.css(obj[n]);
+                            Wind.css(newargs[i]);
                         }
                     }
                 }else{
@@ -826,7 +821,6 @@ Wind.ready(function() {
                 useargs.push(newargs[i]);
             }
         }
-        // console.log(useargs);
 		Wind.js.apply(null,useargs);
 	};
 
