@@ -1,7 +1,7 @@
 {extend name="mould:base" /}
 {block name="title"}{/block}
 {block name="css"}
-<link rel="stylesheet" type="text/css" href="__STATICS__/bootstrap-select/1.12.1/css/bootstrap-select.min.css">
+
 {/block}
 {block name="content"}
 	<div class="page-content">
@@ -98,15 +98,16 @@
 	</div><!-- /.page-content -->
 {/block}
 {block name="script"}
-<script type="text/javascript" src="__STATICS__/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
-<script type="text/javascript" src="__STATICS__/bootstrap-select/1.12.1/js/i18n/defaults-zh_CN.min.js"></script>
+
 <script type="text/javascript">
 $(function(){
-	$('#selectmodule').selectpicker('val',"{$web_log.not_log_module}".split(','));
-	$('#selectcontroller').selectpicker('val',"{$web_log.not_log_controller}".split(','));
-	$('#selectaction').selectpicker('val',"{$web_log.not_log_action}".split(','));
-	$('#selectdata').selectpicker('val',"{$web_log.not_log_data}".split(','));
-	$('#selectmethod').selectpicker('val',"{$web_log.not_log_request_method}".split(','));
+	
+
+	// $('#selectmodule').selectpicker('val',"{$web_log.not_log_module}".split(','));
+	// $('#selectcontroller').selectpicker('val',"{$web_log.not_log_controller}".split(','));
+	// $('#selectaction').selectpicker('val',"{$web_log.not_log_action}".split(','));
+	// $('#selectdata').selectpicker('val',"{$web_log.not_log_data}".split(','));
+	// $('#selectmethod').selectpicker('val',"{$web_log.not_log_request_method}".split(','));
 });
 
 </script>

@@ -1,32 +1,33 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-	<!-- iCheck -->
-<link rel="stylesheet" type="text/css" href="__STATICS__/iCheck/square/blue.css">
-<!-- jQuery 2.2.0 -->
-<script type="text/javascript" src="__STATICS__/jQuery/jQuery-2.2.0.min.js"></script>
-<!-- iCheck -->
-<script type="text/javascript" src="__STATICS__/iCheck/icheck.js"></script>
-<script type="text/javascript">
-	$(function(){
-		// checkbox样式
-    $('input').iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue',
-        increaseArea: '20%' // optional
-    });
-	});
-</script>
-</head>
-<body>
-<div class="checkbox icheck">
-    <label>
-        <input type="checkbox" id="remember"> 记住用户名
-    </label>
-</div>
+{extend name="mould:base" /}
+{block name="title"}{/block}
+{block name="author"}{$second.title}{/block}
+{block name="keywords"}{$second.title}{/block}
+{block name="description"}{$second.title}{/block}
+{block name="css"}
 
-<label for="baz[1]">Bar</label>
-<div class="iradio checked"><input type="radio" name="quux[2]" id="baz[1]" checked></div>
-</body>
-</html>
+<style type="text/css">
+	.commonindex{ padding-top: 20px; }
+	.commonindex a{ margin-right: 10px }
+	.commonindex a:hover{}
+
+
+</style>
+{/block}
+{block name="content"}
+	<div class="commonindex">
+	{volist name="commonindex" id="commonindex"}
+        {if condition="$commonindex.isnavshow"}
+            <a class="btn btn-info" {if condition="$commonindex.active"}class="active"{/if} href="{$commonindex.url}" title="{$commonindex.title}">{$commonindex.title}</a>
+        {/if}
+    {/volist}
+    </div>
+	<div>
+	    <label>
+	        <input type="checkbox" class="iCheck" id="remember"> 记住用户名
+	    </label>
+	</div>
+
+
+
+
+{/block}

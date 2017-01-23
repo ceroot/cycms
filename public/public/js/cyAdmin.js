@@ -71,6 +71,15 @@ $(function(){
         });
     });
 
+    // selectpicker bootstrap-select.js
+    var args = ['selectpicker'];
+    Wind.use(args, function () {
+        // $('.selectpicker').selectpicker({
+        //     style: 'btn-info',
+        //     size: 4
+        // });
+    });
+
 
     $("#file0").change(function(){
 		var objUrl = getObjectURL(this.files[0]) ;

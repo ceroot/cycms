@@ -702,6 +702,10 @@ Wind.ready(function() {
             },
             echarts           : 'echarts/3.1.10/echarts.min',
             iCheck            : 'iCheck/icheck.min',
+            selectpicker      : {
+                selectpicker  : 'bootstrap-select/1.12.1/js/bootstrap-select.min',
+                localization  : 'bootstrap-select/1.12.1/js/i18n/defaults-zh_CN',
+            },
 
 
             cookie            : 'cookie',
@@ -723,7 +727,8 @@ Wind.ready(function() {
             artDialog   : 'artDialog/skins/default',
 			datePicker	: 'datePicker/style',
             treeTable   : 'treeTable/treeTable',
-			zTree       : 'zTree/zTreeStyle/zTreeStyle'
+			zTree       : 'zTree/zTreeStyle/zTreeStyle',
+            selectpicker: 'bootstrap-select/1.12.1/css/bootstrap-select.min'
 		};
 		
     // js
@@ -733,9 +738,13 @@ Wind.ready(function() {
 	for(var i in alias) {
 		if (alias.hasOwnProperty(i)) {
             var obj  = alias[i];
+            // console.log(alias[i]);
             if(typeof obj == 'object'){
+                // console.log(alias[i]);
                 for(var n in obj){
+
                     if(obj.hasOwnProperty(n)){
+                        // console.log(obj[n]);
                         obj[n] = root + obj[n] +'.js?v=' + ver;
                     }
                 }
