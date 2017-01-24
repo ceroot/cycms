@@ -30,13 +30,13 @@ class Action extends Extend
     public function add_for_rule()
     {
         if (request()->isAjax()) {
-            if (input('post._log')) {
-                $name = input('post.name'); // 取得规则名称
+            if (input('param._log')) {
+                $name = input('param.name'); // 取得规则名称
 
-                $arr        = explode('/', $name);
-                $controller = toUnderline($arr[0]);
-                $name       = strtolower($controller . '_' . $arr[1]);
-                $title      = input('post.title'); // 取得规则标题
+                $arr = explode('/', $name);
+                ///$controller = toUnderline($arr[0]);
+                $name  = strtolower($arr[0] . '_' . $arr[1]);
+                $title = input('param.title'); // 取得规则标题
 
                 $data['title']      = $title;
                 $data['name']       = $name;

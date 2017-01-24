@@ -101,7 +101,7 @@ class Base extends Extend
         //     // dump(1);
         // }
         // config($config); //添加配置
-
+        //if (request()->isGet()) {
         // 菜单输出
         $this->menu = model('AuthRule')->consoleMenu();
 
@@ -109,6 +109,7 @@ class Base extends Extend
         $this->assign('second', $this->menu['second']); // 二级菜单输出
         $this->assign('title', $this->menu['showtitle']); // 标题输出
         $this->assign('bread', $this->menu['bread']); // 面包输出
+        //}
         $this->assign('manager', $manager); // 管理员信息输出
         $this->assign('dd', 123456);
     }
@@ -219,7 +220,6 @@ class Base extends Extend
      */
     public function update($action_log = null)
     {
-
         if (request()->isAjax()) {
             $data   = input('param.');
             $has_id = array_key_exists($this->pk, $data); // 判断是否存在 ID 键
@@ -243,9 +243,9 @@ class Base extends Extend
                         if (empty($data['password'])) {
                             unset($data['password']);
                         } else {
-                            // if (strlen($data['password']) < 6) {
-                            //     return $this->error('密码长度不够111');
-                            // }
+                            if (strlen($data['password']) < 6) {
+                                return $this->error('密码长度不够111');
+                            }
                             //$data['password'] = md5($data['username'] . $data['password']);
                             $data['hash']     = getrandom(8, 2);
                             $data['password'] = encrypt_password($data['password'], $data['hash']);
@@ -282,28 +282,15 @@ class Base extends Extend
                 $status = $this->model->validate($validate)->save($data, [$this->pk => $data[$this->pk]]);
                 //return $status;
 
-                // 取得日志标记
-                if (is_null($action_log)) {
-                    $action_log = request()->controller() . '_edit'; // 日志记录标记
-                    $record_id  = $data[$this->pk]; // 数据id
-                }
+                $scene = 'edit'; // 编辑操作场景
             } else {
 
                 // 数据验证并保存
-
-                // $status = $this->model->validate(true)->save($data);
                 $status = $this->model->validate(true)->save($data);
                 // return $status;
 
-                // 取得日志标记
-                if (is_null($action_log)) {
-                    $action_log = request()->controller() . '_add'; // 日志记录标记
-                    $update_pk  = $this->pk;
-                    $record_id  = $this->model->$update_pk; //$status; // 数据id
-                }
+                $scene = 'add'; // 新增操作场景
             }
-            // return $status;
-            // return $action_log;
 
             // 数据验证不通过返回提示
             if ($status === false) {
@@ -312,6 +299,10 @@ class Base extends Extend
 
             // 是否成功返回
             if ($status) {
+
+                $pk        = $this->pk; // 取得数据库主键名称
+                $record_id = $this->model->$pk; // 数据 id 值
+
                 switch (request()->controller()) {
                     case 'AuthRule': // 更新规则缓存
                         $this->model->updateCache();
@@ -334,7 +325,7 @@ class Base extends Extend
                         break;
                 }
 
-                action_log($record_id, $action_log); // 记录日志
+                action_log($record_id, $scene); // 记录日志
 
                 return $this->success($has_id ? '修改成功' : '新增成功', cookie('__forward__'));
             } else {
@@ -418,7 +409,7 @@ class Base extends Extend
         $data['status'] = $value ? 0 : 1;
         $status         = $this->model->save($data, [$this->pk => $this->id]);
         if ($status) {
-            if (request()->controller() == 'auth_rule') {
+            if (request()->controller() == 'AuthRule') {
                 $this->model->updateCache();
             }
             action_log($this->id); // 记录日志

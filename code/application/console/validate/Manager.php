@@ -44,7 +44,7 @@ class Manager extends Validate
 
     protected $scene = [
         'add'      => ['username', 'password'],
-        'edit'     => ['username', 'password'],
+        'edit'     => ['username'],
         'password' => ['password', 'password_confirm'],
         'info'     => ['nickname', 'email'],
     ];
