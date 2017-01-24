@@ -53,6 +53,12 @@ class ModuleInit
     // 网站日志记录
     private function weblog()
     {
+        // 检测是否记录
+        $web_log = config('web_log.weblog_on');
+        if (!$web_log) {
+            return false;
+        }
+
         $request = request();
 
         // 不记录的模块
@@ -76,6 +82,7 @@ class ModuleInit
 
         // 不记录的请求类型
         $not_log_request_method = config('web_log.not_log_request_method') ?: array();
+
         if (
             in_array($request->module(), $not_log_module) ||
             in_array($request->module() . '/' . $request->controller(), $not_log_controller) ||

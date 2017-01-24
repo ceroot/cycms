@@ -149,8 +149,11 @@ class Base extends Extend
      * @author SpringYang <ceroot@163.com>
      */
     function list() {
-        $pageLimit = input('get.limit');
+        $pageLimit = input('param.limit');
+        $search    = input('param.search'); // 搜索标记
+
         $pageLimit = isset($pageLimit) ? $pageLimit : config('paginate.list_rows'); //15; // 每页显示数目
+        // $pageLimit = 2;
         if (!$this->model) {
             return $this->error('请增加控制规则', url('authRule/add'));
         }
@@ -160,6 +163,29 @@ class Base extends Extend
         ];
 
         $map = [];
+        if ($search) {
+            switch (request()->controller()) {
+                case 'Manager':
+                    $search_val      = input('param.search_val');
+                    $map['username'] = array('like', "%" . $search_val . "%");
+                    $this->assign('search_val', $search_val);
+                    break;
+                case '1':
+                    # code...
+                    break;
+                case '2':
+                    # code...
+                    break;
+                case '3':
+                    # code...
+                    break;
+
+                default:
+                    # code...
+                    break;
+            }
+
+        }
 
         // 各种条件
         switch (request()->controller()) {
@@ -169,7 +195,7 @@ class Base extends Extend
                 ];
                 break;
             case 'attribute':
-                $model_id        = input('get.model_id');
+                $model_id        = input('param.model_id');
                 $map['model_id'] = $model_id;
                 break;
             default:
@@ -177,7 +203,7 @@ class Base extends Extend
                 break;
         }
 
-        $list = $this->model->where($map)->order($order)->paginate($pageLimit);
+        $list = $this->model->where($map)->order($order)->paginate($pageLimit, false, ['query' => get_query()]);
         // dump($list);die;
         $page = $list->render();
         // 模板变量赋值

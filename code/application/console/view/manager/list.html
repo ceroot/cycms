@@ -1,6 +1,11 @@
 {extend name="mould:base" /}
 {block name="title"}后台首页{/block}
 {block name="content"}
+	<form action="" method="post">
+		<input class="input-sm form-cy" style="display: inline-block;" type="text" {present name="search_val"} value="{$search_val}"{/present} name="search_val">
+		<input type="hidden" name="search" value="1">
+		<button type="submit" class="btn btn-sm">搜索</button>
+	</form>
     <table class="table table-condensed table-hover">
         <colgroup>
 	        <col width="60">
@@ -26,25 +31,33 @@
             <td align='center'>管理操作</td>
           </tr>
         </thead>
-		{volist name='list' id='list'}
-	        <tr>
-	        	<td>{$list.id}</td>
-				<td>{$list.username}</td>
-				<td>{$list.nickname}</td>
-				<td>{$list.realname}</td>
-				<td>{$list.email}</td>
-				<td>{$list.login_time_show}</td>
-				<td>{$list.create_time_show}</td>
-				<td><a class="cy-ajax" href="{:url('updatestatus',array('id'=>$list['id']))}" title="快捷设置状态">{$list.status_text}</a></td>
-				<td align='center' >
-					<a href="{:url('edit',array('id'=>$list['id']))}" title="修改"><i class="fa fa-pencil"></i></a>
-					{neq name="list.id" value="1"} | <a class="cy-ajax" href="{:url('del',array('id'=>$list['id']))}" data-layer-msg="删除" data-layer-okbtn="删除" title="删除" data-layer-confirm="true"><i class="fa fa-trash-o warning"></i></a>{/neq}
-				</td>
+        {notempty name="list"}
+			{volist name='list' id='list'}
+				{neq name="list.id" value="1"}
+			        <tr>
+			        	<td>{$list.id}</td>
+						<td>{$list.username}</td>
+						<td>{$list.nickname}</td>
+						<td>{$list.realname}</td>
+						<td>{$list.email}</td>
+						<td>{$list.login_time_show}</td>
+						<td>{$list.create_time_show}</td>
+						<td><a class="cy-ajax" href="{:url('updatestatus',array('id'=>$list['id']))}" title="快捷设置状态">{$list.status_text}</a></td>
+						<td align='center' >
+							<a href="{:url('edit',array('id'=>$list['id']))}" title="修改"><i class="fa fa-pencil"></i></a> | 
+							<a class="cy-ajax" href="{:url('del',array('id'=>$list['id']))}" data-layer-msg="删除" data-layer-okbtn="删除" title="删除" data-layer-confirm="true"><i class="fa fa-trash-o warning"></i></a>
+						</td>
+					</tr>
+				{/neq}
+			{/volist}
+		{else /}
+			<tr>
+				<td colspan="9" align="center">没有数据</td>
 			</tr>
-		{/volist}
+		{/notempty}
 	</table>
 	{notempty name="page"}
-		<div class="pager-wrapper">
+		<div class="fixed-bottom pager-wrapper">
 			<div class="bottom-area">
 				<div class="pager">
 				    {$page}

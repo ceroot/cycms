@@ -1,24 +1,24 @@
 <form name="admin_list_sea" class="form-search form-horizontal" id="list-filter" method="post" action="{:url('list')}">
 	<div class="row maintop">
 		<div class="col-xs-8 margintop5">
-			<select name="request_module" class="ajax_change">
-				<option value="">按模块</option>
+			<select name="request_module" class="ajax_change selectpicker" data-width="auto">
+				<option value="0">按模块</option>
 				<option value="admin" {if condition="$request_module eq 'admin'"}selected{/if}>admin</option>
 				<option value="home" {if condition="$request_module eq 'home'"}selected{/if}>home</option>
 			</select>
-			<select name="request_controller" class="ajax_change">
+			<select name="request_controller" class="ajax_change selectpicker">
 				<option value="">按控制器</option>
 				{foreach name="$controllers" item="vo"}
 				<option value="{$vo}" {if condition="$request_controller eq $vo"}selected{/if}>{$vo}</option>
 				{/foreach}
 			</select>
-			<select name="request_action" class="ajax_change">
+			<select name="request_action" class="ajax_change selectpicker">
 				<option value="">按操作方法</option>
 				{foreach name="$actions" item="vo"}
 				<option value="{$vo}" {if condition="$request_action eq $vo"}selected{/if}>{$vo}</option>
 				{/foreach}
 			</select>
-			<select name="request_method" class="ajax_change">
+			<select name="request_method" class="ajax_change selectpicker">
 				<option value="">按请求类型</option>
 				{foreach name="$methods" item="vo"}
 				<option value="{$vo}" {if condition="$request_method eq $vo"}selected{/if}>{$vo}</option>
@@ -54,7 +54,7 @@
 					<table class="table table-striped table-bordered table-hover" id="dynamic-table">
 						<thead>
 						<tr>
-							<th class="hidden-xs center">
+							<th class="hidden-xs center" width="40">
 								<label class="pos-rel">
 									<input type="checkbox" class="ace"  id='chkAll' onclick='CheckAll(this.form)' value="全选"/>
 									<span class="lbl"></span>										
@@ -91,7 +91,7 @@
 								<td>{$v.module}</td>
 								<td>{$v.method}</td>
 								<td>{$v.url}</td>
-								<td class="hidden-xs">{$v.otime|date='Y-m-d H:i:s',###}</td>
+								<td class="hidden-xs">{$v.create_time|date='Y-m-d H:i:s',###}</td>
 								<td>
 									<div class="">
 										<a class="red confirm-rst-url-btn" data-info="你确定要删除到回收站吗？" href="{:url('weblog_del',['id'=>$v['id']])}" title="回收站" data-rel="tooltip" data-original-title="回收站">
@@ -105,19 +105,19 @@
 									<div class="row">
 										<label class="form-label col-xs-3 text-right">用户：</label>
 										<div class="formControls col-xs-8">
-											{$v.member_list_username} （ID：{$v.member_list_id}）
+											
 										</div>
 									</div>
 									<div class="row">
 										<label class="form-label col-xs-3 text-right">操作IP：</label>
 										<div class="formControls col-xs-8">
-											{$v.ip}
+											{$v.create_ip|long2ip}
 										</div>
 									</div>
 									<div class="row">
 										<label class="form-label col-xs-3 text-right">操作地点：</label>
 										<div class="formControls col-xs-8">
-											{$v.location}
+											
 										</div>
 									</div>
 									<div class="row">
