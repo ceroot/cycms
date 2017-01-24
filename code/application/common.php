@@ -327,9 +327,11 @@ function action_log($record_id = null, $action = null, $model = null, $user_id =
     }
 
     if (empty($action)) {
-        // $action = strtolower(toCamel(request()->controller())) . '_' . request()->action();
-        $action = strtolower(request()->controller()) . '_' . request()->action();
+        $action = request()->action();
     }
+
+    $action = $model . '_' . $action;
+    $action = strtolower($action); // 小写转换
 
     // 查询行为,判断是否执行
     $action_info = db('action')->getByName($action);
